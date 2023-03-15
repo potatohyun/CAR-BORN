@@ -1,0 +1,64 @@
+server:
+  port: 80
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+#  ssl:
+#    enabled: true
+#    key-store: classpath:keystore.p12
+#    key-store-password: ssafy123
+#    key-store-type: PKCS12
+#    key-alias: 1
+
+logging:
+  level:
+    site.carborn: debug
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: site.carborn.config.CamelCaseToSnakeAndUpperCaseStrategy
+
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  logging:
+    level:
+      org.hibernate:
+        type.descriptor.sql: trace
+        SQL: debug
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://rigizer.iptime.org:53306/S08P22D209?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
+    username: ssafy
+    password: ssafy123
+
+  data:
+    redis:
+      port: 6379
+      host: rigizer.iptime.org
+
+jwt:
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  token-validity-in-seconds: 86400
+
+image:
+  url:
+    windows: C:/Users/SSAFY/Downloads/images
+    linux: /home/ubuntu/images
+
+#naver-cloud-sms:
+#  accessKey: hZMpYNUxSNTcNY73KTBW
+#  serviceKey: qt5P7NEBOLXPtDG6K8eNpjgopeYNjxII6Dzdmjuk
+#  serviceId: ncp:sms:kr:257282496643:sms_example
+#  senderPhone: 01085241881
