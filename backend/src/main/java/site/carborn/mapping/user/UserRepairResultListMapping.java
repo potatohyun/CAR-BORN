@@ -8,6 +8,8 @@ public interface UserRepairResultListMapping {
     //차량모델
     String getRepairBookCarModelNm();
 
+    String getRepairBookRepairShopAccountName();
+
     //연식
     String getRepairBookCarModelYear();
 
@@ -27,6 +29,12 @@ public interface UserRepairResultListMapping {
     LocalDateTime getRepairDt();
 
     String getMetadataUri();
+
+    String getBeforeImgNm();
+
+    String getAfterImgNm();
+
+    String getReceiptImgNm();
 
     //상세정보조회(정비예약상태)
     int getRepairBookBookStatus();

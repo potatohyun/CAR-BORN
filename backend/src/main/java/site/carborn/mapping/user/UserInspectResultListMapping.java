@@ -8,6 +8,9 @@ public interface UserInspectResultListMapping {
     int getInspectBookId();
     String getContent();
     int getMileage();
+
+    String getInspectBookInspectorAccountName();
+
     String getBeforeImgNm();
 
     String getAfterImgNm();

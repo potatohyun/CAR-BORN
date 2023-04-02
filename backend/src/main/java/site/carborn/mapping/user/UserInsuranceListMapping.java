@@ -8,6 +8,8 @@ public interface UserInsuranceListMapping {
     //기업정보
     String getInsuranceCompanyAccountId();
 
+    String getInsuranceCompanyAccountName();
+
     //차정보
     String getCarMaker();
 
