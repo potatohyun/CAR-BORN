@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ESNext",
+    "lib": ["dom", "dom.iterable", "esnext", "ESNext", "DOM"],
+    "typeRoots": ["node_modules/@types", "node_modules", "src/@types"],
+    "types": ["react", "react-dom", "react-hook-form", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,8 +16,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "noImplicitAny": true,
+    "jsxImportSource": "@emotion/react"
   },
-  "include": ["src"],
+  "include": ["src", "tsconfig.json"],
   "moduleResolution": "node"
 }

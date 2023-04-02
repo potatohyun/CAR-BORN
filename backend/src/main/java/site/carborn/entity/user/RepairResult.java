@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
+import site.carborn.dto.request.RepairResultRequestDTO;
+import site.carborn.entity.board.Board;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +20,7 @@ public class RepairResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "REPAIR_BOOK_ID")
     private RepairBook repairBook;
 
@@ -32,9 +35,23 @@ public class RepairResult {
     private String afterImgNm;
 
     @Column(length = 200)
-    private String receiptImg;
+    private String receiptImgNm;
+
+    private int repairPrice;
 
     private LocalDateTime repairDt;
 
+    @Column(length = 200)
+    private String contractHash;
+
+    @Column(length = 200)
+    private String metadataUri;
+
     private LocalDateTime regDt;
+
+    public static RepairResult copy(RepairResult repairResult) {
+        RepairResult rr = new RepairResult();
+        BeanUtils.copyProperties(repairResult, rr);
+        return rr;
+    }
 }

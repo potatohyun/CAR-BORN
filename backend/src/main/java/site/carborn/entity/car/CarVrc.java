@@ -18,12 +18,15 @@ public class CarVrc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CAR_ID")
     private Car car;
 
     @Column(length = 200)
     private String imgNm;
+
+    @Column(length = 200)
+    private String contractHash;
 
     private LocalDateTime regDt;
 }

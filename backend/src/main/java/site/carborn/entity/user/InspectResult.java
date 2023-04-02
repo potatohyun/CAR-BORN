@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public class InspectResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "INSPECT_BOOK_ID")
     private InspectBook inspectBook;
 
@@ -34,7 +35,21 @@ public class InspectResult {
     @Column(length = 200)
     private String receiptImgNm;
 
+    private int inspectPrice;
+
     private LocalDateTime inspectDt;
 
+    @Column(length = 200)
+    private String contractHash;
+
+    @Column(length = 200)
+    private String metadataUri;
+
     private LocalDateTime regDt;
+
+    public static InspectResult copy(InspectResult inspectResult) {
+        InspectResult ir = new InspectResult();
+        BeanUtils.copyProperties(inspectResult, ir);
+        return ir;
+    }
 }

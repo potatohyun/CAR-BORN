@@ -16,10 +16,8 @@ public class InsuranceCompany {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
 
-    @Column(length = 200)
-    private String name;
 }

@@ -29,4 +29,16 @@ public class SmsAuth {
     private LocalDateTime expDt;
 
     private boolean status;
+
+    @Override
+    public String toString() {
+        return "SmsAuth{" +
+                "id=" + id +
+                ", phoneNm='" + phoneNm + '\'' +
+                ", authNm='" + authNm + '\'' +
+                ", regDt=" + regDt +
+                ", expDt=" + expDt +
+                ", status=" + status +
+                '}';
+    }
 }

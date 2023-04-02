@@ -18,7 +18,7 @@ public class Community {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
 
@@ -30,6 +30,8 @@ public class Community {
     private LocalDateTime regDt;
 
     private LocalDateTime uptDt;
+    
+    private int views;
 
     private boolean status;
 }

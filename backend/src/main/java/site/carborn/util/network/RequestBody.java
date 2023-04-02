@@ -33,4 +33,11 @@ public class RequestBody {
     public Map<String, String> getRequestBody() {
         return requestBody;
     }
+
+    @Override
+    public String toString() {
+        return "RequestBody{" +
+                "requestBody=" + requestBody +
+                '}';
+    }
 }

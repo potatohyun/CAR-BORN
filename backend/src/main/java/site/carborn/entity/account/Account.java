@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Entity
 @Table(name = "MWS_ACCOUNT")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(exclude = "pwd")
 public class Account {
     @Id
     @Column(length = 50)
@@ -24,8 +28,15 @@ public class Account {
     @Column(length = 50)
     private String phoneNo;
 
-    @Column(length = 500)
-    private String walletHash;
-
     private int auth;
+
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(id, pwd);
+    }
+
+    public static Account copy(Account account) {
+        Account a = new Account();
+        BeanUtils.copyProperties(account, a);
+        return a;
+    }
 }
