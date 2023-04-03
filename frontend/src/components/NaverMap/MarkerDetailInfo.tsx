@@ -1,9 +1,23 @@
+import { useQueryClient } from "react-query";
+import { QueryState } from "react-query/types/core/query";
+import { usePhoneNum } from "../../hooks/usePhoneNum";
+import { MarkerType } from "../../routes/userUseFnc/NaverMap";
+
 interface Props {
   markerNum: number;
-  markerArr: any[];
+  markerArr: MarkerType[];
 }
 
 function MarkerDetailInfo({ markerNum, markerArr }: Props) {
+  const queryClient = useQueryClient();
+  const hipenPhoneNum = usePhoneNum(markerArr[markerNum]?.PHONE_NO);
+
+  const addressQuery: QueryState<any, Error> | undefined =
+    queryClient.getQueryState(["get-jibun-address", markerNum]);
+
+  const jibun = addressQuery?.data.data.message.jibunAddress;
+  const longName = addressQuery?.data.data.message.longName;
+
   let star: string = "";
   let blankStar: string = "";
   if (markerArr[markerNum]?.avg_point >= 4.5) {
@@ -42,7 +56,9 @@ function MarkerDetailInfo({ markerNum, markerArr }: Props) {
           fontWeight: "bolder",
         }}
       >
-        {markerArr[markerNum]?.avg_point}
+        {markerArr[markerNum]?.avg_point === 0
+          ? markerArr[markerNum]?.avg_point
+          : (markerArr[markerNum]?.avg_point).toFixed(1)}
         <span style={{ fontSize: "1.2rem", marginLeft: "1%" }}>
           {star}
           <span style={{ color: "#BBBBBB" }}>{blankStar}</span>
@@ -68,7 +84,16 @@ function MarkerDetailInfo({ markerNum, markerArr }: Props) {
           fontSize: "0.9rem",
         }}
       >
-        (우) 39301 (지번) 원평동 1008-1
+        (우) {longName}
+      </p>
+      <p
+        style={{
+          margin: "0",
+          color: "#C1C1C1",
+          fontSize: "0.9rem",
+        }}
+      >
+        (지번) {jibun}
       </p>
       <p
         style={{
@@ -78,7 +103,7 @@ function MarkerDetailInfo({ markerNum, markerArr }: Props) {
           fontWeight: "bold",
         }}
       >
-        {markerArr[markerNum]?.PHONE_NO}
+        {hipenPhoneNum}
       </p>
     </>
   );

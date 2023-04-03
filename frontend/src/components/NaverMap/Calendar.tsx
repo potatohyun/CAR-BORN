@@ -12,12 +12,16 @@ function Calendar({ setReserveInfo }: Pick<Props, "setReserveInfo">) {
 
   const pickCalendar = (newValue: any) => {
     const YEAR = newValue.$y;
-    const MONTH = newValue.$M + 1;
-    const DATE = newValue.$D;
+    const MONTH =
+      `${newValue.$M}`.length === 1
+        ? `0${newValue.$M + 1}`
+        : `${newValue.$M + 1}`;
+    const DATE =
+      `${newValue.$D}`.length === 1 ? `0${newValue.$D}` : `${newValue.$D}`;
 
     setValue(newValue);
     setReserveInfo((reserveInfo) => {
-      return { ...reserveInfo, date: `${YEAR}${MONTH}${DATE}` };
+      return { ...reserveInfo, date: `${YEAR}-${MONTH}-${DATE}` };
     });
   };
 

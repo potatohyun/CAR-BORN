@@ -3,10 +3,11 @@ import { css } from "@emotion/react";
 
 import CarList from "../../components/VehiclePurchase/rightContents/CarList";
 import MenuBar from "../../components/VehiclePurchase/leftContents/MenuBar";
-import SearchSort from "../../components/VehiclePurchase/SearchSort";
-import { SearchType } from "../../components/VehiclePurchase/VehiclePurchaseType";
-import { useState } from "react";
+import { useEffect } from "react";
 import Nav2 from "./../../components/Nav2";
+import { useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
+import { StateType } from "../../modules/carListModule";
 
 const outer = css`
   width: 100%;
@@ -16,38 +17,31 @@ const outer = css`
   height: auto;
 `;
 
-const filter = css`
-  width: 96vw;
-  height: 5vh;
-  display: flex;
-  flex-direction: row-reverse;
-  margin: 0 0 2vh 0;
-`;
-
 const content = css`
   display: flex;
   align-items: center;
 `;
 
 function VehiclePurchase() {
-  const [searchInfo, setSearchInfo] = useState<SearchType>({
-    sortType: "0",
-  });
+  const queryClient = useQueryClient();
+  const { sortType } = useSelector(
+    ({ carListReducer }: { carListReducer: StateType }) => carListReducer
+  );
+
+  useEffect(() => {
+    queryClient.fetchQuery("infinity-scroll");
+  }, [sortType]);
 
   return (
     <>
       <Nav2 />
 
       <div css={outer}>
-        <div css={filter}>
-          {/* 정렬바 */}
-          <SearchSort searchInfo={searchInfo} setSearchInfo={setSearchInfo} />
-        </div>
         <div css={content}>
           {/* 왼쪽 메뉴바 */}
           <MenuBar />
           {/* 오른쪽 컨텐츠 */}
-          <CarList searchInfo={searchInfo} />
+          <CarList />
         </div>
       </div>
     </>

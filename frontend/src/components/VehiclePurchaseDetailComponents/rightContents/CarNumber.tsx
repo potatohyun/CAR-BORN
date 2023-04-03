@@ -1,8 +1,10 @@
-function CarNumber() {
+import { DetailData } from "../VehiclePurchaseDetailType";
+
+function CarNumber({ data }: DetailData) {
   return (
     <div>
       <p>차량 번호</p>
-      <input value="93하 3123" disabled={true} />
+      <input value={data.carRegNm} disabled={true} />
     </div>
   );
 }

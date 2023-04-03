@@ -20,12 +20,15 @@ const content = css`
 
 export interface RegistrationInfo {
   manufacturingCompany: string;
+  carModel: string;
   carNumber: string;
   carYear: string;
   distanceDriven: string;
+  vehicleIdentificationNumber: string;
   fileList: any[];
-  fileNames: any[];
   files: File[];
+  vrc: File[];
+  vrcList: any[];
 }
 
 export interface Props<T> {
@@ -38,13 +41,18 @@ function MyVehicleRegistration() {
     Partial<RegistrationInfo>
   >({
     manufacturingCompany: "",
+    carModel: "",
     carNumber: "",
     carYear: "",
     distanceDriven: "",
+    vehicleIdentificationNumber: "",
     fileList: [],
-    fileNames: [],
     files: [],
+    vrc: [],
+    vrcList: [],
   });
+
+  console.log(registrationInfo);
 
   return (
     <>

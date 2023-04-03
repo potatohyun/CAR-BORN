@@ -4,7 +4,7 @@ import { RegistrationInfo } from "./../../../routes/userUseFnc/MyVehicleRegistra
 function DistanceDriven({
   setRegistrationInfo,
 }: Props<React.Dispatch<React.SetStateAction<Partial<RegistrationInfo>>>>) {
-  const inputTyping = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const inputTyping = (e: React.FocusEvent<HTMLInputElement>): void => {
     const inputValue = e.target.value;
     setRegistrationInfo((registrationInfo) => {
       return {
@@ -18,7 +18,7 @@ function DistanceDriven({
     <div>
       <span>주행거리(km)</span>
       <div>
-        <input type="number" defaultValue="0" min="0" onChange={inputTyping} />
+        <input type="number" defaultValue="0" min="0" onBlur={inputTyping} />
       </div>
     </div>
   );

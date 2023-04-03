@@ -16,7 +16,6 @@ import site.carborn.mapping.company.RepairShopReviewMapping;
 import site.carborn.mapping.user.RepairResultGetDetailMapping;
 import site.carborn.mapping.user.UserRepairBookDetailMapping;
 import site.carborn.mapping.user.UserRepairBookListMapping;
-import site.carborn.mapping.user.UserRepairResultListMapping;
 import site.carborn.service.user.UserRepairService;
 import site.carborn.util.board.BoardUtils;
 import site.carborn.util.network.NormalResponse;
@@ -74,18 +73,7 @@ public class UserRepairController {
     }
 
 
-    //정비 완료 관리
-    @GetMapping("/result/list/{page}")
-    @Operation(description = "사용자의 정비 완료 목록 조회")
-    @Parameters({
-            @Parameter(name = "page", description = "페이지 번호")
-    })
-    public ResponseEntity<?> getRepairResultList(@PathVariable("page") int page) {
-        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
-        Page<UserRepairResultListMapping> result = userRepairService.repairResultList(accountId, page);
-        return NormalResponse.toResponseEntity(HttpStatus.OK, result);
-    }
-
+    //정비 완료 단일 조회
     @GetMapping("/result/{repairResultId}")
     @Operation(description = "사용자의 정비 완료 단일 조회")
     @Parameter(name = "repairResultId", description = "정비 결과 게시글 id")

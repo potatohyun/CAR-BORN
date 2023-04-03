@@ -1,3 +1,7 @@
+import { useQuery } from "react-query";
+import { useAPI } from "../../hooks/useAPI";
+import { usePhoneNum } from "../../hooks/usePhoneNum";
+
 interface SearchBarType {
   index: number;
   item: any;
@@ -5,6 +9,25 @@ interface SearchBarType {
 }
 
 function SearchBar({ index, item, searchBarItemClick }: SearchBarType) {
+  const API = `https://carborn.site/api/address/convert-geo/jibun/${item.ADDRESS}`;
+  const getJibunAddressAPI = useAPI("get", API);
+  const hipenPhoneNum = usePhoneNum(item?.PHONE_NO);
+  const { data } = useQuery(
+    ["get-jibun-address", index],
+    () => getJibunAddressAPI,
+    {
+      retry: false,
+      cacheTime: 1000 * 300,
+      staleTime: 1000 * 300,
+      select: (data) => {
+        return data.data.message;
+      },
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const jibun = data?.jibunAddress.slice(" ");
   return (
     <div
       style={{
@@ -30,7 +53,7 @@ function SearchBar({ index, item, searchBarItemClick }: SearchBarType) {
           fontWeight: "bolder",
         }}
       >
-        {item.avg_point}
+        {item.avg_point === 0 ? item.avg_point : item.avg_point.toFixed(1)}
         <span>★</span>
         <span style={{ color: "#BBBBBB", fontSize: "0.9rem" }}>
           {" "}
@@ -53,7 +76,16 @@ function SearchBar({ index, item, searchBarItemClick }: SearchBarType) {
           fontSize: "0.9rem",
         }}
       >
-        (우) 39301 (지번) 원평동 1008-1
+        (우) {data?.longName}
+      </p>
+      <p
+        style={{
+          margin: "0",
+          color: "#C1C1C1",
+          fontSize: "0.9rem",
+        }}
+      >
+        (지번) {jibun}
       </p>
       <p
         style={{
@@ -63,7 +95,7 @@ function SearchBar({ index, item, searchBarItemClick }: SearchBarType) {
           fontWeight: "bold",
         }}
       >
-        {item?.PHONE_NO}
+        {hipenPhoneNum}
       </p>
       <div
         style={{

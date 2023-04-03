@@ -1,20 +1,22 @@
+import axios from "axios";
 import { useMutation } from "react-query";
-import { useAPI } from "./../../../hooks/useAPI";
 
-const API = `https://jsonplaceholder.typicode.com/posts`;
-const option = {
-  data: {
-    title: "foo",
-    body: "bar",
-    userId: 1,
-  },
-};
+function PurchaseApplicationBtn({ id }: { id?: string }) {
+  const API = `https://carborn.site/api/user/car/buy/${id}`;
 
-function PurchaseApplicationBtn() {
-  const buyApply = useAPI("post", API, option);
-  const { mutate, data } = useMutation(() => buyApply);
-
-  console.log(data);
+  const { mutate } = useMutation(
+    () => {
+      return axios({
+        method: "post",
+        url: API,
+      });
+    },
+    {
+      onError: (error: Error) => {
+        console.error(error.message);
+      },
+    }
+  );
 
   const goToBuy = () => {
     mutate();

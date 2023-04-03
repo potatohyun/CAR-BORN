@@ -23,19 +23,19 @@ function Thumnail({
   Props<React.Dispatch<React.SetStateAction<Partial<RegistrationInfo>>>>,
   "registrationInfo"
 >) {
+  const imgList = [
+    ...(registrationInfo?.fileList || []),
+    ...(registrationInfo?.vrcList || []),
+  ];
+
   return (
     <div css={leftContent}>
-      {registrationInfo?.fileList?.length ? (
+      {imgList?.length ? (
         <Carousel>
-          {registrationInfo?.fileList.map((file, index) => {
+          {imgList?.map((file) => {
             return (
               <div key={file}>
                 <img src={file} alt="qwe" />
-                <p className="legend">
-                  {registrationInfo?.fileNames
-                    ? registrationInfo?.fileNames[index]
-                    : null}
-                </p>
               </div>
             );
           })}

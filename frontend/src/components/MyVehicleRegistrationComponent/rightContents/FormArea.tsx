@@ -5,11 +5,14 @@ import {
   RegistrationInfo,
 } from "../../../routes/userUseFnc/MyVehicleRegistration";
 import AdditionalSubmissionFiles from "./AdditionalSubmissionFiles";
+import CarModel from "./CarModel";
 import CarNumber from "./CarNumber";
 import CarYear from "./CarYear";
 import DistanceDriven from "./DistanceDriven";
 import ManufacturingCompany from "./ManufacturingCompany";
 import RegistrationBtn from "./RegistrationBtn";
+import VehicleIdentificationNumber from "./VehicleIdentificationNumber";
+import VehicleRegistrationCertificate from "./VehicleRegistrationCertificate";
 
 const rightContent = css`
   border: 1px solid black;
@@ -17,7 +20,7 @@ const rightContent = css`
   height: 90vh;
 `;
 
-const API = `http://192.168.100.176:8080/uploadFiles`;
+const API = `https://carborn.site/api/user/car`;
 
 function FormArea({
   registrationInfo,
@@ -35,15 +38,24 @@ function FormArea({
       <h2 style={{ textAlign: "center" }}>차량 등록</h2>
       <hr />
 
-      {/* 제조사 / 차량모델 */}
+      {/* 제조사 */}
       <ManufacturingCompany setRegistrationInfo={setRegistrationInfo} />
+      {/* 차량모델 */}
+      <CarModel setRegistrationInfo={setRegistrationInfo} />
       {/* 차량번호 */}
       <CarNumber setRegistrationInfo={setRegistrationInfo} />
+      {/* 차대번호 */}
+      <VehicleIdentificationNumber setRegistrationInfo={setRegistrationInfo} />
       {/* 연식 */}
       <CarYear setRegistrationInfo={setRegistrationInfo} />
       {/* 주행거리 */}
       <DistanceDriven setRegistrationInfo={setRegistrationInfo} />
-      {/* 추가 제출 파일 */}
+      {/* 자동차 동록증 */}
+      <VehicleRegistrationCertificate
+        registrationInfo={registrationInfo}
+        setRegistrationInfo={setRegistrationInfo}
+      />
+      {/* 자동차 파일 */}
       <AdditionalSubmissionFiles
         registrationInfo={registrationInfo}
         setRegistrationInfo={setRegistrationInfo}

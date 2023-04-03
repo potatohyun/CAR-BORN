@@ -12,6 +12,8 @@ export interface PageParam {
 
 export interface SearchType {
   sortType: string;
+  keywordType: string;
+  keyword: string;
 }
 
 export interface Props {

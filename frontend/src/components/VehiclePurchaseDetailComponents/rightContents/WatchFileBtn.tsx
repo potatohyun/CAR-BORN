@@ -4,8 +4,6 @@ import DialogContent from "@mui/material/DialogContent";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import FileListStack from "./FileListStack";
-import { useQuery } from "react-query";
-import { useAPI } from "../../../hooks/useAPI";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -16,36 +14,48 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const API = `https://jsonplaceholder.typicode.com/todos/1`;
-
-function WatchFileBtn() {
-  const [open, setOpen] = React.useState(false);
-  const watchFile = useAPI("get", API);
-  const { data, refetch } = useQuery("watch-file", () => watchFile, {
-    enabled: false,
-  });
+function WatchFileBtn<T>({
+  data,
+  value,
+  page,
+  setPage,
+}: {
+  data: T[];
+  value: number;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    refetch();
-    setOpen(true);
+    setModalOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setModalOpen(false);
+    setPage(1);
   };
 
   return (
     <div>
-      <button onClick={handleClickOpen}>관련 서류 보기</button>
+      <button onClick={handleClickOpen}>
+        {value === 1 ? "정비" : value === 2 ? "검수" : "보험"}기록
+      </button>
       <Dialog
-        open={open}
+        open={modalOpen}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogContent>
-          <FileListStack data={data} />
+          <FileListStack<T>
+            data={data}
+            value={value}
+            modalOpen={modalOpen}
+            page={page}
+            setPage={setPage}
+          />
         </DialogContent>
       </Dialog>
     </div>

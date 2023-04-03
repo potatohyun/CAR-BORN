@@ -1,11 +1,10 @@
 import { Props } from "../../../routes/userUseFnc/MyVehicleRegistration";
 import { RegistrationInfo } from "./../../../routes/userUseFnc/MyVehicleRegistration";
 
-function AdditionalSubmissionFiles({
+function VehicleRegistrationCertificate({
   registrationInfo,
   setRegistrationInfo,
 }: Props<React.Dispatch<React.SetStateAction<Partial<RegistrationInfo>>>>) {
-  // 파일 선택
   const onSaveFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadFiles = Array.prototype.slice.call(e.target.files); // 파일선택창에서 선택한 파일들
 
@@ -13,21 +12,21 @@ function AdditionalSubmissionFiles({
       const reader = new FileReader();
 
       setRegistrationInfo((registrationInfo) => {
-        const newFiles = [...(registrationInfo.files || []), uploadFile];
-        return { ...registrationInfo, files: newFiles };
+        const newFiles = [...(registrationInfo.vrc || []), uploadFile];
+        return { ...registrationInfo, vrc: newFiles };
       });
 
       reader.onload = () => {
         // 사진 이미지랑 파일 이름 state에 저장
         setRegistrationInfo((registrationInfo) => {
           const newFileListL: File[] = [
-            ...(registrationInfo.fileList || []),
+            ...(registrationInfo.vrcList || []),
             reader.result,
           ];
 
           return {
             ...registrationInfo,
-            fileList: newFileListL,
+            vrcList: newFileListL,
           };
         });
       };
@@ -41,17 +40,17 @@ function AdditionalSubmissionFiles({
   const deleteImg = (index: number) => {
     // 사진 파일 삭제
     setRegistrationInfo((registrationInfo) => {
-      const newFileList = (registrationInfo.files || []).filter(
+      const newFileList = (registrationInfo.vrc || []).filter(
         (file, number) => {
           return number !== index;
         }
       );
-      return { ...registrationInfo, files: newFileList };
+      return { ...registrationInfo, vrc: newFileList };
     });
 
     // 사진 이미지 삭제
     setRegistrationInfo((registrationInfo) => {
-      const newFileListL: File[] = (registrationInfo.fileList || []).filter(
+      const newFileListL: File[] = (registrationInfo.vrcList || []).filter(
         (file, number) => {
           return index !== number;
         }
@@ -59,22 +58,17 @@ function AdditionalSubmissionFiles({
 
       return {
         ...registrationInfo,
-        fileList: newFileListL,
+        vrcList: newFileListL,
       };
     });
   };
 
   return (
     <div>
-      <span>자동차 사진</span>
+      <span>자동차 등록증</span>
       <div>
-        <input
-          type="file"
-          multiple={true} /* 파일 여러개 선택 가능하게 하기 */
-          accept="image/*"
-          onChange={onSaveFiles}
-        />
-        {(registrationInfo?.files || []).map((file, index) => {
+        <input type="file" accept="image/*" onChange={onSaveFiles} />
+        {(registrationInfo?.vrc || []).map((file, index) => {
           return (
             <div key={`${file.name}/${index}`}>
               <span style={{ padding: "0" }}>{file.name}</span>
@@ -87,4 +81,4 @@ function AdditionalSubmissionFiles({
   );
 }
 
-export default AdditionalSubmissionFiles;
+export default VehicleRegistrationCertificate;

@@ -122,7 +122,7 @@ const routes = [
   { path: "/insurance/register", element: <Register /> },
   { path: "/user/car", element: <MyVehicleRegistration /> },
   { path: "/user/car/list", element: <VehiclePurchase /> },
-  { path: "/user/car/:carId", element: <VehiclePurchaseDetail /> },
+  { path: "/user/car/:carId/:id", element: <VehiclePurchaseDetail /> },
   { path: "/user/car/sale/:id", element: <SaleRegistration /> },
   { path: "/user/map", element: <NaverMap /> },
   { path: "/user/community", element: <Community /> },

@@ -3,7 +3,7 @@ import {
   RegistrationInfo,
 } from "../../../routes/userUseFnc/MyVehicleRegistration";
 
-function CarNumber({
+function CarModel({
   setRegistrationInfo,
 }: Props<React.Dispatch<React.SetStateAction<Partial<RegistrationInfo>>>>) {
   const inputTyping = (e: React.FocusEvent<HTMLInputElement>): void => {
@@ -11,14 +11,14 @@ function CarNumber({
     setRegistrationInfo((registrationInfo) => {
       return {
         ...registrationInfo,
-        carNumber: inputValue,
+        carModel: inputValue,
       };
     });
   };
 
   return (
     <div>
-      <span>차량번호</span>
+      <span>차량모델</span>
       <div>
         <input type="text" autoComplete="false" onBlur={inputTyping} />
       </div>
@@ -26,4 +26,4 @@ function CarNumber({
   );
 }
 
-export default CarNumber;
+export default CarModel;

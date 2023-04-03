@@ -159,7 +159,10 @@ export default function Nav2({ setIsToken, isToken }: any) {
             로고임
           </div>
           <div className="menu">
-            <div className="item" onClick={(): void => navigate("/user/car/list")}>
+            <div
+              className="item"
+              onClick={(): void => navigate("/user/car/list")}
+            >
               구매
             </div>
             <div

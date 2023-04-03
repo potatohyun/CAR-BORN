@@ -1,8 +1,10 @@
-function CarDistance() {
+import { DetailData } from "../VehiclePurchaseDetailType";
+
+function CarDistance({ data }: DetailData) {
   return (
     <div>
       <p>주행 거리(km)</p>
-      <input value="120,000km" disabled={true} />
+      <input value={data.carMileage.toLocaleString("ko-KR")} disabled={true} />
     </div>
   );
 }

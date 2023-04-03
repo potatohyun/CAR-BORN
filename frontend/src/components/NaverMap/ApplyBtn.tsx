@@ -1,6 +1,60 @@
-function ApplyBtn() {
+import axios from "axios";
+import { useMutation } from "react-query";
+import { MarkerType } from "../../routes/userUseFnc/NaverMap";
+import { ReserveInfoType } from "./ReserveForm";
+
+function ApplyBtn({
+  markerArr,
+  markerNum,
+  reserveInfo,
+}: {
+  markerArr: MarkerType[];
+  markerNum: number;
+  reserveInfo: ReserveInfoType;
+}) {
+  const { mutate, isSuccess } = useMutation("apply-company", () => {
+    return axios({
+      method: "post",
+      url: `https://carborn.site/api/user/${
+        markerArr[markerNum].AUTH === 1 ? "repair" : "inspect"
+      }/book`,
+      data:
+        markerArr[markerNum].AUTH === 1
+          ? {
+              car: {
+                id: reserveInfo.carId,
+              },
+              repairShop: {
+                id: markerArr[markerNum].ID,
+              },
+              account: {
+                id: "testuser2",
+              },
+              content: reserveInfo.content,
+              bookDt: reserveInfo.date,
+            }
+          : {
+              car: {
+                id: reserveInfo.carId,
+              },
+              inspector: {
+                id: markerArr[markerNum].ID,
+              },
+              account: {
+                id: "testuser2",
+              },
+              content: reserveInfo.content,
+              bookDt: reserveInfo.date,
+            },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  });
+
+  console.log(isSuccess);
   const getApply = () => {
-    console.log("신청하기");
+    mutate();
   };
   return (
     <>

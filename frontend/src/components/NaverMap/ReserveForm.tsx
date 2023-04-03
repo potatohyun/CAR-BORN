@@ -7,6 +7,7 @@ import Calendar from "./Calendar";
 import MyCarInformation from "./MyCarInformation";
 import TextBox from "./TextBox";
 import CloseIcon from "@mui/icons-material/Close";
+import { MarkerType } from "../../routes/userUseFnc/NaverMap";
 
 const title = css`
   text-align: center;
@@ -32,6 +33,7 @@ interface IncomeProps {
   setMarkerNum: React.Dispatch<React.SetStateAction<number>>;
   searchInfoWindows: any;
   markerNum: number;
+  markerArr: MarkerType[];
 }
 
 function ReserveForm({
@@ -40,6 +42,7 @@ function ReserveForm({
   setMarkerNum,
   searchInfoWindows,
   markerNum,
+  markerArr,
 }: IncomeProps) {
   const [reserveInfo, setReserveInfo] = useState<ReserveInfoType>({
     carId: "",
@@ -70,7 +73,11 @@ function ReserveForm({
       />
       <TextBox setReserveInfo={setReserveInfo} />
       <Calendar setReserveInfo={setReserveInfo} />
-      <ApplyBtn />
+      <ApplyBtn
+        markerArr={markerArr}
+        markerNum={markerNum}
+        reserveInfo={reserveInfo}
+      />
     </div>
   );
 }

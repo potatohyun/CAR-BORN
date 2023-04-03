@@ -1,9 +1,9 @@
-import ManufacturingFilter from "./ManufacturingFilter";
+import SearchSort from "./SearchSort";
 
 function SearchFilter() {
   return (
     <div>
-      <span>필터</span>
+      <span>정렬</span>
       <hr
         style={{
           width: "20%",
@@ -13,7 +13,7 @@ function SearchFilter() {
         }}
       />
       <div>
-        <ManufacturingFilter />
+        <SearchSort />
       </div>
     </div>
   );

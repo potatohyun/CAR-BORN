@@ -39,6 +39,19 @@ const searchResult = css`
   }
 `;
 
+export interface MarkerType {
+  ADDRESS: string;
+  AUTH: number;
+  ID: number;
+  LAT: number;
+  LNG: number;
+  NAME: string;
+  PHONE_NO: string;
+  avg_point: number;
+  cntReview: number;
+  cntTrade: number;
+}
+
 // 현재 지도에 마커 정보가 없을 때 나타나는 컴포넌트
 const NoContentComponent = () => {
   return (
@@ -54,6 +67,24 @@ const NoContentComponent = () => {
       주변에 정보가 없어요.
     </div>
   );
+};
+
+// 전화번호 하이픈으로 변경하는 함수
+const phoneNumFnc = (input: string) => {
+  const cleanInput = input.replaceAll(/[^0-9]/g, "");
+  let result: string | undefined = "";
+  const length = cleanInput.length;
+  if (length === 8) {
+    result = cleanInput.replace(/(\d{4})(\d{4})/, "$1-$2");
+  } else if (cleanInput.startsWith("02") && (length === 9 || length === 10)) {
+    result = cleanInput.replace(/(\d{2})(\d{3,4})(\d{4})/, "$1-$2-$3");
+  } else if (!cleanInput.startsWith("02") && (length === 10 || length === 11)) {
+    result = cleanInput.replace(/(\d{3})(\d{3,4})(\d{4})/, "$1-$2-$3");
+  } else {
+    result = cleanInput;
+  }
+
+  return result;
 };
 
 // geolocation 옵션
@@ -91,8 +122,10 @@ function NaverMap() {
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
+        // const lat = position.coords.latitude;
+        // const lng = position.coords.longitude;
+        const lat = 36.107159;
+        const lng = 128.417394;
 
         axios({
           method: "get",
@@ -138,7 +171,7 @@ function NaverMap() {
   const setMarker = (map: any, markerInfo: any) => {
     setMarkerArr(markerInfo);
     let newMarkerArr: any[] = markerInfo;
-    console.log(markerInfo);
+
     markerInfo.forEach((key: any) => {
       var position = new naver.maps.LatLng(key.LAT, key.LNG);
       var marker = new naver.maps.Marker({
@@ -159,21 +192,26 @@ function NaverMap() {
           '<div style="width:28vw; padding:10px; height: 28vh; margin-left:2.5vw;">',
           `<p style="font-size: 1.5rem; margin-bottom: 0; margin-top: 0; font-weight: bolder;">${key.NAME}</p>`,
           '<p style="margin-top: 0; color: #E00000; font-weight: bolder;">',
-          `<span style="font-size: 1.2rem">★</span><span style="color: #242424">${key.avg_point}</span><span style="color: #8F8F8F">/5</span>`,
+          `<span style="font-size: 1.2rem">★</span><span style="color: #242424">${
+            key.avg_point === 0 ? key.avg_point : key.avg_point.toFixed(1)
+          }</span><span style="color: #8F8F8F">/5</span>`,
           `<span style="color: #BBBBBB; font-size: 0.9rem; "> 리뷰 ${key.cntReview}</span>`,
           "</p>",
           `<p style="margin-bottom: 0; color: #606060; font-size: 0.9rem">${key.ADDRESS}</p>`,
-          '<p style="margin: 0; color: #C1C1C1; font-size: 0.9rem">(우) 39301 (지번) 원평동 1008-1</p>',
-          `<p style="margin-top: 0; color: #038400; font-size: 1rem; font-weight: bold;">${key.PHONE_NO}</p>`,
+          '<p style="margin: 0; color: #C1C1C1; font-size: 0.9rem">(우) 39301</p>',
+          '<p style="margin: 0; color: #C1C1C1; font-size: 0.9rem">(지번) 원평동 1008-1</p>',
+          `<p style="margin-top: 0; color: #038400; font-size: 1rem; font-weight: bold;">${phoneNumFnc(
+            key.PHONE_NO
+          )}</p>`,
           `<button class="fix-shop" style="background-color: ${
-            key.AUTH === 2 ? "#9C27B0" : "#2196F3"
+            key.AUTH === 2 ? "#9C27B0" : "#E00000"
           }; width: 90%; height: 22%; border-radius: 10px; border: 0; font-size: 1.1rem; font-weight: bolder; color: white; cursor: pointer;">예약하기</button>`,
           "</div>",
         ].join(""),
       });
 
       // 예약하기 버튼 클릭
-      const button = infoWindow.getContentElement().childNodes[5];
+      const button = infoWindow.getContentElement().childNodes[6];
       button.addEventListener("click", () => {
         setReserve((reserve) => !reserve);
       });
@@ -299,6 +337,7 @@ function NaverMap() {
                   setMarkerNum={setMarkerNum}
                   searchInfoWindows={searchInfoWindows}
                   markerNum={markerNum}
+                  markerArr={markerArr}
                 />
               ) : markerNum >= 0 ? (
                 <MarkerDetail

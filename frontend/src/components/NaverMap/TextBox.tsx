@@ -21,7 +21,7 @@ function TextBox({ setReserveInfo }: Pick<Props, "setReserveInfo">) {
         placeholder="차량 상태를 작성해주세요."
         rows={5}
         sx={{ width: "100%", marginBottom: "4%" }}
-        onChange={setTextInput}
+        onBlur={setTextInput}
       />
     </>
   );

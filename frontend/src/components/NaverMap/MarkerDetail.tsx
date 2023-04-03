@@ -7,7 +7,7 @@ import MarkerDetailInfo from "./MarkerDetailInfo";
 import MarkerDetailReview from "./MarkerDetailReview";
 import { useAPI } from "./../../hooks/useAPI";
 import { useQueries } from "react-query";
-import axios from "axios";
+import { MarkerType } from "../../routes/userUseFnc/NaverMap";
 
 const roadView = css`
   width: 100%;
@@ -51,6 +51,14 @@ const toggleBtn = ({ reviewBtn }: { reviewBtn: boolean }) => css`
   }
 `;
 
+const arrow = css`
+  border: 1px black solid;
+  width: 50px;
+  height: 50px;
+  transform: rotate(45deg);
+  left: 10%;
+`;
+
 const naver = window.naver;
 
 interface Props {
@@ -58,7 +66,7 @@ interface Props {
   setMarkerNum: React.Dispatch<React.SetStateAction<number>>;
   searchInfoWindows: any;
   markerNum: number;
-  markerArr: any;
+  markerArr: MarkerType[];
 }
 
 function MarkerDetail({
@@ -74,7 +82,7 @@ function MarkerDetail({
 
   const REVIEW_API = `https://carborn.site/api/user/map/review/${
     markerArr[markerNum]?.ID
-  }/${markerArr[markerNum]?.AUTH}/${1}/${5}`;
+  }/${markerArr[markerNum]?.AUTH}/${1}/${100}`;
 
   const getReviewAPI = useAPI("get", REVIEW_API);
 
@@ -92,22 +100,6 @@ function MarkerDetail({
       refetchOnMount: true,
     },
   ]);
-
-  naver.maps.Service.geocode(
-    {
-      // address: `${markerArr[markerNum].ADDRESS}`,
-      address: `경기도 성남시 분당구 불정로 6 그린팩토리`,
-    },
-    function (status: any, response: any) {
-      var result = response.result, // 검색 결과의 컨테이너
-        items = result.items; // 검색 결과의 배열
-
-      // do Something
-      console.log(result);
-    }
-  );
-
-  console.log(naver.maps.Service.Addition1);
 
   // 파노라마 옵션
   var panoramaOptions = {
@@ -163,18 +155,21 @@ function MarkerDetail({
       {!reviewBtn ? (
         <MarkerDetailInfo markerNum={markerNum} markerArr={markerArr} />
       ) : (
-        data.map((data: any) => {
+        data.map((DATA: any, index: number) => {
           return (
-            <MarkerDetailReview
-              data={data}
-              key={
-                data.accountId +
-                data.content +
-                data.point +
-                data.regDt +
-                data.uptDt
-              }
-            />
+            <>
+              <MarkerDetailReview
+                data={DATA}
+                key={
+                  DATA.accountId +
+                  DATA.content +
+                  DATA.point +
+                  DATA.regDt +
+                  DATA.uptDt
+                }
+              />
+              {/* {index === data?.length - 1 ? <div css={arrow}></div> : null} */}
+            </>
           );
         })
       )}

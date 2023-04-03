@@ -6,7 +6,6 @@ import { Props } from "../../../routes/userUseFnc/MyVehicleRegistration";
 import { RegistrationInfo } from "./../../../routes/userUseFnc/MyVehicleRegistration";
 
 const now = new Date();
-let year = now.getFullYear();
 
 function CarYear({
   setRegistrationInfo,

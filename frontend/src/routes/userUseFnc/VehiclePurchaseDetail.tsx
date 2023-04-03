@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+
 import { Params, useParams } from "react-router-dom";
 
 import Nav from "../../components/Nav";
@@ -19,7 +20,7 @@ const content = css`
 `;
 
 function VehiclePurchaseDetail() {
-  const { carId }: Readonly<Params<string>> = useParams();
+  const { carId, id }: Readonly<Params<string>> = useParams();
 
   return (
     <>
@@ -29,7 +30,7 @@ function VehiclePurchaseDetail() {
           {/* 왼쪽 컨텐츠 */}
           <DetailThumnail />
           {/* 오른쪽 컨텐츠*/}
-          <DetailInfomation carId={carId} />
+          <DetailInfomation carId={carId} id={id} />
         </div>
       </div>
     </>

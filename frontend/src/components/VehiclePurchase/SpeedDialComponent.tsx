@@ -27,7 +27,7 @@ const dialog = css`
 function SpeedDialComponent() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [page, setPage] = useState<number>(1);
-  const API = `https://carborn.site/api/user/car/list/${page}/5`;
+  const API = `https://carborn.site/api/user/car/list/${page}/15`;
 
   const getCarListFnc = useAPI("get", API);
 

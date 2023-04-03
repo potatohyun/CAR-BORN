@@ -9,9 +9,10 @@ import { companyinfoDeleteReducer } from "../companyInfoDeleteModule";
 import { setAccountTypeReducer } from "./../setAccountTypeModule";
 import { IdCheckReducer } from "./../UserIdCheckModule";
 import { searchIDCheckReducer } from "../searchidModule";
-import { newPasswordReducer } from './../newPasswordModule';
-import { createReviewReducer } from './../createReviewModule';
-import { userModifyPasswordReducer } from './../modifyPasswordModule';
+import { newPasswordReducer } from "./../newPasswordModule";
+import { createReviewReducer } from "./../createReviewModule";
+import { userModifyPasswordReducer } from "./../modifyPasswordModule";
+import { carListReducer } from "./../carListModule";
 
 const rootReducer = combineReducers({
   LoginOutReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   userinfoDeleteReducer,
   companyinfoDeleteReducer,
   userModifyPasswordReducer,
+  carListReducer,
 });
 
 export default rootReducer;

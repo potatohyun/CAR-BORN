@@ -1,6 +1,7 @@
 package site.carborn.service.user;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import site.carborn.mapping.company.RepairShopReviewMapping;
 import site.carborn.mapping.user.RepairResultGetDetailMapping;
 import site.carborn.mapping.user.UserRepairBookDetailMapping;
 import site.carborn.mapping.user.UserRepairBookListMapping;
-import site.carborn.mapping.user.UserRepairResultListMapping;
 import site.carborn.repository.account.AccountRepository;
 import site.carborn.repository.company.RepairShopReviewRepository;
 import site.carborn.repository.user.RepairBookRepository;
@@ -22,7 +22,7 @@ import site.carborn.util.common.BookUtils;
 
 import java.time.LocalDateTime;
 
-
+@Slf4j
 @Service
 @Transactional
 public class UserRepairService {
@@ -39,10 +39,10 @@ public class UserRepairService {
         Page<UserRepairBookListMapping> repairBookList = repairBookRepository.findByStatusAndAccount_Id(
                 BoardUtils.BOARD_DELETE_STATUS_FALSE,
                 accountId
-                , BoardUtils.pageRequestInit(
+                ,BoardUtils.pageRequestInit(
                         page
-                        , size
-                        , "id", BoardUtils.ORDER_BY_DESC
+                        ,size
+                        ,"id", BoardUtils.ORDER_BY_DESC
                 )
         );
         if (repairBookList.isEmpty()) {
@@ -65,15 +65,14 @@ public class UserRepairService {
 
 
     public int createRepairBook(RepairBook repairBook) {
+        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
 
-        if (repairBook.getAccount().getId().isBlank()) {
-            throw new RuntimeException("세션이 만료되었습니다");
-        }
-        Account account = accountRepository.findById(repairBook.getAccount().getId());
+        Account account = accountRepository.findById(accountId);
         if (account == null) {
             throw new RuntimeException("존재하지 않는 아이디입니다");
         }
 
+        repairBook.setAccount(account);
         repairBook.setRegDt(LocalDateTime.now());
         repairBook.setUptDt(LocalDateTime.now());
         repairBook.setBookStatus(BookUtils.BOOK_STATUS_WAIT);
@@ -98,17 +97,16 @@ public class UserRepairService {
     }
 
     public int updateRepairBook(RepairBook repairBook) {
+        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
 
-        if (repairBook.getAccount().getId().isBlank()) {
-            throw new RuntimeException("세션이 만료되었습니다");
-        }
-
-        if (accountRepository.findById(repairBook.getAccount().getId()) == null) {
+        Account account = accountRepository.findById(accountId);
+        if (account == null) {
             throw new RuntimeException("존재하지 않는 아이디입니다");
         }
 
         RepairBook update = repairBookRepository.findById(repairBook.getId()).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다"));
+
         update.setCar(repairBook.getCar());
         update.setContent(repairBook.getContent());
         update.setBookDt(repairBook.getBookDt());
@@ -118,21 +116,6 @@ public class UserRepairService {
         return update.getId();
     }
 
-    public Page<UserRepairResultListMapping> repairResultList(String accountId, int page) {
-        Page<UserRepairResultListMapping> repairResults = repairResultRepository.findByRepairBook_StatusAndRepairBook_Account_Id(
-                BoardUtils.BOARD_DELETE_STATUS_FALSE,
-                accountId
-                , BoardUtils.pageRequestInit(
-                        page
-                        , BoardUtils.PAGE_PER_ROW_20
-                        , "repairDt", BoardUtils.ORDER_BY_DESC
-                )
-        );
-        if (repairResults.isEmpty()) {
-            throw new NullPointerException("해당 페이지의 데이터가 존재하지 않습니다");
-        }
-        return repairResults;
-    }
 
     public RepairResultGetDetailMapping repairResultDetail(int repairResultId) {
         RepairResultGetDetailMapping result = repairResultRepository.findAllByRepairBook_Id(repairResultId);
@@ -149,23 +132,19 @@ public class UserRepairService {
     }
 
     public int createInspectReview(int repairResultId, RepairShopReview repairShopReview) {
+        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
+
         RepairResult result = repairResultRepository.findById(repairResultId).orElseThrow(() ->
                 new RuntimeException("수리결과가 없습니다"));
 
-        if (repairShopReview.getAccount().getId().isBlank()) {
-            throw new RuntimeException("세션이 만료되었습니다");
-        }
-        Account account = accountRepository.findById(repairShopReview.getAccount().getId());
+        Account account = accountRepository.findById(accountId);
         if (account == null) {
             throw new RuntimeException("존재하지 않는 아이디입니다");
-        }
-        if (!account.getId().equals(repairShopReview.getAccount().getId())) {
-            throw new RuntimeException("권한이 없습니다");
         }
 
         repairShopReview.setRepairResult(result);
         repairShopReview.setRepairShop(result.getRepairBook().getRepairShop());
-        repairShopReview.setAccount(result.getRepairBook().getAccount());
+        repairShopReview.setAccount(account);
 
         repairShopReview.setRegDt(LocalDateTime.now());
         repairShopReview.setUptDt(LocalDateTime.now());

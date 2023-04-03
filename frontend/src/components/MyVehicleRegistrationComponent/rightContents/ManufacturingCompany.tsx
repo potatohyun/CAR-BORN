@@ -6,7 +6,7 @@ import {
 function ManufacturingCompany({
   setRegistrationInfo,
 }: Props<React.Dispatch<React.SetStateAction<Partial<RegistrationInfo>>>>) {
-  const inputTyping = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const inputTyping = (e: React.FocusEvent<HTMLInputElement>): void => {
     const inputValue = e.target.value;
     setRegistrationInfo((registrationInfo) => {
       return {
@@ -18,9 +18,9 @@ function ManufacturingCompany({
 
   return (
     <div>
-      <span>제조사 / 차량모델</span>
+      <span>제조사</span>
       <div>
-        <input type="text" autoComplete="false" onChange={inputTyping} />
+        <input type="text" autoComplete="false" onBlur={inputTyping} />
       </div>
     </div>
   );

@@ -2,8 +2,39 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Props } from "./ReserveForm";
+import { useQuery } from "react-query";
+import { useAPI } from "../../hooks/useAPI";
 
+interface CarType {
+  id: number;
+  maker: string;
+  mileage: number;
+  modelNm: string;
+  modelYear: string;
+  regNm: string;
+}
+
+const PAGE = 1;
+const SIZE = 1;
+
+const API = `https://carborn.site/api/user/car/list/${PAGE}/${SIZE}`;
 function MyCarInformation({ data, setReserveInfo, reserveInfo }: Props) {
+  const getUserCarListFnc = useAPI("get", API);
+  const { data: carList } = useQuery(
+    "get-user-car-list-fnc",
+    () => getUserCarListFnc,
+    {
+      retry: false,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      cacheTime: 1000 * 300,
+      staleTime: 1000 * 300,
+      select: (data) => {
+        return data.data.message.content;
+      },
+    }
+  );
+
   const handleChange = (event: SelectChangeEvent) => {
     setReserveInfo((reserveInfo) => {
       const value = event.target.value;
@@ -25,9 +56,14 @@ function MyCarInformation({ data, setReserveInfo, reserveInfo }: Props) {
             onChange={handleChange}
             defaultValue="차를 선택해주세요."
           >
-            <MenuItem value={10}>Twenty</MenuItem>
-            <MenuItem value={21}>Twenty one</MenuItem>
-            <MenuItem value={22}>Twenty one and a half</MenuItem>
+            {carList?.map((car: CarType) => {
+              return (
+                <MenuItem
+                  key={car.id}
+                  value={car.id}
+                >{`${car.maker} / ${car.modelNm}`}</MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
       </div>
