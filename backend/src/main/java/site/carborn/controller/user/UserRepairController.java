@@ -97,7 +97,7 @@ public class UserRepairController {
     @Parameter(name = "inspectResultId", description = "검수 결과 게시글 id")
     public ResponseEntity<?> getInspectReviewList(@PathVariable int repairResultId,
                                                   @RequestBody RepairShopReview repairShopReview) {
-        int result = userRepairService.createInspectReview(repairResultId, repairShopReview);
+        int result = userRepairService.createRepairReview(repairResultId, repairShopReview);
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
 

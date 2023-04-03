@@ -131,7 +131,7 @@ public class UserRepairService {
         return result;
     }
 
-    public int createInspectReview(int repairResultId, RepairShopReview repairShopReview) {
+    public int createRepairReview(int repairResultId, RepairShopReview repairShopReview) {
         String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
 
         RepairResult result = repairResultRepository.findById(repairResultId).orElseThrow(() ->

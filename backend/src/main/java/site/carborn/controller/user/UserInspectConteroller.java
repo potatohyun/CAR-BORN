@@ -63,27 +63,14 @@ public class UserInspectConteroller {
         return NormalResponse.toResponseEntity(HttpStatus.OK, BoardUtils.BOARD_CRUD_SUCCESS);
     }
 
-    @PutMapping("/book/{inspectId}")
+    @PutMapping("/book")
     @Operation(description = "사용자 검수원 예약 내역 수정")
     @Parameter(name = "inspectId", description = "예약 게시글 id")
-    public ResponseEntity<?> updateInspectBook(@RequestBody InspectBook inspectBook, @PathVariable("inspectId") int inspectBookId) {
-        return NormalResponse.toResponseEntity(HttpStatus.OK, userInspectService.updateInspectBook(inspectBook, inspectBookId));
+    public ResponseEntity<?> updateInspectBook(@RequestBody InspectBook inspectBook) {
+        return NormalResponse.toResponseEntity(HttpStatus.OK, userInspectService.updateInspectBook(inspectBook));
     }
 
     // 검수 완료 조회
-    @GetMapping("/result/list/{page}/{size}")
-    @Operation(description = "사용자의 검수 완료 목록 조회")
-    @Parameters({
-            @Parameter(name = "page", description = "페이지 번호"),
-            @Parameter(name = "size", description = "페이지 당 게시물 수")
-    })
-    public ResponseEntity<?> getInspectResultList(@PathVariable("page") int page,
-                                                  @PathVariable("size") int size) {
-        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
-        Page<UserInspectResultListMapping> result = userInspectService.inspectResultList(accountId, page, size);
-        return NormalResponse.toResponseEntity(HttpStatus.OK, result);
-    }
-
     @GetMapping("/result/{inspectBookId}")
     @Operation(description = "사용자의 검수 완료 단일 조회")
     @Parameter(name = "inspectResultId", description = "검수 결과 게시글 id")
