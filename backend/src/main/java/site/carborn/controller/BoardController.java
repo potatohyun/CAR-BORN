@@ -30,7 +30,7 @@ public class BoardController {
     }
 
     @PostMapping("/api/board")
-    public ResponseEntity<?> insert(@RequestBody BoardRequestDTO boardRequestDTO) {
+    public ResponseEntity<?> insert(@ModelAttribute BoardRequestDTO boardRequestDTO) {
         return NormalResponse.toResponseEntity(HttpStatus.OK, boardService.insert(boardRequestDTO));
     }
 

@@ -49,7 +49,7 @@ public class BoardUtils {
     public static boolean checkImageFileExtension(String fileExtension) {
         List<String> extensions = Arrays.asList("jpg", "jpeg", "png", "gif");
         for (String extension: extensions) {
-            if (extension.equals(fileExtension)) {
+            if (extension.toLowerCase().equals(fileExtension)) {
                 return true;
             }
         }
