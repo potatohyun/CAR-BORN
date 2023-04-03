@@ -24,51 +24,53 @@ import site.carborn.util.network.NormalResponse;
 @RequestMapping("/api/user/community")
 @RequiredArgsConstructor
 @RestController
-public class UserCommunityController{
+public class UserCommunityController {
 
     @Autowired
     private UserCommunityService userCommunityService;
 
     @GetMapping("/list/{page}/{size}/{sort}")
     @Operation(description = "커뮤니티 글 목록 조회")
-    @Parameters({@Parameter(name = "page", description = "페이지 번호"),
+    @Parameters({
+            @Parameter(name = "page", description = "페이지 번호"),
             @Parameter(name = "size", description = "페이지 당 게시물 수"),
             @Parameter(name = "sort", description = "정렬 기준")
     })
     public ResponseEntity<?> getBoardList(@PathVariable("page") int page,
-                                            @PathVariable("size") int size,
-                                             @PathVariable("sort") int sort){
-        Page<UserCommunityListMapping> boardList = userCommunityService.getBoardList(page,size,sort,null);
-        return NormalResponse.toResponseEntity(HttpStatus.OK,boardList);
+                                          @PathVariable("size") int size,
+                                          @PathVariable("sort") int sort) {
+        Page<UserCommunityListMapping> boardList = userCommunityService.getBoardList(page, size, sort, null);
+        return NormalResponse.toResponseEntity(HttpStatus.OK, boardList);
     }
+
     @GetMapping("/list/{page}/{size}/{sort}/{keyword}")
     @Operation(description = "커뮤니티 글 목록 조회")
-    @Parameters({@Parameter(name = "page", description = "페이지 번호"),
+    @Parameters({
+            @Parameter(name = "page", description = "페이지 번호"),
             @Parameter(name = "size", description = "페이지 당 게시물 수"),
             @Parameter(name = "sort", description = "정렬 기준"),
-            @Parameter(name = "keyword", description = "검색어")
+            @Parameter(name = "keyword", description = "검색어"),
     })
     public ResponseEntity<?> searchBoardList(@PathVariable("page") int page,
-                                          @PathVariable("size") int size,
-                                          @PathVariable("sort") int sort,
-                                          @PathVariable("keyword") String keyword){
-        log.debug("키워드 : {}", keyword);
-        Page<UserCommunityListMapping> boardList = userCommunityService.getBoardList(page,size,sort,keyword);
-        return NormalResponse.toResponseEntity(HttpStatus.OK,boardList);
+                                             @PathVariable("size") int size,
+                                             @PathVariable("sort") int sort,
+                                             @PathVariable("keyword") String keyword) {
+        Page<UserCommunityListMapping> boardList = userCommunityService.getBoardList(page, size, sort, keyword);
+        return NormalResponse.toResponseEntity(HttpStatus.OK, boardList);
     }
 
 
     @GetMapping("/{communityId}")
     @Operation(description = "커뮤니티 글 단일 조회")
     @Parameter(name = "communityId", description = "게시글 id")
-    public ResponseEntity<?> getBoardDetail(@PathVariable("communityId") int communityId){
+    public ResponseEntity<?> getBoardDetail(@PathVariable("communityId") int communityId) {
         UserCommunityListMapping boardDetail = userCommunityService.getBoardDetail(communityId);
-        return NormalResponse.toResponseEntity(HttpStatus.OK,boardDetail);
+        return NormalResponse.toResponseEntity(HttpStatus.OK, boardDetail);
     }
 
     @PostMapping
     @Operation(description = "커뮤니티 글 작성")
-    public ResponseEntity<?> createBoard(@RequestBody Community community){
+    public ResponseEntity<?> createBoard(@RequestBody Community community) {
         int result = userCommunityService.createBoard(community);
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
@@ -77,16 +79,16 @@ public class UserCommunityController{
     @Operation(description = "커뮤니티 글 수정")
     @Parameter(name = "communityId", description = "게시글 id")
     public ResponseEntity<?> updateBoard(@RequestBody Community community,
-                                               @PathVariable("communityId") int communityId) {
+                                         @PathVariable("communityId") int communityId) {
         log.debug("커뮤니티 글 수정");
         int id = userCommunityService.updateBoard(community, communityId);
         return NormalResponse.toResponseEntity(HttpStatus.OK, id);
     }
 
-    @DeleteMapping ("/{communityId}")
+    @DeleteMapping("/{communityId}")
     @Operation(description = "커뮤니티 글 삭제")
     @Parameter(name = "communityId", description = "게시글 id")
-    public ResponseEntity<?> deleteRepairBook(@PathVariable("communityId") int communityId){
+    public ResponseEntity<?> deleteRepairBook(@PathVariable("communityId") int communityId) {
         userCommunityService.deleteBoard(communityId);
         return NormalResponse.toResponseEntity(HttpStatus.OK, BoardUtils.BOARD_CRUD_SUCCESS);
     }
@@ -94,7 +96,7 @@ public class UserCommunityController{
     //댓글
     @PostMapping("/comment")
     @Operation(description = "댓글 작성")
-    public ResponseEntity<?> createcomment(@RequestBody CommunityReview communityReview){
+    public ResponseEntity<?> createcomment(@RequestBody CommunityReview communityReview) {
         int result = userCommunityService.createcomment(communityReview);
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
@@ -106,26 +108,38 @@ public class UserCommunityController{
             @Parameter(name = "size", description = "페이지 당 게시물 수")
     })
     public ResponseEntity<?> getcommentList(@PathVariable("page") int page,
-                                          @PathVariable("size") int size,
-                                            @PathVariable("communityId") int communityId){
-        Page<UserCommunityCommentListMapping> commentList = userCommunityService.getcommentList(page,size,communityId);
-        return NormalResponse.toResponseEntity(HttpStatus.OK,commentList);
+                                            @PathVariable("size") int size,
+                                            @PathVariable("communityId") int communityId) {
+        Page<UserCommunityCommentListMapping> commentList = userCommunityService.getcommentList(page, size, communityId);
+        return NormalResponse.toResponseEntity(HttpStatus.OK, commentList);
     }
 
     @PutMapping("/comment/{commentId}")
     @Operation(description = "댓글 수정")
     @Parameter(name = "communityId", description = "댓글 id")
     public ResponseEntity<?> updateComment(@RequestBody CommunityReview communityReview,
-                                         @PathVariable("commentId") int commentId) {
+                                           @PathVariable("commentId") int commentId) {
         return NormalResponse.toResponseEntity(HttpStatus.OK, userCommunityService.updateComment(communityReview, commentId));
     }
 
-    @DeleteMapping ("/comment/{commentId}")
+    @DeleteMapping("/comment/{commentId}")
     @Operation(description = "댓글 삭제")
     @Parameter(name = "commentId", description = "댯글 id")
-    public ResponseEntity<?> deleteComment(@PathVariable("commentId") int commentId){
+    public ResponseEntity<?> deleteComment(@PathVariable("commentId") int commentId) {
         userCommunityService.deleteComment(commentId);
         return NormalResponse.toResponseEntity(HttpStatus.OK, BoardUtils.BOARD_CRUD_SUCCESS);
     }
 
+    //마이페이지(내가쓴글)
+    @GetMapping("/my-list/{page}/{size}")
+    @Operation(description = "내가 쓴 글 목록 조회")
+    @Parameters({@Parameter(name = "page", description = "페이지 번호"),
+            @Parameter(name = "size", description = "페이지 당 게시물 수")
+    })
+    public ResponseEntity<?> getMyBoardList(@PathVariable("page") int page,
+                                          @PathVariable("size") int size){
+        String accountId = "usertest"; //스프링시큐리티 구현시 변경예정
+        Page<UserCommunityListMapping> myboardList = userCommunityService.getMyBoardList(accountId, page,size);
+        return NormalResponse.toResponseEntity(HttpStatus.OK,myboardList);
+    }
 }

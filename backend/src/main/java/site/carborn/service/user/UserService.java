@@ -163,7 +163,7 @@ public class UserService {
     }
 
     @Transactional
-    public void salesReservation(int carSaleId){
+    public int salesReservation(int carSaleId){
         //현재는 임시아이디 시큐리티에서 받는 부분
         String userid = "testuser2";
 
@@ -178,6 +178,8 @@ public class UserService {
         carSalebook.setBookStatus(BuyUtils.BUY_STATUS_STAY);
 
         carSaleBookRepository.save(carSalebook);
+
+        return carSalebook.getBookStatus();
     }
 
     @Transactional
