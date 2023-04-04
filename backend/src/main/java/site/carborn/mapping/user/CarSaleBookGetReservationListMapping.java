@@ -8,4 +8,6 @@ public interface CarSaleBookGetReservationListMapping {
 
     String getAccountName();
 
+    String getAccountPhoneNo();
+
 }
