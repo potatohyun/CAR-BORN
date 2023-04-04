@@ -23,7 +23,6 @@ import SignUpCompanyAddress from "../../components/auth/signup/SignUpCompanyAddr
 import SignUpUserPhoneNumber from "../../components/auth/signup/SignUpUserPhoneNumber";
 import SignUpCompanyPhoneNumber from "../../components/auth/signup/SignUpCompanyPhoneNumber";
 import SignUpCompanyDocument from "../../components/auth/signup/SignUpCompanyDocument";
-import Nav from "../../components/Nav";
 import { useDispatch, useSelector } from "react-redux";
 import { SetIsSignupAction } from "../../modules/signUpModule";
 import { CARBORN_SITE } from "./../../lib/api";
@@ -100,7 +99,6 @@ const SignupPages: React.FC = () => {
     (state: any) => state.SignUpReducer.isSignPossible
   );
 
-
   // 리캡챠 해시 데이터 받아오기
   const [isRecaptcha, setIsRecaptcha] = useState(false); 
   const handleCaptchaChange = (value: string | null) => {
@@ -110,7 +108,6 @@ const SignupPages: React.FC = () => {
       setIsRecaptcha(false)
     }
   };
-
 
   // 회원가입 초기값
   const initialSignupFormData = {
@@ -176,6 +173,7 @@ const SignupPages: React.FC = () => {
           body: formData,
         })
           .then((res) => {
+            console.log(res)
             if (!res.ok) {
               setIsAlert(true);
               setTimeout(() => {
@@ -203,6 +201,7 @@ const SignupPages: React.FC = () => {
           body: formData,
         })
           .then((res) => {
+            console.log(res)
             if (!res.ok) {
               setIsAlert(true);
               setTimeout(() => {
@@ -270,15 +269,15 @@ const SignupPages: React.FC = () => {
 
   useEffect(() => {
     updateIsValid();
-    console.log("회원가입 조건 확인하기", SignUpisValid);
-    console.log(Boolean(signupUserFormData.name));
-    console.log(Boolean(signupUserFormData.userid));
-    console.log(Boolean(signupUserFormData.idcheck));
-    console.log(Boolean(signupUserFormData.password));
-    console.log(Boolean(signupUserFormData.passwordcheck));
-    console.log(Boolean(signupUserFormData.phonenumber));
-    console.log(Boolean(signupUserFormData.identifynumber));
-    console.log(selectedFiles.length);
+    // console.log("회원가입 조건 확인하기", SignUpisValid);
+    // console.log(Boolean(signupUserFormData.name));
+    // console.log(Boolean(signupUserFormData.userid));
+    // console.log(Boolean(signupUserFormData.idcheck));
+    // console.log(Boolean(signupUserFormData.password));
+    // console.log(Boolean(signupUserFormData.passwordcheck));
+    // console.log(Boolean(signupUserFormData.phonenumber));
+    // console.log(Boolean(signupUserFormData.identifynumber));
+    // console.log(selectedFiles.length);
   }, [updateIsValid, SignUpisValid, signupCompanyFormData]);
 
   // 휴대전화 인증번호

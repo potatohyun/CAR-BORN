@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
-import Nav from "./../../Nav";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 // CarStatus 이미지 import 해오기
 import carousel1 from "../../../assets/carousel/CarStatus1.jpg";
@@ -17,74 +22,66 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // 스타일 시트를 import 해야함
 
 // CarStatus 이미지 import 해오기
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CARBORN_SITE } from "../../../lib/api";
-
-export const StyledTableContainer = styled(TableContainer)`
-  width: 70rem;
-`
-
-export const StyledTableHead = styled(TableHead)`
-  background-color: #d23131;
-  
-  & .MuiTableCell-head {
-    color: white;
-    font-weight: bold;
-    text-align: center; /* 가운데 정렬 적용 */
-  }
-`;
-
-export const StyleMainTableHead = styled(TableHead)`
-  & .MuiTableCell-head {
-    font-weight: bold;
-    text-align: center;
-  }
-`
-
-const StyledCarousel = styled(Carousel)`
-  max-width: 40%;
-  margin: 0 auto;
-`;
-
-// 여기까지 MUI랑 캐러셀 작업
+import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
+import Nav2 from "../../Nav2";
+import { StyledTableMyCarInfoContainer } from "../Pagination/MyCarInfoPagination";
 
 const StyleMyCarInfoDetailDiv = styled.div`
   width: 100vw;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const StyleMyCarInfoDetailContainerDiv = styled.div`
-  margin-top: 4rem;
-  margin-bottom: 4rem;
-  width: 80%;
-  border: 1px solid black;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding-top: 3rem;
-`;
-
-const StyleMyCarInfoDetailTitleDiv = styled.div`
-  width: 50%;
-  height: 5rem;
-  border-bottom: 2px solid red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  span {
-    font-size: 2rem;
-    font-weight: 900;
+  background: linear-gradient(
+    to bottom,
+    #000000,
+    #1e0000e8
+  );
+  background-size: 100% 200%;
+  animation: gradient 10s ease infinite;
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
   }
 `;
 
+const StyleMyCarInfoDetailContainerDiv = styled.div`
+  width: 70vw;
+  border: 1px dashed #00000020;
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+  background-color: #fffffff6;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+  display: flex;
+  justify-content: center;
+  padding-top: 3rem;
+  padding-left: 3rem;
+`;
+
+const StyledCarousel = styled(Carousel)`
+  max-width: 60%;
+  margin: 0 auto;
+  margin-right: 1rem;
+  border-radius: 10px;
+
+  div, img {
+    border-radius: 10px;
+  }
+`;
+
+// 이거 기준으로 모두 수정하기
 export const StyleMyCarInfoCarousels = styled.div`
   .carousel-container {
     max-width: 800px;
@@ -142,12 +139,127 @@ export const StyleMyCarInfoCarousels = styled.div`
   }
 `;
 
+const StyleXButton = styled.div`
+  font-weight: 900;
+  font-size: 1.2rem;
+  position: absolute;
+  right: 13vw;
+  top: 66vh;
+  cursor: pointer;
+`
+
+// 내 차량 상세 정보 전체 컨테이너
+const StyleTableDivMyCarInfoDetail = styled.div`
+  border: 1px dashed #00000050;
+  width: 24vw;
+  height: 71.5vh;
+`
+
+// 이미지
+const StyleTableCarImgDiv = styled.div`
+  width: 24vw;
+  height: 40vh;
+  margin-bottom: 1vh;
+  img {
+    width: 24vw;
+    height: 40vh;
+  }
+`
+
+// 제조사, 차량모델
+const StyleTableCarMakerModelDiv = styled.div`
+  width: 24vw;
+  height: 4vh;
+
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  span:nth-of-type(1){
+    display: inline-block;
+    margin-right: 0.5vw;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  span:nth-of-type(2){
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+`
+// 차량번호
+export const StyleTableCarRegNmDiv = styled.div`
+  width: 24vw;
+  height: 5vh;
+  margin-bottom: 2vh;
+
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    font-size: 2rem;
+    font-weight: 900;
+  }
+`
+// 차대번호
+const StyleTableCarVinDiv = styled.div`
+  width: 24vw;
+  height: 5vh;
+  margin-bottom: 1vh;
+
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+
+  color: #0000006c;
+`
+// 나머지 정보
+const StyleTableCarInfoDiv = styled.div`
+  width: 24vw;
+  height: 5vh;
+
+  tr:nth-of-type(1) {
+    background-color: #d23131;
+    color: white;
+    td {
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+  }
+
+  tr:nth-of-type(2) {
+    td { 
+      font-weight: 900;
+    }  
+    td:hover {
+      transition: all 0.5s;
+      color: #d23131;
+      background-color: black;
+    }
+  }
+
+  & > tr {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    td {
+      font-size: 0.7rem;
+    }
+  }
+`
+
 export type insuranceResultType = {
   setInspectorResult: React.SetStateAction<any[]>;
   inspectorResult: any;
 };
 
 const MyCarInfoDetail = () => {
+  // 토큰 넣기
+  const ObjString:any = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
+
   const param = useParams();
   const carId = param.carId;
 
@@ -168,6 +280,7 @@ const MyCarInfoDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [carInfoData, setCarInfoData] = useState<any>("");
+
   // 검수 결과 보여주기 위한 데이터 가져오기.
   useEffect(() => {
     // 배열 받는다 치고
@@ -175,95 +288,109 @@ const MyCarInfoDetail = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async (carId:string|number|undefined) => {
+    const fetchData = async (carId: string | number | undefined) => {
       try {
         const response = await axios({
-          method: 'GET',
-          url: `${CARBORN_SITE}/api/user/car/${carId}`
-        })
-        console.log(response.data.message.detail)
-        setCarInfoData(response.data.message.detail)
-        return response.data.message.content
+          method: "GET",
+          url: `${CARBORN_SITE}/api/user/car/${carId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            [ContentType]: applicationjson,
+          },
+        });
+        setCarInfoData(response.data.message.detail);
+        return response.data.message.content;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
     fetchData(carId);
-  }, [])
+  }, []);
+
+  // 페이지 beforeunload 시 로컬 스토리지에서 "carId" 데이터 제거
+  useEffect(() => {
+    localStorage.removeItem("carId");
+  }, []);
+  
+  // 뒤로가기
+  const goBack = () => {
+    window.history.back()
+  }
 
   return (
     <StyleMyCarInfoDetailDiv>
-      <Nav />
+      <Nav2 />
       <StyleMyCarInfoDetailContainerDiv>
-        <StyleMyCarInfoDetailTitleDiv>
-          <span>내 차량 상세 정보</span>
-        </StyleMyCarInfoDetailTitleDiv>
+        <StyleXButton onClick={() => goBack()}>X</StyleXButton>
+        {/* 이미지 받아오기 images를 carImages로 수정하기 */}
+        <StyledCarousel transitionTime={1000}>
+          {images.map((image, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                setSelectedImage(image);
+                setShowModal(true);
+              }}
+            >
+              <img src={image} alt={`${index}`} />
+              <p className="legend">{index + 1}. {image}</p>
+            </div>
+          ))}
+        </StyledCarousel>
+        {showModal && (
+          <StyleMyCarInfoCarousels>
+            <div className="modal">
+              <div
+                className="modal-content"
+                onClick={() => setShowModal(false)}
+              >
+                <img src={selectedImage} alt="modal" />
+              </div>
+            </div>
+          </StyleMyCarInfoCarousels>
+        )}
         {/* 디테일 정보  */}
-        <br/>
-        <StyledTableContainer>
-          <Table>
-            <StyledTableHead>
-              <TableRow>
-                <TableCell>차량모델</TableCell>
-                <TableCell>제조사</TableCell>
-                <TableCell>차량번호</TableCell>
-                <TableCell>차대번호</TableCell>
-                <TableCell>{`주행거리(km)`}</TableCell>
-                <TableCell>{`연식(년)`}</TableCell>
-                <TableCell>차량등록일자</TableCell>
-              </TableRow>
-            </StyledTableHead>
-            <StyleMainTableHead>
-              <TableRow>
-                <TableCell>{carInfoData.modelNm}</TableCell>
-                <TableCell>{carInfoData.maker}</TableCell>
-                <TableCell>{carInfoData.regNm}</TableCell>
-                <TableCell>{carInfoData.vin}</TableCell>
-                <TableCell>{carInfoData.mileage}</TableCell>
-                <TableCell>{carInfoData.modelYear}</TableCell>
-                <TableCell>{carInfoData.regDt}</TableCell>
-              </TableRow>
-            </StyleMainTableHead>
-          </Table>
-        </StyledTableContainer>
-        {/* 검수 전 이미지, 검수 후 이미지, 견적서 이미지 */}
-        <br />
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                {/* 이미지 받아오기 images를 carImages로 수정하기 */}
-                  <StyledCarousel transitionTime={1000}>
-                    {images.map((image, index) => (
-                      <div
-                        key={index}
-                        onClick={() => {
-                          setSelectedImage(image);
-                          setShowModal(true);
-                        }}
-                      >
-                        <img src={image} alt={`${index}`} />
-                        <p className="legend">{index + 1}. 내 차량 정보</p>
-                      </div>
-                    ))}
-                  </StyledCarousel>
-                {showModal && (
-                  <StyleMyCarInfoCarousels>
-                    <div className="modal">
-                      <div
-                        className="modal-content"
-                        onClick={() => setShowModal(false)}
-                      >
-                        <img src={selectedImage} alt="modal" />
-                      </div>
-                    </div>
-                  </StyleMyCarInfoCarousels>
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <StyledTableMyCarInfoContainer>
+          <StyleTableDivMyCarInfoDetail>
+            <StyleTableCarImgDiv>
+              {/* 받아온 이미지 중 첫번째 이미지 */}
+              <img src={images[0]} alt='대표 이미지'/>
+            </StyleTableCarImgDiv>
+            <StyleTableCarMakerModelDiv>
+              {/* 제조사, 차량모델 */}
+              <span>{carInfoData.maker}</span>
+              <span>{carInfoData.modelNm}</span>
+            </StyleTableCarMakerModelDiv>
+            <StyleTableCarRegNmDiv>
+              {/* 차량번호 */}
+              <span>{carInfoData.regNm}</span>
+            </StyleTableCarRegNmDiv>
+            <StyleTableCarVinDiv>
+              {/* 차대번호 */}
+              <div>차대번호</div>
+              <div>{carInfoData.vin}</div>
+            </StyleTableCarVinDiv>
+            <StyleTableCarInfoDiv>
+              {/* 나머지 테이블 정보 */}
+              <Table>
+                <tbody>
+                  <TableRow>
+                    <TableCell align="center">{`주행거리(km)`}</TableCell>
+                    <TableCell align="center">{`연식(년)`}</TableCell>
+                    <TableCell align="center">차량등록일자</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="center">{carInfoData.mileage === undefined ? null : carInfoData.mileage.toLocaleString()}</TableCell>
+                    <TableCell align="center">{carInfoData.modelYear}</TableCell>
+                    <TableCell align="center">{carInfoData && carInfoData.regDt && carInfoData.regDt.slice(0, 10)}</TableCell>
+                  </TableRow>
+                </tbody>
+              </Table>
+            </StyleTableCarInfoDiv>
+          </StyleTableDivMyCarInfoDetail>
+        </StyledTableMyCarInfoContainer>
       </StyleMyCarInfoDetailContainerDiv>
+      {/* <img src={`${CARBORN_SITE}/images/2023-04-03T07-14-07.747757767_7293.png`} /> */}
     </StyleMyCarInfoDetailDiv>
   );
 };

@@ -122,7 +122,7 @@ export default function InsuranceHome() {
               <img src={register} />
             </div>
             <div>Check</div>
-            <div>
+            <div css={{ cursor: "default" }}>
               보험 이력을
               <br />
               조회해 보세요
@@ -132,8 +132,8 @@ export default function InsuranceHome() {
             <div>
               <img src={dotBogi} />
             </div>
-            <div>Register</div>
-            <div>
+            <div css={{ cursor: "default" }}>Register</div>
+            <div css={{ cursor: "default" }}>
               보험 이력을
               <br />
               등록해 보세요

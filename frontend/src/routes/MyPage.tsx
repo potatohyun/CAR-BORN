@@ -1,5 +1,3 @@
-import Nav from './../components/Nav';
-import { StyleLoginSignUpDiv } from './auth/PasswordResetCheck';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
@@ -15,94 +13,91 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Nav2 from '../components/Nav2';
 
-export const StyleMyPageDiv = styled.div`
-  a {
-    text-decoration: none;
-  }
-  margin-top: 5rem;
-  margin-left: 2.5rem;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 1rem;
+const StyleMyPageContainer = styled.div`
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
 
-  & > *:nth-of-type(1) {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
+  background: linear-gradient(
+    to bottom,
+    #000000,
+    #1e0000e8
+  );
+  background-size: 100% 200%;
+  animation: gradient 10s ease infinite;
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
   }
-  & > *:nth-of-type(2) {
-    grid-column: 2 / span 1;
-    grid-row: 1 / span 1;
-  }
-  & > *:nth-of-type(3) {
-    grid-column: 3 / span 1;
-    grid-row: 1 / span 1;
-  }
-  & > *:nth-of-type(4) {
-    grid-column: 4 / span 1;
-    grid-row: 1 / span 1;
-  }
-  & > *:nth-of-type(5) {
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-  }
-  & > *:nth-of-type(6) {
-    grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
-  }
-  & > *:nth-of-type(7) {
-    grid-column: 3 / span 1;
-    grid-row: 2 / span 1;
-  }
-  & > *:nth-of-type(8) {
-    grid-column: 4 / span 1;
-    grid-row: 2 / span 1;
-    height: 22vh;
-  }
-  & > *:nth-of-type(9) {
-    grid-column: 4 / span 1;
-    grid-row: 2 / span 1;
-    margin-top: 28vh;
-    height: 22vh;
-  }
-`;
+`
+
+export const StyleMyPageDiv = styled.div`
+  margin-top: 3rem;
+  width: 70vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  `;
 
 const StyleMypageCards = styled.div`
-  width: 20vw;
-  height: 50vh;
-  background-color: #f2f2f2;
-  margin-right: 2rem;
-  margin-bottom: 2rem;
 
+  &:hover {
+    transform: scale(1.2);
+    transition: all 1s;
+    background-color: #d23131b7;
+    z-index: 2;
+    p { color: white; }
+  }
+
+  &:not(:hover) {
+    transform: scale(1.0);
+    transition: all 1s;
+    background-color: #f2f2f2;
+    p { color: #000000c3; }
+  }
+
+  width: 15vw;
+  height: 38vh;
+  background-color: #f2f2f2;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 
-  p {
+  &:nth-of-type(4n) {
+    margin-right: 0rem;
+  }
+
+  & > a {
+    text-decoration: none;
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  & > a:nth-of-type(4n) {
+    margin-right: 0rem;
+  }
+
+  & > a > p {
     color: #000000c3;
     font-size: 1.5rem;
     font-weight: 900;
   }
-`
 
-const StyleMypageSmallCards = styled.div`
-  width: 20vw;
-  height: 22vh;
-  background-color: #f2f2f2;
-  margin-right: 2rem;
-  margin-bottom: 1rem;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  p {
-    color: #000000c3;
-    font-size: 1.2rem;
-    font-weight: 900;
-  }
 `
 
 const StyleMypageCardImg = styled.div`
@@ -119,103 +114,101 @@ const StyleMypageCardImg = styled.div`
 
 const MyPage = () => {
   const ObjString:any = localStorage.getItem("login-token");
-  const Obj = JSON.parse(ObjString);
-  let userid = Obj.userId;
-  const [userType, seUserType] = useState<string | number>("0");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const Token = Obj ? Obj.value : null;
+
+  const [userType, setUserType] = useState<string | number>("0");
   const [isUser, setIsUser] = useState<boolean>(true);
 
   useEffect(() => {
-    seUserType(parseInt(Obj.accountType))
+    setUserType(parseInt(Obj.accountType))
     if (userType === 0) {
       setIsUser(true)
     } else {
       setIsUser(false)
     }
-  }, [setIsUser, seUserType, userType, Obj.accountType])
+  }, [setIsUser, setUserType, userType, Obj.accountType])
 
   return (
     <div>
       <Nav2 />
-      <StyleLoginSignUpDiv>
+      <StyleMyPageContainer>
         <StyleMyPageDiv>
-          <Link to={`/${userid}/mypage/mycarinfo`} >
-            <StyleMypageCards>
+          <StyleMypageCards>
+            <Link to={`/user/mypage/mycarinfo`} >
               <StyleMypageCardImg>
                 <img src={MyCar} alt='MyCarInfo' />
               </StyleMypageCardImg>
               <p>내 차 정보</p>
-            </StyleMypageCards>
-          </Link>
-          <Link to={`/${userid}/mypage/repair`} >
-            <StyleMypageCards>
+            </Link>
+          </StyleMypageCards>
+          <StyleMypageCards>
+            <Link to={`/user/mypage/repair`} >
               <StyleMypageCardImg>
                 <img src={Repair} alt='RepairInspector'/>
               </StyleMypageCardImg>
               <p>정비 내역</p>
-            </StyleMypageCards>
-          </Link>
-          <Link to={`/${userid}/mypage/inspector`} >
-            <StyleMypageCards>
+            </Link>
+          </StyleMypageCards>
+          <StyleMypageCards>
+            <Link to={`/user/mypage/inspector`} >
               <StyleMypageCardImg>
                 <img src={inspector} alt='inspector'/>
               </StyleMypageCardImg>
               <p>검수 내역</p>
-            </StyleMypageCards>
-          </Link>
-          <Link to={`/${userid}/mypage/community`} >
-            <StyleMypageCards>
+            </Link>
+          </StyleMypageCards>
+          <StyleMypageCards>
+            <Link to={`/user/mypage/community`} >
               <StyleMypageCardImg>
                 <img src={Community} alt='Community'/>
               </StyleMypageCardImg>
               <p>내가 쓴 글</p>
-            </StyleMypageCards>
-          </Link>
-          <Link to={`/${userid}/mypage/buycontent`} >
-            <StyleMypageCards>
+            </Link>
+          </StyleMypageCards>
+          <StyleMypageCards>
+            <Link to={`/user/mypage/buycontent`} >
               <StyleMypageCardImg>
                 <img src={Buy} alt='Buy'/>
               </StyleMypageCardImg>
               <p>구매 목록</p>
-            </StyleMypageCards>
-          </Link>
-          <Link to={`/${userid}/mypage/sellcontent`} >
-            <StyleMypageCards>
+            </Link>
+          </StyleMypageCards>
+          <StyleMypageCards>
+            <Link to={`/user/mypage/sellcontent`} >
               <StyleMypageCardImg>
                 <img src={Sell} alt='Sell' />
               </StyleMypageCardImg>
               <p>판매 목록</p>
-            </StyleMypageCards>
-          </Link>
-          <Link to={`/${userid}/mypage/insurance`} >
-            <StyleMypageCards>
+            </Link>
+          </StyleMypageCards>
+          <StyleMypageCards>
+            <Link to={`/user/mypage/insurance`} >
               <StyleMypageCardImg>
                 <img src={Insurance} alt='Damage' />
               </StyleMypageCardImg>
               <p>손상 내역</p>
-            </StyleMypageCards>
-          </Link>
-          {isUser ? <Link to={`/${userid}/mypage/userinfodelete`} >
-            <StyleMypageSmallCards>
-              <p>{`회원 탈퇴(유저)`}</p>
-            </StyleMypageSmallCards>
-          </Link> :
-          <Link to={`/${userid}/mypage/companyinfodelete`} >
-            <StyleMypageSmallCards>
-              <p>{`회원 탈퇴(기업)`}</p>
-            </StyleMypageSmallCards>
-          </Link>}
-          {isUser ? <Link to={`/${userid}/mypage/userpasswordmodify`} >
-            <StyleMypageSmallCards>
+            </Link>
+          </StyleMypageCards>
+            {isUser ?  
+          <StyleMypageCards>
+            <Link to={`/user/mypage/userpasswordmodify`} >
+              <StyleMypageCardImg>
+                <img src={Insurance} alt='Damage' />
+              </StyleMypageCardImg>
               <p>{`비밀번호 변경(유저)`}</p>
-            </StyleMypageSmallCards>
-          </Link> : 
-          <Link to={`/${userid}/mypage/companypasswordmodify`} >
-            <StyleMypageSmallCards>
+            </Link> 
+          </StyleMypageCards> : 
+          <StyleMypageCards>
+            <Link to={`/user/mypage/companypasswordmodify`} >
+              <StyleMypageCardImg>
+                <img src={Insurance} alt='Damage' />
+              </StyleMypageCardImg>
               <p>{`비밀번호 변경(기업)`}</p>
-            </StyleMypageSmallCards>
-          </Link>}
+            </Link>
+          </StyleMypageCards>}
         </StyleMyPageDiv>
-      </StyleLoginSignUpDiv>
+      </StyleMyPageContainer>
     </div>
   )
 }

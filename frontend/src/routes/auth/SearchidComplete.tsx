@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Link, useLocation } from "react-router-dom";
 import carbornLogo from "../../assets/carbornLogo.png";
-import Nav from "../../components/Nav";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SearchIDVerifyReset } from "../../modules/searchidModule";

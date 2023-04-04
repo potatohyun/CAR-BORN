@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import PasswordResetVerify from "../../components/auth/passwordreset/PasswordResetVerify";
 import PasswordResetID from "../../components/auth/passwordreset/PasswordResetID";
 import { passwordResetCheck } from "../../modules/PasswordCheckModule";
-import Nav from "./../../components/Nav";
 import { StyleHeightDiv, StyleSearchIdDiv } from "./SearchID";
 import Nav2 from "../../components/Nav2";
 
@@ -51,12 +50,12 @@ export const StyleLoginAnotherLink = styled.div`
 `;
 
 export const StylePasswordResetCheckBtn = styled.button`
-  width: 88%;
+  width: 90%;
   height: 75%;
   margin-top: 1rem;
   margin-bottom: 2rem;
   text-align: center;
-  margin-right: 0.2rem;
+  margin-right: -0.5rem;
   background-color: #d23131;
   color: white;
   border: 5px solid transparent;

@@ -1,9 +1,9 @@
 // 취소 관련 모달
-import styled from '@emotion/styled';
-import axios from 'axios';
-import { useState } from 'react';
-import { CARBORN_SITE } from '../../../lib/api';
-import CustomAlert from '../../auth/signup/modal/CustomAlert';
+import styled from "@emotion/styled";
+import axios from "axios";
+import { CARBORN_SITE } from "../../../lib/api";
+import { useState } from "react";
+import CustomAlert from "../../auth/signup/modal/CustomAlert";
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -16,6 +16,13 @@ const StyledModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 9999;
+
+  transform: translateY(100%);
+  transition: all 1s ease-in-out;
+
+  &.open {
+    transform: translateY(0%);
+  }
 `;
 
 const StyledModalContent = styled.div`
@@ -51,12 +58,18 @@ export type BuyDeleteWarningModalType = {
   message: string;
   onClose: any;
   bookid: string | number;
+  isOpen: boolean;
 };
 
-export const BuyDeleteWarningModal = ({ message, onClose, bookid }: BuyDeleteWarningModalType) => {
+export const BuyDeleteWarningModal = ({
+  message,
+  onClose,
+  bookid,
+  isOpen,
+}: BuyDeleteWarningModalType) => {
   // 메세지
   const [isAlert, setIsAlert] = useState<boolean>(false);
-  
+
   const DeleteBook = async (bookid: string | number) => {
     try {
       const ObjString: string | null = localStorage.getItem("login-token");
@@ -72,13 +85,14 @@ export const BuyDeleteWarningModal = ({ message, onClose, bookid }: BuyDeleteWar
       setTimeout(() => {
         setIsAlert(false);
       }, 2000);
+      onClose();
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <StyledModalContainer>
+    <StyledModalContainer className={isOpen ? "open" : ""}>
       <StyledModalContent>
         <p>{message}</p>
         <button onClick={() => DeleteBook(bookid)}>예</button>
@@ -86,7 +100,7 @@ export const BuyDeleteWarningModal = ({ message, onClose, bookid }: BuyDeleteWar
       </StyledModalContent>
       {isAlert ? (
         <div>
-          <CustomAlert message={message} />
+          <CustomAlert message={"구매예약 취소가 완료 되었습니다."} />
         </div>
       ) : null}
     </StyledModalContainer>

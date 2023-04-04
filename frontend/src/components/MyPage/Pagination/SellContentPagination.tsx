@@ -1,60 +1,205 @@
+//MUI 컴포넌트
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+
 import axios from "axios";
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { BuySellContentPaginationProps } from "./BuyContentPagination";
+import { useState, useEffect } from "react";
 import { CARBORN_SITE } from "./../../../lib/api";
-import { useEffect } from "react";
+
+// 판매예약취소 모달
 import { SellDeleteWarningModal } from "../ModalComponent/SellDeleteWarningModal";
 
-import { Pagination, Table, TableCell, TableRow } from "@mui/material";
-import {
-  StyledTableContainer,
-  StyledTableHead,
-  StyleMainTableHead,
-} from "../DetailComponent/MyCarInfoDetail";
-import { StyledButton, StyledPagination } from "./MyCarInfoPagination";
+export interface SellContentPaginationProps {
+  itemsPerPage: number;
+}
 
 export interface SellContentType {
   id: number;
-  carModelNm: string;
   carMaker: string;
-  carRegNm: string;
+  carModelNm: string;
   carModelYear: string;
+  carRegNm: string;
   carMileage: number;
   price: number;
-  regDt: null | string;
-  completedDate: null | string;
   saleStatus: number;
+  regDt: null | string;
   modifiedBookStatusNum?: number;
-  // buyer: string;
 }
+
+export const StyledTableSellContentContainer = styled.div`
+  width: 70vw;
+`;
 
 const StyleSellContentPaginationDiv = styled.div`
   width: 100vw;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .MuiPagination-root {
+    position: absolute;
+    top: 114vh;
+  }
+
+  .MuiButtonBase-root {
+    background-color: #fffffff6;
+  }
+
+  .Mui-selected {
+    background-color: #d23131 !important;
+    color: white;
+  }
+`;
+
+export const StyleTableHeadSellContentPagination = styled.div`
+  & .MuiTableCell-head {
+    font-weight: bold;
+    text-align: center;
+  }
+
+  display: flex;
+  flex-wrap: wrap;
+
+  & > div {
+    margin-top: 1.2rem;
+
+    &:nth-of-type(odd) {
+      margin-right: 2%;
+    }
+
+    &:nth-of-type(even) {
+      margin-right: 0;
+    }
+  }
+`;
+
+export const StyleTableCellDivSellContentPagination = styled.div`
+  &:hover {
+    transition: all 1s;
+    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5), 0px 0px 0px 5px #fff;
+    background-color: #000000;
+    color: #fff;
+
+    .detail {
+      transition: all 1s;
+      color: white;
+    }
+  }
+
+  box-sizing: border-box;
+  width: 49%;
+  height: 20vh;
+  border: 1px solid #00000050;
+  border-radius: 5px;
+  background-color: white;
+
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr;
+
+  .basic {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px dashed #00000050;
+    h1,
+    h2,
+    h4 {
+      margin: 0;
+    }
+  }
+
+  .content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h4,
+    h3 {
+      margin: 0;
+    }
+
+    div {
+      width: 100%;
+      height: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    div:nth-of-type(1) {
+      border-bottom: 1px dashed #00000050;
+    }
+  }
+
+  .detail {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .booking {
+    background-color: #00810950;
+    color: #00000050;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #00bc0d;
+      color: #ffffff;
+      transition: all 0.5s;
+    }
+  }
+
+  .complete {
+    background-color: #d2313190;
+    color: #00000050;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #d23131;
+      color: #ffffff;
+      transition: all 0.5s;
+    }
+  }
+
+  .cancel {
+    background-color: #a9a9a990;
+    color: #00000050;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #a9a9a9;
+      color: #ffffff;
+      transition: all 0.5s;
+    }
+  }
 `;
 
 const SellContentPagination = ({
   itemsPerPage,
-}: BuySellContentPaginationProps) => {
+}: SellContentPaginationProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sellData, setSellData] = useState<SellContentType[]>([]);
   const [totalPageCnt, setTotalPageCnt] = useState(0);
-  
+
   const [isDeleteSellModal, setIsDeleteSellModal] = useState(false);
   const [isDeleteSellId, setIsDeleteSellId] = useState(0);
-  
+
   const handleRequestSellData = async (page: number, count: number) => {
     try {
       const response = await axios.get(
         `${CARBORN_SITE}/api/user/car/sell/list/${page}/${count}`
       );
-
-      console.log(response)
       setTotalPageCnt(response.data.message.totalPages);
 
       const modifiedContent = response.data.message.content.map(
@@ -98,8 +243,6 @@ const SellContentPagination = ({
   const ObjString: string | null = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const totalPages = totalPageCnt;
-  
-  console.log(sellData);
 
   useEffect(() => {
     handleRequestSellData(currentPage, itemsPerPage);
@@ -109,6 +252,7 @@ const SellContentPagination = ({
     return <div>No data Found!</div>;
   }
 
+  // 모달 열 때
   const handleSellData = (id: number) => {
     setIsDeleteSellModal(true);
     setIsDeleteSellId(id);
@@ -119,65 +263,61 @@ const SellContentPagination = ({
     setIsDeleteSellModal(false);
   };
 
-
   return (
     <StyleSellContentPaginationDiv>
-      <StyledTableContainer>
-        <Table>
-          <StyledTableHead>
-            <TableRow>
-              <TableCell>차량모델</TableCell>
-              <TableCell>제조사</TableCell>
-              <TableCell>차량번호</TableCell>
-              <TableCell>{`연식(년)`}</TableCell>
-              <TableCell>{`주행거리(km)`}</TableCell>
-              <TableCell>{`구매가(만원)`}</TableCell>
-              <TableCell>판매 등록일</TableCell>
-              <TableCell>판매상태</TableCell>
-              <TableCell>예약상태</TableCell>
-            </TableRow>
-          </StyledTableHead>
-          <StyleMainTableHead>
-            {sellData.map((sell: SellContentType, index: number) => (
-              <TableRow key={index}>
-                <TableCell>{sell.carModelNm}</TableCell>
-                <TableCell>{sell.carMaker}</TableCell>
-                <TableCell>{sell.carRegNm}</TableCell>
-                <TableCell>{sell.carModelYear}</TableCell>
-                <TableCell>{sell.carMileage}</TableCell>
-                <TableCell>{sell.price.toLocaleString()}</TableCell>
-                <TableCell>{sell.regDt?.slice(0,10)}</TableCell>
-                <TableCell>{sell.saleStatus}</TableCell>
-                <TableCell>
-                  <StyledButton onClick={() => handleSellData(sell.id)}>
-                    취소하기
-                  </StyledButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </StyleMainTableHead>
-        </Table>
-      </StyledTableContainer>
-      <br />
-      <StyledPagination>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={(event, value) =>
-            handleRequestSellData(value, itemsPerPage)
-          }
-          color="primary"
-          size="large"
-          disabled={totalPages === 0}
-        />
-      </StyledPagination>
-      {isDeleteSellModal && (
-        <SellDeleteWarningModal
-          message="판매예약을 취소하시겠습니까?"
-          onClose={handleCloseModal}
-          bookid={isDeleteSellId}
-        />
-      )}
+      <StyledTableSellContentContainer>
+        <StyleTableHeadSellContentPagination>
+          {sellData.map((sell: SellContentType, index: number) => (
+            <StyleTableCellDivSellContentPagination key={index}>
+              <div className="basic">
+                <div>
+                  <h2>{sell.carMaker}</h2>
+                  <h1>{sell.carModelNm}</h1>
+                </div>
+                <h4>{sell.carRegNm}</h4>
+              </div>
+              <div className="content">
+                <div>
+                  <h4>{`연식(년)`}</h4>
+                  <h4>{sell.carModelYear}</h4>
+                </div>
+                <div>
+                  <h4>{"구매가(원)"}</h4>
+                  <h4>{sell.price.toLocaleString()}</h4>
+                </div>
+              </div>
+              {sell.modifiedBookStatusNum === 0 ? (
+                <div
+                  className="detail booking"
+                  onClick={() => handleSellData(sell.id)}
+                >
+                  {sell.saleStatus}
+                </div>
+              ) : null}
+              {sell.modifiedBookStatusNum === 1 ? (
+                <div className="detail complete">{sell.saleStatus}</div>
+              ) : null}
+              {sell.modifiedBookStatusNum === 2 ? (
+                <div className="detail cancel">{sell.saleStatus}</div>
+              ) : null}
+            </StyleTableCellDivSellContentPagination>
+          ))}
+        </StyleTableHeadSellContentPagination>
+      </StyledTableSellContentContainer>
+      <Pagination
+        count={totalPages}
+        page={currentPage}
+        onChange={(event, value) => handleRequestSellData(value, itemsPerPage)}
+        color="primary"
+        size="large"
+        disabled={totalPages === 0}
+      />
+      <SellDeleteWarningModal
+        message="구매예약을 취소하시겠습니까?"
+        onClose={handleCloseModal}
+        bookid={isDeleteSellId}
+        isOpen={isDeleteSellModal}
+      />
     </StyleSellContentPaginationDiv>
   );
 };

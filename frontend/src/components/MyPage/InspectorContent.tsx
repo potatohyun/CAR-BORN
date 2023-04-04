@@ -4,45 +4,39 @@ import Nav2 from './../Nav2';
 
 const StyleInspectorContent = styled.div`
   width: 100vw;
-  margin-bottom: 20vh;
+  background: linear-gradient(
+    to bottom,
+    #000000,
+    #1e0000e8
+  );
+  background-size: 100% 200%;
+  animation: gradient 10s ease infinite;
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
 `;
 
 const StyleInspectorContentContainer = styled.div`
-  width: 100vw;
-  height: 80vh;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
-`;
-
-const StyleInspectorContentTitleDiv = styled.div`
-  width: 70%;
-  height: 20%;
-
-  display: flex;
   justify-content: center;
   align-items: center;
-
-  p {
-    font-size: 2.5rem;
-    font-weight: 900;
-  }
-
-  border-bottom: 2px solid red;
-  margin-top: 3rem;
 `;
-
 
 const InspectorContent = () => {
   return (
     <StyleInspectorContent>
       <Nav2 />
       <StyleInspectorContentContainer>
-        <StyleInspectorContentTitleDiv>
-          <p>검수 내역</p>
-        </StyleInspectorContentTitleDiv>
-        <br/>
         <MyInspectorContentComponent />
       </StyleInspectorContentContainer>
     </StyleInspectorContent>

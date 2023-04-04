@@ -84,7 +84,7 @@ export const StyleTermsOfUseEleDiv = styled.div`
   }
 
   .checkbox-label::before {
-    content: "\2713";
+    content: "▼";
     font-size: 1rem;
     color: white;
   }
@@ -131,8 +131,7 @@ export const StyleTermExplainDiv = styled.div`
   span {
     font-weight: 900;
     color: #959595 !important;
-  }import Nav2 from './../../components/Nav2';
-
+  }
 `
 
 // CSS 타입

@@ -18,13 +18,14 @@ export const StyleHeight2Div = styled.div`
 `;
 
 export const StyleSearchIdDiv = styled.div`
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 export const StyleLoginSignUpBoxDiv = styled.div`
-  width: 35%;
+  width: 35vw;
   padding: 0rem, 0.5rem;
   display: flex;
   flex-direction: column;
@@ -42,9 +43,9 @@ export const StyleLoginSignUpTitle = styled.div`
 `;
 
 export const StyleLoginSignUpBtn = styled.button`
-  width: 63%;
+  width: 60%;
   height: 75%;
-  margin-right: 1%;
+  margin-left: 0.5%;
   margin-top: 1rem;
   margin-bottom: 2rem;
   text-align: center;

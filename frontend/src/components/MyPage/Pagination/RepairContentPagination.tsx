@@ -1,20 +1,12 @@
-import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { CARBORN_SITE } from "./../../../lib/api";
-
 //MUI 컴포넌트
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
-import { Table, TableCell, TableRow } from "@mui/material";
-import {
-  StyledTableContainer,
-  StyledTableHead,
-  StyleMainTableHead,
-} from "../DetailComponent/MyCarInfoDetail";
-import { StyledButton } from "./MyCarInfoPagination";
+import axios from "axios";
+import { CARBORN_SITE } from "./../../../lib/api";
+import { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 export interface RepairContentPaginationProps {
   itemsPerPage: number;
@@ -35,7 +27,11 @@ export interface RepairType {
   modifiedBookStatusNum: number;
 }
 
-const StyleRepairPaginationDiv = styled.div`
+export const StyledTableRepairContentContainer = styled.div`
+  width: 70vw;
+`;
+
+export const StyleRepairPaginationDiv = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -44,16 +40,148 @@ const StyleRepairPaginationDiv = styled.div`
 
   .MuiStack-root {
     position: absolute;
-    top: 135vh
+    top: 181vh;
   }
 
   .MuiButtonBase-root {
-    background-color: white;
+    background-color: #fffffff6;
   }
 
   .Mui-selected {
     background-color: #d23131 !important;
     color: white;
+  }
+`;
+
+export const StyleTableHeadRepairPagination = styled.div`
+  & .MuiTableCell-head {
+    font-weight: bold;
+    text-align: center;
+  }
+
+  display: flex;
+  flex-wrap: wrap;
+
+  & > div {
+    margin-top: 1.2rem;
+
+    &:nth-of-type(odd) {
+      margin-right: 2%;
+    }
+
+    &:nth-of-type(even) {
+      margin-right: 0;
+    }
+  }
+`;
+
+export const StyleTableCellDivRepairPagination = styled.div`
+  &:hover {
+    transition: all 1s;
+    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5), 0px 0px 0px 5px #fff;
+    background-color: #000000;
+    color: #fff;
+
+    .detail {
+      transition: all 1s;
+      color: white;
+    }
+  }
+
+  box-sizing: border-box;
+  width: 49%;
+  height: 20vh;
+  border: 1px solid #00000050;
+  border-radius: 5px;
+  background-color: white;
+
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr;
+
+  .basic {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px dashed #00000050;
+    h1,
+    h2,
+    h4 {
+      margin: 0;
+    }
+  }
+
+  .content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h4,
+    h3 {
+      margin: 0;
+    }
+
+    div {
+      width: 100%;
+      height: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    div:nth-of-type(1) {
+      border-bottom: 1px dashed #00000050;
+    }
+  }
+
+  .detail {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .booking {
+    background-color: #00810950;
+    color: #00000050;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #00bc0d;
+      color: #ffffff;
+      transition: all 0.5s;
+    }
+  }
+
+  .complete {
+    background-color: #d2313190;
+    color: #00000050;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #d23131;
+      color: #ffffff;
+      transition: all 0.5s;
+    }
+  }
+
+  .cancel {
+    background-color: #a9a9a990;
+    color: #00000050;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #a9a9a9;
+      color: #ffffff;
+      transition: all 0.5s;
+    }
   }
 `;
 
@@ -70,6 +198,8 @@ const RepairContentPagination = ({
       const response = await axios.get(
         `${CARBORN_SITE}/api/user/repair/book/list/${page}/${count}`
       );
+
+      console.log(response.data.message.content);
       setTotalPageCnt(response.data.message.totalPages);
 
       const modifiedContent = response.data.message.content.map(
@@ -124,71 +254,70 @@ const RepairContentPagination = ({
 
   const getRepairBookDetail = (bookId: number) => {
     if (Obj.userId) {
-      navigate(`/${Obj.userId}/mypage/repair/${bookId}/bookdetail`);
+      localStorage.setItem("bookId", String(bookId));
+      const index = repairData.findIndex((item) => item.id === bookId);
+      navigate(`/user/mypage/repair/${bookId}/bookdetail`, {
+        state: repairData[index],
+      });
     }
   };
 
   const getRepairDetail = (resultId: number) => {
     if (Obj.userId) {
-      navigate(`/${Obj.userId}/mypage/repair/${resultId}/completedetail`, {
-        state: repairData[resultId % 5],
+      localStorage.setItem("resultId", String(resultId));
+      const index = repairData.findIndex((item) => item.id === resultId);
+      navigate(`/user/mypage/repair/${resultId}/completedetail`, {
+        state: repairData[index],
       });
     }
   };
 
   return (
     <StyleRepairPaginationDiv>
-      <StyledTableContainer>
-        <Table>
-          <StyledTableHead>
-            <TableRow>
-              <TableCell>차량모델</TableCell>
-              <TableCell>제조사</TableCell>
-              <TableCell>{`주행거리(km)`}</TableCell>
-              <TableCell>차량번호</TableCell>
-              <TableCell>{`연식(년)`}</TableCell>
-              <TableCell>정비예약신청일</TableCell>
-              <TableCell>정비상태</TableCell>
-              <TableCell>정비업체</TableCell>
-              <TableCell>예약상세조회</TableCell>
-              <TableCell>완료상세조회</TableCell>
-            </TableRow>
-          </StyledTableHead>
-          <StyleMainTableHead>
-            {repairData.map((car: RepairType, index: number) => (
-              <TableRow key={index}>
-                <TableCell>{car.carModelNm}</TableCell>
-                <TableCell>{car.carMaker}</TableCell>
-                <TableCell>{car.carMileage}</TableCell>
-                <TableCell>{car.carRegNm}</TableCell>
-                <TableCell>{car.carModelYear}</TableCell>
-                <TableCell>{car.bookDt === null ? "-" : car.bookDt}</TableCell>
-                {/* <TableCell>
-                  {car.lastMaintenanceDate === null
-                    ? "-"
-                    : car.lastMaintenanceDate}
-                </TableCell> */}
-                <TableCell>{car.bookStatus}</TableCell>
-                <TableCell>{car.repairShopAccountName}</TableCell>
-                {/* <TableCell>
-                  {car.maintenanceCompany === null ? "-" : car.maintenanceCompany}
-                </TableCell> */}
-                <TableCell>
-                  {car.modifiedBookStatusNum === 0 ? <StyledButton onClick={() => getRepairBookDetail(car.id)}>
-                    조회
-                  </StyledButton> : null}
-                </TableCell>
-                <TableCell>
-                  {car.modifiedBookStatusNum === 1 ? <StyledButton onClick={() => getRepairDetail(car.id)}>
-                    조회
-                  </StyledButton> : null}
-                </TableCell>
-              </TableRow>
-            ))}
-          </StyleMainTableHead>
-        </Table>
-      </StyledTableContainer>
-      <br/>
+      <StyledTableRepairContentContainer>
+        <StyleTableHeadRepairPagination>
+          {repairData.map((car: RepairType, index: number) => (
+            <StyleTableCellDivRepairPagination key={index}>
+              <div className="basic">
+                <div>
+                  <h2>{car.carMaker}</h2>
+                  <h1>{car.carModelNm}</h1>
+                </div>
+                <h4>{car.carRegNm}</h4>
+              </div>
+              <div className="content">
+                <div>
+                  <h4>정비업체</h4>
+                  <h4>{car.repairShopAccountName}</h4>
+                </div>
+                <div>
+                  <h4>정비예약일</h4>
+                  <h4>{car.bookDt}</h4>
+                </div>
+              </div>
+              {car.modifiedBookStatusNum === 0 ? (
+                <div
+                  className="detail booking"
+                  onClick={() => getRepairBookDetail(car.id)}
+                >
+                  {car.bookStatus}
+                </div>
+              ) : null}
+              {car.modifiedBookStatusNum === 1 ? (
+                <div
+                  className="detail complete"
+                  onClick={() => getRepairDetail(car.id)}
+                >
+                  {car.bookStatus}
+                </div>
+              ) : null}
+              {car.modifiedBookStatusNum === 2 ? (
+                <div className="detail cancel">{car.bookStatus}</div>
+              ) : null}
+            </StyleTableCellDivRepairPagination>
+          ))}
+        </StyleTableHeadRepairPagination>
+      </StyledTableRepairContentContainer>
       <Stack spacing={2}>
         <Pagination
           count={totalPages}
@@ -196,7 +325,7 @@ const RepairContentPagination = ({
           onChange={(event, value) =>
             handleRequestRepairData(value, itemsPerPage)
           }
-          sx={{ backgroundColor: "white" }}
+          sx={{ backgroundColor: "transparent" }}
           size="large"
           disabled={totalPages === 0}
         />

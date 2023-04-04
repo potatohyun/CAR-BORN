@@ -45,7 +45,7 @@ public class SmsController {
         }
 
         String msg = smsService.makeSmsAuthMsg(receivePhone, authNm.toString());
-        //        smsService.smsAuthSend(smsAuth, msg);
+        smsService.smsAuthSend(smsAuth, msg);
 
         new Thread(new Runnable() {
             private String authNm;

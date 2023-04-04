@@ -12,6 +12,7 @@ import {
   CARBORN_SITE,
   ContentType,
 } from "./../../../../lib/api";
+import CustomAlert from './CustomAlert';
 
 const ModalWrapper = styled.div<ModalWrapperProps>`
   display: ${(props) => (props.open ? "flex" : "none")};
@@ -164,6 +165,11 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
   setIsValid,
   isValid,
 }) => {
+  // 토큰 넣기
+  const ObjString:any = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
+
   // 번호 전송 관련 불린
   const isSend = useSelector(
     (state: any) => state.verificationNumberReducer.isSend
@@ -171,15 +177,18 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
 
   // 인증되었는지 관련 불린
   // const isPass = useSelector((state:any) => state.verificationNumberReducer.isPass)
-
+  
   const [inputValue, setInputValue] = useState("");
   const [countdown, setCountdown] = useState(180);
   const [countdownInterval, setCountdownInterval] = useState<ReturnType<
-    typeof setTimeout
+  typeof setTimeout
   > | null>(null);
   const [isButtonValid, setIsButtonValid] = useState(false);
   const dispatch = useDispatch();
-
+  
+  // 메세지
+  const [isAlert, setIsAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<String>("");
   // 인증번호 발송버튼
   const handleSendVerifyRequest = (phoneNumber: string) => {
     dispatch(userverificationNumber(phoneNumber));
@@ -230,22 +239,31 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
           authNm: inputValue,
         },
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           [ContentType]: applicationjson,
         },
       });
-
       const isPass = response.data.message;
 
       if (isPass) {
-        alert("인증성공");
-        console.log("인증성공");
+        setIsAlert(true);
+
+        setTimeout(() => {
+          setIsAlert(false);
+        }, 2000);
+        setMessage("인증성공");
+        console.log(6)
         dispatch(IsCanSignUpAction());
         setIsValid(true);
         handleClose();
       } else {
         setIsValid(false);
-        alert("인증실패");
-        console.log("인증실패");
+
+        setIsAlert(true);
+        setTimeout(() => {
+          setIsAlert(false);
+        }, 2000);
+        setMessage("인증실패");
       }
     } catch (error) {
       console.log(error);
@@ -307,6 +325,11 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
           </button>
         </VerifyNumberButtonDiv>
       </ModalContent>
+      {isAlert ? (
+          <div>
+            <CustomAlert message={message} />
+          </div>
+        ) : null}
     </ModalWrapper>
   );
 };

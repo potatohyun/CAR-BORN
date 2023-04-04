@@ -13,9 +13,18 @@ export type SignUpUserPasswordCheckProps = {
   isPasswordValid: boolean;
 };
 
+export const StyleSpanImg = styled.span`
+  text-align: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #00ff7b;
+  color: white;
+`
+
 export const StylePasswordCheck = styled.span`
   display: inline-block;
-  width: 72%;
   text-align: right;
   color: #d23131;
   font-weight: 900;
@@ -72,16 +81,16 @@ const SignUpUserPasswordCheck = ({
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="userpasswordcheck">비밀번호 확인</StyleNameLabel>
-      {isPasswordValid ? (
-        <StylePasswordCheck>비밀번호가 일치합니다.</StylePasswordCheck>
-      ) : null}
+      {!isPasswordValid ? (
+        <StylePasswordCheck>비밀번호가 일치하지 않습니다.</StylePasswordCheck>
+      ) : <StyleSpanImg>V</StyleSpanImg>}
       <br />
       <StyledInput
         type="password"
         name="userpasswordcheck"
         id="userpasswordcheck"
         tabIndex={4}
-        placeholder="비밀번호를 입력해주세요(ex. ssafy123)"
+        placeholder="PasswordCheck"
         autoComplete="off"
         required
         value={secondPassword}

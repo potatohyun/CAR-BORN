@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/Logo.png";
 
 const container = css`
   width: 100%;
@@ -60,9 +61,18 @@ export default function NavGarage() {
         <div>로그아웃</div>
       </div>
       <div className="menu">
-        <div className="logo"></div>
-        <div className="logo2" onClick={handleClick}>
-          Car Bon
+        <div
+          className="logo2"
+          onClick={handleClick}
+          css={{ cursor: "pointer" }}
+        >
+          <img
+            src={logo}
+            alt="logo"
+            width="150px"
+            height="auto"
+            css={{ marginLeft: "50px" }}
+          />
         </div>
       </div>
     </div>

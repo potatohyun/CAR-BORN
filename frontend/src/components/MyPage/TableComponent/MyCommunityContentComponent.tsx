@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import MyCommunityContentPagination from "../Pagination/MyCommunityContentPagination";
 
-const ITEMS_PER_PAGES = 5;
+const ITEMS_PER_PAGES = 10;
 
 const StyleMyCommunityContentTableDiv = styled.div`
   width: 50%;

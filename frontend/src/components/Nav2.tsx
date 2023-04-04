@@ -5,9 +5,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../modules/takeLoginLogoutModule";
-import { StyleLinkText, StyleNavLi } from "./Nav";
 
 const container = css`
+  width: 100vw;
   height: 50vh;
   display: flex;
   flex-direction: column;
@@ -109,22 +109,75 @@ export default function Nav2({ setIsToken, isToken }: any) {
 
   // 제목 얘기하기
   useEffect(() => {
+    // 마이페이지 나의 차량정보 상세 페이지로 갈때,
+    const carId = localStorage.getItem("carId");
+    const resultId = localStorage.getItem("resultId");
+    const bookId = localStorage.getItem("bookId");
     if (location.pathname === "/") {
-      setTitle("Home");
+      setTitle("Car-Born Home");
     } else if (location.pathname === "/login") {
-      setTitle("User Login");
+      setTitle("Login");
     } else if (location.pathname === "/myvehicle/registration") {
-      setTitle("Car Regitration");
-    } else if (location.pathname === `/${userid}/mypage`) {
-      setTitle(`${userid}'s Page`);
-    } else if (location.pathname === `/${userid}/mypage/mycarinfo`) {
-      setTitle(`내 차량 정보`);
+      setTitle("Car Registration");
+    } else if (location.pathname === `/user/mypage`) {
+      setTitle(`MyPage`);
+    } else if (location.pathname === `/user/mypage/mycarinfo`) {
+      setTitle(`MyCarInfo`);
+    } else if (location.pathname === `/user/mypage/mycarinfo/${carId}/detail`) {
+      setTitle(`MyCarInfo`);
+    } else if (location.pathname === `/user/mypage/repair`) {
+      setTitle(`MyRepairHistory`);
+    } else if (
+      location.pathname === `/user/mypage/repair/${resultId}/completedetail`
+    ) {
+      setTitle(`MyRepairDetail`);
+    } else if (
+      location.pathname === `/user/mypage/repair/${bookId}/bookdetail`
+    ) {
+      setTitle(`MyRepairReserve`);
+    } else if (location.pathname === `/user/mypage/buycontent`) {
+      setTitle(`MyPurchaseHistory`);
+    } else if (location.pathname === `/user/mypage/sellcontent`) {
+      setTitle(`MySalesHistory`);
+    } else if (location.pathname === `/user/mypage/inspector`) {
+      setTitle(`MyInspectorHistory`);
+    } else if (
+      location.pathname === `/user/mypage/inspector/${resultId}/completedetail`
+    ) {
+      setTitle(`MyInspectorDetail`);
+    } else if (
+      location.pathname === `/user/mypage/inspector/${bookId}/bookdetail`
+    ) {
+      setTitle(`MyInspectorReserve`);
+    } else if (location.pathname === `/user/mypage/insurance`) {
+      setTitle(`MyInsuranceHistory`);
+    } else if (location.pathname === `/getagreement`) {
+      setTitle(`TermsofUse`);
+    } else if (location.pathname === `/signup`) {
+      setTitle(`SignUp`);
+    } else if (location.pathname === `/searchid`) {
+      setTitle(`SearchID`);
+    } else if (location.pathname === `/searchid/searchidcomplete`) {
+      setTitle(`SearchID Complete`);
+    } else if (location.pathname === `/passwordresetcheck`) {
+      setTitle(`Search Password`);
+    } else if (location.pathname === `/passwordresetcheck/passwordreset`) {
+      setTitle(`Reset Password`);
+    } else if (
+      location.pathname === `/passwordresetcheck/passwordreset/passwordcomplete`
+    ) {
+      setTitle(`Reset Complete`);
+    } else if (location.pathname === `/user/mypage/insurance/${resultId}/completedetail`) {
+      setTitle(`MyInsuranceDetail`);
+    } else if (location.pathname === `/user/mypage/community`) {
+      setTitle(`MyPostsHistory`)
     }
-  }, [location.pathname, setTitle, userid]);
+  }, [location.pathname, setTitle, userid, title]);
 
   // 로그아웃
   const handleLogout = () => {
     dispatch(logoutAction());
+    navigate('/')
   };
 
   let localToken = Obj?.value || "";
@@ -186,7 +239,7 @@ export default function Nav2({ setIsToken, isToken }: any) {
             {success || localToken ? (
               <div
                 className="item"
-                onClick={(): void => navigate(`/${userid}/mypage`)}
+                onClick={(): void => navigate(`/user/mypage`)}
               >
                 MY PAGE
               </div>

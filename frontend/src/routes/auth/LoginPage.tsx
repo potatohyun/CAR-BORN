@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import LoginID from "../../components/auth/login/LoginID";
 import LoginPassword from "../../components/auth/login/LoginPassword";
-import React, { useState, useEffect, ButtonHTMLAttributes } from "react";
+import React, { useState, useEffect, ButtonHTMLAttributes, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../modules/takeLoginLogoutModule";
 import { userInfoDeleteReset } from "../../modules/userInfoDeleteModule";
@@ -60,7 +60,7 @@ export const StyleLoginSignUpTitle = styled.div`
 `;
 
 export const StyleLoginSignUpBtn = styled.button<StyleLoginSignUpBtnProps>`
-  width: 50%;
+  width: 100%;
   height: 2.5rem;
   margin-left: 1%;
   margin-bottom: 1rem;
@@ -122,6 +122,7 @@ const LoginPages = () => {
   // 리듀서 가져오기
   const { accountType } = useSelector((state: any) => state.LoginOutReducer);
   const { success } = useSelector((state: any) => state.LoginOutReducer);
+
   // 메세지
   const [isAlert, setIsAlert] = useState<boolean>(false);
   const [message, setMessage] = useState<String>("");
@@ -135,11 +136,11 @@ const LoginPages = () => {
   // 로그인 인풋, 리캡챠 적용여부 useState
   const [loginInput, setLoginInput] = useState<loginInputType>(initialState);
   const [captchaValue, setCaptchaValue] = useState<boolean>(false);
-  const [isAccountType, setIsAccountType] = useState<number>(0);
   const [isToken, setIsToken] = useState<boolean>(false);
 
   // 로그인 하기(최종)
-  const handleLogin = () => {
+  const handleLogin = (e:React.SyntheticEvent) => {
+    e.preventDefault();
     try {
       dispatch(loginAction(loginInput));
     } catch (error: any) {
@@ -152,7 +153,6 @@ const LoginPages = () => {
   };
 
   useEffect(() => {
-    setIsAccountType(accountType);
     if (loginInput.loginid && loginInput.loginpassword) {
       setCaptchaValue(true);
     } else {
@@ -161,35 +161,31 @@ const LoginPages = () => {
   }, [accountType, loginInput.loginid, loginInput.loginpassword]);
 
   useEffect(() => {
+    // 실패하면 이거
     if (!success) {
       navigate("/login");
       return;
+    // 성공하면 이거
     } else {
-      setIsAlert(true);
-      setTimeout(() => {
-        setIsAlert(false);
-      }, 2000);
-      setMessage("아이디나 비밀번호가 맞지 않습니다.");
+      switch (accountType) {
+        case USER:
+          navigate("/");
+          break;
+        case REPAIR:
+          navigate("/garage");
+          break;
+        case INSPECTOR:
+          navigate("/inspector");
+          break;
+        case INSURANCE:
+          navigate("/insurance");
+          break;
+        default:
+          navigate("/login")
+          break;
+      }
     }
-
-    switch (isAccountType) {
-      case USER:
-        navigate("/");
-        break;
-      case REPAIR:
-        navigate("/garage");
-        break;
-      case INSPECTOR:
-        navigate("/inspector");
-        break;
-      case INSURANCE:
-        navigate("/insurance");
-        break;
-      default:
-        navigate("/login");
-        break;
-    }
-  }, [success, isAccountType, navigate]);
+  }, [success, accountType, navigate]);
 
   useEffect(() => {
     dispatch(userInfoDeleteReset());
@@ -207,7 +203,7 @@ const LoginPages = () => {
           <StyleLoginSignUpTitle>
             <h2>로그인</h2>
           </StyleLoginSignUpTitle>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={(e) => handleLogin(e)}>
             <LoginID setLoginInput={setLoginInput} loginInput={loginInput} />
             <LoginPassword
               setLoginInput={setLoginInput}

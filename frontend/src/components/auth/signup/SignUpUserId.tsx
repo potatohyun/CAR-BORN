@@ -81,7 +81,6 @@ const SignUpUserId = ({
 
   // const { useridcheck } = useSelector((state: any) => state.idcheck);
   const { useridcheck } = useSelector((state: any) => state.IdCheckReducer);
-  console.log(useridcheck);
 
   const dispatch = useDispatch();
 

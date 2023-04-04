@@ -1,16 +1,28 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useEffect, useRef, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { extend } from "@react-three/fiber";
 import * as THREE from "three";
-import { OrbitControls, PerspectiveCamera, useGLTF } from "@react-three/drei";
-// import { Model } from "../../assets/3dModel/lambo/Scene";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import ThreeFont from "../../assets/3dFont/Oswald_Bold.json";
+
+extend({ TextGeometry });
 
 function Model(props) {
+  const font = new FontLoader().parse(ThreeFont);
   const { nodes, materials } = useGLTF("/scene.gltf");
   return (
     <group {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
+      <group rotation={[-Math.PI / 2 - 0.01, 0, -Math.PI]}>
+        <mesh
+          rotation={[Math.PI / 2 + 0.01, Math.PI / 2 + 0.8, -0.01]}
+          position={[5.5, -1, -0.8]}
+        >
+          <textGeometry args={["CAR-BORN", { font, size: 1.1, height: 1 }]} />
+          <meshLambertMaterial attach="material" color={"red"} />
+        </mesh>
         <mesh
           geometry={nodes.Object_2.geometry}
           material={materials["Material.001"]}
@@ -176,13 +188,18 @@ useGLTF.preload("/scene.gltf");
 
 export default function ThreeModel() {
   const object3d = useRef(null);
-  // useFrame((state, delta) => (object3d.current.rotation.y += 0.005));
-  useEffect(() => {}, []);
 
   return (
     <>
       <object3D ref={object3d}>
-        <OrbitControls />
+        <OrbitControls
+          minAzimuthAngle={-Math.PI / 3}
+          maxAzimuthAngle={Math.PI / 5}
+          minPolarAngle={Math.PI / 3}
+          maxPolarAngle={Math.PI - Math.PI / 2}
+          maxZoom={1}
+          minZoo={1}
+        />
         <Suspense fallback={null}>
           <Model />
         </Suspense>

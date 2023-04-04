@@ -13,10 +13,11 @@ import {
 export const StylePhoneNumberVerifyContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 22vw;
+  width: 61%;
 `;
 
 export const StylePhoneNumberVerifyBox = styled.div`
+  margin-left: 2%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,7 +43,7 @@ export const StylePhoneNumberVerifyInput = styled.input`
   font-size: 1.2rem;
   border: 1px solid #d23131;
   border-radius: 5px;
-  width: 88%;
+  width: 100%;
   margin-right: 1%;
   color: #333;
 
@@ -55,7 +56,7 @@ export const StylePhoneNumberVerifyInput = styled.input`
 
 export const StylePhoneNumberVerifyLabel = styled.label`
   font-weight: 900;
-  margin-left: 0.5rem;
+  margin-left: 0.2rem;
 `;
 
 export const StylePhoneNumberVerify = styled.input`

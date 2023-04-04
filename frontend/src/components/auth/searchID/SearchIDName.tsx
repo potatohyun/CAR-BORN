@@ -7,7 +7,7 @@ import { StyledInput, StyleNameLabel } from "../signup/SignUpUserName";
 const StyleLoginInputDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 22vw;
+  width: 60%;
 `;
 
 type SearchIDNameProps = {

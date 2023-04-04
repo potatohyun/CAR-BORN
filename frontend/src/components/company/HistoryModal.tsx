@@ -81,6 +81,7 @@ export default function HistoryModal({ id }: Props) {
         sx={{ backgroundColor: "#d23131" }}
         onClick={handleClickOpen}
         size="small"
+        color="error"
       >
         보기
       </Button>
@@ -152,7 +153,7 @@ export default function HistoryModal({ id }: Props) {
           </table>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleClose}>
+          <Button variant="outlined" onClick={handleClose} color="error">
             닫기
           </Button>
         </DialogActions>

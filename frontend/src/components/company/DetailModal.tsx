@@ -145,10 +145,14 @@ export default function DetailModal({ id, status }: Props) {
         <DialogActions>
           {!status ? (
             <>
-              <Button variant="outlined" onClick={handleCancel}>
+              <Button variant="outlined" onClick={handleCancel} color="error">
                 취소
               </Button>
-              <Button variant="contained" onClick={handleRegister}>
+              <Button
+                variant="contained"
+                onClick={handleRegister}
+                color="error"
+              >
                 {isGarage ? "정비 내역 등록" : "검수 내역 등록"}
               </Button>
             </>

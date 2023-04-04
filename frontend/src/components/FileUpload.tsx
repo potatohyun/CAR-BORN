@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import { InputLabel } from "@mui/material";
 
 const container = css`
   display: flex;
@@ -75,12 +76,13 @@ export default function FileUpload({
         InputProps={{
           readOnly: true,
         }}
+        placeholder="사진을 선택해 주세요"
       />
       <IconButton
-        color="primary"
+        color="error"
         aria-label="upload picture"
         component="label"
-        sx={{ fontSize: size, border: "2px solid #0063cc", marginLeft: "10px" }}
+        sx={{ fontSize: size, border: "2px solid #d23131", marginLeft: "10px" }}
       >
         <input
           hidden

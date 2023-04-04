@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { gsap, ScrollTrigger } from "gsap/all";
+import { useEffect } from "react";
 
 const container = css`
   height: 13vh;
@@ -7,11 +9,13 @@ const container = css`
   display: flex;
   justify-content: center;
   background-color: #ececec;
+  overflow: hidden;
   .icons {
     justify-content: center;
     width: 70%;
     height: 100%;
     display: flex;
+    opacity: 1;
     .icon {
       margin: 0 30px 0 30px;
       flex: 1;
@@ -26,14 +30,44 @@ const container = css`
       background-color: red;
       svg {
         fill: white;
+        transition: all 0.2s;
       }
+      cursor: pointer;
+      transition: all 0.4s;
     }
   }
 `;
 
 export default function HomeIconMenu() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  useEffect(() => {
+    gsap.to(".icons", {
+      y: 100,
+      duration: 1,
+      opacity: 0,
+      scrollTrigger: {
+        trigger: ".icons",
+        scrub: 1,
+        start: "top 70%",
+        end: "top 60%",
+      },
+    });
+    gsap.to(".iconContainer", {
+      y: -100,
+      duration: 1,
+      opacity: 0,
+      Animation: "ease",
+      scrollTrigger: {
+        trigger: ".icons",
+        scrub: 1,
+        start: "top 40%",
+        end: "top 40%",
+      },
+    });
+  }, []);
   return (
-    <div css={container}>
+    <div css={container} className="iconContainer">
       <div className="icons">
         <div className="icon">
           <svg

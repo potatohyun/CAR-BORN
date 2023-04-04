@@ -105,7 +105,7 @@ export default function ReviewModal({ id }: Props) {
     <div>
       <Button
         variant="outlined"
-        color="inherit"
+        color="error"
         onClick={handleClickOpen}
         size="small"
       >
@@ -135,7 +135,7 @@ export default function ReviewModal({ id }: Props) {
           </table>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleCancel}>
+          <Button variant="outlined" onClick={handleCancel} color="error">
             닫기
           </Button>
         </DialogActions>

@@ -2,12 +2,16 @@ import axios from "axios";
 
 // export const API_URL = "https://carborn.site";
 export const CARBORN_SITE = "https://carborn.site";
-// export const CARBORN_SITE = "https://192.168.100.80";
+// export const CARBORN_SITE = "http://192.168.100.80";
 export const API_URL = "http://localhost:3001";
 export const ContentType = "Content-Type";
 export const applicationjson = "application/json";
 export const Authorization = "Authorization";
 export const multipart_formData = "multipart/form-data";
+
+const ObjString: string | null = localStorage.getItem("login-token");
+const Obj = ObjString ? JSON.parse(ObjString) : null;
+const accessToken = Obj ? Obj.value : null;
 
 // 로그인
 export const LoginApi = async (payload: any): Promise<any> => {
@@ -32,19 +36,15 @@ export const LoginApi = async (payload: any): Promise<any> => {
 
 // 로그아웃
 export const LogoutApi = async (): Promise<any> => {
-  const ObjString: string | null = localStorage.getItem("login-token");
-  const Obj = ObjString ? JSON.parse(ObjString) : null;
 
   try {
     const response = await axios({
       method: "GET",
       url: `${CARBORN_SITE}/api/logout`,
       headers: {
-        [Authorization]: `Bearer ${Obj.value}`,
+        [Authorization]: `Bearer ${accessToken}`,
       },
     });
-
-    console.log(response);
 
     return response.data;
   } catch (error) {
@@ -90,9 +90,6 @@ export const UserIdCheckApi = async (id: string): Promise<any> => {
       method: "GET",
       url: `${CARBORN_SITE}/api/check-id/${id}`,
     });
-
-    // true는 가입할수 있는 상태, false는 가입 못하는 상태
-    console.log(response.data.message);
 
     return response.data.message;
   } catch (error) {
@@ -196,7 +193,6 @@ export const PhoneNumberCheckApi = async (
     });
 
     // 인증되면 true, 아니면 false
-
     return response;
   } catch (error) {
     console.log(error);
@@ -282,6 +278,10 @@ export const createInspectorReviewApi = async (data: any): Promise<any> => {
       method: "POST",
       url: `${API_URL}/inspectorreviewwrite`,
       data: reviewObj,
+      headers: {
+        [ContentType]:applicationjson,
+        Authorization: `Bearer ${accessToken}`,
+      }
     });
 
     return response.data;
@@ -296,18 +296,21 @@ export const createRepairReviewApi = async (data: any): Promise<any> => {
   const Obj = JSON.parse(ObjString);
   let userid = Obj.userId;
 
-  let reviewObj = {
-    reviewInput: data.reviewInput,
-    userId: userid,
-    carId: parseInt(data.carId),
-    rating: data.rating,
-  };
-
   try {
     const response = await axios({
       method: "POST",
-      url: `${API_URL}/repairreviewwrite`,
-      data: reviewObj,
+      url: `${CARBORN_SITE}/api/user/repair/result/review/${data.detailId}`,
+      data: {
+        account : {
+          id : userid
+        },
+        content : data.reviewInput,
+        point: data.rating,
+      },
+      headers: {
+        [ContentType]:applicationjson,
+        Authorization: `Bearer ${accessToken}`,
+      }
     });
 
     return response.data;
@@ -323,6 +326,10 @@ export const userinfoDeleteApi = async (userId: string) => {
       method: "DELETE",
       // url: `${API_URL}/users/${userid}`,
       url: `${API_URL}/userdelete/${userId}`,
+      headers: {
+        [ContentType]:applicationjson,
+        Authorization: `Bearer ${accessToken}`,
+      }
     });
     return response.data;
   } catch (error) {
@@ -338,6 +345,10 @@ export const companyinfoDeleteApi = async (userId: string) => {
       method: "DELETE",
       // url: `${API_URL}/users/${userid}`,
       url: `${API_URL}/companydelete/${userId}`,
+      headers: {
+        [ContentType]:applicationjson,
+        Authorization: `Bearer ${accessToken}`,
+      }
     });
     return response.data;
   } catch (error) {
@@ -387,7 +398,7 @@ export const userModifyPasswordApi = async (payload: any) => {
       },
       headers: {
         [ContentType]: applicationjson,
-        [Authorization]: `Bearer ${Obj.value}`,
+        [Authorization]: `Bearer ${accessToken}`,
       },
     });
 
@@ -413,7 +424,7 @@ export const companyModifyPasswordApi = async (payload: any) => {
       },
       headers: {
         [ContentType]: applicationjson,
-        [Authorization]: `Bearer ${Obj.value}`,
+        [Authorization]: `Bearer ${accessToken}`,
       },
     });
 

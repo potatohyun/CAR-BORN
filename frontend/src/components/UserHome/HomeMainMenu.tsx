@@ -4,6 +4,9 @@ import car1 from "../../assets/car1.jpg";
 import squareCar0 from "../../assets/squareCar1.jpg";
 import squareCar1 from "../../assets/squareCar2.png";
 import squareCar2 from "../../assets/squareCar3.png";
+import { ScrollTrigger, gsap } from "gsap/all";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 const container = css`
   height: 110vh;
@@ -14,7 +17,6 @@ const container = css`
     display: flex;
     align-items: center;
     flex-direction: column;
-    /* margin-bottom: 10px; */
   }
 
   .menu > hr {
@@ -41,7 +43,7 @@ const buttons = css`
     padding: 0;
   }
 
-  .rectangleBtn {
+  .mainRectangleBtn {
     height: 50vh;
     width: 20vw;
     margin: 0 20px 0 20px;
@@ -105,6 +107,7 @@ const buttons = css`
       transition: all 0.3s;
     }
     &:hover {
+      cursor: pointer;
       transition: all 0.3s;
 
       .btnImg {
@@ -204,6 +207,7 @@ interface btns {
 type btnType = btns[];
 
 export default function HomeMainMenu() {
+  const containerRef = useRef(null);
   const icon1 = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -336,8 +340,26 @@ export default function HomeMainMenu() {
     },
   ];
 
+  useEffect(() => {
+    if (!containerRef) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const tl = gsap.timeline().from(".mainRectangleBtn", {
+      duration: 1,
+      opacity: 0,
+      y: -200,
+      ease: "ease",
+    });
+    ScrollTrigger.create({
+      target: ".mainRectangleBtn",
+      markers: true,
+      scrub: 2,
+      start: "bottom top",
+      end: "bottom 50%",
+      animation: tl,
+    });
+  }, []);
   return (
-    <div css={container}>
+    <div css={container} ref={containerRef}>
       <div className="menu">
         <p
           css={{
@@ -354,7 +376,10 @@ export default function HomeMainMenu() {
       <div css={buttons}>
         <div className="rectangleBtns">
           {rectangles.map((rect: btns, idx: number): any => (
-            <div className="rectangleBtn" key={idx}>
+            <div
+              className={`mainRectangleBtn mainRectangleBtn${idx}`}
+              key={idx}
+            >
               <div className="icon">{rect.icon}</div>
               <div className="name">{rect.name}</div>
               <div className="description">{rect.description}</div>

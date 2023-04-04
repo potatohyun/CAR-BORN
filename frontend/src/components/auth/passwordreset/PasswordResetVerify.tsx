@@ -16,7 +16,7 @@ type PasswordResetVerifyProps = {
 };
 
 const StylePasswordResetVerify = styled.input`
-  width: 32%;
+  width: 60%;
   height: 100%;
   text-align: center;
   background-color: #d23131;
@@ -92,7 +92,7 @@ const PasswordResetVerify = ({
             name="passwordResetPhonenumber"
             className="passwordResetPhonenumber"
             autoComplete="off"
-            placeholder="전화번호 11자리(10자리)를 입력해주세요."
+            placeholder="phoneNumber"
             value={inputObj.phonenumber}
             onChange={handleChange}
           />

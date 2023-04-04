@@ -4,33 +4,32 @@ import MyInsuranceContentComponent from './TableComponent/MyInsuranceContentComp
 
 const StyleInsuranceContent = styled.div`
   width: 100vw;
-  margin-bottom: 20vh;
+  background: linear-gradient(
+    to bottom,
+    #000000,
+    #1e0000e8
+  );
+  background-size: 100% 200%;
+  animation: gradient 10s ease infinite;
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
 `;
 
 const StyleInsuranceContentContainer = styled.div`
-  width: 100vw;
-  height: 80vh;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
-`;
-
-const StyleInsuranceContentTitleDiv = styled.div`
-  width: 70%;
-  height: 20%;
-
-  display: flex;
   justify-content: center;
   align-items: center;
-
-  p {
-    font-size: 2.5rem;
-    font-weight: 900;
-  }
-
-  border-bottom: 2px solid red;
-  margin-top: 3rem;
 `;
 
 const InsuranceContent = () => {
@@ -38,10 +37,6 @@ const InsuranceContent = () => {
     <StyleInsuranceContent>
       <Nav2 />
       <StyleInsuranceContentContainer>
-        <StyleInsuranceContentTitleDiv>
-          <p>손상 내역</p>
-        </StyleInsuranceContentTitleDiv>
-        <br/>
         <MyInsuranceContentComponent />
       </StyleInsuranceContentContainer>
     </StyleInsuranceContent>

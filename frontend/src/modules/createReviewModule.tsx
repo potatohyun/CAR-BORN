@@ -8,14 +8,14 @@ export const CREATE_REPAIR_REVIEW_REQUEST = "CREATE_REPAIR_REVIEW_REQUEST";
 export const CREATE_REPAIR_REVIEW_SUCCESS = "CREATE_REPAIR_REVIEW_SUCCESS";
 
 // 액션 생성 함수
-export const createInspectorReviewAction = ({reviewInput, rating, carId}: any) => ({
+export const createInspectorReviewAction = (payload: any) => ({
   type: CREATE_INSPECTOR_REVIEW_REQUEST,
-  payload: { reviewInput, rating, carId },
+  payload
 });
 
-export const createRepairReviewAction = ({reviewInput, rating, carId}: any) => ({
+export const createRepairReviewAction = (payload: any) => ({
   type: CREATE_REPAIR_REVIEW_REQUEST,
-  payload: { reviewInput, rating, carId },
+  payload,
 });
 
 // 검수 리뷰 보내기 사가

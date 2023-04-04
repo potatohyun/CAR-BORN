@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import { StyledInput, StyleNameLabel } from "./SignUpUserName";
-import { StylePasswordCheck } from "./SignUpUserPasswordCheck";
+import { StylePasswordCheck, StyleSpanImg } from "./SignUpUserPasswordCheck";
 
 export type SignUpCompanyPasswordCheckProps = {
   signupCompanyFormData: SignupFormData;
@@ -23,9 +23,6 @@ const SignUpCompanyPasswordCheck = ({
   isPasswordValid,
   setIsPasswordValid,
 }: SignUpCompanyPasswordCheckProps) => {
-  // 메세지
-  const [isAlert, setIsAlert] = useState<boolean>(false);
-  const [message, setMessage] = useState<String>("");
   
   // 비밀번호 중복 체크 로직
   const handleCompanyPasswordCheck = (
@@ -71,16 +68,16 @@ const SignUpCompanyPasswordCheck = ({
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="companypasswordcheck">비밀번호 확인</StyleNameLabel>
-      {isPasswordValid ? (
-        <StylePasswordCheck>비밀번호가 일치합니다.</StylePasswordCheck>
-      ) : null}
+      {!isPasswordValid ? (
+        <StylePasswordCheck>비밀번호가 일치하지 않습니다.</StylePasswordCheck>
+      ) : <StyleSpanImg>v</StyleSpanImg>}
       <br />
       <StyledInput
         tabIndex={5}
         type="password"
         name="companypasswordcheck"
         id="companypasswordcheck"
-        placeholder="비밀번호를 입력해주세요(ex. ssafy123)"
+        placeholder="PasswordCheck"
         autoComplete="off"
         required
         value={secondPassword}

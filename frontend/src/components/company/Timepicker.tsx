@@ -48,7 +48,7 @@ export default function Timepicker({
 
   return (
     <>
-      <Button variant="contained" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen} color="error">
         날짜 선택
       </Button>
       <Dialog
