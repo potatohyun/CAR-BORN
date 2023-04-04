@@ -53,6 +53,7 @@ public class BusinessRegistrationNumberVerificationService {
         header.append("Content-Type", HTTPUtils.CONTENT_TYPE_JSON);
         header.append("Accept", "application/json");
         header.append("Data-Type", "JSON");
+        header.append("Authorization", serviceKey);
 
         JSONObject requestBody = new JSONObject();
         JSONArray jsonArray = new JSONArray();

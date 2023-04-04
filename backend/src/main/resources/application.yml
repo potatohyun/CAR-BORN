@@ -87,9 +87,9 @@ naver:
     serviceId: ncp:sms:kr:257282460554:car-born
     senderPhone: 01085241881
 
-  #naver-cloud-ocr:
-  #  apiURL: https://5omzwputv7.apigw.ntruss.com/custom/v1/21212/9e015480e19104a91ee5d3cdfb7200731357cdaf00d3689246ffaacc81f8fd02/general
-  #  secretKey: TG5OdG5UTFpJZU9sVG1DR21NRlB2Qm1rTUdDdUJLRHc=
+  naver-cloud-ocr:
+    apiURL: https://5omzwputv7.apigw.ntruss.com/custom/v1/21212/9e015480e19104a91ee5d3cdfb7200731357cdaf00d3689246ffaacc81f8fd02/general
+    secretKey: TG5OdG5UTFpJZU9sVG1DR21NRlB2Qm1rTUdDdUJLRHc=
 
 business-registration-number-verification:
   serviceKey: 6gySi+blFPcHBT8gEPjE0eHTAuce2xs6nDw+IlZSQnYMq925qN9opkE4aDZRME3VB2gqZt/Khqg28B4nYC3juQ==

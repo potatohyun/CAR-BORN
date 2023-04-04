@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import site.carborn.dto.request.AccountRequestDTO;
 import site.carborn.entity.account.Account;
 import site.carborn.entity.account.Company;
@@ -25,6 +26,7 @@ import site.carborn.repository.company.RepairShopRepository;
 import site.carborn.util.board.BoardUtils;
 import site.carborn.util.common.AccountUtils;
 import site.carborn.util.common.AuthUtils;
+import site.carborn.util.common.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class JoinService {
     private final InsuranceCompanyRepository insuranceCompanyRepository;
     private final SmsAuthRepository smsAuthRepository;
     private final PasswordEncoder passwordEncoder;
+    private final OCRService ocrService;
 
     public void join(AccountRequestDTO dto, Map<String, Object> geo) {
         Account account = Account.copy(dto);
@@ -133,7 +136,19 @@ public class JoinService {
             throw new NullPointerException("사업자등록증 이미지를 첨부해주세요");
         }
 
-        String cbrImgNm = BoardUtils.singleFileSave(dto.getCbr());
+        MultipartFile cbrFile = dto.getCbr();
+
+        String ocrCbr = ocrService.ocr(cbrFile);
+
+        if (StringUtils.isNullOrEmpty(ocrCbr)) {
+            throw new NullPointerException("올바른 사업자 등록증이 아닙니다");
+        }
+
+        if (ocrCbr.equals(dto.getCbr()) == false) {
+            throw new RuntimeException("사업자 등록번호가 일치하지 않습니다");
+        }
+
+        String cbrImgNm = BoardUtils.singleFileSave(cbrFile);
 
         Cbr cbr = new Cbr();
         cbr.setCompany(company);
