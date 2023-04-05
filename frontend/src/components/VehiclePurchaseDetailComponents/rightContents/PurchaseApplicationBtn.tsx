@@ -154,6 +154,10 @@ function PurchaseApplicationBtn({
       return axios({
         method: "post",
         url: API,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
     },
     {
@@ -180,6 +184,10 @@ function PurchaseApplicationBtn({
     return axios({
       method: "put",
       url: SALER_DELETE_API,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
   });
   const salerDelete = () => {
@@ -198,7 +206,12 @@ function PurchaseApplicationBtn({
 
   // 구매 신청자 리스트 모달 오픈
   const USER_LIST_API = `https://carborn.site/api/user/car/sale/sell/${id}/${page}/${SIZE}`;
-  const getApplyUserList = useAPI("get", USER_LIST_API);
+  const getApplyUserList = useAPI("get", USER_LIST_API, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const { data, refetch } = useQuery<any, AxiosError>(
     "get-apply-user-list",
@@ -227,6 +240,10 @@ function PurchaseApplicationBtn({
     return axios({
       method: "put",
       url: `https://carborn.site/api/user/car/sale/sell/confirm/${id}/${userId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
   });
 
@@ -260,6 +277,10 @@ function PurchaseApplicationBtn({
     return axios({
       method: "put",
       url: USER_BUY_CONFIRM_API,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
   });
 
@@ -284,6 +305,10 @@ function PurchaseApplicationBtn({
     return axios({
       method: "put",
       url: USER_BUY_CENCEL_API,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
   });
 
@@ -302,7 +327,6 @@ function PurchaseApplicationBtn({
       }
     });
   };
-  console.log(DetailData?.bookStatus?.bookStatus);
 
   return (
     <div css={buttonStyle}>

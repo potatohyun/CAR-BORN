@@ -44,7 +44,15 @@ const DetailInfomationComponent = ({
   setImg: React.Dispatch<React.SetStateAction<any[]>>;
 }) => {
   const API = `https://carborn.site/api/user/car/sale/${id}/${page}/${SIZE}`;
-  const getCarDetail = useAPI("get", API);
+
+  const ObjString: any = localStorage.getItem("login-token");
+
+  const getCarDetail = useAPI("get", API, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  });
 
   const { data } = useQuery(["get-car-detail", page], () => getCarDetail, {
     staleTime: 0,
