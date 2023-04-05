@@ -58,7 +58,7 @@ const StyleUserCompanyBtn = styled.div`
     font-weight: 500;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #d2313170;
+    background-color: #6d1b1b;
     box-shadow: 4px 4px 2px rgba(181, 181, 181, 0.832);
     
     &:hover {

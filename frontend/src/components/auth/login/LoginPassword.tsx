@@ -26,7 +26,7 @@ const LoginPassword = ({ setLoginInput, loginInput }: LoginInputProps) => {
         id="loginpassword"
         name="loginpassword"
         autoComplete="off"
-        placeholder="비밀번호"
+        placeholder="Password"
         onChange={handleChange}
         value={loginInput.loginpassword}
       />

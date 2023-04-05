@@ -5,7 +5,6 @@ const container = css`
   font-weight: 900;
   font-size: 2rem;
   text-align: center;
-  margin-top: 50%;
 `;
 
 function NoCarList() {

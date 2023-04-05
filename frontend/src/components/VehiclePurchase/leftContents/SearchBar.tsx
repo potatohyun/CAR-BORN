@@ -47,6 +47,7 @@ function SearchBar() {
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+    console.log("서브밋");
     if (keywordType) {
       queryClient.fetchQuery("infinity-scroll");
     } else {
@@ -56,6 +57,12 @@ function SearchBar() {
         buttons: [false],
       });
     }
+  };
+
+  const onFocus = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    e.target.value = "";
   };
 
   return (
@@ -80,6 +87,7 @@ function SearchBar() {
           inputProps={{ "aria-label": "search google maps" }}
           onBlur={setKeywordValue}
           placeholder="Search for..."
+          onFocus={onFocus}
         />
         <IconButton
           onClick={getSearchData}

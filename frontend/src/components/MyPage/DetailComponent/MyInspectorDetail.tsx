@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { createInspectorReviewAction } from "./../../../modules/createReviewModule";
+import swal from "sweetalert";
 
 const StyleMyInspectorDetailDiv = styled.div`
   width: 100vw;
@@ -55,7 +56,6 @@ const StyleMyInspectorDetailContainerDiv = styled.div`
   margin-bottom: 15vh;
   background-color: #fffffff6;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -454,6 +454,7 @@ const MyInspectorDetail = () => {
   // DB로 작성 내용 보내기
   const createReview = ({ reviewInput, rating, detailId }: any) => {
     dispatch(createInspectorReviewAction({ reviewInput, rating, detailId }));
+    swal("리뷰 작성 완료", "새로고침하여 작성되었는지 확인해보세요!", "success");
     setIsReviewExist(true);
   };
 

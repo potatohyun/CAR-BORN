@@ -13,6 +13,7 @@ import {
   ContentType,
 } from "./../../../../lib/api";
 import CustomAlert from './CustomAlert';
+import swal from "sweetalert";
 
 const ModalWrapper = styled.div<ModalWrapperProps>`
   display: ${(props) => (props.open ? "flex" : "none")};
@@ -247,23 +248,13 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
 
       if (isPass) {
         setIsAlert(true);
-
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("인증성공");
-        console.log(6)
+        swal("유효성 검사", "전화번호 인증을 성공했습니다.", "success");
         dispatch(IsCanSignUpAction());
         setIsValid(true);
         handleClose();
       } else {
         setIsValid(false);
-
-        setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("인증실패");
+        swal("유효성 검사", "전화번호 인증에 실패했습니다.", "error");
       }
     } catch (error) {
       console.log(error);
@@ -295,7 +286,7 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
               type="text"
               id="userverifynumber"
               autoComplete="off"
-              placeholder="  인증번호를 입력해주세요"
+              placeholder="VerifyNumber"
               maxLength={6}
               value={inputValue}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>

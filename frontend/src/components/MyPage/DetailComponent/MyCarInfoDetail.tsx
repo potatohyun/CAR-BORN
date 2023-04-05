@@ -64,7 +64,6 @@ const StyleMyCarInfoDetailContainerDiv = styled.div`
   margin-bottom: 15vh;
   background-color: #fffffff6;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   padding-top: 3rem;

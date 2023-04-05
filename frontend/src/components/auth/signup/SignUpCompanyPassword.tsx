@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import { StyledInput, StyleNameLabel } from "./SignUpUserName";
-import CustomAlert from './modal/CustomAlert';
+import swal from "sweetalert";
+import IsValidComponent from "../../isValid/IsValidComponent";
 
 export interface SignUpPasswordProps {
   signupCompanyFormData: SignupFormData;
@@ -18,6 +19,7 @@ export const StyleHeightSpan = styled.span`
   display: block;
   height: 1rem !important;
 `
+
 
 const SignUpCompanyPassword = ({
   setSignupCompanyFormData,
@@ -50,18 +52,10 @@ const SignUpCompanyPassword = ({
         /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
       if (regex.test(e.currentTarget.value)) {
         setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("입력한 비밀번호가 유효합니다.");
+        swal("유효성 검사", "입력한 비밀번호가 유효합니다.", "success");
       } else {
-        setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage(
-          "입력한 비밀번호가 조합된 영소문자 및 숫자, 특수문자가 아닙니다."
-        );
+        setIsAlert(false);
+        swal("로그인 문제", "입력한 비밀번호가 조합된 영소문자 및 숫자, 특수문자가 아닙니다.", "error");
         setSignupCompanyFormData({
           ...signupCompanyFormData,
           password: "",
@@ -69,6 +63,22 @@ const SignUpCompanyPassword = ({
       }
     }
   };
+
+  const handleBlur = (e:any) => {
+    const regex =
+        /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+      if (regex.test(e.currentTarget.value)) {
+        setIsAlert(true);
+        swal("유효성 검사", "입력한 비밀번호가 유효합니다.", "success");
+      } else {
+        setIsAlert(false);
+        swal("로그인 문제", "입력한 비밀번호가 조합된 영소문자 및 숫자, 특수문자가 아닙니다.", "error");
+        setSignupCompanyFormData({
+          ...signupCompanyFormData,
+          password: "",
+        });
+      }
+  }
 
   useEffect(() => {
     if (
@@ -91,23 +101,19 @@ const SignUpCompanyPassword = ({
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="companypassword">비밀번호</StyleNameLabel>
+      <StyleNameLabel htmlFor="companypassword">비밀번호<IsValidComponent isValid={isAlert}/></StyleNameLabel>
       <StyledInput
         tabIndex={4}
         type="password"
         id="companypassword"
-        placeholder="비밀번호를 입력해주세요"
+        placeholder="Password"
         autoComplete="off"
         required
         value={signupCompanyFormData.password}
         onChange={(e) => handlePassword(e)}
         onKeyDown={(e) => handleKeyPress(e)}
+        onBlur={(e) => handleBlur(e)}
       />
-      {isAlert ? (
-        <div>
-          <CustomAlert message={message} />
-        </div>
-      ) : null}
     </StyleSignUpInputDiv>
   );
 };

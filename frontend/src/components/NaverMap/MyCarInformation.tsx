@@ -19,7 +19,7 @@ const SIZE = 1;
 const ObjString: any = localStorage.getItem("login-token");
 
 const API = `https://carborn.site/api/user/car/list/${PAGE}/${SIZE}`;
-function MyCarInformation({ data, setReserveInfo, reserveInfo }: Props) {
+function MyCarInformation({ setReserveInfo, reserveInfo }: Props) {
   const getUserCarListFnc = useAPI("get", API, {
     headers: {
       "Content-Type": "application/json",

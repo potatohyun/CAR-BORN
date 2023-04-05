@@ -207,24 +207,15 @@ export default function Nav2(msg: any) {
 
   // 다른 nav로
   const ObjString: any = localStorage.getItem("login-token");
-  const Obj = JSON.parse(ObjString);
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
   const { success } = useSelector((state: any) => state.LoginOutReducer);
-  let localToken = Obj?.value;
+  const localToken = Obj?.value;
 
   return (
     <div css={container}>
       <div className="section1">
         <div className="loginInfo">
-          {success && localToken ? (
-            <div className="logo" onClick={handleLogout}>
-              {Obj?.userId}님 안녕하세요
-            </div>
-          ) : (
-            <div className="logo" css={{ cursor: "default" }}>
-              로그인이 필요합니다
-            </div>
-          )}
-          {success && localToken ? (
+          {localToken ? (
             <div
               className="logo"
               onClick={handleLogout}

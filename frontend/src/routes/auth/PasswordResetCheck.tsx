@@ -49,8 +49,7 @@ export const StylePasswordResetCheckBoxDiv = styled.div`
   align-items: center;
 
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
-  border: 1px solid black;
+  border: 2px solid #6e6e6e;
   border-radius: 5px;
 `
 
@@ -102,20 +101,23 @@ export const StyleLoginAnotherLink = styled.div`
   text-decoration: none;
 `;
 
-export const StylePasswordResetCheckBtn = styled.input`
+interface StylePasswordResetCheckBtnProps {
+  backgroundColor: string
+}
+
+export const StylePasswordResetCheckBtn = styled.input<StylePasswordResetCheckBtnProps>`
   width: 16.8vw;
   height: 5.7vh;
   margin-top: 0.5rem;
   margin-bottom: 3rem;
   margin-left: 0.1rem;
   text-align: center;
-  background-color: #d23131;
+  background-color: ${(props) => props.backgroundColor};
   color: white;
   border: 5px solid transparent;
   border-radius: 5px;
   font-weight: 900;
   font-size: 1rem;
-  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
 
   &:active {
     box-shadow: none;
@@ -173,6 +175,7 @@ const PasswordResetCheck = () => {
               inputObj={inputObj} 
             />
             <StylePasswordResetCheckBtn
+              backgroundColor={inputObj.isVerify? '#D23131' : '#6e6e6e'}
               type='submit'
               value={`비밀번호 재설정`}
             />

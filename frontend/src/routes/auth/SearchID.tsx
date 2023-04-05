@@ -45,7 +45,11 @@ export const StyleSearchIDForm = styled.form`
   align-items: center;
 `
 
-export const StyleSearchIDBtn = styled.input`
+interface StyleSearchIDBtnProps {
+  backgroundColor:string
+}
+
+export const StyleSearchIDBtn = styled.input<StyleSearchIDBtnProps>`
   width: 15.5vw;
   height: 2.5rem;
   margin-left: -0.4rem;
@@ -64,7 +68,7 @@ export const StyleSearchIDBtn = styled.input`
     opacity: 0.8;
   }
 
-  background-color: #d23131;
+  background-color: ${(props) => props.backgroundColor};
   cursor: pointer;
 `
 
@@ -92,8 +96,7 @@ export const StyleSearchIDBoxDiv = styled.div`
   align-items: center;
 
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 5px;
 `;
 
@@ -186,6 +189,7 @@ const SearchID = () => {
             <StyleSearchIDBtn
               type='submit'
               disabled={!searchInput.isVerify}
+              backgroundColor={searchInput.isVerify ? "#d23131" : "grey"}
               value={`아이디 찾기`}
             />
           </StyleSearchIDForm>

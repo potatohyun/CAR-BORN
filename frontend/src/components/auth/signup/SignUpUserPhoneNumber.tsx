@@ -4,7 +4,8 @@ import { SignupFormData } from "./SignUpButton";
 import SignUpUserPhoneNumberModal from "./modal/SignUpUserPhoneNumberModal";
 import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
 import { StyleNameLabel } from './SignUpUserName';
-import CustomAlert from "./modal/CustomAlert";
+import swal from "sweetalert";
+import IsValidComponent from "../../isValid/IsValidComponent";
 
 export interface SignUpUserPhoneNumberState {
   phoneNumber: string;
@@ -43,20 +44,15 @@ const SignUpUserPhoneNumber = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
-    if (phoneNumber.length <= 10 && phoneNumber.length <= 11) {
-      setIsAlert(true);
-      setTimeout(() => {
-        setIsAlert(false);
-      }, 2000);
-      setMessage("휴대폰 번호는 10자리이상 11자리 이하 여야합니다.");
-      setIsModalOpen(false);
-      setIsValid(false);
+    if (phoneNumber.length <= 11 && 10 <= phoneNumber.length) {
+      setIsModalOpen(true);
       setSignupUserFormData({
         ...signupUserFormData,
         isVarify: false,
       });
     } else {
-      setIsModalOpen(true);
+      swal("유효성 검사", "휴대폰 번호는 10자리이상 11자리 이하 여야합니다.", "error");
+      setIsModalOpen(false);
     }
   };
 
@@ -82,6 +78,7 @@ const SignUpUserPhoneNumber = ({
           tabIndex={7}
           type="text"
           id="phoneNumber"
+          placeholder="01012345678"
           value={phoneNumber}
           autoComplete="off"
           onChange={(e) => handleChange(e)}
@@ -98,11 +95,6 @@ const SignUpUserPhoneNumber = ({
         setIsValid={setIsValid}
         isValid={isValid}
       />
-      {isAlert ? (
-        <div>
-          <CustomAlert message={message} />
-        </div>
-      ) : null}
     </StyleSignUpInputDiv>
   );
 };

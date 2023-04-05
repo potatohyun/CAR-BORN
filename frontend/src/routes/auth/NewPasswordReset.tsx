@@ -66,7 +66,6 @@ const StyleNewPasswordResetContainerDiv = styled.div`
   width: 25vw;
   height: 45vh;
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
   border: 1px solid black;
   border-radius: 5px;
 

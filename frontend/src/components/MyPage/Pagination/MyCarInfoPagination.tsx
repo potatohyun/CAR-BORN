@@ -66,17 +66,11 @@ export const StyleTableHeadMyCarInfoPagination = styled.div`
 `
 // 여기 기반으로 꾸미면 될듯
 export const StyleTableCellDivMyCarInfoPagination = styled.div`
-  
   &:hover {
-    transition: all 1s;
-    box-shadow: 0px 0px 30px 5px rgba(0,0,0,0.5);
-    transform: scale(1.05);
-    box-shadow: 0px 0px 30px 5px rgba(0,0,0,0.5), 0px 0px 0px 5px #fff;
-    background-color: #000000;
-    color: #fff;
+    color: black;
+    border: 3px solid #d23131;
 
     .detail {
-      transition: all 1s;
       background-color: #d23131;
       color: white;
     }
@@ -138,12 +132,6 @@ export const StyleTableCellDivMyCarInfoPagination = styled.div`
     color: #00000050;
     font-weight: 900;
     cursor: pointer;
-
-    &:hover {
-      background-color: #d23131;
-      color: #ffffff;
-      transition: all 0.5s;
-    }
   }
 `
 

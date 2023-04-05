@@ -71,7 +71,6 @@ export const StyleSearchidCompleteCenterDiv = styled.div`
   height: 70vh;
   padding-bottom: 4rem;
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
   border: 1px solid black;
   border-radius: 5px;
 

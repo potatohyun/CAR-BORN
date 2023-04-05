@@ -28,7 +28,6 @@ export interface Props {
 }
 
 interface IncomeProps {
-  data: any;
   setReserve: React.Dispatch<React.SetStateAction<boolean>>;
   setMarkerNum: React.Dispatch<React.SetStateAction<number>>;
   searchInfoWindows: any;
@@ -37,7 +36,6 @@ interface IncomeProps {
 }
 
 function ReserveForm({
-  data,
   setReserve,
   setMarkerNum,
   searchInfoWindows,
@@ -67,7 +65,6 @@ function ReserveForm({
 
       <h2 css={title}>예약 정보 입력</h2>
       <MyCarInformation
-        data={data}
         setReserveInfo={setReserveInfo}
         reserveInfo={reserveInfo}
       />

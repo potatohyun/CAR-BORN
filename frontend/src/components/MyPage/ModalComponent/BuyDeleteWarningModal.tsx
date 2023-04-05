@@ -4,6 +4,7 @@ import axios from "axios";
 import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import { useState } from "react";
 import CustomAlert from "../../auth/signup/modal/CustomAlert";
+import swal from 'sweetalert';
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -11,7 +12,6 @@ const StyledModalContainer = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,6 @@ const StyledModalContent = styled.div`
   padding: 24px;
   text-align: center;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
   h2 {
     font-size: 1.5rem;
@@ -51,7 +50,10 @@ const StyledModalContent = styled.div`
     border-radius: 5px;
     font-size: 1.2rem;
     cursor: pointer;
+    margin-left: 1rem;
   }
+
+  border: 1px solid #3a3a3a;
 `;
 
 export type BuyDeleteWarningModalType = {
@@ -71,8 +73,6 @@ export const BuyDeleteWarningModal = ({
   const ObjString:any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
-  // 메세지
-  const [isAlert, setIsAlert] = useState<boolean>(false);
 
   const DeleteBook = async (bookid: string | number) => {
     try {
@@ -83,11 +83,8 @@ export const BuyDeleteWarningModal = ({
         },
       });
 
-      setIsAlert(true);
-      setTimeout(() => {
-        setIsAlert(false);
-      }, 2000);
       onClose();
+      swal("구매 예약", "예약 취소가 완료되었습니다.", "success");
     } catch (error) {
       console.error(error);
     }
@@ -100,11 +97,6 @@ export const BuyDeleteWarningModal = ({
         <button onClick={() => DeleteBook(bookid)}>예</button>
         <button onClick={onClose}>아니오</button>
       </StyledModalContent>
-      {isAlert ? (
-        <div>
-          <CustomAlert message={"구매예약 취소가 완료 되었습니다."} />
-        </div>
-      ) : null}
     </StyledModalContainer>
   );
 };

@@ -1,5 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
+import IsValidComponent from "../../isValid/IsValidComponent";
 import { SignupFormData } from "./SignUpButton";
 import { StyledInput, StyleNameLabel } from "./SignUpUserName";
 
@@ -24,7 +25,7 @@ const SignUpCompanyName = ({
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="companyname">회사명</StyleNameLabel>
+      <StyleNameLabel htmlFor="companyname">회사명<IsValidComponent isValid={signupCompanyFormData.name}/></StyleNameLabel>
       <StyledInput
         tabIndex={1}
         type="text"

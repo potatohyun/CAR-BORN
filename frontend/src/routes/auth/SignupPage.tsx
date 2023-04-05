@@ -55,14 +55,14 @@ export const StyleSignUpContainer = styled.div`
       background-position: 0% 0%;
     }
   } */
-`
+`;
 
 export const StyleSignUpCenterDiv = styled.div`
   margin-top: 2.5rem;
   width: 100vw;
   display: flex;
   justify-content: center;
-`
+`;
 
 export const StyleSignUpInputDiv = styled.div`
   width: 90%;
@@ -107,7 +107,7 @@ export const StyleSignUpBoxDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const SignupPages: React.FC = () => {
   // 메세지
@@ -137,12 +137,12 @@ const SignupPages: React.FC = () => {
   );
 
   // 리캡챠 해시 데이터 받아오기
-  const [isRecaptcha, setIsRecaptcha] = useState(false); 
+  const [isRecaptcha, setIsRecaptcha] = useState(false);
   const handleCaptchaChange = (value: string | null) => {
     if (value) {
-      setIsRecaptcha(true)
+      setIsRecaptcha(true);
     } else {
-      setIsRecaptcha(false)
+      setIsRecaptcha(false);
     }
   };
 
@@ -210,7 +210,7 @@ const SignupPages: React.FC = () => {
           body: formData,
         })
           .then((res) => {
-            console.log(res)
+            console.log(res);
             if (!res.ok) {
               setIsAlert(true);
               setTimeout(() => {
@@ -238,7 +238,7 @@ const SignupPages: React.FC = () => {
           body: formData,
         })
           .then((res) => {
-            console.log(res)
+            console.log(res);
             if (!res.ok) {
               setIsAlert(true);
               setTimeout(() => {
@@ -338,95 +338,100 @@ const SignupPages: React.FC = () => {
         isValid={isValid}
       />
       <StyleSignUpCenterDiv>
-        <StyleLoginBoxDiv>
-            {selectedButton === USER ? (
-              <StyleSignUpBoxDiv>
-                <SignUpUserName
-                  setSignupUserFormData={setSignupUserFormData}
-                  signupUserFormData={signupUserFormData}
-                />
-                <SignUpUserId
-                  setSignupUserFormData={setSignupUserFormData}
-                  signupUserFormData={signupUserFormData}
-                />
-                <SignUpUserPassword
-                  setSignupUserFormData={setSignupUserFormData}
-                  signupUserFormData={signupUserFormData}
-                  secondPassword={secondPassword}
-                  setIsPasswordValid={setIsPasswordValid}
-                />
-                <SignUpUserPasswordCheck
-                  signupUserFormData={signupUserFormData}
-                  setSignupUserFormData={setSignupUserFormData}
-                  secondPassword={secondPassword}
-                  setSecondPassword={setSecondPassword}
-                  setIsPasswordValid={setIsPasswordValid}
-                  isPasswordValid={isPasswordValid}
-                />
-                <SignUpUserBirth
-                  setSignupUserFormData={setSignupUserFormData}
-                  signupUserFormData={signupUserFormData}
-                />
-                <SignUpUserPhoneNumber
-                  setSignupUserFormData={setSignupUserFormData}
-                  signupUserFormData={signupUserFormData}
-                  setIsValid={setIsValid}
-                  isValid={isValid}
-                />
-              </StyleSignUpBoxDiv>
-            ) : (
-              <StyleSignUpBoxDiv>
-                <SignUpCompanyTypeButton
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                  signupCompanyFormData={signupCompanyFormData}
-                  setIsValid={setIsValid}
-                  isValid={isValid}
-                />
-                <SignUpCompanyName
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                  signupCompanyFormData={signupCompanyFormData}
-                />
-                <SignUpCompanyId
-                  signupCompanyFormData={signupCompanyFormData}
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                />
-                <SignUpCompanyPassword
-                  signupCompanyFormData={signupCompanyFormData}
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                  secondPassword={secondPassword}
-                  setIsPasswordValid={setIsPasswordValid}
-                />
-                <SignUpCompanyPasswordCheck
-                  signupCompanyFormData={signupCompanyFormData}
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                  secondPassword={secondPassword}
-                  setSecondPassword={setSecondPassword}
-                  isPasswordValid={isPasswordValid}
-                  setIsPasswordValid={setIsPasswordValid}
-                />
-                <SignUpCompanyBusinessNumber
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                  signupCompanyFormData={signupCompanyFormData}
-                />
-                <SignUpCompanyAddress
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                  signupCompanyFormData={signupCompanyFormData}
-                />
-                <SignUpCompanyPhoneNumber
-                  setSignupCompanyFormData={setSignupCompanyFormData}
-                  signupCompanyFormData={signupCompanyFormData}
-                  setIsValid={setIsValid}
-                  isValid={isValid}
-                />
-                <SignUpCompanyDocument handleFileChange={handleFileChange} />
-              </StyleSignUpBoxDiv>
-            )}
-          {isSignUpBtn ? <ReCAPTCHA
-            sitekey="6LdijBMlAAAAACu0OtiHgCtKlGE58nkcRFXPxSLk"
-            style={{ marginBottom: "1rem" }}
-            size="normal"
-            onChange={handleCaptchaChange}
-          /> : null}
+        <StyleLoginBoxDiv border={isRecaptcha ? "#d23131" : "grey"}>
+          {selectedButton === USER ? (
+            <StyleSignUpBoxDiv>
+              <SignUpUserName
+                setSignupUserFormData={setSignupUserFormData}
+                signupUserFormData={signupUserFormData}
+              />
+              <SignUpUserId
+                setSignupUserFormData={setSignupUserFormData}
+                signupUserFormData={signupUserFormData}
+              />
+              <SignUpUserPassword
+                setSignupUserFormData={setSignupUserFormData}
+                signupUserFormData={signupUserFormData}
+                secondPassword={secondPassword}
+                setIsPasswordValid={setIsPasswordValid}
+              />
+              <SignUpUserPasswordCheck
+                signupUserFormData={signupUserFormData}
+                setSignupUserFormData={setSignupUserFormData}
+                secondPassword={secondPassword}
+                setSecondPassword={setSecondPassword}
+                setIsPasswordValid={setIsPasswordValid}
+                isPasswordValid={isPasswordValid}
+              />
+              <SignUpUserBirth
+                setSignupUserFormData={setSignupUserFormData}
+                signupUserFormData={signupUserFormData}
+              />
+              <SignUpUserPhoneNumber
+                setSignupUserFormData={setSignupUserFormData}
+                signupUserFormData={signupUserFormData}
+                setIsValid={setIsValid}
+                isValid={isValid}
+              />
+            </StyleSignUpBoxDiv>
+          ) : (
+            <StyleSignUpBoxDiv>
+              <SignUpCompanyTypeButton
+                setSignupCompanyFormData={setSignupCompanyFormData}
+                signupCompanyFormData={signupCompanyFormData}
+                setIsValid={setIsValid}
+                isValid={isValid}
+              />
+              <SignUpCompanyName
+                setSignupCompanyFormData={setSignupCompanyFormData}
+                signupCompanyFormData={signupCompanyFormData}
+              />
+              <SignUpCompanyId
+                signupCompanyFormData={signupCompanyFormData}
+                setSignupCompanyFormData={setSignupCompanyFormData}
+              />
+              <SignUpCompanyPassword
+                signupCompanyFormData={signupCompanyFormData}
+                setSignupCompanyFormData={setSignupCompanyFormData}
+                secondPassword={secondPassword}
+                setIsPasswordValid={setIsPasswordValid}
+              />
+              <SignUpCompanyPasswordCheck
+                signupCompanyFormData={signupCompanyFormData}
+                setSignupCompanyFormData={setSignupCompanyFormData}
+                secondPassword={secondPassword}
+                setSecondPassword={setSecondPassword}
+                isPasswordValid={isPasswordValid}
+                setIsPasswordValid={setIsPasswordValid}
+              />
+              <SignUpCompanyBusinessNumber
+                setSignupCompanyFormData={setSignupCompanyFormData}
+                signupCompanyFormData={signupCompanyFormData}
+              />
+              <SignUpCompanyAddress
+                setSignupCompanyFormData={setSignupCompanyFormData}
+                signupCompanyFormData={signupCompanyFormData}
+              />
+              <SignUpCompanyPhoneNumber
+                setSignupCompanyFormData={setSignupCompanyFormData}
+                signupCompanyFormData={signupCompanyFormData}
+                setIsValid={setIsValid}
+                isValid={isValid}
+              />
+              <SignUpCompanyDocument
+                handleFileChange={handleFileChange}
+                isSelectedFiles={selectedFiles ? true : false} // IsSelectedFiles -> isSelectedFiles 로 수정
+              />
+            </StyleSignUpBoxDiv>
+          )}
+          {isSignUpBtn ? (
+            <ReCAPTCHA
+              sitekey="6LdijBMlAAAAACu0OtiHgCtKlGE58nkcRFXPxSLk"
+              style={{ marginBottom: "1rem" }}
+              size="normal"
+              onChange={handleCaptchaChange}
+            />
+          ) : null}
           <StyleGoRegister
             type="button"
             tabIndex={13}

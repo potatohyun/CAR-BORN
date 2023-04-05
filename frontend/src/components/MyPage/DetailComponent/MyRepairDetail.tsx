@@ -1,6 +1,13 @@
 import styled from "@emotion/styled";
 import { Table, TableCell, TableRow } from "@mui/material";
 
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+
 // CarStatus 이미지 import 해오기
 import carousel1 from "../../../assets/carousel/CarStatus1.jpg";
 import carousel2 from "../../../assets/carousel/CarStatus2.jpg";
@@ -12,12 +19,14 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // 스타일 시
 
 // CarStatus 이미지 import 해오기
 import axios from "axios";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { createRepairReviewAction } from "../../../modules/createReviewModule";
+import swal from "sweetalert";
+import { fontSize } from "@mui/system";
 
 const StyleMyRepairDetailDiv = styled.div`
   width: 100vw;
@@ -47,10 +56,6 @@ const StyleMyRepairDetailDiv = styled.div`
   } */
 `;
 
-const StyledTableRepairContainer = styled.div`
-  width: 70vw;
-`;
-
 const StyleMyRepairDetailContainerDiv = styled.div`
   width: 73vw;
   border: 1px dashed #00000020;
@@ -58,7 +63,6 @@ const StyleMyRepairDetailContainerDiv = styled.div`
   margin-bottom: 15vh;
   background-color: #fffffff6;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -349,15 +353,46 @@ export type reviewInputType = {
 
 const MyRepairDetail = () => {
   // 토큰 넣기
-  const ObjString:any = localStorage.getItem("login-token");
+  const ObjString: any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
+
+  // MUI //////////////////////////////////////
+  const [open, setOpen] = useState(false);
+  const [selfHelp, setSelfHelp] = useState<any[]>([]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const fetchSelfData = async () => {
+      const response = await axios({
+        method: "GET",
+        url: `${CARBORN_SITE}/api/user/self-repair/list/1/10`,
+        headers: {
+          [ContentType]: applicationjson,
+          Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+        },
+      });
+
+      setSelfHelp(response.data.message.content);
+    };
+    fetchSelfData();
+  }, []);
+
+  //////////////////////////////////////////////
 
   const param = useParams();
   const resultid = param.carId;
   const location = useLocation();
   const dispatch = useDispatch();
   const detail = location.state;
+  const navigate = useNavigate();
 
   const [images, setImages] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -373,6 +408,8 @@ const MyRepairDetail = () => {
 
   // 데이터 관련
   const [repairResult, setRepairResult] = useState<any>("");
+
+  console.log(repairResult.metadataUri);
 
   // 리뷰 관련
   const [isReviewExist, setIsReviewExist] = useState<boolean>(false);
@@ -455,6 +492,11 @@ const MyRepairDetail = () => {
   // DB로 작성 내용 보내기
   const createReview = ({ reviewInput, rating, detailId }: any) => {
     dispatch(createRepairReviewAction({ reviewInput, rating, detailId }));
+    swal(
+      "리뷰 작성 완료",
+      "새로고침하여 작성되었는지 확인해보세요!",
+      "success"
+    );
     setIsReviewExist(true);
   };
 
@@ -463,7 +505,14 @@ const MyRepairDetail = () => {
     window.history.back();
   };
 
-  console.log(repairResult);
+  const handleMetaData = () => {
+    navigate(`${repairResult.metadataUri}`);
+  };
+
+  const StyleSelfHelpTable = styled.div`
+    display: flex;
+    border: 1px solid black;
+  `;
 
   return (
     <StyleMyRepairDetailDiv>
@@ -517,6 +566,8 @@ const MyRepairDetail = () => {
               </tbody>
             </Table>
           </StyleTableRepairInfoDiv>
+          <button onClick={handleMetaData}>클레이튼</button>
+          <button onClick={handleClickOpen}>셀프정비도우미</button>
         </StyleMyRepairDetailHeaderDiv>
         {/* 밑에 메인 섹션 부분 */}
         <StyleMainRepairDetailContainerDiv>
@@ -640,6 +691,47 @@ const MyRepairDetail = () => {
           </StyleMyRepairRightDetailDiv>
         </StyleMainRepairDetailContainerDiv>
       </StyleMyRepairDetailContainerDiv>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="lg"
+      >
+        <DialogTitle id="alert-dialog-title">셀프 정비 도우미</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <strong>해당 내용은 셀프로 정비를 할 때 참고할 만한 자료 입니다!</strong>
+          </DialogContentText>
+          <Table>
+            <thead>
+              <TableRow>
+                <TableCell style={{ width: "20%" }} align="center">
+                  {`제목`}
+                </TableCell>
+                <TableCell style={{ width: "80%" }} align="center">
+                  {`내용`}
+                </TableCell>
+              </TableRow>
+            </thead>
+            <tbody>
+              {selfHelp.map((help) => (
+                <TableRow key={help.id}>
+                  <TableCell style={{ width: "20%", fontWeight:'900', fontSize:'1.1rem' }} align="center">
+                    {help.title}
+                  </TableCell>
+                  <TableCell style={{ width: "80%" }} align="center">
+                    {help.content}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>닫기</Button>
+        </DialogActions>
+      </Dialog>
     </StyleMyRepairDetailDiv>
   );
 };

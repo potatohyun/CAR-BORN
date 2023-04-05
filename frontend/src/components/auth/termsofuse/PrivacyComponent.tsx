@@ -33,7 +33,6 @@ const StylePrivacyDiv = styled.div`
     text-align: center;
     margin-right: 0.5rem;
     border: 1px solid black;
-    box-shadow: 0 0 10px rgba(000, 000, 000, 1);
     border-radius: 50%;
     cursor: pointer;
   }
@@ -131,7 +130,7 @@ const PrivacyComponent: React.FC<WebsiteProps> = ({
             checked={isChecked2}
             onChange={handleCheck2}
           />
-          <label htmlFor="checkbox" className="checkbox-label">
+          <label htmlFor="privacycheck" className="checkbox-label">
             &#10003;
           </label>
           <span>개인정보 이용내역</span>

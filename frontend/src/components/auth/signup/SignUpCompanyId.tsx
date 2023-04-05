@@ -10,6 +10,8 @@ import { useridCheckReset } from "../../../modules/UserIdCheckModule";
 import { StyleNameLabel } from "./SignUpUserName";
 import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
 import CustomAlert from "./modal/CustomAlert";
+import swal from "sweetalert";
+import IsValidComponent from './../../isValid/IsValidComponent';
 
 type SignUpCompanyIdProps = {
   signupCompanyFormData: SignupFormData;
@@ -38,6 +40,9 @@ const SignUpCompanyId = ({
         ...signupCompanyFormData,
         userid: value,
       });
+    } else {
+      setIsAlert(false);
+      swal("유효성 검사", "아이디는 영소문자와 숫자만 입력 가능합니다.", "error");
     }
   };
 
@@ -50,38 +55,24 @@ const SignUpCompanyId = ({
         e.currentTarget.value.length >= 5 && e.currentTarget.value.length <= 20;
       if (regex.test(e.currentTarget.value) && isValidLength) {
         setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("입력한 아이디가 유효합니다.");
+        swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
       } else if (!regex.test(e.currentTarget.value)) {
-        setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("아이디는 영어 소문자와 숫자, _만 가능합니다.");
+        setIsAlert(false);
+        swal("유효성 검사", "아이디는 영어 소문자와 숫자, _만 가능합니다.", "error");
         setSignupCompanyFormData({
           ...signupCompanyFormData,
           userid: "",
         });
       } else if (!isValidLength) {
-        setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("아이디 길이는 5글자에서 20글자입니다.");
+        setIsAlert(false);
+        swal("유효성 검사", "아이디 길이는 5글자에서 20글자입니다.", "error");
         setSignupCompanyFormData({
           ...signupCompanyFormData,
           userid: "",
         });
       } else {
-        setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage(
-          "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다."
-        );
+        setIsAlert(false);
+        swal("유효성 검사", "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.", "error");
         setSignupCompanyFormData({
           ...signupCompanyFormData,
           userid: "",
@@ -90,28 +81,54 @@ const SignUpCompanyId = ({
     }
   };
 
+  const handleBlur = (e:any)=> {
+    const regex = /^[a-z0-9_]+$/;
+      const isValidLength =
+        e.currentTarget.value.length >= 5 && e.currentTarget.value.length <= 20;
+      if (regex.test(e.currentTarget.value) && isValidLength) {
+        setIsAlert(true);
+        swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
+      } else if (!regex.test(e.currentTarget.value)) {
+        setIsAlert(false);
+        swal("유효성 검사", "아이디는 영어 소문자와 숫자, _만 가능합니다.", "error");
+        setSignupCompanyFormData({
+          ...signupCompanyFormData,
+          userid: "",
+        });
+      } else if (!isValidLength) {
+        setIsAlert(false);
+        swal("유효성 검사", "아이디 길이는 5글자에서 20글자입니다.", "error");
+        setSignupCompanyFormData({
+          ...signupCompanyFormData,
+          userid: "",
+        });
+      } else {
+        setIsAlert(false);
+        swal("유효성 검사", "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.", "error");
+        setSignupCompanyFormData({
+          ...signupCompanyFormData,
+          userid: "",
+        });
+      }
+  }
+
   // 아이디 중복체크용
   const userIdDuplicateCheck = (e: any) => {
+    e.preventDefault();
     dispatch(companyidCheck(signupCompanyFormData.userid));
   };
 
   useEffect(() => {
     if (companyidcheck === true) {
       setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-      setMessage("사용가능한 아이디 입니다.");
+      swal("유효성 검사", "사용가능한 아이디 입니다.", "success");
       setSignupCompanyFormData({
         ...signupCompanyFormData,
         idcheck: companyidcheck,
       });
     } else if (companyidcheck === false) {
-      setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-      setMessage("중복된 아이디가 있습니다. 다른 아이디로 회원가입 해주세요.");
+      setIsAlert(false);
+      swal("유효성 검사", "중복된 아이디가 있습니다. 다른 아이디로 회원가입 해주세요.", "error");
       setSignupCompanyFormData({
         ...signupCompanyFormData,
         idcheck: companyidcheck,
@@ -123,19 +140,20 @@ const SignUpCompanyId = ({
 
   return (
     <StyleSignUpInputBtnDiv>
-      <StyleNameLabel htmlFor="companyid">아이디</StyleNameLabel>
+      <StyleNameLabel htmlFor="companyid">아이디<IsValidComponent isValid={isAlert}/></StyleNameLabel>
       <StyleIdCheckDiv>
         <StyleIdCheckInput
           tabIndex={2}
           type="text"
           id="companyid"
           name="companyid"
-          placeholder="아이디"
+          placeholder="CompanyID"
           autoComplete="off"
           required
           value={signupCompanyFormData.userid}
           onChange={(e) => handleUserId(e)}
           onKeyDown={(e) => handleKeyPress(e)}
+          onBlur={(e) => handleBlur(e)}
         />
         <StyleCheckBtn
           tabIndex={3}
@@ -146,11 +164,6 @@ const SignUpCompanyId = ({
           value={`중복체크`}
         />
       </StyleIdCheckDiv>
-      {isAlert ? (
-        <div>
-          <CustomAlert message={message} />
-        </div>
-      ) : null}
     </StyleSignUpInputBtnDiv>
   );
 };

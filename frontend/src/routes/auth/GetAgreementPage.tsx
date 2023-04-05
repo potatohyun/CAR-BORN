@@ -78,7 +78,6 @@ export const StyleTermsOfUseTitleDiv = styled.div`
       margin-right: 0.5rem;
       appearance: none;
       border: 1px solid black;
-      box-shadow: 0 0 10px rgba(000, 000, 000, 1);
       border-radius: 50%;
       cursor: pointer;
     }
@@ -107,7 +106,6 @@ export const StyleTermsOfUseEleDiv = styled.div`
     text-align: center;
     margin-right: 0.5rem;
     border: 1px solid black;
-    box-shadow: 0 0 10px rgba(000, 000, 000, 1);
     border-radius: 50%;
     cursor: pointer;
   }
@@ -142,7 +140,6 @@ export const StyleGoSignUpBtn = styled.button<StyleGoSignUpBtnProps>`
   background-color: ${(props) => props.backgroundColor};
   border: none;
   border-radius: 0.3rem;
-  box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 
@@ -255,7 +252,9 @@ const GetAgreementPage = () => {
     <StyleTermsContainer>
       <Nav2 />
       <StyleTermsCenterDiv>
-        <StyleLoginBoxDiv>
+        <StyleLoginBoxDiv border={
+              isButtonDisabled(isChecked1, isChecked2) ? "grey" : "#d23131"
+            }>
           <StyleTermsOfUseTitleDiv>
             <StyleTermExplainDiv>
               <span>카본에 오신 것을 환영합니다.</span>

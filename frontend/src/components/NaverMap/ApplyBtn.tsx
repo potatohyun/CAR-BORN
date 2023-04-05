@@ -2,6 +2,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { MarkerType } from "../../routes/userUseFnc/NaverMap";
 import { ReserveInfoType } from "./ReserveForm";
+import { useNavigate } from "react-router-dom";
 
 function ApplyBtn({
   markerArr,
@@ -12,50 +13,57 @@ function ApplyBtn({
   markerNum: number;
   reserveInfo: ReserveInfoType;
 }) {
+  const navigate = useNavigate();
   const ObjString: any = localStorage.getItem("login-token");
 
-  const { mutate, isSuccess } = useMutation("apply-company", () => {
-    return axios({
-      method: "post",
-      url: `https://carborn.site/api/user/${
-        markerArr[markerNum].AUTH === 1 ? "repair" : "inspect"
-      }/book`,
-      data:
-        markerArr[markerNum].AUTH === 1
-          ? {
-              car: {
-                id: reserveInfo.carId,
+  const { mutate, isSuccess } = useMutation(
+    () => {
+      return axios({
+        method: "post",
+        url: `https://carborn.site/api/user/${
+          markerArr[markerNum].AUTH === 1 ? "repair" : "inspect"
+        }/book`,
+        data:
+          markerArr[markerNum].AUTH === 1
+            ? {
+                car: {
+                  id: reserveInfo.carId,
+                },
+                repairShop: {
+                  id: markerArr[markerNum].ID,
+                },
+                account: {
+                  id: "testuser2",
+                },
+                content: reserveInfo.content,
+                bookDt: reserveInfo.date,
+              }
+            : {
+                car: {
+                  id: reserveInfo.carId,
+                },
+                inspector: {
+                  id: markerArr[markerNum].ID,
+                },
+                account: {
+                  id: "testuser2",
+                },
+                content: reserveInfo.content,
+                bookDt: reserveInfo.date,
               },
-              repairShop: {
-                id: markerArr[markerNum].ID,
-              },
-              account: {
-                id: "testuser2",
-              },
-              content: reserveInfo.content,
-              bookDt: reserveInfo.date,
-            }
-          : {
-              car: {
-                id: reserveInfo.carId,
-              },
-              inspector: {
-                id: markerArr[markerNum].ID,
-              },
-              account: {
-                id: "testuser2",
-              },
-              content: reserveInfo.content,
-              bookDt: reserveInfo.date,
-            },
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+        },
+      });
+    },
+    {
+      onSuccess: () => {
+        navigate("/");
       },
-    });
-  });
+    }
+  );
 
-  console.log(isSuccess);
   const getApply = () => {
     mutate();
   };

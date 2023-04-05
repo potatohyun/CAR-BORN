@@ -37,7 +37,7 @@ export const StyleRepairPaginationDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  
   .MuiStack-root {
     position: absolute;
     top: 181vh;
@@ -77,16 +77,27 @@ export const StyleTableHeadRepairPagination = styled.div`
 
 export const StyleTableCellDivRepairPagination = styled.div`
   &:hover {
-    transition: all 1s;
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05);
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5), 0px 0px 0px 5px #fff;
-    background-color: #000000;
-    color: #fff;
+    color: black;
+    border: 3px solid #d23131;
 
     .detail {
-      transition: all 1s;
+      background-color: #d23131;
       color: white;
+    }
+
+    .booking {
+      background-color: #00bc0d;
+      color: white;
+    }
+
+    .complete {
+      color: white;
+      background-color: #d23131;
+    }
+
+    .cancel {
+      color: white;
+      background-color: #a9a9a9;
     }
   }
 
@@ -211,7 +222,6 @@ const RepairContentPagination = ({
         }
       );
 
-      console.log(response.data.message.content);
       setTotalPageCnt(response.data.message.totalPages);
 
       const modifiedContent = response.data.message.content.map(

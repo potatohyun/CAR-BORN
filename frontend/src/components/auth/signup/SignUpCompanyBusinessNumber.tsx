@@ -1,8 +1,10 @@
 import { SetStateAction, Dispatch, useState, ChangeEvent } from "react";
+import swal from "sweetalert";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import CustomAlert from "./modal/CustomAlert";
 import { SignupFormData } from "./SignUpButton";
 import { StyledInput, StyleNameLabel } from "./SignUpUserName";
+import IsValidComponent from './../../isValid/IsValidComponent';
 
 type SignUpCompanyBusinessNumberProps = {
   setSignupCompanyFormData: Dispatch<SetStateAction<SignupFormData>>;
@@ -30,10 +32,7 @@ const SignUpCompanyBusinessNumber = ({
       setShowWarning(false);
       if (e.target.value.length === 10) {
         setIsAlert(true);
-          setTimeout(() => {
-            setIsAlert(false);
-          }, 2000);
-        setMessage("사업자등록번호가 유효합니다")
+        swal("유효성 검사", "사업자등록번호가 유효합니다", "success");
         setSignupCompanyFormData({
           ...signupCompanyFormData,
           identifynumber: e.target.value,
@@ -41,11 +40,8 @@ const SignUpCompanyBusinessNumber = ({
       }
     } else {
       if (!showWarning) {
-        setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("숫자만 입력 가능합니다.");
+        setIsAlert(false);
+        swal("유효성 검사", "숫자만 입력 가능합니다.", "error");
         setShowWarning(true);
         setTimeout(() => setShowWarning(false), 200); // 1초 후에 상태값 초기화
       }
@@ -54,23 +50,18 @@ const SignUpCompanyBusinessNumber = ({
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="businessNumber">사업자등록번호</StyleNameLabel>
+      <StyleNameLabel htmlFor="businessNumber">사업자등록번호<IsValidComponent isValid={isAlert}/></StyleNameLabel>
       <StyledInput
         tabIndex={6}
         type="text"
         id="businessNumber"
         name="businessNumber"
         autoComplete="off"
-        placeholder="숫자만 입력해주세요"
+        placeholder="BusinessNumber"
         maxLength={10}
         value={businessNumber}
         onChange={(e) => handleInputChange(e)}
       />
-      {isAlert ? (
-        <div>
-          <CustomAlert message={message} />
-        </div>
-      ) : null}
     </StyleSignUpInputDiv>
   );
 };

@@ -11,6 +11,8 @@ import {
 } from "./SignUpUserAddress";
 import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
 import styled from "@emotion/styled";
+import swal from "sweetalert";
+import IsValidComponent from './../../isValid/IsValidComponent';
 
 export type SignUpCompanyAddressProps = {
   setSignupCompanyFormData: Dispatch<SetStateAction<SignupFormData>>;
@@ -58,15 +60,16 @@ const SignUpCompanyAddress = ({
       ...signupCompanyFormData,
       address: data.address,
     });
+    swal("유효성 검사", `주소(${signupCompanyFormData.address})가 입력되었습니다.`, "success");
     setIsOpen(false);
     setAddressData(data.address);
   };
 
   return (
     <StyleSignUpInputBtnDiv>
-      <StyleNameLabel>주소</StyleNameLabel>
+      <StyleNameLabel>주소<IsValidComponent isValid={signupCompanyFormData.address ? true : false} /></StyleNameLabel>
       <StyleIdCheckDiv>
-        <StyleIdCheckInput autoComplete="off" type="text" value={`  `+addressData} />
+        <StyleIdCheckInput autoComplete="off" placeholder="주소를 입력해주세요" type="text" value={`  `+addressData} />
         <StyleCheckBtn type="button" className="addressCheckBtn" tabIndex={7} onClick={() => setIsOpen(true)} value={`검색하기`}/>
       </StyleIdCheckDiv>
       {isOpen && (

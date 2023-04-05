@@ -6,7 +6,6 @@ import React, {
   useState,
   useEffect,
   ButtonHTMLAttributes,
-  FormEvent,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../modules/takeLoginLogoutModule";
@@ -61,7 +60,11 @@ export const StyleLink = styled(Link)`
   }
 `;
 
-export const StyleLoginBoxDiv = styled.div`
+interface IStyleLoginBoxDivProps {
+  border: string;
+}
+
+export const StyleLoginBoxDiv = styled.div<IStyleLoginBoxDivProps>`
   width: 30vw;
   margin-top: 5rem;
   margin-bottom: 5rem;
@@ -71,8 +74,7 @@ export const StyleLoginBoxDiv = styled.div`
   align-items: center;
 
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
-  border: 1px solid black;
+  border: 2px solid ${(props) => props.border};
   border-radius: 5px;
 `;
 
@@ -133,6 +135,10 @@ export interface LoginInputProps {
 }
 
 const LoginPages = () => {
+  const ObjString = localStorage.getItem('login-token');
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const Token = Obj ? Obj.value : null;
+
   // 상수화
   const USER = 0;
   const REPAIR = 1;
@@ -156,7 +162,6 @@ const LoginPages = () => {
   const [captchaValue, setCaptchaValue] = useState<boolean>(false);
   const { error, success } = useSelector((state: any) => state.LoginOutReducer);
   // console.log(error)
-  console.log(success);
 
   // 로그인 하기(최종)
   const handleLogin = (e: React.SyntheticEvent) => {
@@ -180,14 +185,16 @@ const LoginPages = () => {
   useEffect(() => {
     // 실패하면 이거
     if (!success) {
-      console.log(2);
       if (success === false) {
-        swal("로그인 문제", "아이디 또는 비밀번호가 맞지 않습니다.", "error");
+        if (Token) {
+          swal("로그인 문제", "아이디 또는 비밀번호가 맞지 않습니다.", "error");
+        }
         dispatch(loginFailureReset());
       }
       navigate("/login");
       // 성공하면 이거
     } else {
+      swal("로그인 완료", "CAR-BORN에 오신 걸 환영합니다.", "success");
       switch (accountType) {
         case USER:
           navigate("/");
@@ -212,7 +219,9 @@ const LoginPages = () => {
     <StyleLoginContainer>
       <Nav2 />
       <StyleLoginCenterDiv>
-        <StyleLoginBoxDiv>
+        <StyleLoginBoxDiv
+          border={captchaValue ? "#d23131" : "grey"}
+        >
           <StyleLoginForm onSubmit={(e) => handleLogin(e)}>
             <LoginID setLoginInput={setLoginInput} loginInput={loginInput} />
             <LoginPassword

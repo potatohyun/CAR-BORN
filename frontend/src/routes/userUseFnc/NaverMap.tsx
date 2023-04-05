@@ -98,7 +98,6 @@ var markers: any[] = [],
   infoWindows: any[] = [];
 
 const naver = window.naver;
-const API_USER_INFO = `https://jsonplaceholder.typicode.com/todos/1`;
 
 function NaverMap() {
   const navigate = useNavigate();
@@ -111,20 +110,6 @@ function NaverMap() {
   const [markerArr, setMarkerArr] = useState<any[]>([]);
   const ObjString: any = localStorage.getItem("login-token");
 
-  const getUserCarInfo = useAPI("get", API_USER_INFO, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
-    },
-  });
-
-  const { data } = useQuery("get-user-car-info", () => getUserCarInfo, {
-    cacheTime: 1000 * 300,
-    staleTime: 1000 * 300,
-    refetchOnMount: false,
-    retry: false,
-    keepPreviousData: true,
-  });
   /**
    * 현재 위치를 받는 함수
    */
@@ -139,10 +124,6 @@ function NaverMap() {
         axios({
           method: "get",
           url: `https://carborn.site/api/user/map/list/${lat}/${lng}`,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${JSON.parse(ObjString).value}`,
-          },
         })
           .then((res) => res.data)
           .then((data) => {
@@ -348,7 +329,7 @@ function NaverMap() {
         <div
           css={{ position: "fixed", top: "10px", left: "28%", zIndex: "100" }}
         >
-          <ArrowBackIcon onClick={goToHome} />
+          <ArrowBackIcon style={{ cursor: "pointer" }} onClick={goToHome} />
         </div>
         <div css={searchBar}>
           <div style={{ height: "15%" }}>
@@ -361,7 +342,6 @@ function NaverMap() {
             searchMarkers.length ? (
               reserve ? (
                 <ReserveForm
-                  data={data}
                   setReserve={setReserve}
                   setMarkerNum={setMarkerNum}
                   searchInfoWindows={searchInfoWindows}

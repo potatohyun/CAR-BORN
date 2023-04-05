@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { LoginInputProps } from "../../../routes/auth/LoginPage";
 import { StyledInput, StyleNameLabel } from "../signup/SignUpUserName";
+import swal from "sweetalert";
 
 // CSS
 const StyleLoginInputDiv = styled.div`
@@ -16,9 +17,10 @@ const LoginID = ({ setLoginInput, loginInput }: LoginInputProps) => {
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
     const regex = /^[a-z0-9_]+$/;
-    if (regex.test(value)) {
+    if (value === '' || regex.test(value)) {
       setLoginInput({ ...loginInput, loginid: value });
     } else {
+      swal("아이디 오류", "영소문자 및 숫자와 _ 만 기입 가능합니다.", "error");
       setLoginInput({ ...loginInput, loginid: "" });
     }
   };

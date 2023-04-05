@@ -25,6 +25,7 @@ function CurrentLocationBtn({
           backgroundColor: "white",
           width: "2%",
           height: "4vh",
+          cursor: "pointer",
         }}
         onClick={() => getCurrentLocation()}
       >

@@ -9,15 +9,14 @@ const container = css`
   width: 70vw;
   height: 100vh;
   margin: 5vh auto;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
-  border: 1px solid black;
+  /* box-shadow: 0 0 10px rgba(000, 000, 000, 1); */
+  border: 2px solid black;
   display: flex;
   position: relative;
 `;
 
 const leftContent = css`
-  border: 1px solid black;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
+  border: 2px solid black;
   width: 18%;
   margin-right: 3%;
 `;
@@ -26,8 +25,7 @@ const rightContent = css`
   display: flex;
   align-items: end;
   justify-content: center;
-  border: 1px solid black;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
+  border: 2px solid black;
   width: 79%;
 `;
 

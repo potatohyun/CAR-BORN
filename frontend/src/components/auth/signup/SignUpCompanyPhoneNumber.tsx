@@ -5,6 +5,8 @@ import SignUpUserPhoneNumberModal from "./modal/SignUpUserPhoneNumberModal";
 import { StyleNameLabel } from "./SignUpUserName";
 import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
 import styled from "@emotion/styled";
+import swal from "sweetalert";
+import IsValidComponent from './../../isValid/IsValidComponent';
 
 export interface SignUpUserPhoneNumberState {
   phoneNumber: string;
@@ -20,6 +22,29 @@ export type SignUpCompanyPhoneNumberProps = {
   setIsValid: any;
   isValid: boolean;
 };
+
+export const StyleCompanyPhoneNumberCheckBtn = styled.input`
+  width: 30%;
+  height: 4.6vh;
+  margin-bottom: 1rem;
+  background-color: #d23131;
+  color: white;
+  border: 5px solid transparent;
+  border-radius: 5px;
+  font-weight: 900;
+  font-size: 1rem;
+  text-align: center;
+
+  &:active {
+    background-color: white;
+    color: black;
+    border: 5px solid #d23131;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 
 export const StyleCompanyPhoneNumber = styled.input`
   width: 30%;
@@ -51,7 +76,6 @@ const SignUpCompanyPhoneNumber = ({
   isValid,
 }: SignUpCompanyPhoneNumberProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setPhoneNumber(value);
@@ -65,11 +89,15 @@ const SignUpCompanyPhoneNumber = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
-    if (phoneNumber.length <= 10 && phoneNumber.length <= 11) {
-      alert("휴대폰 번호는 10자리이상 11자리 이하 여야합니다.");
-      setIsModalOpen(false);
-    } else {
+    if (phoneNumber.length <= 11 && 10 <= phoneNumber.length) {
       setIsModalOpen(true);
+      setSignupCompanyFormData({
+        ...signupCompanyFormData,
+        isVarify: false,
+      });
+    } else {
+      swal("유효성 검사", "휴대폰 번호는 10자리이상 11자리 이하 여야합니다.", "error");
+      setIsModalOpen(false);
     }
   };
 
@@ -94,12 +122,13 @@ const SignUpCompanyPhoneNumber = ({
           tabIndex={8}
           type="text"
           id="phoneNumber"
+          placeholder="01012345678"
           value={phoneNumber}
           autoComplete="off"
           onChange={(e) => handleChange(e)}
           maxLength={11}
         />
-        <StyleCheckBtn tabIndex={9} onClick={openModal} value={`인증하기`}/>
+        <StyleCompanyPhoneNumberCheckBtn tabIndex={9} onClick={openModal} value={`인증하기`}/>
       </StyleIdCheckDiv>
 
       {/* 모달 */}

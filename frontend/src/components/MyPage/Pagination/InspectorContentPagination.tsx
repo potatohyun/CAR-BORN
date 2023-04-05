@@ -78,16 +78,27 @@ export const StyleTableHeadInspectorPagination = styled.div`
 
 export const StyleTableCellDivInspectorPagination = styled.div`
   &:hover {
-    transition: all 1s;
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05);
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5), 0px 0px 0px 5px #fff;
-    background-color: #000000;
-    color: #fff;
+    border: 3px solid #d23131;
+    color: #000;
 
     .detail {
-      transition: all 1s;
+      background-color: #d23131;
       color: white;
+    }
+
+    .booking {
+      background-color: #00bc0d;
+      color: white;
+    }
+
+    .complete {
+      color: white;
+      background-color: #d23131;
+    }
+
+    .cancel {
+      color: white;
+      background-color: #a9a9a9;
     }
   }
 
@@ -153,36 +164,18 @@ export const StyleTableCellDivInspectorPagination = styled.div`
     background-color: #00810950;
     color: #00000050;
     cursor: pointer;
-
-    &:hover {
-      background-color: #00bc0d;
-      color: #ffffff;
-      transition: all 0.5s;
-    }
   }
 
   .complete {
     background-color: #d2313190;
     color: #00000050;
     cursor: pointer;
-
-    &:hover {
-      background-color: #d23131;
-      color: #ffffff;
-      transition: all 0.5s;
-    }
   }
 
   .cancel {
     background-color: #a9a9a990;
     color: #00000050;
     cursor: pointer;
-
-    &:hover {
-      background-color: #a9a9a9;
-      color: #ffffff;
-      transition: all 0.5s;
-    }
   }
 `;
 

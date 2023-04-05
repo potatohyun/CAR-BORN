@@ -3,6 +3,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import CustomAlert from "./modal/CustomAlert";
+import swal from "sweetalert";
+import IsValidComponent from './../../isValid/IsValidComponent';
 
 //타입 지정
 export type SignUpUserNameProps = {
@@ -51,11 +53,8 @@ const SignUpUserName = ({
         name: e.target.value,
       });
     } else {
-      setIsAlert(true);
-      setTimeout(() => {
-        setIsAlert(false);
-      }, 2000);
-      setMessage("한글 이름만 가능합니다. 한영키를 눌러주세요.");
+      setIsAlert(false);
+      swal("유효성 검사", "한글 이름만 가능합니다. 한영키를 눌러주세요.", "error");
       setSignupUserFormData({
         ...signupUserFormData,
         name: "",
@@ -72,16 +71,10 @@ const SignUpUserName = ({
       e.preventDefault();
       if (/^[가-힣]+$/.test(signupUserFormData.name)) {
         setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("입력한 이름이 유효합니다.");
+        swal("유효성 검사", "입력한 이름이 유효합니다.", "success");
       } else {
-        setIsAlert(true);
-        setTimeout(() => {
-          setIsAlert(false);
-        }, 2000);
-        setMessage("이름은 꼭 한글명입니다.");
+        setIsAlert(false);
+        swal("유효성 검사", "이름은 꼭 한글명입니다.", "error");
         setSignupUserFormData({
           ...signupUserFormData,
           name: "",
@@ -90,25 +83,35 @@ const SignUpUserName = ({
     }
   };
 
+  const handleBlur = () => {
+    if (/^[가-힣]+$/.test(signupUserFormData.name)) {
+      setIsAlert(true);
+      swal("유효성 검사", "입력한 이름이 유효합니다.", "success");
+    } else {
+      setIsAlert(false);
+      swal("유효성 검사", "이름은 꼭 한글명입니다.", "error");
+      setSignupUserFormData({
+        ...signupUserFormData,
+        name: "",
+      });
+    }
+  }
+
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="username">이름</StyleNameLabel>
+      <StyleNameLabel htmlFor="username">이름<IsValidComponent isValid={isAlert}/></StyleNameLabel>
       <StyledInput
         tabIndex={1}
         type="text"
         id="username"
-        placeholder="이름을 입력해주세요(ex. 홍길동)"
+        placeholder="UserName"
         maxLength={4}
         autoComplete="off"
         value={signupUserFormData.name}
         onKeyDown={(e) => handleKeyPress(e)}
+        onBlur={handleBlur}
         onChange={(e) => handleUserName(e)}
       />
-      {isAlert ? (
-        <div>
-          <CustomAlert message={message} />
-        </div>
-      ) : null}
     </StyleSignUpInputDiv>
   );
 };

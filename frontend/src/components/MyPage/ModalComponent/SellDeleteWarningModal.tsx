@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import CustomAlert from "../../auth/signup/modal/CustomAlert";
+import swal from "sweetalert";
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -30,7 +31,6 @@ const StyledModalContent = styled.div`
   padding: 24px;
   text-align: center;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
   h2 {
     font-size: 1.5rem;
@@ -49,6 +49,7 @@ const StyledModalContent = styled.div`
     padding: 8px 16px;
     border-radius: 5px;
     font-size: 1.2rem;
+    margin-right: 1rem;
     cursor: pointer;
   }
 `;
@@ -83,11 +84,8 @@ export const SellDeleteWarningModal = ({
         },
       });
 
-      setIsAlert(true);
-      setTimeout(() => {
-        setIsAlert(false);
-      }, 2000);
       onClose();
+      swal("판매 예약", "예약 취소가 완료되었습니다.", "success");
     } catch (error) {
       console.error(error);
     }
@@ -100,11 +98,6 @@ export const SellDeleteWarningModal = ({
         <button onClick={() => DeleteBook(bookid)}>예</button>
         <button onClick={onClose}>아니오</button>
       </StyledModalContent>
-      {isAlert ? (
-        <div>
-          <CustomAlert message={"판매예약 취소가 완료 되었습니다."} />
-        </div>
-      ) : null}
     </StyledModalContainer>
   );
 };

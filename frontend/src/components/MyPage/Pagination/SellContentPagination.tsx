@@ -77,16 +77,27 @@ export const StyleTableHeadSellContentPagination = styled.div`
 
 export const StyleTableCellDivSellContentPagination = styled.div`
   &:hover {
-    transition: all 1s;
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05);
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5), 0px 0px 0px 5px #fff;
-    background-color: #000000;
-    color: #fff;
-
+    color: black;
+    border: 3px solid #d23131;
+    
     .detail {
-      transition: all 1s;
+      background-color: #d23131;
       color: white;
+    }
+
+    .booking {
+      background-color: #00bc0d;
+      color: white;
+    }
+
+    .complete {
+      color: white;
+      background-color: #d23131;
+    }
+
+    .cancel {
+      color: white;
+      background-color: #a9a9a9;
     }
   }
 

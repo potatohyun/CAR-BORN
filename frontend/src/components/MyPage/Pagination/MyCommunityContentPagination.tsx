@@ -77,42 +77,23 @@ export const StyleTableCellDivMyCommunityPagination = styled.div`
   width: 32%;
   height: 18vh;
   border-radius: 5px;
-  border: 3px solid 2px solid #d23131;
+  border: 1px solid #7878789e;
   background-color: #ffffff;
   
   &:hover {
-    transition: all 1s;
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05);
-    box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.5), 0px 0px 0px 5px #fff;
-    border: none;
-    background-color: #000000;
-    color: #fff;
+    border: 2px solid #d23131;
 
     .content > div {
-      transition: all 1s;
-      color: white;
-      background-color: black !important;
-      border-bottom: 3px solid #822020;
     }
 
     .detail > div:nth-of-type(1) {
-      transition: all 1s;
-      color: white;
-      background-color: black !important;
-      border-bottom: 3px solid #822020;
     }
 
     .detail > div:nth-of-type(2) {
-      transition: all 1s;
-      color: white;
-      background-color: black !important;
-      border: 3px solid #822020;
     }
   }
 
   .content {
-    border-left: 1px dashed #00000050;
     box-sizing: border-box;
     display: flex;
     justify-content: center;

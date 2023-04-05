@@ -30,6 +30,7 @@ import axios from "axios";
 import { CARBORN_SITE } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { ContentType, applicationjson } from "./../../../lib/api";
+import swal from 'sweetalert';
 
 const StyleMyRepairDetailDiv = styled.div`
   width: 100vw;
@@ -483,6 +484,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
         }
       );
 
+      swal("정비 예약 변경", "예약 변경이 완료되었습니다.", "success");
       onClose();
     } catch (error) {
       console.error(error);
@@ -510,6 +512,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
               </DemoContainer>
             </LocalizationProvider>
             <textarea
+              style={{ width: '15vw'}}
               cols={35}
               rows={5}
               value={reservationChangeContent}
@@ -564,8 +567,7 @@ export function BookDeleteDialogSlide(props: AlertDialogSlideProps) {
           },
         }
       );
-
-      console.log(`예약이 삭제되었습니다.`);
+      swal("정비 예약 취소", "예약 취소가 완료되었습니다.", "success");
     } catch (error) {
       console.error(error);
     }

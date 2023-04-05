@@ -10,6 +10,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import IsValidComponent from './../../isValid/IsValidComponent';
+import swal from "sweetalert";
 
 type SignUpUserBirthProps = {
   setSignupUserFormData: React.Dispatch<React.SetStateAction<SignupFormData>>;
@@ -61,11 +63,12 @@ const SignUpUserBirth = ({
       identifynumber: formattedDate,
     });
     setUserBirth(formattedDate);
+    swal("유효성 검사", "생년월일이 정상적으로 입력되었습니다.", "success");
   };
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="userbirth">생년월일</StyleNameLabel>
+      <StyleNameLabel htmlFor="userbirth">생년월일<IsValidComponent isValid={userBirth ? true : false}/></StyleNameLabel>
       <StyleDatePickerDiv style={{ width: '100%' }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DatePicker', 'DatePicker']}>

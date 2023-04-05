@@ -7,6 +7,7 @@ import { StyledInput, StyleNameLabel } from "../auth/signup/SignUpUserName";
 import { companyModifyPasswordRequest, userModifyPasswordRequest } from './../../modules/modifyPasswordModule';
 import CustomAlert from "../auth/signup/modal/CustomAlert";
 import IsValidComponent from './../isValid/IsValidComponent';
+import swal from "sweetalert";
 
 export type SearchInputPasswordCheckObj = {
   userid:string,
@@ -92,8 +93,7 @@ const StyleUserPasswordModifyContainerDiv = styled.div`
   width: 25vw;
   height: 60vh;
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 5px;
 
   display: flex;
@@ -288,6 +288,7 @@ const PasswordModify = () => {
     }
   };
 
+
   const handleSendNewPassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (account === 0) {
@@ -303,6 +304,7 @@ const PasswordModify = () => {
 
   useEffect(() => {
     if (success) {
+      swal("비밀번호 변경", "비밀번호 재변경이 완료되었습니다.", "success");
       navigate("/login");
     }
   }, [success, navigate]);

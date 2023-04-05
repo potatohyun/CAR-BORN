@@ -1,6 +1,9 @@
  import styled from "@emotion/styled";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { StyleNameLabel } from "./SignUpUserName";
+import IsValidComponent from './../../isValid/IsValidComponent';
+import { useEffect } from 'react';
+import swal from "sweetalert";
 
 export interface Props {
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -34,7 +37,13 @@ export const StyleDocumentInput = styled.input`
   }
 `;
 
-const SignUpCompanyDocument: React.FC<Props> = ({ handleFileChange }) => {
+type SignUpCompanyDocumentProps = {
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isSelectedFiles: boolean;
+}
+
+const SignUpCompanyDocument: React.FC<SignUpCompanyDocumentProps> = ({ handleFileChange, isSelectedFiles}) => {
+
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="document">가입관련 첨부서류</StyleNameLabel>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { PasswordResetInputObj } from "../../../routes/auth/PasswordResetCheck";
-import { StyledInput, StyleNameLabel } from "../signup/SignUpUserName";
+import { StyleNameLabel } from "../signup/SignUpUserName";
 
 // input DIV
 const StyleLoginInputDiv = styled.div`
