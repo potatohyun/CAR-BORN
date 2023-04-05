@@ -1,11 +1,15 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+
 import { DataType } from "./SaleInfoArea";
+import { inputBoxStyle, titleStyle } from "./SaleManufacturingCompany";
 
 function SaleCarNumber({ data }: DataType) {
   return (
     <div>
-      <span>차량 번호</span>
+      <span css={titleStyle}>차량 번호</span>
       <div>
-        <input type="text" disabled={true} value={`${data.regNm}`} />
+        <input css={inputBoxStyle} disabled={true} value={`${data.regNm}`} />
       </div>
     </div>
   );

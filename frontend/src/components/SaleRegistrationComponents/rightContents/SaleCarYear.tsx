@@ -1,11 +1,19 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+
 import { DataType } from "./SaleInfoArea";
+import { inputBoxStyle, titleStyle } from "./SaleManufacturingCompany";
 
 function SaleCarYear({ data }: DataType) {
   return (
     <div>
-      <span>연식</span>
+      <span css={titleStyle}>연식</span>
       <div>
-        <input value={`${data.modelYear}`} disabled={true} />
+        <input
+          css={inputBoxStyle}
+          value={`${data.modelYear}`}
+          disabled={true}
+        />
       </div>
     </div>
   );

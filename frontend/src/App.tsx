@@ -16,6 +16,18 @@ const globalStyles = css`
     padding: 0 0 0 0;
     user-select: none;
   }
+  .swal-button--confirm {
+    padding: 7px 19px;
+    border-radius: 2px;
+    background-color: red;
+    font-size: 14px;
+    border: 1px solid #ff0000;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  .swal-modal {
+    width: 25%;
+  }
 `;
 
 const queryClient = new QueryClient();

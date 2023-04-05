@@ -1,7 +1,11 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+
 import {
   Props,
   RegistrationInfo,
 } from "../../../routes/userUseFnc/MyVehicleRegistration";
+import { inputBoxStyle, titleStyle } from "./ManufacturingCompany";
 
 function CarModel({
   setRegistrationInfo,
@@ -18,9 +22,14 @@ function CarModel({
 
   return (
     <div>
-      <span>차량모델</span>
+      <span css={titleStyle}>차량모델</span>
       <div>
-        <input type="text" autoComplete="false" onBlur={inputTyping} />
+        <input
+          css={inputBoxStyle}
+          type="text"
+          autoComplete="false"
+          onBlur={inputTyping}
+        />
       </div>
     </div>
   );

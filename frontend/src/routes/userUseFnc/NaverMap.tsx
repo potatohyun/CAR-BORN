@@ -3,8 +3,8 @@ import { css } from "@emotion/react";
 
 import { useEffect, useRef, useState } from "react";
 
-import hand from "../../assets/hand.png";
-import gumsu from "../../assets/gumsu.png";
+import inspectIcon from "../../assets/inspectIcon.png";
+import repairIcon from "../../assets/repairIcon.png";
 import CurrentLocationBtn from "../../components/NaverMap/CurrentLocationBtn";
 import ReserveForm from "../../components/NaverMap/ReserveForm";
 import SearchBar from "../../components/NaverMap/SearchBar";
@@ -178,18 +178,18 @@ function NaverMap() {
         map: map,
         position,
         icon: {
-          url: key.AUTH === 2 ? gumsu : hand,
-          size: new naver.maps.Size(50, 52),
-          scaledSize: new naver.maps.Size(50, 52),
+          url: key.AUTH === 2 ? inspectIcon : repairIcon,
+          size: new naver.maps.Size(40, 42),
+          scaledSize: new naver.maps.Size(40, 42),
           origin: new naver.maps.Point(0, 0),
-          anchor: new naver.maps.Point(25, 26),
+          anchor: new naver.maps.Point(20, 26),
         },
         zIndex: 100,
       });
 
       var infoWindow = new naver.maps.InfoWindow({
         content: [
-          '<div style="width:28vw; padding:10px; height: 28vh; margin-left:2.5vw;">',
+          '<div style="width:20vw; padding:10px; height: 28vh; margin-left:2.5vw;">',
           `<p style="font-size: 1.5rem; margin-bottom: 0; margin-top: 0; font-weight: bolder;">${key.NAME}</p>`,
           '<p style="margin-top: 0; color: #E00000; font-weight: bolder;">',
           `<span style="font-size: 1.2rem">★</span><span style="color: #242424">${

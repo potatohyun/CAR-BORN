@@ -19,10 +19,12 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import swal from "sweetalert";
 
 const rightContent = css`
-  width: 40vw;
+  width: 30vw;
   height: 90vh;
+  margin-top: 10vh;
 `;
 
 export interface SaleInfoType {
@@ -101,10 +103,25 @@ function SaleInfoContents({
       },
     })
   );
-  console.log(isSuccess);
 
   const submitInfo = () => {
-    mutate();
+    if (saleInfo.content && saleInfo.price) {
+      swal({
+        title: "등록이 완료되었습니다.",
+        text: "2초후 자동으로 닫힙니다.",
+        icon: "success",
+        timer: 2000,
+        buttons: [false],
+      });
+      mutate();
+    } else {
+      swal({
+        text: "양식을 채워주세요",
+        icon: "error",
+        timer: 2000,
+        buttons: [false],
+      });
+    }
   };
 
   useEffect(() => {
@@ -113,10 +130,21 @@ function SaleInfoContents({
     }
   }, [isSuccess]);
 
+  const back = () => {
+    navigation("/");
+  };
+
   return (
     <div css={rightContent}>
       <h2 style={{ textAlign: "center" }}>차량 판매 등록</h2>
-      <hr />
+      <hr
+        style={{
+          background: "#D23131",
+          border: "0",
+          height: "2px",
+          marginBottom: "5%",
+        }}
+      />
       {/* 제조사 / 차량모델 */}
       <SaleManufacturingCompany data={data.detail} />
       {/* 차량번호 */}
@@ -129,8 +157,37 @@ function SaleInfoContents({
       <SaleCarCost setSaleInfo={setSaleInfo} />
       {/* 판매내용 */}
       <SaleCarContent setSaleInfo={setSaleInfo} />
+      {/* 뒤로가기 버튼 */}
+      <button
+        css={{
+          border: "0",
+          width: "30%",
+          height: "5.5%",
+          marginBottom: "3%",
+          color: "black",
+          marginRight: "5%",
+          backgroundColor: "lightgray",
+          cursor: "pointer",
+        }}
+        onClick={back}
+      >
+        뒤로가기
+      </button>
       {/* 제출 버튼 */}
-      <button onClick={submitInfo}>제출</button>
+      <button
+        css={{
+          border: "0",
+          width: "65%",
+          height: "5.5%",
+          marginBottom: "3%",
+          color: "white",
+          backgroundColor: "#D23131",
+          cursor: "pointer",
+        }}
+        onClick={submitInfo}
+      >
+        제출
+      </button>
     </div>
   );
 }

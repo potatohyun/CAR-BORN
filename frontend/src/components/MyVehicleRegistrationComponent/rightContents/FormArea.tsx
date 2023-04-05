@@ -15,9 +15,9 @@ import VehicleIdentificationNumber from "./VehicleIdentificationNumber";
 import VehicleRegistrationCertificate from "./VehicleRegistrationCertificate";
 
 const rightContent = css`
-  border: 1px solid black;
-  width: 40vw;
+  width: 30vw;
   height: 90vh;
+  margin-top: 10vh;
 `;
 
 const API = `https://carborn.site/api/user/car`;
@@ -26,17 +26,10 @@ function FormArea({
   registrationInfo,
   setRegistrationInfo,
 }: Props<React.Dispatch<React.SetStateAction<Partial<RegistrationInfo>>>>) {
-  const newRegistrationInfo = {
-    manufacturingCompany: registrationInfo?.manufacturingCompany,
-    carNumber: registrationInfo?.carNumber,
-    carYear: registrationInfo?.carYear,
-    distanceDriven: registrationInfo?.distanceDriven,
-  };
-
   return (
     <div css={rightContent}>
-      <h2 style={{ textAlign: "center" }}>차량 등록</h2>
-      <hr />
+      <h3 style={{ textAlign: "center" }}>차량 등록</h3>
+      <hr style={{ background: "#D23131", border: "0", height: "2px" }} />
 
       {/* 제조사 */}
       <ManufacturingCompany setRegistrationInfo={setRegistrationInfo} />
@@ -64,7 +57,6 @@ function FormArea({
       <RegistrationBtn
         registrationInfo={registrationInfo}
         setRegistrationInfo={setRegistrationInfo}
-        newRegistrationInfo={newRegistrationInfo}
         API={API}
       />
     </div>

@@ -18,10 +18,7 @@ function SearchSort() {
 
   return (
     <div>
-      <FormControl
-        sx={{ m: 1, minWidth: 80, marginRight: "1.7vw" }}
-        size="small"
-      >
+      <FormControl sx={{ width: "100%", marginTop: "2%" }} size="small">
         <InputLabel id="demo-simple-select-autowidth-label">정렬</InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"

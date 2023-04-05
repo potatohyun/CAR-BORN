@@ -8,18 +8,20 @@ import Nav2 from "./../../components/Nav2";
 import { useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import { StateType } from "../../modules/carListModule";
+import SpeedDialComponent from "./../../components/VehiclePurchase/SpeedDialComponent";
 
 const outer = css`
   width: 100%;
-  display: flefx;
-  justify-content: center;
+  display: flex;
   flex-direction: column;
   height: auto;
+  margin-top: 8vh;
+  position: relative;
 `;
 
 const content = css`
   display: flex;
-  align-items: center;
+  justify-content: space-evenly;
 `;
 
 function VehiclePurchase() {
@@ -35,13 +37,25 @@ function VehiclePurchase() {
   return (
     <>
       <Nav2 />
-
       <div css={outer}>
         <div css={content}>
           {/* 왼쪽 메뉴바 */}
           <MenuBar />
           {/* 오른쪽 컨텐츠 */}
           <CarList />
+        </div>
+
+        <div
+          css={{
+            position: "fixed",
+            right: "0",
+            bottom: "0",
+            height: "100px",
+            width: "100px",
+          }}
+        >
+          {/* 스피드 다이얼 */}
+          <SpeedDialComponent />
         </div>
       </div>
     </>

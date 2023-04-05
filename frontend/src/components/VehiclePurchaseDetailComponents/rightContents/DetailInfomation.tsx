@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 
 import { useQuery } from "react-query";
-import { Params } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense, useState } from "react";
 import CarModel from "./CarModel";
@@ -23,9 +22,9 @@ import {
 } from "../VehiclePurchaseDetailType";
 
 const rightContent = css`
-  border: 1px solid black;
-  width: 40vw;
-  height: 80vh;
+  width: 30vw;
+  height: 90vh;
+  margin-top: 10vh;
 `;
 
 const SIZE: number = 5;
@@ -33,22 +32,22 @@ const SIZE: number = 5;
 // 내부 컨텐츠
 const DetailInfomationComponent = ({
   setError,
-  carId,
   page,
   setPage,
   id,
+  setImg,
 }: {
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
-  carId?: string;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   id?: string;
+  setImg: React.Dispatch<React.SetStateAction<any[]>>;
 }) => {
-  const API = `https://carborn.site/api/user/car/sale/${carId}/${page}/${SIZE}`;
+  const API = `https://carborn.site/api/user/car/sale/${id}/${page}/${SIZE}`;
   const getCarDetail = useAPI("get", API);
 
   const { data } = useQuery(["get-car-detail", page], () => getCarDetail, {
-    staleTime: 1000 * 300,
+    staleTime: 0,
     cacheTime: 1000 * 300,
     retry: false,
     select: (data) => {
@@ -57,6 +56,10 @@ const DetailInfomationComponent = ({
     onError: (error: Error) => {
       setError(error);
     },
+    onSuccess: (data) => {
+      setImg(data.img);
+      return data;
+    },
     suspense: true,
     useErrorBoundary: true,
   });
@@ -64,11 +67,20 @@ const DetailInfomationComponent = ({
   return (
     <div css={rightContent}>
       <h2 style={{ textAlign: "center" }}>상세정보</h2>
+      <hr
+        style={{
+          background: "#D23131",
+          border: "0",
+          height: "2px",
+          marginBottom: "5%",
+        }}
+      />
+
       <CarModel data={data.detail} />
       <CarNumber data={data.detail} />
       <CarCost data={data.detail} />
-      <CarContent data={data.detail} />
       <CarDistance data={data.detail} />
+      <CarContent data={data.detail} />
       <WatchFileBtn<RepairDataType>
         data={data.repair.content}
         value={1}
@@ -87,12 +99,18 @@ const DetailInfomationComponent = ({
         page={page}
         setPage={setPage}
       />
-      <PurchaseApplicationBtn id={id} />
+      <PurchaseApplicationBtn DetailData={data} id={id} />
     </div>
   );
 };
 
-function DetailInfomation({ carId, id }: Readonly<Params<string>>) {
+function DetailInfomation({
+  id,
+  setImg,
+}: {
+  id?: string;
+  setImg: React.Dispatch<React.SetStateAction<any[]>>;
+}) {
   const [error, setError] = useState<Error | null>(null);
   const [page, setPage] = useState<number>(1);
 
@@ -105,10 +123,10 @@ function DetailInfomation({ carId, id }: Readonly<Params<string>>) {
       <Suspense fallback={<Loading />}>
         <DetailInfomationComponent
           setError={setError}
-          carId={carId}
           page={page}
           setPage={setPage}
           id={id}
+          setImg={setImg}
         />
       </Suspense>
     </ErrorBoundary>

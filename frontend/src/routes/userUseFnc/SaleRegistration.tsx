@@ -4,11 +4,9 @@ import { css } from "@emotion/react";
 import SaleInfoArea from "../../components/SaleRegistrationComponents/rightContents/SaleInfoArea";
 import SaleCarImg from "./../../components/SaleRegistrationComponents/leftContents/SaleCarImg";
 import { useState } from "react";
-import { RegistrationInfo } from "./MyVehicleRegistration";
 import Nav2 from "./../../components/Nav2";
 
 const outer = css`
-  border: 1px solid black;
   width: 100%;
   height: 100%;
   display: flex;

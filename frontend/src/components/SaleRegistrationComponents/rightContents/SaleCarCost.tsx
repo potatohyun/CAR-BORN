@@ -1,3 +1,10 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import {
+  inputBoxStyle,
+  titleStyle,
+} from "../../MyVehicleRegistrationComponent/rightContents/ManufacturingCompany";
+
 import { SaleInfoContentsType, SaleInfoType } from "./SaleInfoArea";
 
 function SaleCarCost({
@@ -12,9 +19,9 @@ function SaleCarCost({
   };
   return (
     <>
-      <span>차량가격</span>
+      <span css={titleStyle}>차량가격</span>
       <div>
-        <input type="number" min="0" onBlur={getTyping} />
+        <input css={inputBoxStyle} type="number" min="0" onBlur={getTyping} />
       </div>
     </>
   );

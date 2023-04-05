@@ -4,13 +4,41 @@ import { Carousel } from "react-responsive-carousel";
 import car from "../../../assets/car.png";
 
 const leftContent = css`
-  width: 40vw;
-  height: 90vh;
+  width: 30vw;
+  height: 50%;
   margin-right: 6vw;
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  .slider {
+    display: flex;
+    align-items: center;
+    height: auto;
+  }
+  .carousel-root {
+    height: 85%;
+  }
+  .carousel-slider {
+    height: 100%;
+    .slider-wrapper {
+      height: 80vh;
+      width: 30vw;
+    }
+  }
+  .carousel {
+    .thumbs-wrapper {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .no-img {
+    text-align: center;
+    margin-top: 50%;
+  }
+  .thumbs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 function SaleCarImg({ imgs }: { imgs: Array<string> }) {
@@ -22,7 +50,6 @@ function SaleCarImg({ imgs }: { imgs: Array<string> }) {
             return (
               <div>
                 <img src={car} alt="qwe" />
-                <p className="legend">Legend 1</p>
               </div>
             );
           })}
@@ -31,11 +58,9 @@ function SaleCarImg({ imgs }: { imgs: Array<string> }) {
         <Carousel>
           <div>
             <img src={car} alt="qwe" />
-            <p className="legend">Legend 1</p>
           </div>
           <div>
             <img src={car} alt="qwe" />
-            <p className="legend">Legend 1</p>
           </div>
         </Carousel>
       )}

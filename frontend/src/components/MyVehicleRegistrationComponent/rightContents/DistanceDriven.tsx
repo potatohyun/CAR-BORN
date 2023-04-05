@@ -1,5 +1,9 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+
 import { Props } from "../../../routes/userUseFnc/MyVehicleRegistration";
 import { RegistrationInfo } from "./../../../routes/userUseFnc/MyVehicleRegistration";
+import { inputBoxStyle, titleStyle } from "./ManufacturingCompany";
 
 function DistanceDriven({
   setRegistrationInfo,
@@ -9,16 +13,22 @@ function DistanceDriven({
     setRegistrationInfo((registrationInfo) => {
       return {
         ...registrationInfo,
-        distanceDriven: inputValue,
+        distanceDriven: Number(inputValue),
       };
     });
   };
 
   return (
     <div>
-      <span>주행거리(km)</span>
+      <span css={titleStyle}>주행거리(km)</span>
       <div>
-        <input type="number" defaultValue="0" min="0" onBlur={inputTyping} />
+        <input
+          css={inputBoxStyle}
+          type="number"
+          placeholder="0"
+          min="0"
+          onBlur={inputTyping}
+        />
       </div>
     </div>
   );

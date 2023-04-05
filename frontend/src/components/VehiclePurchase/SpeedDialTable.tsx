@@ -5,16 +5,26 @@ import { useNavigate } from "react-router-dom";
 const container = css`
   width: 20vw;
   height: auto;
-  border: 1px solid black;
+  display: flex;
+  justify-content: center;
 `;
 
 const content = css`
-  width: 100%;
-  height: 30%;
-  border: 1px solid black;
+  border: 1px solid #bbbbbb;
+  background-color: #000000;
+  color: white;
+  width: 70%;
+  border-radius: 10px;
+  height: 4vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
   cursor: pointer;
   &:hover {
-    background-color: red;
+    background-color: #d23131;
   }
 `;
 
@@ -27,7 +37,7 @@ function SpeedDialTable({ data }: any) {
 
   return (
     <>
-      <span>내 차량</span>
+      <span css={{ fontSize: "1.3rem", fontWeight: "900" }}>차량 선택</span>
       <div css={container}>
         {data?.map((car: any) => {
           return (
@@ -36,7 +46,7 @@ function SpeedDialTable({ data }: any) {
               css={content}
               onClick={() => goToRegistrationPage(car.id)}
             >
-              {car.modelNm}
+              {`${car.maker} / ${car.modelNm}`}
             </div>
           );
         })}

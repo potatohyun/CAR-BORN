@@ -1,17 +1,14 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { searchContainer } from "./SearchBar";
+
 import SearchSort from "./SearchSort";
 
 function SearchFilter() {
   return (
-    <div>
-      <span>정렬</span>
-      <hr
-        style={{
-          width: "20%",
-          marginLeft: "2%",
-          background: "red",
-          height: "1px",
-        }}
-      />
+    <div css={searchContainer}>
+      <span className="span">정렬</span>
+      <hr className="hr" />
       <div>
         <SearchSort />
       </div>

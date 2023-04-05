@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+
 // 테이블
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -41,6 +44,22 @@ const insuranceTableRowName: string[] = [
 ];
 
 const imgFontStyle = { fontWeight: "bolder", marginLeft: "1.2%" };
+
+const container = css`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+const noContent = css`
+  width: 10vw;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 900;
+`;
 
 export function createData(
   companyAccountId: string,
@@ -122,7 +141,7 @@ function Row(props: {
                       return (
                         <TableCell
                           sx={{
-                            fontSize: "0.72rem",
+                            fontSize: "0.6rem",
                             fontWeight: "bolder",
                             color: "white",
                           }}
@@ -218,53 +237,64 @@ export default function FileListStack<T>({
   }, [page, totalPage]);
 
   return (
-    <TableContainer
-      component={Paper}
-      style={{ width: "28.7vw", height: "100%" }}
-    >
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow sx={{ backgroundColor: "#E00000" }}>
-            <TableCell />
-            <TableCell
-              align="center"
-              sx={{ color: "white", fontWeight: "bold" }}
-            >
-              {value === 1 ? "정비소" : value === 2 ? "검사소" : "보험회사"}
-            </TableCell>
-            <TableCell
-              align="center"
-              sx={{ color: "white", fontWeight: "bold" }}
-            >
-              {value === 1 ? "정비일시" : value === 2 ? "검수일시" : "사고일시"}
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {DATA
-            ? DATA.map((data: any) => (
-                <Row
-                  key={data?.item?.id}
-                  data={data}
-                  value={value}
-                  modalOpen={modalOpen}
-                />
-              ))
-            : null}
-        </TableBody>
-      </Table>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          left: "50%",
-          margin: "2% 0",
-        }}
-      >
-        <Stack spacing={2}>
-          <Pagination count={totalPage} page={page} onChange={handleChange} />
-        </Stack>
-      </div>
-    </TableContainer>
+    <>
+      {DATA ? (
+        <TableContainer component={Paper} css={container}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow sx={{ backgroundColor: "#E00000" }}>
+                <TableCell />
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  {value === 1 ? "정비소" : value === 2 ? "검사소" : "보험회사"}
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  {value === 1
+                    ? "정비일시"
+                    : value === 2
+                    ? "검수일시"
+                    : "사고일시"}
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {DATA
+                ? DATA.map((data: any) => (
+                    <Row
+                      key={data?.item?.id}
+                      data={data}
+                      value={value}
+                      modalOpen={modalOpen}
+                    />
+                  ))
+                : null}
+            </TableBody>
+          </Table>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              left: "50%",
+              margin: "2% 0",
+            }}
+          >
+            <Stack spacing={2}>
+              <Pagination
+                count={totalPage}
+                page={page}
+                onChange={handleChange}
+              />
+            </Stack>
+          </div>
+        </TableContainer>
+      ) : (
+        <div css={noContent}>기록이 없습니다.</div>
+      )}
+    </>
   );
 }

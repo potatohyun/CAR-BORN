@@ -5,15 +5,16 @@ import SearchFilter from "./SearchFilter";
 
 const leftContent = css`
   width: 15vw;
+  margin-left: 10%;
 `;
 
 const leftOuter = css`
-  height: 40%;
+  height: 37vh;
   width: 20vw;
-  position: fixed;
-  top: 45.3%;
-  left: 1vw;
-  border: 1px black solid;
+  position: sticky;
+  top: 56%;
+  left: 5%;
+  border: 1px #b1b1b1 solid;
 `;
 
 function MenuBar() {

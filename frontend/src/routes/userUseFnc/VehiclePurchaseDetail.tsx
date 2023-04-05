@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useState } from "react";
 
 import { Params, useParams } from "react-router-dom";
 
-import Nav from "../../components/Nav";
+import Nav2 from "../../components/Nav2";
 import DetailThumnail from "../../components/VehiclePurchaseDetailComponents/leftContents/DetailThumnail";
 import DetailInfomation from "../../components/VehiclePurchaseDetailComponents/rightContents/DetailInfomation";
 
@@ -21,16 +22,17 @@ const content = css`
 
 function VehiclePurchaseDetail() {
   const { carId, id }: Readonly<Params<string>> = useParams();
+  const [img, setImg] = useState<any[]>([]);
 
   return (
     <>
-      <Nav />
+      <Nav2 />
       <div css={outer}>
         <div css={content}>
           {/* 왼쪽 컨텐츠 */}
-          <DetailThumnail />
+          <DetailThumnail img={img} />
           {/* 오른쪽 컨텐츠*/}
-          <DetailInfomation carId={carId} id={id} />
+          <DetailInfomation id={id} setImg={setImg} />
         </div>
       </div>
     </>

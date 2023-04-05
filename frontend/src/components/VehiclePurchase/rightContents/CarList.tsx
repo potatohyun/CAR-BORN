@@ -7,39 +7,40 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ErrorComponent from "../../ErrorComponent";
 import Loading from "../../Loading";
-import SpeedDialComponent from "../SpeedDialComponent";
 import NoCarList from "./NoCarList";
 import { useSelector } from "react-redux";
 import { StateType } from "../../../modules/carListModule";
+import CAR from "../../../assets/car.png";
 
 const rightContent = css`
-  width: 75vw;
+  width: 50%;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 8vw;
+  margin-right: 4%;
   .btn {
     position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 65px;
-    height: 20px;
+    right: 20px;
+    top: 15px;
+    width: 70px;
+    height: 25px;
     background-color: red;
     color: white;
     border-color: red;
-    font-size: x-small;
+    font-size: 0.7rem;
+    cursor: pointer;
   }
 `;
 
 const infoBox = css`
-  width: 95%;
-  background-color: beige;
-  height: 40%;
-  margin-top: 3%;
+  width: 96.5%;
+  border: 1px solid #bbbbbb;
+  height: 22vh;
   display: flex;
   align-items: center;
   position: relative;
+  margin-bottom: 4%;
 `;
 
 const imgStyle = css`
@@ -54,7 +55,22 @@ const textStyle = css`
   flex-direction: column;
   height: 100%;
   margin-right: 2%;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  .title {
+    font-size: 1rem;
+    font-weight: 900;
+  }
+  .content {
+    color: #989898;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+  .price {
+    color: #d23131;
+    font-weight: 900;
+    font-size: 1.3rem;
+  }
 `;
 
 interface CarType {
@@ -97,7 +113,6 @@ function CarList() {
   const SEARCH_API = (pageParam: number) => {
     return `https://carborn.site/api/user/car/sale/list/${pageParam}/${SIZE}/${sortType}/${keywordType}/${keyword}`;
   };
-
   const { data, fetchNextPage, hasNextPage, isError, isLoading } =
     useInfiniteQuery(
       "infinity-scroll",
@@ -112,6 +127,8 @@ function CarList() {
       },
       {
         retry: false,
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
         keepPreviousData: true,
         useErrorBoundary: true,
         getNextPageParam: (lastPage, allPages) => {
@@ -188,54 +205,75 @@ function CarList() {
     );
   }
 
+  console.log(data?.pages);
+
   return (
     <div css={rightContent}>
       {isData ? (
         data?.pages.map((item) => {
           return item?.data?.message.content.map(
             (car: CarType, index: number) => {
-              if (!car?.saleStatus) {
-                return (
-                  // 검색 결과
-                  <div
-                    css={infoBox}
-                    key={index}
-                    ref={(ref) => {
-                      if (ref) {
-                        divRef.current[cnt] = ref;
-                        cnt++;
-                      }
-                    }}
+              return (
+                // 검색 결과
+                <div
+                  css={infoBox}
+                  key={index}
+                  ref={(ref) => {
+                    if (ref) {
+                      divRef.current[cnt] = ref;
+                      cnt++;
+                    }
+                  }}
+                >
+                  <button
+                    className="btn"
+                    onClick={() => goToDetil(car.carId, car.id)}
                   >
-                    <button
-                      className="btn"
-                      onClick={() => goToDetil(car.carId, car.id)}
-                    >
-                      Detail
-                    </button>
-                    <img
-                      src={`${CAR_URL}${car.imgNm}`}
-                      alt="carImg"
-                      css={imgStyle}
-                    />
-                    <div css={textStyle}>
-                      <div>
-                        <div>{`${car.modelYear} ${car.modelNm} | ${parseInt(
-                          car.mileage
-                        ).toLocaleString("ko-KR")}km`}</div>
-                        <div
-                          style={{ border: "2px solid red", width: "3vw" }}
-                        ></div>
+                    Detail
+                  </button>
+                  <img
+                    // src={`${CAR_URL}${car.imgNm}`}
+                    src={CAR}
+                    alt="carImg"
+                    css={imgStyle}
+                  />
+                  <div css={textStyle}>
+                    <div className="title">
+                      <div css={{ display: "flex" }}>
+                        {`${car.modelYear} ${car.modelNm}`}{" "}
+                        <hr
+                          css={{
+                            width: "2px",
+                            height: "18px",
+                            color: "black",
+                            backgroundColor: "black",
+                            margin: "2.5px 5px 1px 5px",
+                          }}
+                        />{" "}
+                        {`${parseInt(car.mileage).toLocaleString("ko-KR")}km`}
                       </div>
-
-                      <div>{car.content}</div>
-                      <div>{`${parseInt(car.price).toLocaleString(
-                        "ko-KR"
-                      )}￦`}</div>
+                      <div
+                        style={{
+                          border: "2px solid #FF0000",
+                          width: "7%",
+                          marginTop: "1%",
+                        }}
+                      ></div>
                     </div>
+
+                    {/* <div className="content">{car.content}</div> */}
+                    <div className="content">
+                      2019년에 구입하여 정말 애지중지 해서 관리한 차 입니다.
+                      사고난적 한 번 없고 엔진오일, 타이어 제때 갈아줘서 상태가
+                      좋습니다.
+                    </div>
+
+                    <div className="price">{`${parseInt(
+                      car.price
+                    ).toLocaleString("ko-KR")}￦`}</div>
                   </div>
-                );
-              }
+                </div>
+              );
             }
           );
         })
@@ -243,8 +281,6 @@ function CarList() {
         // 검색 결과가 없음
         <NoCarList />
       )}
-      {/* 스피드 다이얼 */}
-      <SpeedDialComponent />
     </div>
   );
 }
