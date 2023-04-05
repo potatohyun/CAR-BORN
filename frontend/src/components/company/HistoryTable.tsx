@@ -60,7 +60,15 @@ export default function HistoryTable() {
     queryKey = "getInspectorHistory";
   }
 
-  const getHistoryData = useAPI("get", URL);
+  const ObjString: any = localStorage.getItem("login-token");
+
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
+  const getHistoryData = useAPI("get", URL, option);
 
   const { data, refetch } = useQuery(queryKey, () => getHistoryData, {
     cacheTime: 1000 * 300,

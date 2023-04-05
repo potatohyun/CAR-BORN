@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import { gsap, ScrollTrigger } from "gsap/all";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const container = css`
   height: 13vh;
@@ -39,9 +40,9 @@ const container = css`
 `;
 
 export default function HomeIconMenu() {
-  gsap.registerPlugin(ScrollTrigger);
-
+  const navigate = useNavigate();
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     gsap.to(".icons", {
       y: 100,
       duration: 1,
@@ -69,7 +70,7 @@ export default function HomeIconMenu() {
   return (
     <div css={container} className="iconContainer">
       <div className="icons">
-        <div className="icon">
+        <div className="icon" onClick={() => navigate("/user/car/list")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#000000"
@@ -82,7 +83,7 @@ export default function HomeIconMenu() {
             </g>
           </svg>
         </div>
-        <div className="icon">
+        <div className="icon" onClick={() => navigate("/user/car/list")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#000000"
@@ -114,7 +115,7 @@ export default function HomeIconMenu() {
             </g>
           </svg>
         </div>
-        <div className="icon">
+        <div className="icon" onClick={() => navigate("/user/community")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#000000"
@@ -140,7 +141,7 @@ export default function HomeIconMenu() {
             </g>
           </svg>
         </div>
-        <div className="icon">
+        <div className="icon" onClick={() => navigate("/user/map")}>
           <svg
             version="1.1"
             id="REPAIR"
@@ -158,7 +159,7 @@ export default function HomeIconMenu() {
             </g>
           </svg>
         </div>
-        <div className="icon">
+        <div className="icon" onClick={() => navigate("/user/mypage")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#000000"

@@ -17,7 +17,8 @@ function Model(props) {
       <group rotation={[-Math.PI / 2 - 0.01, 0, -Math.PI]}>
         <mesh
           rotation={[Math.PI / 2 + 0.01, Math.PI / 2 + 0.8, -0.01]}
-          position={[5.5, -1, -0.8]}>
+          position={[5.5, -1, -0.8]}
+        >
           <textGeometry args={["CAR-BORN", { font, size: 1.1, height: 1 }]} />
           <meshLambertMaterial attach="material" color={"red"} />
         </mesh>

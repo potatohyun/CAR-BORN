@@ -43,8 +43,14 @@ function SpeedDialComponent() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [page, setPage] = useState<number>(1);
   const API = `https://carborn.site/api/user/car/list/${page}/15`;
+  const ObjString: any = localStorage.getItem("login-token");
 
-  const getCarListFnc = useAPI("get", API);
+  const getCarListFnc = useAPI("get", API, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  });
 
   const { data } = useQuery("get-car-list-fnc", () => getCarListFnc, {
     retry: false,

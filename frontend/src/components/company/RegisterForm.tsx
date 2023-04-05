@@ -112,9 +112,7 @@ export default function RegisterForm() {
     return fetch(URL, {
       method: "PUT",
       body: data,
-      headers: {
-        Authorization: `Bearer ${JSON.parse(ObjString).value}`,
-      },
+      ...option,
     }).then((res) => console.log(res));
   };
 
@@ -163,7 +161,7 @@ export default function RegisterForm() {
       Toast.fire({
         icon: "success",
         title: "등록이 성공적으로 완료됐습니다.",
-        // didClose: () => navigate(isGarage ? "/garage" : "/inspector"),
+        didClose: () => navigate(isGarage ? "/garage" : "/inspector"),
       });
     } else {
       Toast.fire({

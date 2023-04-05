@@ -16,10 +16,16 @@ interface CarType {
 
 const PAGE = 1;
 const SIZE = 1;
+const ObjString: any = localStorage.getItem("login-token");
 
 const API = `https://carborn.site/api/user/car/list/${PAGE}/${SIZE}`;
 function MyCarInformation({ data, setReserveInfo, reserveInfo }: Props) {
-  const getUserCarListFnc = useAPI("get", API);
+  const getUserCarListFnc = useAPI("get", API, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  });
   const { data: carList } = useQuery(
     "get-user-car-list-fnc",
     () => getUserCarListFnc,

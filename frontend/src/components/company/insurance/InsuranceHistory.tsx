@@ -50,7 +50,16 @@ export default function InsuranceHistory() {
   const URL = `http://carborn.site/api/insurance/list/${page + 1}/7`;
   const queryKey = "getInsuranceHistory";
 
-  const getInsuranceHistory = useAPI("get", URL);
+  const ObjString: any = localStorage.getItem("login-token");
+
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
+
+  const getInsuranceHistory = useAPI("get", URL, option);
 
   const { data, refetch } = useQuery(queryKey, () => getInsuranceHistory, {
     cacheTime: 1000 * 300,

@@ -8,6 +8,10 @@ import {
 } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { JustRoutes, PrivateRoutes } from "./routes";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { LoginOutReducer } from "./modules/takeLoginLogoutModule";
 
 const globalStyles = css`
   body {
@@ -52,10 +56,9 @@ export const PrivateRoute = ({
 
 function App() {
   // 토큰 가져오기
-  const ObjString: string | null = localStorage.getItem("login-token");
-  const Obj = ObjString ? JSON.parse(ObjString) : null;
-  const Token = Obj ? Obj.value : null;
-
+  const { success } = useSelector((state: any) => state.LoginOutReducer);
+  const ObjString: any = localStorage.getItem("login-token");
+  const token = JSON.parse(ObjString);
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -72,7 +75,7 @@ function App() {
                 key={index}
                 path={route.path}
                 element={
-                  Token ? (
+                  token ? (
                     route.element
                   ) : (
                     <Navigate to={{ pathname: "/login" }} />

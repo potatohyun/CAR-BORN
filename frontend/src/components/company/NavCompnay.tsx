@@ -6,8 +6,8 @@ import { useAPI } from "../../hooks/useAPI";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useState } from 'react';
-import { logoutSuccessAction } from './../../modules/takeLoginLogoutModule';
+import { useState } from "react";
+import { loginFailureReset } from "./../../modules/takeLoginLogoutModule";
 
 const container = css`
   width: 100%;
@@ -62,21 +62,21 @@ export default function NavGarage() {
   const [name, setName] = useState<string>("");
   const navigate = useNavigate();
   const ObjString: any = localStorage.getItem("login-token");
-  const account = JSON.parse(ObjString).accountType;
+  const account = JSON.parse(ObjString)?.accountType;
   const url: any = useLocation().pathname;
   const logOutUrl = "https://carborn.site/api/logout";
 
   const option = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+      Authorization: `Bearer ${JSON.parse(ObjString)?.value}`,
     },
   };
   const logOut: any = useAPI("get", logOutUrl, option);
 
   useEffect(() => {
     if (!ObjString) navigate("/");
-    setName(JSON.parse(ObjString).userId);
+    setName(JSON.parse(ObjString)?.userId);
     if (
       !(
         (account === 1 && url.split("/")[1] === "garage") ||
@@ -89,28 +89,26 @@ export default function NavGarage() {
     }
   }, [ObjString]);
 
-  const handleLogout = () => {
-    (async () => {
-      dispatch(logoutSuccessAction());
-      await logOut.then((res: any) => console.log(res));
-      localStorage.removeItem("login-token");
-      navigate("/");
-    })();
-  };
   const dispatch = useDispatch();
 
-  // 다른 nav로
+  const handleLogout = () => {
+    (async () => {
+      await logOut.then((res: any) => {
+        dispatch(loginFailureReset());
+        localStorage.removeItem("login-token");
+        navigate("/");
+      });
+    })();
+  };
 
-  // 로그인 되면, 아이디 보여주기
   useEffect(() => {
     if (!ObjString) navigate("/");
-    setName(JSON.parse(ObjString).userId);
+    setName(JSON.parse(ObjString)?.userId);
   }, [ObjString]);
 
   const isLoggedIn = useSelector((state: any) => state.LoginOutReducer.success);
 
   useEffect(() => {
-    console.log(isLoggedIn)
     if (isLoggedIn === false) {
       navigate("/login");
     }
@@ -147,7 +145,7 @@ export default function NavGarage() {
           css={{ cursor: "default", marginRight: "20px" }}
         >
           <div>{name}님 환영합니다</div>
-          <div css={{ cursor: "pointer" }} onClick={() => handleLogout}>
+          <div css={{ cursor: "pointer" }} onClick={handleLogout}>
             로그아웃
           </div>
         </div>

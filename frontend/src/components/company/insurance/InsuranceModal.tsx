@@ -48,6 +48,16 @@ export default function InsuranceModal({ id }: Props) {
   const queryKey: string = `getGarageHistoryDetail${id}`;
   const URL = `http://carborn.site/api/insurance/list/${id}`;
 
+  const ObjString: any = localStorage.getItem("login-token");
+
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
+
+  const getDetailData = useAPI("get", URL, option);
   const { data }: any = useQuery(queryKey, () => getDetailData, {
     cacheTime: 1000 * 300,
     staleTime: 1000 * 300,
@@ -69,7 +79,6 @@ export default function InsuranceModal({ id }: Props) {
     setOpen(false);
   };
 
-  const getDetailData = useAPI("get", URL);
   console.log(data);
   return (
     <div>

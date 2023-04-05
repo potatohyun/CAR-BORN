@@ -24,7 +24,7 @@ export default function UserHome() {
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.from(".carSale", {
-      y: "20vh",
+      y: "30vh",
       scrollTrigger: {
         trigger: ".carSale",
         start: "top 80%",

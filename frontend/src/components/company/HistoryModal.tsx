@@ -55,7 +55,15 @@ export default function HistoryModal({ id }: Props) {
     URL = `http://carborn.site/api/inspector/result/${id}`;
     queryKey = `getInspectorHistoryDetail${id}`;
   }
+  const ObjString: any = localStorage.getItem("login-token");
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
 
+  const getDetailData = useAPI("get", URL, option);
   const { data } = useQuery(queryKey, () => getDetailData, {
     cacheTime: 1000 * 300,
     staleTime: 1000 * 300,
@@ -76,8 +84,6 @@ export default function HistoryModal({ id }: Props) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(data);
-  const getDetailData = useAPI("get", URL);
 
   return (
     <div>

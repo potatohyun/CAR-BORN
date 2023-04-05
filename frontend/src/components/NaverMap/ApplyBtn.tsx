@@ -12,6 +12,8 @@ function ApplyBtn({
   markerNum: number;
   reserveInfo: ReserveInfoType;
 }) {
+  const ObjString: any = localStorage.getItem("login-token");
+
   const { mutate, isSuccess } = useMutation("apply-company", () => {
     return axios({
       method: "post",
@@ -48,6 +50,7 @@ function ApplyBtn({
             },
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(ObjString).value}`,
       },
     });
   });

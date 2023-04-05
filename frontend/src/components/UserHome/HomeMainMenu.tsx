@@ -7,6 +7,7 @@ import squareCar2 from "../../assets/squareCar3.png";
 import { ScrollTrigger, gsap } from "gsap/all";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { useNavigate } from "react-router";
 
 const container = css`
   height: 110vh;
@@ -207,7 +208,9 @@ interface btns {
 type btnType = btns[];
 
 export default function HomeMainMenu() {
+  const navigate = useNavigate();
   const containerRef = useRef(null);
+
   const icon1 = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -301,21 +304,21 @@ export default function HomeMainMenu() {
   const rectangles: btnType = [
     {
       icon: icon1,
-      name: "사기",
+      name: "구매",
       description: "블록체인으로 기록되는 안전한 거래를 이용해 보세요!",
-      url: "/",
+      url: "/user/car/list",
     },
     {
       icon: icon2,
-      name: "팔기",
+      name: "판매",
       description: "블록체인으로 기록되는 안전한 거래를 이용해 보세요!",
       url: "/",
     },
     {
       icon: icon3,
       name: "커뮤니티",
-      description: "다양한 사람들과 함께 내 차를 공유해 보asdfasdf세요",
-      url: "/",
+      description: "다양한 사람들과 함께 내 차를 공유해 보세요!",
+      url: "/user/community",
     },
   ];
 
@@ -324,19 +327,19 @@ export default function HomeMainMenu() {
       icon: icon4,
       name: "내 차 등록하기",
       description: "블록체인으로 기록되는 안전한 거래를 이용해 보세요!",
-      url: "/",
+      url: "/user/car",
     },
     {
       icon: icon4,
       name: "검수 및 정비 예약 신청",
       description: "블록체인으로 기록되는 안전한 거래를 이용해 보세요!",
-      url: "/",
+      url: "/user/map",
     },
     {
       icon: icon4,
       name: "마이페이지",
       description: "다양한 사람들과 함께 내 차를 공유해 보asdfasdf세요",
-      url: "/",
+      url: "/user/mypage",
     },
   ];
 
@@ -393,6 +396,7 @@ export default function HomeMainMenu() {
             <div
               className={`mainRectangleBtn mainRectangleBtn${idx}`}
               key={idx}
+              onClick={() => navigate(`${rect.url}`)}
             >
               <div className="icon">{rect.icon}</div>
               <div className="name">{rect.name}</div>
@@ -405,7 +409,11 @@ export default function HomeMainMenu() {
         </div>
         <div className="squareBtns">
           {squares.map((rect: btns, idx: number): any => (
-            <div className={`squareBtn${idx} squareBtn`} key={idx}>
+            <div
+              className={`squareBtn${idx} squareBtn`}
+              key={idx}
+              onClick={() => navigate(`${rect.url}`)}
+            >
               <div className="name">{rect.name}</div>
             </div>
           ))}

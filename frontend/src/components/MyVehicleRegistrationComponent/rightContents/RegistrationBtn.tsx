@@ -48,11 +48,16 @@ function RegistrationBtn({
   API,
 }: RegistrationBtnType) {
   // mutation 함수
+  const ObjString: any = localStorage.getItem("login-token");
   const fileUpLoadAPI = (data: FormData) => {
     return fetch(API, {
       method: "POST",
       body: data,
       mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+      },
     });
   };
 

@@ -113,6 +113,9 @@ function CarList() {
   const SEARCH_API = (pageParam: number) => {
     return `https://carborn.site/api/user/car/sale/list/${pageParam}/${SIZE}/${sortType}/${keywordType}/${keyword}`;
   };
+
+  const ObjString: any = localStorage.getItem("login-token");
+
   const { data, fetchNextPage, hasNextPage, isError, isLoading } =
     useInfiniteQuery(
       "infinity-scroll",
@@ -123,6 +126,10 @@ function CarList() {
             keyword && keywordType
               ? SEARCH_API(pageParam)
               : SORT_API(pageParam),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+          },
         });
       },
       {

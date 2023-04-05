@@ -4,10 +4,11 @@ import carBackground from "../assets/carBackground2.jpg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginFailureReset, logoutAction } from "../modules/takeLoginLogoutModule";
-import { gsap, ScrollTrigger } from "gsap/all";
+import {
+  loginFailureReset,
+  logoutAction,
+} from "../modules/takeLoginLogoutModule";
 import Logo from "../assets/Logo.png";
-import { useCallback } from 'react';
 
 const container = css`
   width: 100%;
@@ -82,7 +83,7 @@ const container = css`
   }
 `;
 
-export default function Nav2(msg:any) {
+export default function Nav2(msg: any) {
   const navigate = useNavigate();
   // Nav 타이틀, 로그인 확인 여부
   const [title, setTitle] = useState<string>("Home");
@@ -118,7 +119,7 @@ export default function Nav2(msg:any) {
       }
     }
   });
-  
+
   // 제목 얘기하기
   useEffect(() => {
     // 마이페이지 나의 차량정보 상세 페이지로 갈때,
@@ -141,8 +142,8 @@ export default function Nav2(msg:any) {
       setTitle(`MyRepairHistory`);
     } else if (
       location.pathname === `/user/mypage/repair/${resultId}/completedetail`
-      ) {
-        setTitle(`MyRepairDetail`);
+    ) {
+      setTitle(`MyRepairDetail`);
     } else if (
       location.pathname === `/user/mypage/repair/${bookId}/bookdetail`
     ) {
@@ -155,8 +156,8 @@ export default function Nav2(msg:any) {
       setTitle(`MyInspectorHistory`);
     } else if (
       location.pathname === `/user/mypage/inspector/${resultId}/completedetail`
-      ) {
-        setTitle(`MyInspectorDetail`);
+    ) {
+      setTitle(`MyInspectorDetail`);
     } else if (
       location.pathname === `/user/mypage/inspector/${bookId}/bookdetail`
     ) {
@@ -179,52 +180,53 @@ export default function Nav2(msg:any) {
       location.pathname === `/passwordresetcheck/passwordreset/passwordcomplete`
     ) {
       setTitle(`Reset Complete`);
-    } else if (location.pathname === `/user/mypage/insurance/${resultId}/completedetail`) {
+    } else if (
+      location.pathname === `/user/mypage/insurance/${resultId}/completedetail`
+    ) {
       setTitle(`MyInsuranceDetail`);
     } else if (location.pathname === `/user/mypage/community`) {
-      setTitle(`MyPostsHistory`)
+      setTitle(`MyPostsHistory`);
     } else if (location.pathname === `/user/mypage/userpasswordmodify`) {
-      setTitle('ResetPassword')
+      setTitle("ResetPassword");
     }
   }, [location.pathname, setTitle, title]);
-    
-    // 로그아웃
-    const handleLogout = () => {
-      dispatch(logoutAction());
-    };
-    
-    const isLoggedIn = useSelector((state:any) => state.LoginOutReducer.success)
-    
-    useEffect(() => {
-      if(isLoggedIn === false) {
-        dispatch(loginFailureReset())
-        navigate('/login')
-      }
-    }, [isLoggedIn])
-    
-    // 다른 nav로
-    const ObjString: any = localStorage.getItem("login-token");
-    const Obj = JSON.parse(ObjString);
-    let userid = Obj?.userId || "";
-    const { success } = useSelector((state: any) => state.LoginOutReducer);
-    let localToken = Obj?.value || "";
-    
-    return (
-      <div css={container}>
+
+  // 로그아웃
+  const handleLogout = () => {
+    dispatch(logoutAction());
+  };
+
+  const isLoggedIn = useSelector((state: any) => state.LoginOutReducer.success);
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      dispatch(loginFailureReset());
+      console.log(1);
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
+
+  // 다른 nav로
+  const ObjString: any = localStorage.getItem("login-token");
+  const Obj = JSON.parse(ObjString);
+  const { success } = useSelector((state: any) => state.LoginOutReducer);
+  let localToken = Obj?.value;
+
+  return (
+    <div css={container}>
       <div className="section1">
         <div className="loginInfo">
-          {success || localToken ? (
+          {success && localToken ? (
             <div className="logo" onClick={handleLogout}>
-              {Obj.userId}님 안녕하세요
+              {Obj?.userId}님 안녕하세요
             </div>
           ) : (
             <div className="logo" css={{ cursor: "default" }}>
               로그인이 필요합니다
             </div>
           )}
-          {success || localToken ? (
-            <div 
-              className="logo" 
+          {success && localToken ? (
+            <div
+              className="logo"
               onClick={handleLogout}
               css={{ cursor: "pointer" }}
             >
@@ -234,7 +236,8 @@ export default function Nav2(msg:any) {
             <div
               className="logo"
               onClick={(): void => navigate("/login")}
-              css={{ cursor: "pointer" }}>
+              css={{ cursor: "pointer" }}
+            >
               LOGIN
             </div>
           )}
@@ -254,21 +257,24 @@ export default function Nav2(msg:any) {
           <div className="menu">
             <div
               className="item"
-              onClick={(): void => navigate("/user/car/list")}>
+              onClick={(): void => navigate("/user/car/list")}
+            >
               구매
             </div>
             <div
               className="item"
-              onClick={(): void => navigate("/user/car/sale/4")}>
+              onClick={(): void => navigate("/user/car/sale/4")}
+            >
               판매
             </div>
             <div
               className="item"
-              onClick={(): void => navigate("/user/community")}>
+              onClick={(): void => navigate("/user/community")}
+            >
               커뮤니티
             </div>
             <div className="item" onClick={(): void => navigate("/user/map")}>
-              검수 및 정비 예약
+              예약
             </div>
             <div className="item" onClick={(): void => navigate("/user/car")}>
               MY CAR
@@ -276,7 +282,8 @@ export default function Nav2(msg:any) {
             {success || localToken ? (
               <div
                 className="item"
-                onClick={(): void => navigate(`/user/mypage`)}>
+                onClick={(): void => navigate(`/user/mypage`)}
+              >
                 MY PAGE
               </div>
             ) : null}

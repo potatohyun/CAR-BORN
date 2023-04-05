@@ -9,6 +9,8 @@ import Carousels from "../Carousels";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import { Button } from "@mui/material";
+import Swal from "sweetalert2";
+
 type ImageType = string[];
 
 const container = css`
@@ -84,16 +86,31 @@ export default function InsuranceForm() {
 
   const navigate = useNavigate();
 
-  const URL = "http://192.168.100.176/api/insurance";
+  const URL = "https://carborn.site/api/insurance/book";
 
+  const ObjString: any = localStorage.getItem("login-token");
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
   const fileUpLoadAPI = async (data: FormData) => {
     return fetch(URL, {
       method: "PUT",
       body: data,
+      ...option,
     });
   };
 
   const { mutate } = useMutation(fileUpLoadAPI);
+
+  const Toast = Swal.mixin({
+    toast: true,
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+  });
 
   const submit = () => {
     const formData = new FormData();
@@ -104,9 +121,16 @@ export default function InsuranceForm() {
     formData.append("category", category);
     if (reciptImageFile && content && 연비 && selectTime) {
       mutate(formData);
-      navigate("/insurance");
+      Toast.fire({
+        icon: "success",
+        title: "등록이 성공적으로 완료됐습니다.",
+        didClose: () => navigate("/insurance"),
+      });
     } else {
-      alert("모든 항목은 필수 입니다.");
+      Toast.fire({
+        icon: "error",
+        title: "모든 항목은 필수입니다.",
+      });
     }
   };
 
@@ -181,7 +205,8 @@ export default function InsuranceForm() {
             variant="outlined"
             sx={{ maxWidth: "50%" }}
             onClick={() => navigate(-1)}
-            color="error">
+            color="error"
+          >
             취소
           </Button>
           <Button
@@ -189,7 +214,8 @@ export default function InsuranceForm() {
             variant="contained"
             sx={{ maxWidth: "50%" }}
             onClick={submit}
-            color="error">
+            color="error"
+          >
             제출
           </Button>
         </div>

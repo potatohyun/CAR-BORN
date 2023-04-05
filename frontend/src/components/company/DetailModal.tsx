@@ -53,9 +53,18 @@ export default function DetailModal({ id, status }: Props) {
   } else {
     URL = `http://carborn.site/api/inspector/book/${id}`;
     queryKey = `getInspectorDetailData${id}`;
-    //URL = `http://192.168.100.176:80/api/inspector/book/${id}`;
   }
-  const getRepairDetail = useAPI("get", URL);
+
+  const ObjString: any = localStorage.getItem("login-token");
+
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
+
+  const getRepairDetail = useAPI("get", URL, option);
 
   const { data } = useQuery(queryKey, () => getRepairDetail, {
     cacheTime: 1000 * 300,

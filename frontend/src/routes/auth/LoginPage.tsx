@@ -16,8 +16,8 @@ import {
 } from "../../modules/modifyPasswordModule";
 import { IsCanSignUpReset } from "../../modules/signUpModule";
 import Nav2 from "./../../components/Nav2";
-import swal from 'sweetalert';
-import { loginFailureReset } from './../../modules/takeLoginLogoutModule';
+import swal from "sweetalert";
+import { loginFailureReset } from "./../../modules/takeLoginLogoutModule";
 
 export const StyleLoginContainer = styled.div`
   width: 100vw;
@@ -29,7 +29,7 @@ export const StyleLoginContainer = styled.div`
   );
   background-size: 100% 200%;
   animation: gradient 10s ease infinite;
-  
+
   @keyframes gradient {
     0% {
       background-position: 0% 0%;
@@ -41,13 +41,13 @@ export const StyleLoginContainer = styled.div`
       background-position: 0% 0%;
     }
   } */
-`
+`;
 
 export const StyleLoginCenterDiv = styled.div`
   width: 100vw;
   display: flex;
   justify-content: center;
-`
+`;
 
 export const StyleLink = styled(Link)`
   color: #d23131;
@@ -82,7 +82,7 @@ export const StyleLoginForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 export const StyleLoginBtn = styled.button<StyleLoginSignUpBtnProps>`
   width: 15.5vw;
@@ -154,20 +154,16 @@ const LoginPages = () => {
   // 로그인 인풋, 리캡챠 적용여부 useState
   const [loginInput, setLoginInput] = useState<loginInputType>(initialState);
   const [captchaValue, setCaptchaValue] = useState<boolean>(false);
-  const { error, success } = useSelector((state:any) => state.LoginOutReducer);
-  console.log(error)
-  console.log(success)
+  const { error, success } = useSelector((state: any) => state.LoginOutReducer);
+  // console.log(error)
+  console.log(success);
 
   // 로그인 하기(최종)
   const handleLogin = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    try {
-      dispatch(loginAction(loginInput));
-    } catch (error: any) {
-      console.log(error)
-    }
+    dispatch(loginAction(loginInput));
   };
-  
+
   useEffect(() => {
     dispatch(userModifyPasswordReset());
     dispatch(companyModifyPasswordReset());
@@ -184,13 +180,13 @@ const LoginPages = () => {
   useEffect(() => {
     // 실패하면 이거
     if (!success) {
-      if(success === false){
-        swal ( "로그인 문제" ,  "아이디 또는 비밀번호가 맞지 않습니다." ,  "error" )
-        dispatch(loginFailureReset())
+      console.log(2);
+      if (success === false) {
+        swal("로그인 문제", "아이디 또는 비밀번호가 맞지 않습니다.", "error");
+        dispatch(loginFailureReset());
       }
       navigate("/login");
-      return;
-    // 성공하면 이거
+      // 성공하면 이거
     } else {
       switch (accountType) {
         case USER:
@@ -214,14 +210,11 @@ const LoginPages = () => {
 
   return (
     <StyleLoginContainer>
-      <Nav2/>
+      <Nav2 />
       <StyleLoginCenterDiv>
         <StyleLoginBoxDiv>
           <StyleLoginForm onSubmit={(e) => handleLogin(e)}>
-            <LoginID 
-              setLoginInput={setLoginInput} 
-              loginInput={loginInput} 
-            />
+            <LoginID setLoginInput={setLoginInput} loginInput={loginInput} />
             <LoginPassword
               setLoginInput={setLoginInput}
               loginInput={loginInput}

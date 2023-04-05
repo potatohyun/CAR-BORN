@@ -109,8 +109,14 @@ function NaverMap() {
   const [reserve, setReserve] = useState<boolean>(false);
   const [markerNum, setMarkerNum] = useState<number>(-1);
   const [markerArr, setMarkerArr] = useState<any[]>([]);
+  const ObjString: any = localStorage.getItem("login-token");
 
-  const getUserCarInfo = useAPI("get", API_USER_INFO);
+  const getUserCarInfo = useAPI("get", API_USER_INFO, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  });
 
   const { data } = useQuery("get-user-car-info", () => getUserCarInfo, {
     cacheTime: 1000 * 300,
@@ -133,6 +139,10 @@ function NaverMap() {
         axios({
           method: "get",
           url: `https://carborn.site/api/user/map/list/${lat}/${lng}`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+          },
         })
           .then((res) => res.data)
           .then((data) => {

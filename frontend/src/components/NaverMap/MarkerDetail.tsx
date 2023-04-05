@@ -79,12 +79,18 @@ function MarkerDetail({
   // 파노라마 생성 태그
   const roadViewRef = useRef<HTMLDivElement | null>(null);
   const [reviewBtn, setReviewBtn] = useState<boolean>(false);
+  const ObjString: any = localStorage.getItem("login-token");
 
   const REVIEW_API = `https://carborn.site/api/user/map/review/${
     markerArr[markerNum]?.ID
   }/${markerArr[markerNum]?.AUTH}/${1}/${100}`;
 
-  const getReviewAPI = useAPI("get", REVIEW_API);
+  const getReviewAPI = useAPI("get", REVIEW_API, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  });
 
   const [{ data, refetch }] = useQueries([
     {

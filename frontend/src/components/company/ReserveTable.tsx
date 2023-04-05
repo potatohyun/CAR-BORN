@@ -46,19 +46,26 @@ export default function ReserveTable() {
     queryKey = "getInspectorData";
   }
 
-  const getReserveData = useAPI("get", URL);
+  const ObjString: any = localStorage.getItem("login-token");
+
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
+
+  const getReserveData = useAPI("get", URL, option);
   const { data, refetch } = useQuery(queryKey, () => getReserveData, {
     cacheTime: 1000 * 300,
     staleTime: 1000 * 300,
     refetchOnWindowFocus: false,
     select: (data) => {
+      console.log(data);
       return data.data.message;
     },
     onError: (error: Error) => {
       console.log(error);
-    },
-    onSuccess: (res) => {
-      console.log(res);
     },
     suspense: true,
   });

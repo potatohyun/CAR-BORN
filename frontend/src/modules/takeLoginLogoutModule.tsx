@@ -28,8 +28,8 @@ export const loginFailureAction = (error: string) => ({
 });
 
 export const loginFailureReset = () => ({
-  type: LOGIN_FAILURE_RESET
-})
+  type: LOGIN_FAILURE_RESET,
+});
 
 export const logoutAction = () => ({ type: LOGOUT_REQUEST });
 export const logoutSuccessAction = () => ({ type: LOGOUT_SUCCESS });
@@ -128,10 +128,11 @@ export function LoginOutReducer(state = initialState, action: any) {
         success: false,
       };
     case LOGIN_FAILURE_RESET:
+      console.log(1);
       return {
         ...state,
-        success: null
-      }
+        success: null,
+      };
     default:
       return state;
   }

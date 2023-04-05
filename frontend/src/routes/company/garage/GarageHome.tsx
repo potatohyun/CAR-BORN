@@ -99,13 +99,12 @@ const container = css`
 `;
 
 export default function GarageHome() {
+  console.log("render");
   const navigate = useNavigate();
-  const bookList = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const bookList = () => {
     navigate("/garage/reserve");
   };
-  const historyList = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const historyList = () => {
     navigate("/garage/history");
   };
 
