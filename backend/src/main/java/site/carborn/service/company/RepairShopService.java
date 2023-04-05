@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import site.carborn.dto.request.BoardRequestDTO;
 import site.carborn.dto.request.RepairResultRequestDTO;
-import site.carborn.entity.account.Account;
 import site.carborn.entity.car.Car;
 import site.carborn.entity.user.RepairBook;
 import site.carborn.entity.user.RepairResult;
@@ -21,7 +19,6 @@ import site.carborn.repository.user.RepairBookRepository;
 import site.carborn.repository.user.RepairResultRepository;
 import site.carborn.service.common.KlaytnService;
 import site.carborn.util.board.BoardUtils;
-import site.carborn.util.common.BookUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
