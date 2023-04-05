@@ -2,8 +2,12 @@
 import { css } from "@emotion/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo.png";
-import { useEffect, useState } from "react";
 import { useAPI } from "../../hooks/useAPI";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useState } from 'react';
+import { logoutSuccessAction } from './../../modules/takeLoginLogoutModule';
 
 const container = css`
   width: 100%;
@@ -87,11 +91,31 @@ export default function NavGarage() {
 
   const handleLogout = () => {
     (async () => {
+      dispatch(logoutSuccessAction());
       await logOut.then((res: any) => console.log(res));
       localStorage.removeItem("login-token");
       navigate("/");
     })();
   };
+  const dispatch = useDispatch();
+
+  // 다른 nav로
+
+  // 로그인 되면, 아이디 보여주기
+  useEffect(() => {
+    if (!ObjString) navigate("/");
+    setName(JSON.parse(ObjString).userId);
+  }, [ObjString]);
+
+  const isLoggedIn = useSelector((state: any) => state.LoginOutReducer.success);
+
+  useEffect(() => {
+    console.log(isLoggedIn)
+    if (isLoggedIn === false) {
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate]);
+
   const handleClick = () => {
     if (account === 1) {
       navigate("/garage");
@@ -101,6 +125,7 @@ export default function NavGarage() {
       navigate("/insurance");
     }
   };
+
   return (
     <div css={container}>
       <div className="menu">

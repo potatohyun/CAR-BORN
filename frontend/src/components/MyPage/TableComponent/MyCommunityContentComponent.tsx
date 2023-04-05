@@ -1,22 +1,27 @@
 import styled from "@emotion/styled";
 import MyCommunityContentPagination from "../Pagination/MyCommunityContentPagination";
 
-const ITEMS_PER_PAGES = 10;
-
 const StyleMyCommunityContentTableDiv = styled.div`
-  width: 50%;
+  width: 72%;
+  height: 74vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+  /* background-color: #fffffff6; */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
 `;
 
 const MyCommunityContentComponent = () => {
+  const ITEMS_PER_PAGES = 9;
+
   return (
     <StyleMyCommunityContentTableDiv>
       <MyCommunityContentPagination itemsPerPage={ITEMS_PER_PAGES} />
     </StyleMyCommunityContentTableDiv>
-  )
-}
+  );
+};
 
-export default MyCommunityContentComponent
+export default MyCommunityContentComponent;

@@ -2,7 +2,7 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useState } from "react";
-import { CARBORN_SITE } from "../../../lib/api";
+import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import CustomAlert from "../../auth/signup/modal/CustomAlert";
 
 const StyledModalContainer = styled.div`
@@ -66,17 +66,20 @@ export const SellDeleteWarningModal = ({
   bookid,
   isOpen
 }: SellDeleteWarningModalType) => {
+  // 토큰 넣기
+  const ObjString:any = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
+
   // 메세지
   const [isAlert, setIsAlert] = useState<boolean>(false);
 
   const DeleteBook = async (bookid: string | number) => {
     try {
-      const ObjString: string | null = localStorage.getItem("login-token");
-      const Obj = ObjString ? JSON.parse(ObjString) : null;
-
       await axios.put(`${CARBORN_SITE}/api/user/sell/cancel/${bookid}`, {
         headers: {
-          Authorization: `Bearer ${Obj.value}`,
+          [ContentType]: applicationjson,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 

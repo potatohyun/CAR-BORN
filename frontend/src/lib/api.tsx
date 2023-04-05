@@ -36,7 +36,9 @@ export const LoginApi = async (payload: any): Promise<any> => {
 
 // 로그아웃
 export const LogoutApi = async (): Promise<any> => {
-
+  const ObjString: string | null = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
   try {
     const response = await axios({
       method: "GET",
@@ -262,8 +264,9 @@ export const GetAgreementApi = async (): Promise<any> => {
 
 // 검수 리뷰 작성
 export const createInspectorReviewApi = async (data: any): Promise<any> => {
-  const ObjString: any = localStorage.getItem("login-token");
-  const Obj = JSON.parse(ObjString);
+  const ObjString: string | null = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
   let userid = Obj.userId;
 
   let reviewObj = {
@@ -292,8 +295,9 @@ export const createInspectorReviewApi = async (data: any): Promise<any> => {
 
 // 정비 리뷰 작성
 export const createRepairReviewApi = async (data: any): Promise<any> => {
-  const ObjString: any = localStorage.getItem("login-token");
-  const Obj = JSON.parse(ObjString);
+  const ObjString: string | null = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
   let userid = Obj.userId;
 
   try {
@@ -321,6 +325,9 @@ export const createRepairReviewApi = async (data: any): Promise<any> => {
 
 // 사용자 회원 탈퇴
 export const userinfoDeleteApi = async (userId: string) => {
+  const ObjString: string | null = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
   try {
     const response = await axios({
       method: "DELETE",
@@ -340,6 +347,9 @@ export const userinfoDeleteApi = async (userId: string) => {
 
 // 기업 회원 탈퇴
 export const companyinfoDeleteApi = async (userId: string) => {
+  const ObjString: string | null = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
   try {
     const response = await axios({
       method: "DELETE",
@@ -385,16 +395,18 @@ export const getReviewedCheckingApi = async (payload: any) => {
 // 마이페이지에서 유저 비밀번호 바꾸기
 export const userModifyPasswordApi = async (payload: any) => {
   const { oldPassword, newPassword } = payload;
-  const ObjString = localStorage.getItem("login-token");
+  const ObjString: string | null = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
 
   try {
     const response = await axios({
       method: "POST",
-      url: `${API_URL}/mypage/${Obj.userId}`,
+      url: `${CARBORN_SITE}/api/user/reset-pw`,
       data: {
-        oldPassword,
-        newPassword,
+        id : Obj.userId,
+        pwd : oldPassword,
+        newPwd : newPassword,
       },
       headers: {
         [ContentType]: applicationjson,
@@ -411,16 +423,18 @@ export const userModifyPasswordApi = async (payload: any) => {
 // 마이페이지에서 기업 비밀번호 바꾸기
 export const companyModifyPasswordApi = async (payload: any) => {
   const { oldPassword, newPassword } = payload;
-  const ObjString = localStorage.getItem("login-token");
+  const ObjString: string | null = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
 
   try {
     const response = await axios({
       method: "POST",
-      url: `${API_URL}/mypage/${Obj.userId}`,
+      url: `${CARBORN_SITE}/api/user/reset-pw`,
       data: {
-        oldPassword,
-        newPassword,
+        id : Obj.userId,
+        pwd : oldPassword,
+        newPwd : newPassword,
       },
       headers: {
         [ContentType]: applicationjson,

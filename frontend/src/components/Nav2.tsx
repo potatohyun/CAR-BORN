@@ -4,9 +4,10 @@ import carBackground from "../assets/carBackground2.jpg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAction } from "../modules/takeLoginLogoutModule";
+import { loginFailureReset, logoutAction } from "../modules/takeLoginLogoutModule";
 import { gsap, ScrollTrigger } from "gsap/all";
 import Logo from "../assets/Logo.png";
+import { useCallback } from 'react';
 
 const container = css`
   width: 100%;
@@ -81,7 +82,7 @@ const container = css`
   }
 `;
 
-export default function Nav2({ setIsToken, isToken }: any) {
+export default function Nav2(msg:any) {
   const navigate = useNavigate();
   // Nav 타이틀, 로그인 확인 여부
   const [title, setTitle] = useState<string>("Home");
@@ -117,13 +118,7 @@ export default function Nav2({ setIsToken, isToken }: any) {
       }
     }
   });
-
-  const ObjString: any = localStorage.getItem("login-token");
-  const Obj = JSON.parse(ObjString);
-  let userid = Obj?.userId || "";
-
-  const { success } = useSelector((state: any) => state.LoginOutReducer);
-
+  
   // 제목 얘기하기
   useEffect(() => {
     // 마이페이지 나의 차량정보 상세 페이지로 갈때,
@@ -146,8 +141,8 @@ export default function Nav2({ setIsToken, isToken }: any) {
       setTitle(`MyRepairHistory`);
     } else if (
       location.pathname === `/user/mypage/repair/${resultId}/completedetail`
-    ) {
-      setTitle(`MyRepairDetail`);
+      ) {
+        setTitle(`MyRepairDetail`);
     } else if (
       location.pathname === `/user/mypage/repair/${bookId}/bookdetail`
     ) {
@@ -160,8 +155,8 @@ export default function Nav2({ setIsToken, isToken }: any) {
       setTitle(`MyInspectorHistory`);
     } else if (
       location.pathname === `/user/mypage/inspector/${resultId}/completedetail`
-    ) {
-      setTitle(`MyInspectorDetail`);
+      ) {
+        setTitle(`MyInspectorDetail`);
     } else if (
       location.pathname === `/user/mypage/inspector/${bookId}/bookdetail`
     ) {
@@ -177,32 +172,45 @@ export default function Nav2({ setIsToken, isToken }: any) {
     } else if (location.pathname === `/searchid/searchidcomplete`) {
       setTitle(`SearchID Complete`);
     } else if (location.pathname === `/passwordresetcheck`) {
-      setTitle(`Search Password`);
+      setTitle(`SearchPassword`);
     } else if (location.pathname === `/passwordresetcheck/passwordreset`) {
-      setTitle(`Reset Password`);
+      setTitle(`ResetPassword`);
     } else if (
       location.pathname === `/passwordresetcheck/passwordreset/passwordcomplete`
     ) {
       setTitle(`Reset Complete`);
-    } else if (
-      location.pathname === `/user/mypage/insurance/${resultId}/completedetail`
-    ) {
+    } else if (location.pathname === `/user/mypage/insurance/${resultId}/completedetail`) {
       setTitle(`MyInsuranceDetail`);
     } else if (location.pathname === `/user/mypage/community`) {
-      setTitle(`MyPostsHistory`);
+      setTitle(`MyPostsHistory`)
+    } else if (location.pathname === `/user/mypage/userpasswordmodify`) {
+      setTitle('ResetPassword')
     }
-  }, [location.pathname, setTitle, userid, title]);
-
-  // 로그아웃
-  const handleLogout = () => {
-    dispatch(logoutAction());
-    navigate("/");
-  };
-
-  let localToken = Obj?.value || "";
-
-  return (
-    <div css={container}>
+  }, [location.pathname, setTitle, title]);
+    
+    // 로그아웃
+    const handleLogout = () => {
+      dispatch(logoutAction());
+    };
+    
+    const isLoggedIn = useSelector((state:any) => state.LoginOutReducer.success)
+    
+    useEffect(() => {
+      if(isLoggedIn === false) {
+        dispatch(loginFailureReset())
+        navigate('/login')
+      }
+    }, [isLoggedIn])
+    
+    // 다른 nav로
+    const ObjString: any = localStorage.getItem("login-token");
+    const Obj = JSON.parse(ObjString);
+    let userid = Obj?.userId || "";
+    const { success } = useSelector((state: any) => state.LoginOutReducer);
+    let localToken = Obj?.value || "";
+    
+    return (
+      <div css={container}>
       <div className="section1">
         <div className="loginInfo">
           {success || localToken ? (

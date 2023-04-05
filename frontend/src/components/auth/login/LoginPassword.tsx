@@ -28,6 +28,7 @@ const LoginPassword = ({ setLoginInput, loginInput }: LoginInputProps) => {
         autoComplete="off"
         placeholder="비밀번호"
         onChange={handleChange}
+        value={loginInput.loginpassword}
       />
     </StyleLoginInputDiv>
   );

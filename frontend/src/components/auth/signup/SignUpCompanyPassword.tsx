@@ -91,9 +91,7 @@ const SignUpCompanyPassword = ({
 
   return (
     <StyleSignUpInputDiv>
-      <StyleHeightSpan></StyleHeightSpan>
       <StyleNameLabel htmlFor="companypassword">비밀번호</StyleNameLabel>
-      <br />
       <StyledInput
         tabIndex={4}
         type="password"

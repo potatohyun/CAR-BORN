@@ -14,31 +14,36 @@ export type SignUpProps = {
 
 const StyleSignUpCompanyTypeButtonTypeDiv = styled.div`
   margin-bottom: 2.5rem;
-  width: 35vw;
+  margin-top: 1.5rem;
+  width: 20vw;
   display: flex;
   justify-content: space-between;
 
   button {
-    width: 60%;
+    width: 8vw;
     height: 3rem;
     text-align: center;
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: white;
-    background-color: #d23131;
-    border: none;
+    font-size: 1rem;
+    font-weight: 500;
     border-radius: 5px;
     cursor: pointer;
+    background-color: #761c1cea;
+    box-shadow: 4px 4px 2px rgba(181, 181, 181, 0.832);
 
     &:hover {
-      opacity: 0.9;
+      background-color: #761c1cea;
+    }
+
+    &:active {
+      box-shadow: none;
+      border: none;
     }
 
     &.active {
-      border: 3px solid #d23131;
-      color: black;
+      background-color: #d23131ea;
+      box-shadow: none;
+      border: none;
       font-weight: 900;
-      background-color: white;
     }
   }
 `;
@@ -61,7 +66,7 @@ const SignUpCompanyTypeButton = ({
   const handleRepairType = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(setUserAccountType(REPAIR));
-    setIsUserActive(REPAIR)
+    setIsUserActive(REPAIR);
     setIsValid(true);
     setSignupCompanyFormData({
       ...signupCompanyFormData,
@@ -71,7 +76,7 @@ const SignUpCompanyTypeButton = ({
   const handleInspectorType = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(setUserAccountType(INSPECTOR));
-    setIsUserActive(INSPECTOR)
+    setIsUserActive(INSPECTOR);
     setIsValid(true);
     setSignupCompanyFormData({
       ...signupCompanyFormData,
@@ -81,7 +86,7 @@ const SignUpCompanyTypeButton = ({
   const handleInsuranceType = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(setUserAccountType(INSURANCE));
-    setIsUserActive(INSURANCE)
+    setIsUserActive(INSURANCE);
     setIsValid(true);
     setSignupCompanyFormData({
       ...signupCompanyFormData,
@@ -92,7 +97,7 @@ const SignUpCompanyTypeButton = ({
   return (
     <StyleSignUpCompanyTypeButtonTypeDiv>
       <button
-        className={isUserActive === REPAIR ? 'active' : ''} 
+        className={isUserActive === REPAIR ? "active" : ""}
         onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
           handleRepairType(e)
         }
@@ -100,7 +105,7 @@ const SignUpCompanyTypeButton = ({
         정비소
       </button>
       <button
-        className={isUserActive === INSPECTOR ? 'active' : ''} 
+        className={isUserActive === INSPECTOR ? "active" : ""}
         onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
           handleInspectorType(e)
         }
@@ -108,7 +113,7 @@ const SignUpCompanyTypeButton = ({
         검수원
       </button>
       <button
-        className={isUserActive === INSURANCE ? 'active' : ''} 
+        className={isUserActive === INSURANCE ? "active" : ""}
         onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
           handleInsuranceType(e)
         }

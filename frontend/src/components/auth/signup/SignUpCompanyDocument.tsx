@@ -12,6 +12,8 @@ export const StyleDocumentSpan = styled.span`
 `
 
 export const StyleDocumentInput = styled.input`
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
   width: 98%;
   height: 2rem;
   background-color: #d23131;
@@ -36,7 +38,6 @@ const SignUpCompanyDocument: React.FC<Props> = ({ handleFileChange }) => {
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="document">가입관련 첨부서류</StyleNameLabel>
-      <StyleDocumentSpan></StyleDocumentSpan>
       {/* 이전에 설명한 파일 input */}
       <StyleDocumentInput type="file" name="document" id="document" onChange={handleFileChange} />
     </StyleSignUpInputDiv>

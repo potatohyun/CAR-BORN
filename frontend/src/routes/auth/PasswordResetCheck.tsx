@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import PasswordResetVerify from "../../components/auth/passwordreset/PasswordResetVerify";
 import PasswordResetID from "../../components/auth/passwordreset/PasswordResetID";
 import { passwordResetCheck } from "../../modules/PasswordCheckModule";
-import { StyleHeightDiv, StyleSearchIdDiv } from "./SearchID";
+import { StyleHeightDiv } from "./SearchID";
 import Nav2 from "../../components/Nav2";
 
 export const StyleLoginSignUpDiv = styled.div`
@@ -108,7 +108,6 @@ const PasswordResetCheck = () => {
     <div>
       <Nav2 />
       <StyleHeightDiv></StyleHeightDiv>
-      <StyleSearchIdDiv>
         <StyleLoginSignUpBoxDiv>
           <StylePasswordResetCheckTitle>
             <h2>비밀번호 재설정</h2>
@@ -121,7 +120,6 @@ const PasswordResetCheck = () => {
         <StyleHeightDiv></StyleHeightDiv>
         <StyleHeightDiv></StyleHeightDiv>
         </StyleLoginSignUpBoxDiv>
-      </StyleSearchIdDiv>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
+import { useEffect, useState } from 'react';
 
-const StyleAlertDiv = styled.div<{ show: boolean }>`
+const StyleAlertDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -12,8 +13,6 @@ const StyleAlertDiv = styled.div<{ show: boolean }>`
   background-color: rgba(255, 255, 255, 0.7);
   z-index: 999;
   transition: opacity 1s ease-in-out;
-  opacity: ${({ show }) => (show ? 1 : 0)};
-  pointer-events: ${({ show }) => (show ? "auto" : "none")};
 `;
 
 const StyleAlertBox = styled.div`
@@ -48,13 +47,29 @@ const StyleAlertBox = styled.div`
   }
 `;
 
-const CustomAlert = ({ message }:any) => {
+const CustomAlert = ({ message, error }:any) => {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisible(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
-    <StyleAlertDiv show={true}>
-      <StyleAlertBox>
-        <h3>{message}</h3>
-      </StyleAlertBox>
-    </StyleAlertDiv>
+  <div>
+      {visible && error ? (
+        <StyleAlertDiv>
+          <StyleAlertBox>
+            <h3>{message}</h3>
+          </StyleAlertBox>
+        </StyleAlertDiv>
+      ) : null}
+  </div>
   );
 };
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
+import { StyleSignUpInputBtnDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import SignUpUserPhoneNumberModal from "./modal/SignUpUserPhoneNumberModal";
 import { StyleNameLabel } from "./SignUpUserName";
-import { StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
+import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
 import styled from "@emotion/styled";
 
 export interface SignUpUserPhoneNumberState {
@@ -87,8 +87,7 @@ const SignUpCompanyPhoneNumber = ({
   }, [isValid]);
 
   return (
-    <StyleSignUpInputDiv>
-      <br />
+    <StyleSignUpInputBtnDiv>
       <StyleNameLabel htmlFor="phoneNumber">휴대폰 번호</StyleNameLabel>
       <StyleIdCheckDiv>
         <StyleIdCheckInput
@@ -100,7 +99,7 @@ const SignUpCompanyPhoneNumber = ({
           onChange={(e) => handleChange(e)}
           maxLength={11}
         />
-        <StyleCompanyPhoneNumber tabIndex={9} onClick={openModal} value={`인증하기`}/>
+        <StyleCheckBtn tabIndex={9} onClick={openModal} value={`인증하기`}/>
       </StyleIdCheckDiv>
 
       {/* 모달 */}
@@ -111,7 +110,7 @@ const SignUpCompanyPhoneNumber = ({
         setIsValid={setIsValid}
         isValid={isValid}
       />
-    </StyleSignUpInputDiv>
+    </StyleSignUpInputBtnDiv>
   );
 };
 

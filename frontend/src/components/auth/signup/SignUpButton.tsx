@@ -42,33 +42,39 @@ export type SignUpButtonProps = {
 };
 
 const StyleUserCompanyBtn = styled.div`
-  margin-top: 2.5rem;
-  margin-bottom: 0.5rem;
-  width: 100%;
+  position: absolute;
+  top: 54vh;
+  left: 40vw;
+
+  width: 20vw;
   display: flex;
   justify-content: space-between;
 
   button {
-    width: 60%;
+    width: 8vw;
     height: 3rem;
     text-align: center;
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: white;
-    background-color: #D23131;
-    border: none;
+    font-size: 1rem;
+    font-weight: 500;
     border-radius: 5px;
     cursor: pointer;
-
+    background-color: #d2313170;
+    box-shadow: 4px 4px 2px rgba(181, 181, 181, 0.832);
+    
     &:hover {
-      opacity: 0.9;
+      opacity: 0.8;
+    }
+
+    &:active {
+      box-shadow: none;
+      border: none;
     }
 
     &.active {
-      border: 3px solid #D23131;
-      color: black;
+      background-color: #d23131ea;
+      box-shadow: none;
+      border: none;
       font-weight: 900;
-      background-color: white;
     }
   }
 `;

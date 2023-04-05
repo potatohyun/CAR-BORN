@@ -77,7 +77,6 @@ const SignUpUserPhoneNumber = ({
     <StyleSignUpInputDiv>
       <br />
       <StyleNameLabel htmlFor="phoneNumber">휴대폰 번호</StyleNameLabel>
-      <br />
       <StyleIdCheckDiv>
         <StyleIdCheckInput
           tabIndex={7}

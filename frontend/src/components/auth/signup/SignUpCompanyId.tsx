@@ -4,7 +4,7 @@ import {
   companyidCheck,
   companyidCheckReset,
 } from "../../../modules/UserIdCheckModule";
-import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
+import { StyleSignUpInputBtnDiv, StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import { useridCheckReset } from "../../../modules/UserIdCheckModule";
 import { StyleNameLabel } from "./SignUpUserName";
@@ -122,9 +122,8 @@ const SignUpCompanyId = ({
   }, [companyidcheck]);
 
   return (
-    <StyleSignUpInputDiv>
+    <StyleSignUpInputBtnDiv>
       <StyleNameLabel htmlFor="companyid">아이디</StyleNameLabel>
-      <br />
       <StyleIdCheckDiv>
         <StyleIdCheckInput
           tabIndex={2}
@@ -152,7 +151,7 @@ const SignUpCompanyId = ({
           <CustomAlert message={message} />
         </div>
       ) : null}
-    </StyleSignUpInputDiv>
+    </StyleSignUpInputBtnDiv>
   );
 };
 

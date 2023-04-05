@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { SignupFormData } from "./SignUpButton";
 import DaumPostcode, { Address } from "react-daum-postcode";
-import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
+import { StyleSignUpInputBtnDiv, StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { StyleNameLabel } from "./SignUpUserName";
 import {
   CloseButton,
@@ -9,19 +9,13 @@ import {
   ModalContainer,
   ModalTitle,
 } from "./SignUpUserAddress";
-import { StyleCheckBtn } from "./SignUpUserId";
+import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
 import styled from "@emotion/styled";
 
 export type SignUpCompanyAddressProps = {
   setSignupCompanyFormData: Dispatch<SetStateAction<SignupFormData>>;
   signupCompanyFormData: SignupFormData;
 };
-
-export const StyleAddressValueDiv = styled.div`  
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
 
 export const StyleAddressBtn = styled.input`
   width: 30%;
@@ -69,13 +63,12 @@ const SignUpCompanyAddress = ({
   };
 
   return (
-    <StyleSignUpInputDiv>
+    <StyleSignUpInputBtnDiv>
       <StyleNameLabel>주소</StyleNameLabel>
-      <br />
-      <StyleAddressValueDiv>
-        <StyleAddressInput autoComplete="off" type="text" value={`  `+addressData} />
-        <StyleAddressBtn type="button" className="addressCheckBtn" tabIndex={7} onClick={() => setIsOpen(true)} value={`주소 검색하기`}/>
-      </StyleAddressValueDiv>
+      <StyleIdCheckDiv>
+        <StyleIdCheckInput autoComplete="off" type="text" value={`  `+addressData} />
+        <StyleCheckBtn type="button" className="addressCheckBtn" tabIndex={7} onClick={() => setIsOpen(true)} value={`검색하기`}/>
+      </StyleIdCheckDiv>
       {isOpen && (
         <ModalContainer>
           <ModalBox>
@@ -85,7 +78,7 @@ const SignUpCompanyAddress = ({
           </ModalBox>
         </ModalContainer>
       )}
-    </StyleSignUpInputDiv>
+    </StyleSignUpInputBtnDiv>
   );
 };
 

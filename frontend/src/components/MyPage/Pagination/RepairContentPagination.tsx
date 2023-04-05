@@ -3,7 +3,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
 import axios from "axios";
-import { CARBORN_SITE } from "./../../../lib/api";
+import { applicationjson, CARBORN_SITE, ContentType } from "./../../../lib/api";
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
@@ -183,20 +183,32 @@ export const StyleTableCellDivRepairPagination = styled.div`
       transition: all 0.5s;
     }
   }
-`;
+  `;
 
 const RepairContentPagination = ({
   itemsPerPage,
 }: RepairContentPaginationProps) => {
+
+  // 토큰 넣기
+  const ObjString:any = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
+
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [repairData, setRepairData] = useState<RepairType[]>([]);
   const [totalPageCnt, setTotalPageCnt] = useState(0);
-
+  
   const handleRequestRepairData = async (page: number, count: number) => {
     try {
       const response = await axios.get(
-        `${CARBORN_SITE}/api/user/repair/book/list/${page}/${count}`
+        `${CARBORN_SITE}/api/user/repair/book/list/${page}/${count}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            [ContentType]: applicationjson,
+          },
+        }
       );
 
       console.log(response.data.message.content);
@@ -240,8 +252,6 @@ const RepairContentPagination = ({
     }
   };
 
-  const ObjString: string | null = localStorage.getItem("login-token");
-  const Obj = ObjString ? JSON.parse(ObjString) : null;
   const totalPages = totalPageCnt;
 
   useEffect(() => {

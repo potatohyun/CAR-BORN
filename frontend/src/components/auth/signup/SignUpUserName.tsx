@@ -29,6 +29,8 @@ export const StyledInput = styled.input`
 
 export const StyleNameLabel = styled.label`
   font-weight: 900;
+  display: flex;
+  align-items: center;
 `;
 
 const SignUpUserName = ({
@@ -91,7 +93,6 @@ const SignUpUserName = ({
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="username">이름</StyleNameLabel>
-      <br />
       <StyledInput
         tabIndex={1}
         type="text"

@@ -18,7 +18,7 @@ const StyleWebSiteDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 93.5%;
+  width: 20.7vw;
 
   input {
     appearance: none;
@@ -83,6 +83,7 @@ type PrivacyTextareaProps = HTMLAttributes<HTMLTextAreaElement> & {
 };
 
 const StyleTextarea = styled.textarea<PrivacyTextareaProps>`
+  width: 20vw;
   resize: none;
   display: none;
   margin: 2rem 0rem;

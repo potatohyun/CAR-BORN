@@ -3,21 +3,44 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  StyleLoginSignUpBoxDiv,
-  StyleLoginSignUpDiv,
-  StyleLoginSignUpTitle,
-} from "./LoginPage";
 import WebsiteComponent from "../../components/auth/termsofuse/WebsiteComponent";
 import PrivacyComponent from "../../components/auth/termsofuse/PrivacyComponent";
-import Nav from "../../components/Nav";
-import { GetAgreementAction } from "../../modules/getAgreementModule";
 import axios from "axios";
 import { CARBORN_SITE } from "../../lib/api";
 import Nav2 from "../../components/Nav2";
+import { StyleLoginBoxDiv } from "./LoginPage";
+
+export const StyleTermsContainer = styled.div`
+  width: 100vw;
+  background: linear-gradient(
+    to bottom,
+    #000000,
+    #1e0000e8
+  );
+  background-size: 100% 200%;
+  animation: gradient 10s ease infinite;
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+`
+
+export const StyleTermsCenterDiv = styled.div`
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+`
 
 export const StyleTermsOfUseDiv = styled.div`
-  width: 100%;
+  width: 23.6vw;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -26,19 +49,22 @@ export const StyleTermsOfUseDiv = styled.div`
   padding-top: 1rem;
   padding-left: 1rem;
 `;
+
 export const StyleTermsOfUseTitleDiv = styled.div`
+  width: 20vw;
   padding-top: 1rem;
   padding-bottom: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  border-bottom: 2px solid #00000070;
 
   div {
-    padding-top: 0.8rem;
-    padding-left: 1.5rem;
+    margin-top: 0.5rem;
 
     input {
+      margin-left: -0.2rem;
       appearance: none;
     }
 
@@ -125,11 +151,11 @@ export const StyleGoSignUpBtn = styled.button<StyleGoSignUpBtnProps>`
 export const StyleTermExplainDiv = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-left: 1%;
+  justify-content : center;
 
   span {
-    font-weight: 900;
+    font-size: 1rem !important;
+    font-weight: 700;
     color: #959595 !important;
   }
 `
@@ -223,34 +249,29 @@ const GetAgreementPage = () => {
   ]);
 
   return (
-    <div>
+    <StyleTermsContainer>
       <Nav2 />
-      <StyleLoginSignUpDiv>
-        <StyleLoginSignUpBoxDiv>
-          <StyleLoginSignUpTitle>
-            <p>이용약관</p>
-          </StyleLoginSignUpTitle>
-          <StyleLoginSignUpTitle>
-            <StyleTermsOfUseTitleDiv>
-              <StyleTermExplainDiv>
-                <span>카본에 오신 것을 환영합니다.</span>
-                <span>카본에서 거래 및 커뮤니티 사용을 위하여</span>
-                <span>아래의 약관 동의 및 회원가입이 필요합니다.</span>
-              </StyleTermExplainDiv>
-              <div>
-                <input
-                  type="checkbox"
-                  id="allcheckbox"
-                  name="checkbox"
-                  className="checkbox-input"
-                  checked={isCheckedAll}
-                  onChange={handleCheckAll}
-                />
-                <label htmlFor="allcheckbox" className="checkbox-label">&#10003;</label>
-                <span>전체동의</span>
-              </div>
-            </StyleTermsOfUseTitleDiv>
-          </StyleLoginSignUpTitle>
+      <StyleTermsCenterDiv>
+        <StyleLoginBoxDiv>
+          <StyleTermsOfUseTitleDiv>
+            <StyleTermExplainDiv>
+              <span>카본에 오신 것을 환영합니다.</span>
+              <span>카본에서 거래 및 커뮤니티 사용을 위하여</span>
+              <span>아래의 약관 동의 및 회원가입이 필요합니다.</span>
+            </StyleTermExplainDiv>
+            <div>
+              <input
+                type="checkbox"
+                id="allcheckbox"
+                name="checkbox"
+                className="checkbox-input"
+                checked={isCheckedAll}
+                onChange={handleCheckAll}
+              />
+              <label htmlFor="allcheckbox" className="checkbox-label">&#10003;</label>
+              <span>전체동의</span>
+            </div>
+          </StyleTermsOfUseTitleDiv>
           <StyleTermsOfUseDiv>
             <WebsiteComponent
               setIsChecked1={setIsChecked1}
@@ -276,9 +297,9 @@ const GetAgreementPage = () => {
           >
             회원가입 하기
           </StyleGoSignUpBtn>
-        </StyleLoginSignUpBoxDiv>
-      </StyleLoginSignUpDiv>
-    </div>
+        </StyleLoginBoxDiv>
+      </StyleTermsCenterDiv>
+    </StyleTermsContainer>
   );
 };
 

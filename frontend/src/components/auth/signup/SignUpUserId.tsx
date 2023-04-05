@@ -10,7 +10,7 @@ import {
   companyidCheckReset,
   useridCheck,
 } from "../../../modules/UserIdCheckModule";
-import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
+import { StyleSignUpInputBtnDiv, StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import { useridCheckReset } from "../../../modules/UserIdCheckModule";
 import { StyleNameLabel } from "./SignUpUserName";
@@ -42,7 +42,7 @@ export const StyleIdCheckInput = styled.input`
 
 export const StyleCheckBtn = styled.input`
   width: 30%;
-  height: 100%;
+  height: 5vh;
   margin-bottom: 1rem;
   background-color: #d23131;
   color: white;
@@ -66,9 +66,6 @@ export const StyleIdCheckDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1rem;
-
-  height: 3rem;
 `;
 
 const SignUpUserId = ({
@@ -184,9 +181,8 @@ const SignUpUserId = ({
   }, [useridcheck]);
 
   return (
-    <StyleSignUpInputDiv>
+    <StyleSignUpInputBtnDiv>
       <StyleNameLabel htmlFor="userid">아이디</StyleNameLabel>
-      <br />
       <StyleIdCheckDiv>
         <StyleIdCheckInput
           tabIndex={2}
@@ -214,7 +210,7 @@ const SignUpUserId = ({
           <CustomAlert message={message} />
         </div>
       ) : null}
-    </StyleSignUpInputDiv>
+    </StyleSignUpInputBtnDiv>
   );
 };
 

@@ -23,21 +23,18 @@ const SignUpCompanyName = ({
   };
 
   return (
-    <div>
-      <StyleSignUpInputDiv>
-        <StyleNameLabel htmlFor="companyname">회사명</StyleNameLabel>
-        <br />
-        <StyledInput
-          tabIndex={1}
-          type="text"
-          id="companyname"
-          autoComplete="off"
-          placeholder="회사명을 입력해주세요(ex. (주)싸피)"
-          value={signupCompanyFormData.name}
-          onChange={(e) => handleUserName(e)}
-        />
-      </StyleSignUpInputDiv>
-    </div>
+    <StyleSignUpInputDiv>
+      <StyleNameLabel htmlFor="companyname">회사명</StyleNameLabel>
+      <StyledInput
+        tabIndex={1}
+        type="text"
+        id="companyname"
+        autoComplete="off"
+        placeholder="CompanyName"
+        value={signupCompanyFormData.name}
+        onChange={(e) => handleUserName(e)}
+      />
+    </StyleSignUpInputDiv>
   );
 };
 

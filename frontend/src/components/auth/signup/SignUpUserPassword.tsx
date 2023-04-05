@@ -85,7 +85,6 @@ const SignUpUserPassword = ({
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="userpassword">비밀번호</StyleNameLabel>
-      <br />
       <StyledInput
         type="password"
         id="userpassword"

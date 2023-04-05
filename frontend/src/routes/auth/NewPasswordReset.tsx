@@ -3,15 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import NewPassword from "../../components/auth/newpassword/NewPassword";
 import NewPasswordCheck from "../../components/auth/newpassword/NewPasswordCheck";
-import Nav from "../../components/Nav";
-import { StyleLoginSignUpBoxDiv } from "./LoginPage";
-import { StyleLoginSignUpDiv } from "./PasswordResetCheck";
 import { passwordResetCheckReset } from "../../modules/PasswordCheckModule";
 import {
   newPasswordAction,
 } from "../../modules/newPasswordModule";
 import styled from "@emotion/styled";
 import Nav2 from "../../components/Nav2";
+import { StyleLoginBoxDiv } from "./LoginPage";
 
 // 타입 설정
 export type SearchInputPasswordCheckObj = {
@@ -111,8 +109,7 @@ const NewPasswordReset = () => {
   return (
     <div>
       <Nav2 />
-      <StyleLoginSignUpDiv>
-        <StyleLoginSignUpBoxDiv>
+        <StyleLoginBoxDiv>
           <StylePasswordResetTitle>
             <h2>비밀번호 재설정</h2>
           </StylePasswordResetTitle>
@@ -140,8 +137,7 @@ const NewPasswordReset = () => {
           >
             비밀번호 재설정
           </StyleNewPasswordResetBtn>
-        </StyleLoginSignUpBoxDiv>
-      </StyleLoginSignUpDiv>
+        </StyleLoginBoxDiv>
     </div>
   );
 };

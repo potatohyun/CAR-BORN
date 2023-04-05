@@ -15,20 +15,27 @@ const LoginID = ({ setLoginInput, loginInput }: LoginInputProps) => {
   const handleChange = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginInput({ ...loginInput, loginid: value });
+    const regex = /^[a-z0-9_]+$/;
+    if (regex.test(value)) {
+      setLoginInput({ ...loginInput, loginid: value });
+    } else {
+      setLoginInput({ ...loginInput, loginid: "" });
+    }
   };
 
   return (
     <StyleLoginInputDiv>
-      <br/>
       <StyleNameLabel htmlFor="loginid">아이디</StyleNameLabel>
       <StyledInput
         type="text"
         id="loginid"
         name="loginid"
         autoComplete="off"
-        placeholder="아이디"
+        placeholder="ID"
+        minLength={5}
+        maxLength={20}
         onChange={handleChange}
+        value={loginInput.loginid}
       />
     </StyleLoginInputDiv>
   );

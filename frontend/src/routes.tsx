@@ -21,8 +21,6 @@ import MyCarInfoDetail from "./components/MyPage/DetailComponent/MyCarInfoDetail
 import RepairContent from "./components/MyPage/RepairContent";
 import BuyContent from "./components/MyPage/BuyContent";
 import SellContent from "./components/MyPage/SellContent";
-import UserInfoDelete from "./components/MyPage/UserInfoDelete";
-import CompanyInfoDelete from "./components/MyPage/CompanyInfoDelete";
 import LoginPage from "./routes/auth/LoginPage";
 import NaverMap from "./routes/userUseFnc/NaverMap";
 import GetAgreementPage from "./routes/auth/GetAgreementPage";
@@ -33,7 +31,7 @@ import MyRepairDetail from "./components/MyPage/DetailComponent/MyRepairDetail";
 import InsuranceContent from "./components/MyPage/InsuranceContent";
 import MyInsuranceDetail from "./components/MyPage/DetailComponent/MyInsuranceDetail";
 import MyCommunityContent from "./components/MyPage/MyCommunityContent";
-import UserPasswordModify from "./components/MyPage/UserPasswordModify";
+import UserPasswordModify from "./components/MyPage/PasswordModify";
 import MyInspectorBookDetail from "./components/MyPage/DetailComponent/MyInspectorBookDetail";
 import MyRepairBookDetail from "./components/MyPage/DetailComponent/MyRepairBookDetail";
 import Community from "./routes/userUseFnc/Community";
@@ -51,6 +49,9 @@ export const JustRoutes = [
     path: "/passwordresetcheck/passwordreset/passwordcomplete",
     element: <PasswordComplete />,
   },
+  { path: "/garage", element: <GarageHome /> },
+  { path: "/inspector", element: <InspectorHome /> },
+  { path: "/insurance", element: <InsuranceHome /> },
 ];
 
 // 로그인 필수 경로 지정
@@ -88,8 +89,6 @@ export const PrivateRoutes = [
   { path: "/user/mypage/buycontent", element: <BuyContent /> },
   { path: "/user/mypage/sellcontent", element: <SellContent /> },
   { path: "/user/mypage/insurance", element: <InsuranceContent /> },
-  { path: "/user/mypage/userinfodelete", element: <UserInfoDelete /> },
-  { path: "/user/mypage/companyinfodelete", element: <CompanyInfoDelete /> },
   {
     path: "/user/mypage/userpasswordmodify",
     element: <UserPasswordModify />,
@@ -98,15 +97,15 @@ export const PrivateRoutes = [
     path: "/user/mypage/companypasswordmodify",
     element: <UserPasswordModify />,
   },
-  { path: "/garage", element: <GarageHome /> },
+  // { path: "/garage", element: <GarageHome /> },
   { path: "/garage/reserve", element: <BookList /> },
   { path: "/garage/history", element: <ViewHistory /> },
   { path: "/garage/register", element: <Register /> },
-  { path: "/inspector", element: <InspectorHome /> },
+  // { path: "/inspector", element: <InspectorHome /> },
   { path: "/inspector/reserve", element: <BookList /> },
   { path: "/inspector/history", element: <ViewHistory /> },
   { path: "/inspector/register", element: <Register /> },
-  { path: "/insurance", element: <InsuranceHome /> },
+  // { path: "/insurance", element: <InsuranceHome /> },
   { path: "/insurance/history", element: <ViewHistory /> },
   { path: "/insurance/register", element: <Register /> },
   { path: "/user/car", element: <MyVehicleRegistration /> },

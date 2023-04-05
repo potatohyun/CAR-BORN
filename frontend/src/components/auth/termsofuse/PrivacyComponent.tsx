@@ -16,7 +16,7 @@ export interface WebsiteProps {
 }
 
 const StylePrivacyDiv = styled.div`
-  width: 93.5%;
+  width: 20.7vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,8 +38,8 @@ const StylePrivacyDiv = styled.div`
   }
 
   input:checked + label {
-    background-color: #D23131;
-    border-color: #D23131;
+    background-color: #d23131;
+    border-color: #d23131;
     color: white;
   }
 
@@ -54,7 +54,7 @@ const StylePrivacyDiv = styled.div`
     font-size: 1.2rem;
     font-weight: 900;
   }
-`
+`;
 
 const fadeIn = keyframes`
   from {
@@ -84,6 +84,7 @@ type PrivacyTextareaProps = HTMLAttributes<HTMLTextAreaElement> & {
 };
 
 const StyleTextarea = styled.textarea<PrivacyTextareaProps>`
+  width: 20vw;
   resize: none;
   display: none;
   margin: 2rem 0rem;
@@ -119,32 +120,32 @@ const PrivacyComponent: React.FC<WebsiteProps> = ({
 
   return (
     <StyleTermsOfUseDiv>
-        <StylePrivacyDiv>
-          <div>
-            <input
-              type="checkbox"
-              id="privacycheck"
-              name="checkbox"
-              className="checkbox-input"
-              checked={isChecked2}
-              onChange={handleCheck2}
-            />
-            <label htmlFor="privacycheck" className="checkbox-label">
-              &#10003;
-            </label>
-            <span>개인정보 이용내역</span>
-          </div>
-          <div>
-            <button onClick={handlePrivacyDropdown}>▼</button>
-          </div>
-        </StylePrivacyDiv>
-        <StyleTextarea
-          isOpen={privacyDropdown}
-          value={privacyTerms}
-          rows={10}
-          cols={85}
-          readOnly
-        />
+      <StylePrivacyDiv>
+        <div>
+          <input
+            type="checkbox"
+            id="privacycheck"
+            name="checkbox"
+            className="checkbox-input"
+            checked={isChecked2}
+            onChange={handleCheck2}
+          />
+          <label htmlFor="checkbox" className="checkbox-label">
+            &#10003;
+          </label>
+          <span>개인정보 이용내역</span>
+        </div>
+        <div>
+          <button onClick={handlePrivacyDropdown}>▼</button>
+        </div>
+      </StylePrivacyDiv>
+      <StyleTextarea
+        isOpen={privacyDropdown}
+        value={privacyTerms}
+        rows={10}
+        cols={85}
+        readOnly
+      />
     </StyleTermsOfUseDiv>
   );
 };

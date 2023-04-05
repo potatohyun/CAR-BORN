@@ -66,7 +66,6 @@ const SignUpUserBirth = ({
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="userbirth">생년월일</StyleNameLabel>
-      <br />
       <StyleDatePickerDiv style={{ width: '100%' }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DatePicker', 'DatePicker']}>

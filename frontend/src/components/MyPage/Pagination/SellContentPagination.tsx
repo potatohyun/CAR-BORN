@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import axios from "axios";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
-import { CARBORN_SITE } from "./../../../lib/api";
+import { applicationjson, CARBORN_SITE, ContentType } from "./../../../lib/api";
 
 // 판매예약취소 모달
 import { SellDeleteWarningModal } from "../ModalComponent/SellDeleteWarningModal";
@@ -188,6 +188,11 @@ export const StyleTableCellDivSellContentPagination = styled.div`
 const SellContentPagination = ({
   itemsPerPage,
 }: SellContentPaginationProps) => {
+  // 토큰 넣기
+  const ObjString:any = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
+
   const [currentPage, setCurrentPage] = useState(1);
   const [sellData, setSellData] = useState<SellContentType[]>([]);
   const [totalPageCnt, setTotalPageCnt] = useState(0);
@@ -198,7 +203,13 @@ const SellContentPagination = ({
   const handleRequestSellData = async (page: number, count: number) => {
     try {
       const response = await axios.get(
-        `${CARBORN_SITE}/api/user/car/sell/list/${page}/${count}`
+        `${CARBORN_SITE}/api/user/car/sell/list/${page}/${count}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            [ContentType]: applicationjson,
+          },
+        }
       );
       setTotalPageCnt(response.data.message.totalPages);
 
@@ -240,8 +251,6 @@ const SellContentPagination = ({
     }
   };
 
-  const ObjString: string | null = localStorage.getItem("login-token");
-  const Obj = ObjString ? JSON.parse(ObjString) : null;
   const totalPages = totalPageCnt;
 
   useEffect(() => {

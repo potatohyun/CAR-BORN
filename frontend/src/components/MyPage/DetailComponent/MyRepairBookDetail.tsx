@@ -451,6 +451,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
     // 토큰 가져오기
     const ObjString: string | null = localStorage.getItem("login-token");
     const Obj = ObjString ? JSON.parse(ObjString) : null;
+    const accessToken = Obj ? Obj.value : null;
 
     try {
       await axios.put(
@@ -472,7 +473,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
         {
           headers: {
             [ContentType]: applicationjson,
-            Authorization: `Bearer ${Obj.value}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -537,8 +538,12 @@ interface AlertDialogSlideProps {
 }
 
 export function BookDeleteDialogSlide(props: AlertDialogSlideProps) {
-  const { open, onClose, data } = props;
+  // 토큰 넣기
+  const ObjString:any = localStorage.getItem("login-token");
+  const Obj = ObjString ? JSON.parse(ObjString) : null;
+  const accessToken = Obj ? Obj.value : null;
 
+  const { open, onClose, data } = props;
   // 예약 삭제
   const DeleteBook = async (id: string | number | undefined) => {
     try {
@@ -550,6 +555,7 @@ export function BookDeleteDialogSlide(props: AlertDialogSlideProps) {
         {
           headers: {
             Authorization: `Bearer ${Obj.value}`,
+            [ContentType]: applicationjson,
           },
         }
       );

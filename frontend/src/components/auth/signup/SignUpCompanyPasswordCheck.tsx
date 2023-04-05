@@ -3,6 +3,7 @@ import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import { StyledInput, StyleNameLabel } from "./SignUpUserName";
 import { StylePasswordCheck, StyleSpanImg } from "./SignUpUserPasswordCheck";
+import IsValidComponent from './../../isValid/IsValidComponent';
 
 export type SignUpCompanyPasswordCheckProps = {
   signupCompanyFormData: SignupFormData;
@@ -67,11 +68,7 @@ const SignUpCompanyPasswordCheck = ({
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="companypasswordcheck">비밀번호 확인</StyleNameLabel>
-      {!isPasswordValid ? (
-        <StylePasswordCheck>비밀번호가 일치하지 않습니다.</StylePasswordCheck>
-      ) : <StyleSpanImg>v</StyleSpanImg>}
-      <br />
+      <StyleNameLabel htmlFor="companypasswordcheck">비밀번호 확인<IsValidComponent isValid={isPasswordValid}/></StyleNameLabel>
       <StyledInput
         tabIndex={5}
         type="password"

@@ -55,7 +55,6 @@ const SignUpCompanyBusinessNumber = ({
   return (
     <StyleSignUpInputDiv>
       <StyleNameLabel htmlFor="businessNumber">사업자등록번호</StyleNameLabel>
-      <br />
       <StyledInput
         tabIndex={6}
         type="text"

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { SignupFormData } from "./SignUpButton";
 import { StyledInput, StyleNameLabel } from "./SignUpUserName";
 import styled from "@emotion/styled";
+import IsValidComponent from "../../isValid/IsValidComponent";
 
 export type SignUpUserPasswordCheckProps = {
   signupUserFormData: SignupFormData;
@@ -80,11 +81,7 @@ const SignUpUserPasswordCheck = ({
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="userpasswordcheck">비밀번호 확인</StyleNameLabel>
-      {!isPasswordValid ? (
-        <StylePasswordCheck>비밀번호가 일치하지 않습니다.</StylePasswordCheck>
-      ) : <StyleSpanImg>V</StyleSpanImg>}
-      <br />
+      <StyleNameLabel htmlFor="userpasswordcheck">비밀번호 확인<IsValidComponent isValid={isPasswordValid}/></StyleNameLabel>
       <StyledInput
         type="password"
         name="userpasswordcheck"
