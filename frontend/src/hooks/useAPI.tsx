@@ -7,9 +7,3 @@ export function useAPI(method: string, url: string, option: any = null) {
     ...option,
   });
 }
-
-// export function formApi(method: string, url: string, option: any = null) {
-//   return fetch({
-
-//   })
-// }

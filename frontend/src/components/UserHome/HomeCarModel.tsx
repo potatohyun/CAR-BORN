@@ -10,7 +10,7 @@ const container = css`
   background-color: black;
   display: flex;
   justify-content: center;
-  z-index: 2;
+  z-index: 10;
   position: relative;
 `;
 
@@ -24,8 +24,7 @@ export default function CarModel() {
         css={{
           width: "80%",
           height: "100%",
-        }}
-      >
+        }}>
         <Canvas
           camera={{
             fov: 5,
@@ -33,8 +32,7 @@ export default function CarModel() {
             aspect: window.innerWidth / window.innerHeight,
             far: 1000,
             position: [-45, 10, 50],
-          }}
-        >
+          }}>
           <pointLight color={color} intensity={intensity} />
           <directionalLight color={color} intensity={intensity} />
           <ambientLight color={color} intensity={intensity} />

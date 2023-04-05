@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo.png";
+import { useEffect, useState } from "react";
+import { useAPI } from "../../hooks/useAPI";
 
 const container = css`
   width: 100%;
@@ -13,53 +15,94 @@ const container = css`
 
   .loginInfo {
     display: flex;
-    flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
     text-align: end;
     color: white;
-    height: auto;
+    height: 30px;
 
     div {
       margin: 5px 20px 0 20px;
       font-weight: 500;
-      font-size: 15px;
+      font-size: 20px;
     }
   }
 
   .menu {
     display: flex;
-    flex-direction: row;
+    align-items: center;
     height: 100%;
     width: 100%;
-    align-items: center;
+    justify-content: space-between;
     div {
       margin-bottom: 10px;
     }
     .logo {
       border: 1px solid white;
-      height: 40px;
-      width: 40px;
+      height: 60px;
+      width: 60px;
       margin-left: 20px;
     }
     .logo2 {
       color: white;
       font-size: 35px;
       font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 `;
 
 export default function NavGarage() {
+  const [name, setName] = useState<string>("");
   const navigate = useNavigate();
+  const ObjString: any = localStorage.getItem("login-token");
+  const account = JSON.parse(ObjString).accountType;
+  const url: any = useLocation().pathname;
+  const logOutUrl = "https://carborn.site/api/logout";
+
+  const option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(ObjString).value}`,
+    },
+  };
+  const logOut: any = useAPI("get", logOutUrl, option);
+
+  useEffect(() => {
+    if (!ObjString) navigate("/");
+    setName(JSON.parse(ObjString).userId);
+    if (
+      !(
+        (account === 1 && url.split("/")[1] === "garage") ||
+        (account === 2 && url.split("/")[1] === "inspector") ||
+        (account == 3 && url.split("/")[1] === "insurance")
+      )
+    ) {
+      alert("잘못된 접근입니다");
+      handleClick();
+    }
+  }, [ObjString]);
+
+  const handleLogout = () => {
+    (async () => {
+      await logOut.then((res: any) => console.log(res));
+      localStorage.removeItem("login-token");
+      navigate("/");
+    })();
+  };
   const handleClick = () => {
-    navigate("/garage");
+    if (account === 1) {
+      navigate("/garage");
+    } else if (account === 2) {
+      navigate("/inspector");
+    } else {
+      navigate("/insurance");
+    }
   };
   return (
     <div css={container}>
-      <div className="loginInfo">
-        <div>{}님 환영합니다.</div>
-        <div>로그아웃</div>
-      </div>
       <div className="menu">
         <div
           className="logo2"
@@ -69,10 +112,19 @@ export default function NavGarage() {
           <img
             src={logo}
             alt="logo"
-            width="150px"
+            width="180px"
             height="auto"
-            css={{ marginLeft: "50px" }}
+            css={{ margin: "20px 0 0 80px" }}
           />
+        </div>
+        <div
+          className="loginInfo"
+          css={{ cursor: "default", marginRight: "20px" }}
+        >
+          <div>{name}님 환영합니다</div>
+          <div css={{ cursor: "pointer" }} onClick={() => handleLogout}>
+            로그아웃
+          </div>
         </div>
       </div>
     </div>

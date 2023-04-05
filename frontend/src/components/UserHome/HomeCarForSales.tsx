@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useAPI } from "./../../hooks/useAPI";
 import carForSaleImg from "../../assets/carForSaleImg.jpg";
 import { useNavigate } from "react-router-dom";
+import { ScrollTrigger, gsap } from "gsap/all";
 
 interface Maptype {
   IMG_NM: string;
@@ -31,13 +32,13 @@ const container = css`
     height: 2px;
   }
   hr:nth-of-type(1) {
-    width: 10vw;
+    width: 5vw;
     margin-bottom: 2px;
     margin-top: 0px;
   }
 
   hr:nth-of-type(2) {
-    width: 5vw;
+    width: 2.5vw;
   }
 `;
 
@@ -209,14 +210,28 @@ export default function HomeCarForSales() {
     navigate(`/user/car/sale/${id}`);
   };
 
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to(".saleHr", {
+      width: "30%",
+      scrollTrigger: {
+        trigger: ".saleHr",
+        scrub: 2,
+        start: "top 60%",
+        end: "top 60%",
+        id: "hrTag",
+        ease: "bounce",
+      },
+    });
+  }, []);
   return (
     <div css={container}>
       <div css={header}>
         <p>안전한 거래를 하세요</p>
         <p>최신 판매 등록 차량</p>
       </div>
-      <hr />
-      <hr />
+      <hr className="saleHr" />
+      <hr className="saleHr" />
       <div css={imgBox}>
         <div className="Btn rightBtn" onClick={moveRight}>
           <p>&#10095;</p>
@@ -237,8 +252,14 @@ export default function HomeCarForSales() {
               </div>
               <div className="year">
                 {`${data.MODEL_YEAR} ${data.MAKER} ${data.MODEL_NM}`}
-                <hr css={{ border: "1px solid #d23131", color: "#d23131ed" }} />
-                <hr />
+                <hr
+                  css={{
+                    border: "2px solid #d23131",
+                    color: "#d23131ed",
+                    height: "2px",
+                  }}
+                />
+                <hr css={{ height: "2px" }} />
               </div>
               <div className="car">{data.PRICE}</div>
             </div>

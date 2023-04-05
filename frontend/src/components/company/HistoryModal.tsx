@@ -18,7 +18,12 @@ const tableStyle = css`
   tr {
     border-spacing: 10px;
   }
-  width: 20vw;
+  td {
+    width: 1.2vw;
+    font-size: 17px;
+  }
+  width: 30vw;
+  border-spacing: 0 15px;
 `;
 
 interface Props {
@@ -91,6 +96,7 @@ export default function HistoryModal({ id }: Props) {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        sx={{ minWidth: "30vw", minHeight: "20vh" }}
       >
         <DialogTitle>DEATIL</DialogTitle>
         <DialogContent>
@@ -100,19 +106,18 @@ export default function HistoryModal({ id }: Props) {
               <tr>
                 <td>처리 전</td>
                 <td>
-                  : <img src={data?.beoforeImgNm} alt="before" />
+                  <img src={data?.beoforeImgNm} alt="before" />
                 </td>
               </tr>
               <tr>
                 <td>처리 후</td>
                 <td>
-                  : <img src={data?.afterImgNm} alt="after" />
+                  <img src={data?.afterImgNm} alt="after" />
                 </td>
               </tr>
               <tr>
                 <td>차종</td>
                 <td>
-                  :{" "}
                   {isGarage
                     ? data?.repairBookCarModelNm
                     : data?.inspectBookCarModelNm}
@@ -121,7 +126,6 @@ export default function HistoryModal({ id }: Props) {
               <tr>
                 <td>예약자명</td>
                 <td>
-                  :{" "}
                   {isGarage
                     ? data?.repairBookRepairShopAccountName
                     : data?.inspectBookInspectorAccountName}
@@ -129,17 +133,15 @@ export default function HistoryModal({ id }: Props) {
               </tr>
               <tr>
                 <td>내용</td>
-                <td> : {data?.content}</td>
+                <td>{data?.content}</td>
               </tr>
               <tr>
                 <td>요청 날짜</td>
-                <td> : {dayjs(data?.regDt).format("YYYY년 MM월 DD일")}</td>
+                <td>{dayjs(data?.regDt).format("YYYY년 MM월 DD일")}</td>
               </tr>
               <tr>
                 <td>수리 날짜</td>
                 <td>
-                  {" "}
-                  :{" "}
                   {isGarage
                     ? dayjs(data?.repairDt).format("YYYY년 MM월 DD일")
                     : dayjs(data?.inspectDt).format("YYYY년 MM월 DD일")}
@@ -147,7 +149,7 @@ export default function HistoryModal({ id }: Props) {
               </tr>
               <tr>
                 <td>금액</td>
-                <td> : {isGarage ? data?.repairPrice : data?.inspectPrice}</td>
+                <td>{isGarage ? data?.repairPrice : data?.inspectPrice}</td>
               </tr>
             </tbody>
           </table>

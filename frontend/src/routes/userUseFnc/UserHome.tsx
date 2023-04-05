@@ -7,25 +7,68 @@ import HomeCarForSales from "../../components/UserHome/HomeCarForSales";
 import HomeWhyCooseUs from "../../components/UserHome/HomeWhyChooseUs";
 import HomeCarsInfo from "../../components/UserHome/HomeCarsInfo";
 import Nav2 from "../../components/Nav2";
+import Footer from "../../components/Footer";
+import { ScrollTrigger, gsap } from "gsap/all";
+import { useEffect } from "react";
 
 const container = css`
   position: absolute;
   top: 15.5vh;
   z-index: 3;
   width: 100%;
+  height: 393.5vh;
 `;
 
 export default function UserHome() {
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from(".carSale", {
+      y: "20vh",
+      scrollTrigger: {
+        trigger: ".carSale",
+        start: "top 80%",
+        end: "top 80%",
+        scrub: 1,
+      },
+    });
+
+    gsap.to(".homeInfo", {
+      yPercent: -50,
+      scrollTrigger: {
+        trigger: ".homeInfo",
+        start: "top 80%",
+        end: "top 80%",
+        scrub: 2,
+      },
+    });
+    gsap.to(".homeChoose", {
+      opacity: 0.2,
+      scrollTrigger: {
+        trigger: ".homeInfo",
+        start: "top 80%",
+        end: "top 80%",
+        scrub: 1,
+      },
+    });
+  }, []);
   return (
     <>
-      <Nav2 />
+      <Nav2 home={"home"} />
       <div css={container}>
         <HomeCarModel />
         <HomeIconMenu />
         <HomeMainMenu />
-        <HomeCarForSales />
-        <HomeWhyCooseUs />
-        <HomeCarsInfo />
+        <div className="carSale">
+          <HomeCarForSales />
+        </div>
+        <div className="homeChoose">
+          <HomeWhyCooseUs />
+        </div>
+        <div className="homeInfo">
+          <HomeCarsInfo />
+          <Footer />
+        </div>
       </div>
     </>
   );

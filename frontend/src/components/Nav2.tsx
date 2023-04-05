@@ -1,26 +1,34 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import carBackground from "../assets/carBackground2.jpg";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../modules/takeLoginLogoutModule";
+import { gsap, ScrollTrigger } from "gsap/all";
+import Logo from "../assets/Logo.png";
 
 const container = css`
-  width: 100vw;
+  width: 100%;
   height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: black;
+  position: relative;
+
+  .logoImg {
+    cursor: pointer;
+  }
   .section1 {
     width: 100%;
     height: 4vh;
     background-color: black;
     display: flex;
     justify-content: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     .loginInfo {
+      align-items: center;
       display: flex;
       justify-content: end;
       height: 100%;
@@ -30,52 +38,46 @@ const container = css`
       div {
         margin: 0 20px;
       }
+      font-size: 16px;
     }
   }
-  .section2 {
+
+  .menuBar {
     width: 80%;
-    height: 45vh;
-    background-size: cover;
-    background-repeat: no-repeat;
+    height: 13.5vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    background-color: rgba(0, 0, 0, 0.8);
-    background-image: url(${carBackground});
-
-    .menuBar {
-      width: 80%;
-      height: 13.5vh;
+    color: white;
+    .logo {
+      flex: 4;
       display: flex;
-      color: white;
-      .logo {
-        flex: 4;
-        display: flex;
-        align-items: center;
-      }
-      .menu {
-        font-size: 20px;
-
-        font-weight: 550;
-        flex: 6;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-      }
-      .item {
-        cursor: pointer;
-      }
+      align-items: center;
     }
-    .location {
-      position: relative;
-      align-self: baseline;
-      color: white;
-      font-size: 40px;
-      font-weight: bolder;
-      margin-bottom: 10px;
+    .menu {
+      font-size: 20px;
+      font-weight: 550;
+      flex: 6;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
     }
+    .item {
+      cursor: pointer;
+      &:hover {
+        font-size: 22px;
+        transition: all 0.2s;
+      }
+      transition: all 0.2s;
+    }
+  }
+  .location {
+    position: relative;
+    color: white;
+    font-size: 40px;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    width: 80%;
+    margin-bottom: 20px;
   }
 `;
 
@@ -88,6 +90,21 @@ export default function Nav2({ setIsToken, isToken }: any) {
   // 액션 실행
   const dispatch = useDispatch();
   // 유저아이디랑 토큰 가져오기
+  const isHome = location.pathname == "/";
+  const section2 = css`
+    width: ${isHome ? "100%" : "80%"};
+    height: 45vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-image: ${!isHome ? `url(${carBackground})` : ""};
+    position: relative;
+  `;
+
   useEffect(() => {
     const ObjString = localStorage.getItem("login-token");
     let Obj = null;
@@ -167,17 +184,19 @@ export default function Nav2({ setIsToken, isToken }: any) {
       location.pathname === `/passwordresetcheck/passwordreset/passwordcomplete`
     ) {
       setTitle(`Reset Complete`);
-    } else if (location.pathname === `/user/mypage/insurance/${resultId}/completedetail`) {
+    } else if (
+      location.pathname === `/user/mypage/insurance/${resultId}/completedetail`
+    ) {
       setTitle(`MyInsuranceDetail`);
     } else if (location.pathname === `/user/mypage/community`) {
-      setTitle(`MyPostsHistory`)
+      setTitle(`MyPostsHistory`);
     }
   }, [location.pathname, setTitle, userid, title]);
 
   // 로그아웃
   const handleLogout = () => {
     dispatch(logoutAction());
-    navigate('/')
+    navigate("/");
   };
 
   let localToken = Obj?.value || "";
@@ -188,46 +207,52 @@ export default function Nav2({ setIsToken, isToken }: any) {
         <div className="loginInfo">
           {success || localToken ? (
             <div className="logo" onClick={handleLogout}>
-              {Obj.userId}님 안녕하세요.
+              {Obj.userId}님 안녕하세요
             </div>
           ) : (
-            <div className="logo" onClick={(): void => navigate("/login")}>
-              로그인이 필요합니다.
+            <div className="logo" css={{ cursor: "default" }}>
+              로그인이 필요합니다
             </div>
           )}
           {success || localToken ? (
             <div className="logo" onClick={handleLogout}>
-              logout
+              LOGOUT
             </div>
           ) : (
-            <div className="logo" onClick={(): void => navigate("/login")}>
-              login
+            <div
+              className="logo"
+              onClick={(): void => navigate("/login")}
+              css={{ cursor: "pointer" }}>
+              LOGIN
             </div>
           )}
         </div>
       </div>
-      <div className="section2">
+      <div css={section2} className="navSection2">
         <div className="menuBar">
           <div className="logo" onClick={(): void => navigate("/")}>
-            로고임
+            <img
+              src={Logo}
+              alt="logo"
+              width="200px"
+              height="auto"
+              className="logoImg"
+            />
           </div>
           <div className="menu">
             <div
               className="item"
-              onClick={(): void => navigate("/user/car/list")}
-            >
+              onClick={(): void => navigate("/user/car/list")}>
               구매
             </div>
             <div
               className="item"
-              onClick={(): void => navigate("/user/car/sale/4")}
-            >
+              onClick={(): void => navigate("/user/car/sale/4")}>
               판매
             </div>
             <div
               className="item"
-              onClick={(): void => navigate("/user/community")}
-            >
+              onClick={(): void => navigate("/user/community")}>
               커뮤니티
             </div>
             <div className="item" onClick={(): void => navigate("/user/map")}>
@@ -239,14 +264,15 @@ export default function Nav2({ setIsToken, isToken }: any) {
             {success || localToken ? (
               <div
                 className="item"
-                onClick={(): void => navigate(`/user/mypage`)}
-              >
+                onClick={(): void => navigate(`/user/mypage`)}>
                 MY PAGE
               </div>
             ) : null}
           </div>
         </div>
-        <div className="location">{title}</div>
+        <div className="location" css={{ cursor: "default" }}>
+          {title}
+        </div>
       </div>
     </div>
   );

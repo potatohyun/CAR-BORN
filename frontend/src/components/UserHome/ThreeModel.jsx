@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { useEffect, useRef, Suspense } from "react";
-import { extend } from "@react-three/fiber";
-import * as THREE from "three";
+import { useRef, Suspense } from "react";
+import { extend, useFrame } from "@react-three/fiber";
+
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
@@ -18,8 +17,7 @@ function Model(props) {
       <group rotation={[-Math.PI / 2 - 0.01, 0, -Math.PI]}>
         <mesh
           rotation={[Math.PI / 2 + 0.01, Math.PI / 2 + 0.8, -0.01]}
-          position={[5.5, -1, -0.8]}
-        >
+          position={[5.5, -1, -0.8]}>
           <textGeometry args={["CAR-BORN", { font, size: 1.1, height: 1 }]} />
           <meshLambertMaterial attach="material" color={"red"} />
         </mesh>
@@ -188,17 +186,26 @@ useGLTF.preload("/scene.gltf");
 
 export default function ThreeModel() {
   const object3d = useRef(null);
-
+  const controlsRef = useRef(null);
+  useFrame(({ delta }) => {
+    controlsRef.current.update();
+    if (controlsRef.current.getAzimuthalAngle() < -0.97) {
+      controlsRef.current.autoRotateSpeed = -0.2;
+    } else if (controlsRef.current.getAzimuthalAngle() > -0.6) {
+      controlsRef.current.autoRotateSpeed = 0.2;
+    }
+  });
   return (
     <>
       <object3D ref={object3d}>
         <OrbitControls
+          ref={controlsRef}
           minAzimuthAngle={-Math.PI / 3}
-          maxAzimuthAngle={Math.PI / 5}
-          minPolarAngle={Math.PI / 3}
+          maxAzimuthAngle={0.06}
+          minPolarAngle={Math.PI / 2.2}
           maxPolarAngle={Math.PI - Math.PI / 2}
-          maxZoom={1}
-          minZoo={1}
+          enableZoom={false}
+          autoRotate
         />
         <Suspense fallback={null}>
           <Model />

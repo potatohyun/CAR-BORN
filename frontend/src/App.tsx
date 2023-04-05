@@ -14,13 +14,18 @@ const globalStyles = css`
     font-family: "Open Sans", sans-serif;
     margin: 0;
     padding: 0 0 0 0;
+    user-select: none;
   }
 `;
 
 const queryClient = new QueryClient();
 
 // 라우팅 가드 조건 컴포넌트
-export const PrivateRoute = ({ children: Component, isLoggedIn, ...rest }: any) => (
+export const PrivateRoute = ({
+  children: Component,
+  isLoggedIn,
+  ...rest
+}: any) => (
   <Route
     {...rest}
     render={(props: any) =>
@@ -32,7 +37,7 @@ export const PrivateRoute = ({ children: Component, isLoggedIn, ...rest }: any) 
     }
   />
 );
-  
+
 function App() {
   // 토큰 가져오기
   const ObjString: string | null = localStorage.getItem("login-token");
@@ -47,10 +52,7 @@ function App() {
           <Routes>
             {/* 로그인 안해도 되는 페이지 및 컴포넌트 */}
             {JustRoutes.map((route, index) => (
-              <Route 
-                key={index} 
-                path={route.path} 
-                element={route.element} />
+              <Route key={index} path={route.path} element={route.element} />
             ))}
             {/* 로그인 해야만 이용가능한 페이지 */}
             {PrivateRoutes.map((route, index) => (

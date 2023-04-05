@@ -20,7 +20,7 @@ const container = css`
   }
 
   .menu > hr {
-    width: 30%;
+    width: 10px;
     background-color: #d23131;
     height: 2px;
     margin-bottom: 30px;
@@ -342,7 +342,9 @@ export default function HomeMainMenu() {
 
   useEffect(() => {
     if (!containerRef) return;
+
     gsap.registerPlugin(ScrollTrigger);
+
     const tl = gsap.timeline().from(".mainRectangleBtn", {
       duration: 1,
       opacity: 0,
@@ -351,13 +353,25 @@ export default function HomeMainMenu() {
     });
     ScrollTrigger.create({
       target: ".mainRectangleBtn",
-      markers: true,
       scrub: 2,
       start: "bottom top",
       end: "bottom 50%",
       animation: tl,
     });
-  }, []);
+
+    gsap.to(".mainMenuHr", {
+      width: "50%",
+      duration: 1,
+      ease: "circ",
+      scrollTrigger: {
+        trigger: ".mainMenuHr",
+        scrub: 3,
+        start: "-180 20%",
+        end: "-180 20%",
+        id: "hrTag",
+      },
+    });
+  }, [containerRef]);
   return (
     <div css={container} ref={containerRef}>
       <div className="menu">
@@ -371,7 +385,7 @@ export default function HomeMainMenu() {
         >
           Menu
         </p>
-        <hr />
+        <hr className="mainMenuHr" />
       </div>
       <div css={buttons}>
         <div className="rectangleBtns">

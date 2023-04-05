@@ -2,7 +2,12 @@ import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import LoginID from "../../components/auth/login/LoginID";
 import LoginPassword from "../../components/auth/login/LoginPassword";
-import React, { useState, useEffect, ButtonHTMLAttributes, FormEvent } from "react";
+import React, {
+  useState,
+  useEffect,
+  ButtonHTMLAttributes,
+  FormEvent,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../modules/takeLoginLogoutModule";
 import { userInfoDeleteReset } from "../../modules/userInfoDeleteModule";
@@ -122,7 +127,7 @@ const LoginPages = () => {
   // 리듀서 가져오기
   const { accountType } = useSelector((state: any) => state.LoginOutReducer);
   const { success } = useSelector((state: any) => state.LoginOutReducer);
-
+  const { error } = useSelector((state: any) => state.LoginOutReducer);
   // 메세지
   const [isAlert, setIsAlert] = useState<boolean>(false);
   const [message, setMessage] = useState<String>("");
@@ -139,17 +144,9 @@ const LoginPages = () => {
   const [isToken, setIsToken] = useState<boolean>(false);
 
   // 로그인 하기(최종)
-  const handleLogin = (e:React.SyntheticEvent) => {
+  const handleLogin = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    try {
-      dispatch(loginAction(loginInput));
-    } catch (error: any) {
-      setIsAlert(true);
-      setTimeout(() => {
-        setIsAlert(false);
-      }, 2000);
-      setMessage(error);
-    }
+    dispatch(loginAction(loginInput));
   };
 
   useEffect(() => {
@@ -159,20 +156,22 @@ const LoginPages = () => {
       setCaptchaValue(false);
     }
   }, [accountType, loginInput.loginid, loginInput.loginpassword]);
-
   useEffect(() => {
     // 실패하면 이거
-    if (!success) {
-      navigate("/login");
-      return;
-    // 성공하면 이거
-    } else {
+    if (error) {
+      setIsAlert(true);
+      setTimeout(() => {
+        setIsAlert(false);
+      }, 2000);
+    }
+    if (success) {
       switch (accountType) {
         case USER:
           navigate("/");
           break;
         case REPAIR:
           navigate("/garage");
+          return;
           break;
         case INSPECTOR:
           navigate("/inspector");
@@ -181,11 +180,11 @@ const LoginPages = () => {
           navigate("/insurance");
           break;
         default:
-          navigate("/login")
+          navigate("/login");
           break;
       }
     }
-  }, [success, accountType, navigate]);
+  }, [success, navigate, error]);
 
   useEffect(() => {
     dispatch(userInfoDeleteReset());

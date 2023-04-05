@@ -23,6 +23,12 @@ const tableStyle = css`
   tr {
     border-spacing: 10px;
   }
+  td {
+    width: 1.2vw;
+    font-size: 17px;
+  }
+  width: 30vw;
+  border-spacing: 0 15px;
 `;
 
 const Transition = React.forwardRef(function Transition(

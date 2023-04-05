@@ -56,8 +56,8 @@ export function* takeLoginSaga(
       localStorage.setItem("login-token", ObjString);
     }
     yield put(loginSuccessAction(response.data.message));
-    
   } catch (error: any) {
+    console.log(error);
     yield put(loginFailureAction(error.message));
   }
 }
@@ -83,6 +83,7 @@ const initialState = {
   error: null,
   user: null,
   accountType: null,
+  success: false,
 };
 
 // 로그인, 로그아웃 리듀서

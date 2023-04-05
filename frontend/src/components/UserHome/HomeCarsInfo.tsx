@@ -7,18 +7,16 @@ import transactionImg from "../../assets/transection.png";
 import gumsuImg from "../../assets/gumsu.png";
 import { useQueries } from "react-query";
 import { useAPI } from "./../../hooks/useAPI";
-
-// const { data } = useQueris()
+import { useEffect } from "react";
+import { gsap, ScrollTrigger } from "gsap/all";
 
 const container = css`
   display: flex;
   align-items: center;
-  height: auto;
   position: relative;
   flex-direction: column;
-
+  height: 80vh;
   .header {
-    height: auto;
     width: 70vw;
     text-align: center;
     position: relative;
@@ -56,13 +54,23 @@ const container = css`
     p {
       font-size: 30px;
       font-weight: bolder;
-      color: black;
+      color: white;
     }
   }
 
   img {
     width: 5vw;
     height: 5vw;
+  }
+
+  .infoHr {
+    width: 10%;
+    height: 2px;
+    background-color: #d23131;
+    border-color: #d23131;
+  }
+  p {
+    color: white;
   }
 `;
 
@@ -92,15 +100,37 @@ export default function HomeCarsInfo() {
       },
     ]);
 
-  console.log(data1, data2, data3);
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 
+    gsap.to(".infoHr", {
+      width: "80%",
+      scrollTrigger: {
+        trigger: ".infoHr",
+        start: "top 75%",
+        end: "top 75%",
+        scrub: 2,
+      },
+    });
+
+    gsap.to(".infoContainer", {
+      color: "white",
+      backgroundColor: "black",
+      scrollTrigger: {
+        trigger: ".infoContainer",
+        start: "top 80%",
+        end: "top 80%",
+        scrub: 1,
+      },
+    });
+  }, []);
   return (
-    <div css={container}>
+    <div css={container} className="infoContainer">
       <div className="header">
         <p css={{ fontSize: "30px", fontWeight: "bold" }}>
           차량 거래 및 관련 파트너사 정보
         </p>
-        <hr />
+        <hr className="infoHr" />
         <div css={{ padding: "0 100px" }}>
           <p css={{ fontSize: "20px" }}>
             우리 회사를 방문해주셔서 감사합니다. 저희는 항상 사용자 중심의

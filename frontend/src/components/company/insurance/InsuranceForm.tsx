@@ -7,7 +7,8 @@ import dayjs from "dayjs";
 import FileUpload from "../../FileUpload";
 import Carousels from "../Carousels";
 import { useMutation } from "react-query";
-
+import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 type ImageType = string[];
 
 const container = css`
@@ -59,6 +60,18 @@ const container = css`
     flex-direction: row;
     align-items: center;
   }
+
+  .btnSection {
+    display: flex;
+    justify-content: end;
+    .btn:nth-of-type(1) {
+      width: 100px;
+    }
+    .btn:nth-of-type(2) {
+      margin: 0 10px;
+      width: 150px;
+    }
+  }
 `;
 
 export default function InsuranceForm() {
@@ -69,8 +82,7 @@ export default function InsuranceForm() {
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
-  // const { id } = useLocation().state;
-  // const id = "15";
+  const navigate = useNavigate();
 
   const URL = "http://192.168.100.176/api/insurance";
 
@@ -78,10 +90,6 @@ export default function InsuranceForm() {
     return fetch(URL, {
       method: "PUT",
       body: data,
-      // url: "http://192.168.100.176/api/repair-shop/book",
-      //   data: data,
-      //   headers: { "Content-Type": "multipart/form-data" },
-      /// axios 코드
     });
   };
 
@@ -91,9 +99,15 @@ export default function InsuranceForm() {
     const formData = new FormData();
 
     formData.append("receiptImg", reciptImageFile);
-    formData.append("mileage", 연비); // 직렬화하여 객체 저장
-    formData.append("inspectDt", selectTime); // 직렬화하여 객체 저장 // 하면 안됨
-    mutate(formData);
+    formData.append("mileage", 연비);
+    formData.append("inspectDt", selectTime);
+    formData.append("category", category);
+    if (reciptImageFile && content && 연비 && selectTime) {
+      mutate(formData);
+      navigate("/insurance");
+    } else {
+      alert("모든 항목은 필수 입니다.");
+    }
   };
 
   const changeCategory = (e: any) => {
@@ -160,6 +174,24 @@ export default function InsuranceForm() {
             setImage={setReciptImage}
             setFile={setReciptImageFile}
           />
+        </div>
+        <div className="btnSection">
+          <Button
+            className="btn"
+            variant="outlined"
+            sx={{ maxWidth: "50%" }}
+            onClick={() => navigate(-1)}
+            color="error">
+            취소
+          </Button>
+          <Button
+            className="btn"
+            variant="contained"
+            sx={{ maxWidth: "50%" }}
+            onClick={submit}
+            color="error">
+            제출
+          </Button>
         </div>
       </div>
     </div>
