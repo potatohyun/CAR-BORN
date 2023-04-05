@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import SignUpUserPhoneNumberModal from "../signup/modal/SignUpUserPhoneNumberModal";
 import { PasswordResetInputObj } from "../../../routes/auth/PasswordResetCheck";
-import { StylePhoneNumberVerify, StylePhoneNumberVerifyInput, StylePhoneNumberVerifyLabel, StylePhoneNumberVerifyBox, StylePhoneNumberVerifyDiv } from './../searchID/SearchIDPhoneNumberVerify';
+import { StyleNameLabel } from "../signup/SignUpUserName";
+import { StyleCheckBtn, StyleIdCheckDiv } from "../signup/SignUpUserId";
 
-// input DIV
-const StyleLoginInputDiv = styled.div`
-  display: flex;
-  flex-direction: column;
+export const StylePasswordResetBtnDiv = styled.div`
+  width: 90%;
+  margin-left: -3.3rem;
 `;
 
 type PasswordResetVerifyProps = {
@@ -15,18 +15,41 @@ type PasswordResetVerifyProps = {
   inputObj: PasswordResetInputObj;
 };
 
-const StylePasswordResetVerify = styled.input`
-  width: 60%;
-  height: 100%;
-  text-align: center;
+export const StylePasswordResetInput = styled.input`
+  padding: 0.7rem;
+  font-size: 1.2rem;
+  border: 1px solid #d23131;
+  border-radius: 5px;
+  width: 11vw;
+  margin-right: 3%;
+  color: #333;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+
+  &:focus {
+    outline: none;
+    border-color: #d23131;
+    box-shadow: 0px 0px 5px 0px rgba(210, 49, 49, 0.75);
+  }
+`;
+
+export const StylePasswordResetDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const StylePasswordResetBtn = styled.input`
+  width: 30%;
+  height: 6vh;
+  margin-bottom: 1rem;
   background-color: #d23131;
   color: white;
   border: 5px solid transparent;
   border-radius: 5px;
-  margin-left: 3%;
-  margin-right: 1.2%;
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 0.8rem;
+  text-align: center;
 
   &:active {
     background-color: white;
@@ -37,7 +60,7 @@ const StylePasswordResetVerify = styled.input`
   &:hover {
     opacity: 0.8;
   }
-`
+`;
 
 const PasswordResetVerify = ({
   setinputObj,
@@ -82,24 +105,21 @@ const PasswordResetVerify = ({
   };
 
   return (
-    <StyleLoginInputDiv>
-      <StylePhoneNumberVerifyLabel htmlFor="passwordResetPhonenumber">전화번호</StylePhoneNumberVerifyLabel>
-      <StylePhoneNumberVerifyDiv>
-        <StylePhoneNumberVerifyBox>
-          <StylePhoneNumberVerifyInput
-            type="text"
-            id="passwordResetPhonenumber"
-            name="passwordResetPhonenumber"
-            className="passwordResetPhonenumber"
-            autoComplete="off"
-            placeholder="phoneNumber"
-            value={inputObj.phonenumber}
-            onChange={handleChange}
-          />
-          <StylePasswordResetVerify type='button' onClick={openModal} value={`인증하기`}/>
-        </StylePhoneNumberVerifyBox>
-      </StylePhoneNumberVerifyDiv>
-
+    <StylePasswordResetBtnDiv>
+      <StyleNameLabel htmlFor="passwordResetPhonenumber">전화번호</StyleNameLabel>
+      <StylePasswordResetDiv>
+        <StylePasswordResetInput
+          type="text"
+          id="passwordResetPhonenumber"
+          name="passwordResetPhonenumber"
+          className="passwordResetPhonenumber"
+          autoComplete="off"
+          placeholder="phoneNumber"
+          value={inputObj.phonenumber}
+          onChange={handleChange}
+        />
+        <StylePasswordResetBtn type='button' onClick={openModal} value={`인증하기`}/>
+      </StylePasswordResetDiv>
       {/* 모달 */}
       <SignUpUserPhoneNumberModal
         open={isModalOpen}
@@ -108,7 +128,7 @@ const PasswordResetVerify = ({
         setIsValid={setIsValid}
         isValid={isValid}
       />
-    </StyleLoginInputDiv>
+    </StylePasswordResetBtnDiv>
   );
 };
 

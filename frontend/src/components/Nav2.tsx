@@ -223,7 +223,11 @@ export default function Nav2(msg:any) {
             </div>
           )}
           {success || localToken ? (
-            <div className="logo" onClick={handleLogout}>
+            <div 
+              className="logo" 
+              onClick={handleLogout}
+              css={{ cursor: "pointer" }}
+            >
               LOGOUT
             </div>
           ) : (

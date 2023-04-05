@@ -7,9 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { SearchIDCheckAction } from "../../modules/searchidModule";
 import Nav2 from "../../components/Nav2";
 
+// input DIV
+export const StylePasswordInputBtnDiv = styled.div`
+  width: 100%;
+  margin-left: -0.8rem;
+`;
+
 export const StyleSearchIDContainer = styled.div`
   width: 100vw;
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -27,7 +34,38 @@ export const StyleSearchIDContainer = styled.div`
     100% {
       background-position: 0% 0%;
     }
+  } */
+`
+
+export const StyleSearchIDForm = styled.form`
+  margin-top: 3rem;
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const StyleSearchIDBtn = styled.input`
+  width: 15.5vw;
+  height: 2.5rem;
+  margin-left: -0.4rem;
+  margin-bottom: 5rem;
+  color: white;
+  border-radius: 5px;
+  font-weight: 900;
+  font-size: 1rem;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
+
+  &:active {
+    box-shadow: none;
   }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  background-color: #d23131;
+  cursor: pointer;
 `
 
 export const StyleHeightDiv = styled.div`
@@ -54,7 +92,7 @@ export const StyleSearchIDBoxDiv = styled.div`
   align-items: center;
 
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
   border: 1px solid black;
   border-radius: 5px;
 `;
@@ -131,29 +169,26 @@ const SearchID = () => {
     }
   }, [isComplete]);
 
-  useEffect(() => {});
-
   return (
     <StyleSearchIDContainer>
       <Nav2 />
       <StyleSearchIDCenterDiv>
         <StyleSearchIDBoxDiv>
-          <SearchIDName
-            setSearchInput={setSearchInput}
-            searchInput={searchInput}
-          />
-          <SearchIDPhoneNumberVerify
-            setSearchInput={setSearchInput}
-            searchInput={searchInput}
-          />
-          <StyleLoginSignUpBtn
-            onClick={handleSearchID}
-            disabled={!searchInput.isVerify}
-          >
-            아이디 찾기
-          </StyleLoginSignUpBtn>
-          <StyleHeightDiv></StyleHeightDiv>
-          <StyleHeightDiv></StyleHeightDiv>
+          <StyleSearchIDForm onSubmit={handleSearchID}>
+            <SearchIDName
+              setSearchInput={setSearchInput}
+              searchInput={searchInput}
+            />
+            <SearchIDPhoneNumberVerify
+              setSearchInput={setSearchInput}
+              searchInput={searchInput}
+            />
+            <StyleSearchIDBtn
+              type='submit'
+              disabled={!searchInput.isVerify}
+              value={`아이디 찾기`}
+            />
+          </StyleSearchIDForm>
         </StyleSearchIDBoxDiv>
       </StyleSearchIDCenterDiv>
     </StyleSearchIDContainer>

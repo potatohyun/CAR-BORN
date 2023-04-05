@@ -101,7 +101,7 @@ function SearchBar({ index, item, searchBarItemClick }: SearchBarType) {
         style={{
           border: "0.8px solid #C1C1C1",
           opacity: "0.3",
-          width: "80%",
+          width: "100%",
         }}
       ></div>
     </div>

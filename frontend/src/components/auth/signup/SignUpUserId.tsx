@@ -42,7 +42,7 @@ export const StyleIdCheckInput = styled.input`
 
 export const StyleCheckBtn = styled.input`
   width: 30%;
-  height: 5vh;
+  height: 6vh;
   margin-bottom: 1rem;
   background-color: #d23131;
   color: white;
@@ -50,6 +50,7 @@ export const StyleCheckBtn = styled.input`
   border-radius: 5px;
   font-weight: 900;
   font-size: 1rem;
+  text-align: center;
 
   &:active {
     background-color: white;

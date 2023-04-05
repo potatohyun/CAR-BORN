@@ -4,7 +4,8 @@ import MyCommunityContentComponent from './TableComponent/MyCommunityContentComp
 
 const StyleMyCommunityContent = styled.div`
   width: 100vw;
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -22,7 +23,7 @@ const StyleMyCommunityContent = styled.div`
     100% {
       background-position: 0% 0%;
     }
-  }
+  } */
 `
 
 const StyleMyCommunityContentContainer = styled.div`

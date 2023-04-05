@@ -9,6 +9,59 @@ import { passwordResetCheck } from "../../modules/PasswordCheckModule";
 import { StyleHeightDiv } from "./SearchID";
 import Nav2 from "../../components/Nav2";
 
+export const StylePasswordResetCheckContainer = styled.div`
+  width: 100vw;
+  background-color: white;
+  /* background: linear-gradient(
+    to bottom,
+    #000000,
+    #1e0000e8
+  );
+  background-size: 100% 200%;
+  animation: gradient 10s ease infinite;
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  } */
+`
+
+export const StylePasswordResetCheckCenterDiv = styled.div`
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+`
+
+export const StylePasswordResetCheckBoxDiv = styled.div`
+  width: 30vw;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
+  border: 1px solid black;
+  border-radius: 5px;
+`
+
+export const StylePasswordResetCheckForm = styled.form`
+  margin-top: 3rem;
+  width: 15vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 export const StyleLoginSignUpDiv = styled.div`
   width: 100%;
   display: flex;
@@ -49,29 +102,30 @@ export const StyleLoginAnotherLink = styled.div`
   text-decoration: none;
 `;
 
-export const StylePasswordResetCheckBtn = styled.button`
-  width: 90%;
-  height: 75%;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+export const StylePasswordResetCheckBtn = styled.input`
+  width: 16.8vw;
+  height: 5.7vh;
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+  margin-left: 0.1rem;
   text-align: center;
-  margin-right: -0.5rem;
   background-color: #d23131;
   color: white;
   border: 5px solid transparent;
   border-radius: 5px;
   font-weight: 900;
   font-size: 1rem;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
 
   &:active {
-    background-color: white;
-    color: black;
-    border: 5px solid #d23131;
+    box-shadow: none;
   }
 
   &:hover {
     opacity: 0.8;
   }
+
+  cursor: pointer;
 `
 
 // 타입 설정
@@ -105,22 +159,27 @@ const PasswordResetCheck = () => {
   }, [navigate, isverify]);
 
   return (
-    <div>
+    <StylePasswordResetCheckContainer>
       <Nav2 />
-      <StyleHeightDiv></StyleHeightDiv>
-        <StyleLoginSignUpBoxDiv>
-          <StylePasswordResetCheckTitle>
-            <h2>비밀번호 재설정</h2>
-          </StylePasswordResetCheckTitle>
-          <PasswordResetID setinputObj={setinputObj} inputObj={inputObj} />
-          <PasswordResetVerify setinputObj={setinputObj} inputObj={inputObj} />
-          <StylePasswordResetCheckBtn onClick={handlePasswordReset}>
-            비밀번호 재설정
-          </StylePasswordResetCheckBtn>
-        <StyleHeightDiv></StyleHeightDiv>
-        <StyleHeightDiv></StyleHeightDiv>
-        </StyleLoginSignUpBoxDiv>
-    </div>
+      <StylePasswordResetCheckCenterDiv>
+        <StylePasswordResetCheckBoxDiv>
+          <StylePasswordResetCheckForm onSubmit={handlePasswordReset}>
+            <PasswordResetID 
+              setinputObj={setinputObj} 
+              inputObj={inputObj} 
+            />
+            <PasswordResetVerify 
+              setinputObj={setinputObj} 
+              inputObj={inputObj} 
+            />
+            <StylePasswordResetCheckBtn
+              type='submit'
+              value={`비밀번호 재설정`}
+            />
+          </StylePasswordResetCheckForm>
+        </StylePasswordResetCheckBoxDiv>
+      </StylePasswordResetCheckCenterDiv>
+    </StylePasswordResetCheckContainer>
   );
 };
 

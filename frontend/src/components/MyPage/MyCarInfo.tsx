@@ -5,7 +5,8 @@ import Nav2 from "../Nav2";
 // 배경색 바꾸기
 const StyleMyCarInfoBody = styled.div`
   width: 100vw;
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -23,7 +24,7 @@ const StyleMyCarInfoBody = styled.div`
     100% {
       background-position: 0% 0%;
     }
-  }
+  } */
 `;
 
 const StyleMyCarInfoContainer = styled.div`

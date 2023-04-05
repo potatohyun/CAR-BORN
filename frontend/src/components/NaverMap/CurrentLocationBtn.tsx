@@ -19,12 +19,16 @@ function CurrentLocationBtn({
         style={{
           position: "fixed",
           zIndex: 100,
-          bottom: "14%",
-          right: "0.8%",
+          bottom: "10%",
+          right: "2%",
+          border: "0",
+          backgroundColor: "white",
+          width: "2%",
+          height: "4vh",
         }}
         onClick={() => getCurrentLocation()}
       >
-        +
+        ➕
       </button>
     </div>
   );

@@ -21,7 +21,8 @@ import { loginFailureReset } from './../../modules/takeLoginLogoutModule';
 
 export const StyleLoginContainer = styled.div`
   width: 100vw;
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -39,7 +40,7 @@ export const StyleLoginContainer = styled.div`
     100% {
       background-position: 0% 0%;
     }
-  }
+  } */
 `
 
 export const StyleLoginCenterDiv = styled.div`
@@ -70,7 +71,7 @@ export const StyleLoginBoxDiv = styled.div`
   align-items: center;
 
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
   border: 1px solid black;
   border-radius: 5px;
 `;
@@ -84,9 +85,10 @@ export const StyleLoginForm = styled.form`
 `
 
 export const StyleLoginBtn = styled.button<StyleLoginSignUpBtnProps>`
-  width: 16vw;
+  width: 15.5vw;
   height: 2.5rem;
   margin-bottom: 1rem;
+  margin-left: 0.1rem;
   color: white;
   border-radius: 5px;
   font-weight: 900;
@@ -196,7 +198,6 @@ const LoginPages = () => {
           break;
         case REPAIR:
           navigate("/garage");
-          return;
           break;
         case INSPECTOR:
           navigate("/inspector");
@@ -217,7 +218,10 @@ const LoginPages = () => {
       <StyleLoginCenterDiv>
         <StyleLoginBoxDiv>
           <StyleLoginForm onSubmit={(e) => handleLogin(e)}>
-            <LoginID setLoginInput={setLoginInput} loginInput={loginInput} />
+            <LoginID 
+              setLoginInput={setLoginInput} 
+              loginInput={loginInput} 
+            />
             <LoginPassword
               setLoginInput={setLoginInput}
               loginInput={loginInput}

@@ -12,7 +12,8 @@ import { StyleLoginBoxDiv } from "./LoginPage";
 
 export const StyleTermsContainer = styled.div`
   width: 100vw;
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -30,7 +31,7 @@ export const StyleTermsContainer = styled.div`
     100% {
       background-position: 0% 0%;
     }
-  }
+  } */
 `
 
 export const StyleTermsCenterDiv = styled.div`
@@ -77,6 +78,7 @@ export const StyleTermsOfUseTitleDiv = styled.div`
       margin-right: 0.5rem;
       appearance: none;
       border: 1px solid black;
+      box-shadow: 0 0 10px rgba(000, 000, 000, 1);
       border-radius: 50%;
       cursor: pointer;
     }
@@ -105,6 +107,7 @@ export const StyleTermsOfUseEleDiv = styled.div`
     text-align: center;
     margin-right: 0.5rem;
     border: 1px solid black;
+    box-shadow: 0 0 10px rgba(000, 000, 000, 1);
     border-radius: 50%;
     cursor: pointer;
   }

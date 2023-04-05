@@ -35,7 +35,8 @@ const StyleMyCarInfoDetailDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -53,7 +54,7 @@ const StyleMyCarInfoDetailDiv = styled.div`
     100% {
       background-position: 0% 0%;
     }
-  }
+  } */
 `;
 
 const StyleMyCarInfoDetailContainerDiv = styled.div`

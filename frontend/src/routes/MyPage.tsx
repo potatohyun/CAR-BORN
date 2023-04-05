@@ -19,8 +19,8 @@ const StyleMyPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0;
-
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -38,7 +38,7 @@ const StyleMyPageContainer = styled.div`
     100% {
       background-position: 0% 0%;
     }
-  }
+  } */
 `
 
 export const StyleMyPageDiv = styled.div`

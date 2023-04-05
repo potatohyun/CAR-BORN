@@ -7,7 +7,7 @@ import { StyledInput, StyleNameLabel } from "../signup/SignUpUserName";
 const StyleLoginInputDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  margin-left: -0.8rem;
 `;
 
 type SearchIDNameProps = {
@@ -18,15 +18,22 @@ type SearchIDNameProps = {
 const SearchIDName = ({ setSearchInput, searchInput }: SearchIDNameProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setSearchInput({
-      ...searchInput,
-      name: value,
-    });
+    const isValid = /^[가-힣ㄱ-ㅎㅏ-ㅣ]+$/.test(value);
+    if (isValid) {
+      setSearchInput({
+        ...searchInput,
+        name: value,
+      });
+    } else if (value === '') { // Added a check for an empty string
+      setSearchInput({
+        ...searchInput,
+        name: '',
+      });
+    }
   };
 
   return (
     <StyleLoginInputDiv>
-      <br />
       <StyleNameLabel htmlFor="SearchName">이름(회사명)</StyleNameLabel>
       <StyledInput
         type="text"
@@ -35,6 +42,7 @@ const SearchIDName = ({ setSearchInput, searchInput }: SearchIDNameProps) => {
         autoComplete="off"
         placeholder="Name"
         onChange={handleChange}
+        value={searchInput.name}
       />
     </StyleLoginInputDiv>
   );

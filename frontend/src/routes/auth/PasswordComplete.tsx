@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import carbornLogo from "../../assets/carbornLogo.png";
-import Nav from "./../../components/Nav";
+import carbornLogo from "../../assets/Logo.png";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { newPasswordReset } from "../../modules/newPasswordModule";
@@ -9,12 +8,32 @@ import { StyleLoginSignUpBtnDiv } from "./SearchidComplete";
 import { StyleLoginSignUpBtn } from "./SearchID";
 import Nav2 from "../../components/Nav2";
 
-const StyleSearchidCompleteContainer = styled.div`
+const StylePasswordCompleteContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  background-color: white;
+  /* background: linear-gradient(
+    to bottom,
+    #000000,
+    #1e0000e8
+  );
+  background-size: 100% 200%;
+  animation: gradient 10s ease infinite;
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  } */
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -45,6 +64,21 @@ export const StyleBtn = styled.button`
   cursor: pointer;
 `;
 
+export const StylePasswordCompleteCenterDiv = styled.div`
+  width: 35vw;
+  height: 70vh;
+  padding-bottom: 4rem;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
+  border: 1px solid black;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
 const PasswordComplete = () => {
   const dispatch = useDispatch();
 
@@ -55,24 +89,26 @@ const PasswordComplete = () => {
   return (
     <div>
       <Nav2 />
-      <StyleSearchidCompleteContainer>
-        <div>
-          <img src={carbornLogo} alt="asdfasdf" />
-        </div>
-        <div>
-          <span className="SearchidCompleteTitle">
-            비밀번호 재설정을 완료했습니다.
-          </span>
-          <span className="SearchidCompleteGuide">
-            로그인을 하시려면 아래 버튼을 눌러주세요
-          </span>
-        </div>
-        <StyleLoginSignUpBtnDiv>
-          <Link to="/login">
-            <StyleLoginSignUpBtn>로그인</StyleLoginSignUpBtn>
-          </Link>
-        </StyleLoginSignUpBtnDiv>
-      </StyleSearchidCompleteContainer>
+        <StylePasswordCompleteContainer>
+          <StylePasswordCompleteCenterDiv>
+            <div>
+              <img src={carbornLogo} alt="asdfasdf" />
+            </div>
+            <div>
+              <span className="SearchidCompleteTitle">
+                비밀번호 재설정을 완료했습니다.
+              </span>
+              <span className="SearchidCompleteGuide">
+                로그인을 하시려면 아래 버튼을 눌러주세요
+              </span>
+            </div>
+            <StyleLoginSignUpBtnDiv>
+              <Link to="/login">
+                <StyleLoginSignUpBtn>로그인</StyleLoginSignUpBtn>
+              </Link>
+            </StyleLoginSignUpBtnDiv>
+          </StylePasswordCompleteCenterDiv>
+        </StylePasswordCompleteContainer>
     </div>
   );
 };

@@ -33,6 +33,7 @@ const StylePrivacyDiv = styled.div`
     text-align: center;
     margin-right: 0.5rem;
     border: 1px solid black;
+    box-shadow: 0 0 10px rgba(000, 000, 000, 1);
     border-radius: 50%;
     cursor: pointer;
   }

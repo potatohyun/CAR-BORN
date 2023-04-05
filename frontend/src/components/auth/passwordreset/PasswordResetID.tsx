@@ -47,7 +47,6 @@ const PasswordResetID = ({ setinputObj, inputObj }: PasswordResetIDProps) => {
 
   return (
     <StyleLoginInputDiv>
-      <br />
       <StylePasswordResetDiv>
         <StyleNameLabel htmlFor="PasswordResetId">아이디</StyleNameLabel>
         <StylePasswordInput

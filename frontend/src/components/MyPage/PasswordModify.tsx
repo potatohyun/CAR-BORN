@@ -62,7 +62,8 @@ const StyleUserPasswordModifyForm = styled.form`
   width: 100vw;
   padding-top: 6rem;
   padding-bottom: 6rem;
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
     to bottom,
     #000000,
     #1e0000e8
@@ -80,7 +81,7 @@ const StyleUserPasswordModifyForm = styled.form`
     100% {
       background-position: 0% 0%;
     }
-  }
+  } */
 
   display: flex;
   justify-content: center;
@@ -91,7 +92,7 @@ const StyleUserPasswordModifyContainerDiv = styled.div`
   width: 25vw;
   height: 60vh;
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+  box-shadow: 0 0 10px rgba(000, 000, 000, 1);
   border: 1px solid black;
   border-radius: 5px;
 
@@ -317,7 +318,6 @@ const PasswordModify = () => {
       <StyleXButton onClick={() => goBack()}>X</StyleXButton>
       <StyleUserPasswordModifyForm onSubmit={(e) => handleSendNewPassword(e)}>
         <StyleUserPasswordModifyContainerDiv>
-          {/* 타이틀 */}
           {/* 기존 비밀번호 */}
           <StyleUserPasswordModifyInputDiv>
             <StyleNameLabel>기존비밀번호</StyleNameLabel>

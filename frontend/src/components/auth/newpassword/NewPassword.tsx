@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { SearchInputPasswordCheckObj } from "../../../routes/auth/NewPasswordReset";
 import { StyledInput, StyleNameLabel } from "../signup/SignUpUserName";
-import { StyleHeightDiv } from "../../../routes/auth/SearchID";
 import CustomAlert from "../signup/modal/CustomAlert";
 
 // input DIV
@@ -21,6 +20,11 @@ type NewPasswordProps = {
   setNewpassword: React.Dispatch<React.SetStateAction<string>>;
   newpassword: string;
 };
+
+export const StyleNewPasswordResetInputDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const NewPassword = ({
   setInputObj,
@@ -129,8 +133,7 @@ const NewPassword = ({
   }, [newSecondPassword, newpassword, setIsNewPassword]);
 
   return (
-    <StyleLoginInputDiv>
-      <br/>
+    <StyleNewPasswordResetInputDiv>
       <StyleNameLabel htmlFor="newpassword">새로운 비밀번호</StyleNameLabel>
       <StyledInput
         type="password"
@@ -148,7 +151,7 @@ const NewPassword = ({
           <CustomAlert message={message} />
         </div>
       ) : null}
-    </StyleLoginInputDiv>
+    </StyleNewPasswordResetInputDiv>
   );
 };
 
