@@ -35,4 +35,8 @@ public interface CarSaleBookRepository extends JpaRepository<CarSaleBook, Intege
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE CarSaleBook csb SET csb.bookStatus = :bookStatus, csb.uptDt = :uptDt WHERE csb.status = :status AND csb.carSale.id = :carSaleId AND csb.account.id = :accountId")
     void updateBookStatusComplete(@Param("bookStatus") int bookStatus, @Param("status") boolean status ,@Param("uptDt") LocalDateTime uptDt, @Param("carSaleId") int carSaleId, @Param("accountId") String accountId);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE CarSaleBook csb SET csb.bookStatus = :inputStatus, csb.uptDt = :uptDt WHERE csb.status = :status AND csb.carSale.id = :carSaleId AND csb.account.id = :accountId AND csb.bookStatus = :bookStatus")
+    int updateCarSale_IdAndBookStatusAndStatusAndAccount_Id(@Param("carSaleId") int carSaleId, @Param("bookStatus") int bookStatus, @Param("status") boolean status, @Param("accountId") String accountId, @Param("inputStatus") int inputStatus, @Param("uptDt") LocalDateTime uptDt);
 }

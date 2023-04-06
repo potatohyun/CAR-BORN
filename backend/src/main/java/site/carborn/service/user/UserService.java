@@ -376,4 +376,12 @@ public class UserService {
             return dto;
         });
     }
+
+    @Transactional
+    public int saleBookCancel(int saleId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        AccountUtils.checkJWTAccount(accountId);
+
+        return carSaleBookRepository.updateCarSale_IdAndBookStatusAndStatusAndAccount_Id(saleId,BookUtils.BOOK_STATUS_WAIT,BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, BookUtils.BOOK_STATUS_CANCEL, LocalDateTime.now());
+    }
 }

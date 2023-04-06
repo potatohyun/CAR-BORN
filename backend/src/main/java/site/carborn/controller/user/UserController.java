@@ -192,4 +192,13 @@ public class UserController {
 
         return NormalResponse.toResponseEntity(HttpStatus.OK,result);
     }
+
+    @PutMapping("/sale/buy/cancel/{carSaleId}")
+    @Operation(description = "구매 취소")
+    @Parameters({
+            @Parameter(name = "carSaleId", description = "판매 글 번호")
+    })
+    public ResponseEntity<?> buyCancel(@PathVariable("carSaleId") int carSaleId) {
+        return NormalResponse.toResponseEntity(HttpStatus.OK, userService.saleBookCancel(carSaleId));
+    }
 }
