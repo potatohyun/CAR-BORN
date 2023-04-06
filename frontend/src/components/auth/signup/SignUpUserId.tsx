@@ -17,7 +17,7 @@ import { StyleNameLabel } from "./SignUpUserName";
 import styled from "@emotion/styled";
 import CustomAlert from "./modal/CustomAlert";
 import swal from "sweetalert";
-import IsValidComponent from './../../isValid/IsValidComponent';
+import IsValidComponent from "./../../isValid/IsValidComponent";
 
 type SignUpUserIdProps = {
   setSignupUserFormData: Dispatch<SetStateAction<SignupFormData>>;
@@ -95,7 +95,11 @@ const SignUpUserId = ({
       });
     } else {
       setIsAlert(false);
-      swal("유효성 검사", "아이디는 영소문자와 숫자만 입력 가능합니다.", "error");
+      swal(
+        "유효성 검사",
+        "아이디는 영소문자와 숫자만 입력 가능합니다.",
+        "error"
+      );
     }
   };
 
@@ -111,7 +115,11 @@ const SignUpUserId = ({
         swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
       } else if (!regex.test(e.currentTarget.value)) {
         setIsAlert(false);
-        swal("유효성 검사", "아이디는 영어 소문자와 숫자, _만 가능합니다.", "error");
+        swal(
+          "유효성 검사",
+          "아이디는 영어 소문자와 숫자, _만 가능합니다.",
+          "error"
+        );
         setSignupUserFormData({
           ...signupUserFormData,
           userid: "",
@@ -125,7 +133,11 @@ const SignUpUserId = ({
         });
       } else {
         setIsAlert(false);
-        swal("유효성 검사", "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.", "error");
+        swal(
+          "유효성 검사",
+          "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.",
+          "error"
+        );
         setSignupUserFormData({
           ...signupUserFormData,
           userid: "",
@@ -134,36 +146,44 @@ const SignUpUserId = ({
     }
   };
 
-  const handleBlur = (e:any)=> {
+  const handleBlur = (e: any) => {
     const regex = /^[a-z0-9_]+$/;
-      const isValidLength =
-        e.currentTarget.value.length >= 5 && e.currentTarget.value.length <= 20;
-      if (regex.test(e.currentTarget.value) && isValidLength) {
-        setIsAlert(true);
-        swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
-      } else if (!regex.test(e.currentTarget.value)) {
-        setIsAlert(false);
-        swal("유효성 검사", "아이디는 영어 소문자와 숫자, _만 가능합니다.", "error");
-        setSignupUserFormData({
-          ...signupUserFormData,
-          userid: "",
-        });
-      } else if (!isValidLength) {
-        setIsAlert(false);
-        swal("유효성 검사", "아이디 길이는 5글자에서 20글자입니다.", "error");
-        setSignupUserFormData({
-          ...signupUserFormData,
-          userid: "",
-        });
-      } else {
-        setIsAlert(false);
-        swal("유효성 검사", "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.", "error");
-        setSignupUserFormData({
-          ...signupUserFormData,
-          userid: "",
-        });
-      }
-  }
+    const isValidLength =
+      e.currentTarget.value.length >= 5 && e.currentTarget.value.length <= 20;
+    if (regex.test(e.currentTarget.value) && isValidLength) {
+      setIsAlert(true);
+      swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
+    } else if (!regex.test(e.currentTarget.value)) {
+      setIsAlert(false);
+      swal(
+        "유효성 검사",
+        "아이디는 영어 소문자와 숫자, _만 가능합니다.",
+        "error"
+      );
+      setSignupUserFormData({
+        ...signupUserFormData,
+        userid: "",
+      });
+    } else if (!isValidLength) {
+      setIsAlert(false);
+      swal("유효성 검사", "아이디 길이는 5글자에서 20글자입니다.", "error");
+      setSignupUserFormData({
+        ...signupUserFormData,
+        userid: "",
+      });
+    } else {
+      setIsAlert(false);
+      swal(
+        "유효성 검사",
+        "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.",
+        "error"
+      );
+      setSignupUserFormData({
+        ...signupUserFormData,
+        userid: "",
+      });
+    }
+  };
 
   // 아이디 중복체크용
   const userIdDuplicateCheck = (e: any) => {
@@ -181,7 +201,11 @@ const SignUpUserId = ({
       });
     } else if (useridcheck === false) {
       setIsAlert(false);
-      swal("유효성 검사", "중복된 아이디가 있습니다. 다른 아이디로 회원가입 해주세요.", "error");
+      swal(
+        "유효성 검사",
+        "중복된 아이디가 있습니다. 다른 아이디로 회원가입 해주세요.",
+        "error"
+      );
       setSignupUserFormData({
         ...signupUserFormData,
         idcheck: false,
@@ -193,7 +217,10 @@ const SignUpUserId = ({
 
   return (
     <StyleSignUpInputBtnDiv>
-      <StyleNameLabel htmlFor="userid">아이디<IsValidComponent isValid={isAlert}/></StyleNameLabel>
+      <StyleNameLabel htmlFor="userid">
+        아이디
+        <IsValidComponent isValid={isAlert} />
+      </StyleNameLabel>
       <StyleIdCheckDiv>
         <StyleIdCheckInput
           tabIndex={2}

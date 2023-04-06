@@ -1,6 +1,7 @@
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import { loginInputType } from "../routes/auth/LoginPage";
 import { LoginApi, LogoutApi } from "../lib/api";
+import swal from "sweetalert";
 
 // 액션 타입 이름
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
@@ -48,11 +49,18 @@ export function* takeLoginSaga(
       action.payload as loginInputType
     );
 
+    // 로그인 동시 접속 처리
+    const isLoggedIn = yield select((state:any) => state.LoginOutReducer.success);
+    if (isLoggedIn) {
+      swal("동시 접속 오류", "다른 사용자가 이미 로그인한 상태입니다.", "error");
+      return;
+    }
+
     if (response.status === 200) {
       const Obj = {
         // 여기에 토큰을 넣어야 함.
         value: response.data.message.token.accessToken,
-        expire: Date.now() * 1800000,
+        expire: Date.now() + 1800000,
         userId: action.payload.loginid,
         // 이거도 받아야함
         accountType: response.data.message.auth,

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   loginFailureReset,
   logoutAction,
+  logoutSuccessAction,
 } from "../modules/takeLoginLogoutModule";
 import Logo from "../assets/Logo.png";
 import FAQimg from "../assets/FAQ.png";
@@ -14,7 +15,6 @@ import { applicationjson, ContentType } from "../lib/api";
 import { CARBORN_SITE } from "./../lib/api";
 import axios from "axios";
 
-import styled from "@emotion/styled";
 import { Table, TableCell, TableRow } from "@mui/material";
 
 import Dialog from "@mui/material/Dialog";
@@ -23,6 +23,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import swal from "sweetalert";
 
 const container = css`
   width: 100%;
@@ -151,45 +152,9 @@ export default function Nav2(msg: any) {
     }
   }, [location.pathname, setIsFAQ]);
 
-  const [open, setOpen] = useState(false);
-  const [selfHelp, setSelfHelp] = useState<any[]>([]);
-
   const handleClickOpen = () => {
-    setOpen(true);
+    navigate('user/self-repair');
   };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    const fetchSelfData = async () => {
-      const response = await axios({
-        method: "GET",
-        url: `${CARBORN_SITE}/api/user/self-repair/list/1/10`,
-        headers: {
-          [ContentType]: applicationjson,
-        },
-      });
-      setSelfHelp(response.data.message.content);
-    };
-    fetchSelfData();
-  }, []);
-  // .split('-').map((element:any) => element.trim())
-  //////////////////////////////////////////////
-
-  useEffect(() => {
-    const ObjString = localStorage.getItem("login-token");
-    let Obj = null;
-    if (ObjString) {
-      Obj = JSON.parse(ObjString);
-      if (Date.now() > Obj.expire) {
-        localStorage.removeItem("login-token");
-        alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
-        navigate("/login");
-      }
-    }
-  });
 
   // 제목 얘기하기
   useEffect(() => {
@@ -271,8 +236,11 @@ export default function Nav2(msg: any) {
       setTitle("MyCarRegister");
     } else if (location.pathname === `/user/community/write`) {
       setTitle("NewArticleWrite");
+    } else if (location.pathname === `/user/self-repair`) {
+      setTitle("CheckList")
     }
   }, [location.pathname, setTitle, title]);
+
   // 로그아웃
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -291,6 +259,24 @@ export default function Nav2(msg: any) {
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const { success } = useSelector((state: any) => state.LoginOutReducer);
   const localToken = Obj?.value;
+
+  // 유저아이디랑 토큰 가져오기
+  useEffect(() => {
+    const ObjString = localStorage.getItem("login-token");
+    let Obj = null;
+    if (ObjString) {
+      Obj = JSON.parse(ObjString);
+      console.log(Date.now(), Obj.expire)
+      if (Date.now() > Obj.expire) {
+        dispatch(logoutAction())
+        swal("로그인 시간 만료", "로그아웃 되었습니다. 다시 로그인 해주세요.", "error");
+        if (isLoggedIn === undefined) {
+          dispatch(loginFailureReset());
+          navigate("/login");
+        }
+      }
+    }
+  });
 
   return (
     <div css={container}>
@@ -368,74 +354,6 @@ export default function Nav2(msg: any) {
       {isFAQ ? (
         <img css={FAQ} src={FAQimg} onClick={handleClickOpen} alt="FAQ" />
       ) : null}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        maxWidth="lg"
-      >
-        <DialogTitle id="alert-dialog-title">셀프 정비 도우미</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <strong>
-              해당 내용은 셀프로 정비를 할 때 참고할 만한 자료 입니다!
-            </strong>
-          </DialogContentText>
-          <Table style={{marginTop:"3vh"}}>
-            <thead>
-              <TableRow style={{backgroundColor:"#d23131db", color:"white"}}>
-                <TableCell
-                  style={{
-                    width: "20%",
-                    fontWeight: "900",
-                    fontSize: "1.1rem",
-                  }}
-                  align="center"
-                >
-                  {`차량 점검 리스트`}
-                </TableCell>
-                <TableCell
-                  style={{
-                    width: "80%",
-                    fontWeight: "900",
-                    fontSize: "1.1rem",
-                  }}
-                  align="center"
-                >
-                  {`내용`}
-                </TableCell>
-              </TableRow>
-            </thead>
-            <tbody>
-              {selfHelp.map((help) => (
-                <TableRow key={help.id}>
-                  <TableCell
-                    style={{
-                      width: "20%",
-                      fontWeight: "900",
-                      fontSize: "1.1rem",
-                    }}
-                    align="center"
-                  >
-                    {help.title}
-                  </TableCell>
-                  <TableCell style={{ width: "80%" }} align="center">
-                    <ul style={{ textAlign: "left" }}>
-                      {help.content.split("-").slice(1).map((element:string) => (
-                        <li key={element.trim()}>{element.trim()}</li>
-                      ))}
-                    </ul>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </tbody>
-          </Table>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>닫기</Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }

@@ -8,10 +8,6 @@ import {
 } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { JustRoutes, PrivateRoutes } from "./routes";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { LoginOutReducer } from "./modules/takeLoginLogoutModule";
 
 const globalStyles = css`
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -63,7 +59,6 @@ export const PrivateRoute = ({
 
 function App() {
   // 토큰 가져오기
-  const { success } = useSelector((state: any) => state.LoginOutReducer);
   const ObjString: any = localStorage.getItem("login-token");
   const token = JSON.parse(ObjString);
   return (

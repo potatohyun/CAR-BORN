@@ -38,6 +38,7 @@ import Community from "./routes/userUseFnc/Community";
 import ArticleDetail from "./routes/userUseFnc/ArticleDetail";
 import CreateNewWrite from "./components/community/CreateNewWrite";
 import NotFound404 from "./components/NotFound404";
+import SelfRepairHelper from "./components/SelfRepairHelper";
 
 export const JustRoutes = [
   { path: "/", element: <UserHome /> },
@@ -55,6 +56,7 @@ export const JustRoutes = [
   { path: "/garage", element: <GarageHome /> },
   { path: "/inspector", element: <InspectorHome /> },
   { path: "/insurance", element: <InsuranceHome /> },
+  { path: "/user/self-repair", element: <SelfRepairHelper /> },
   { path: "/*", element: <NotFound404 /> },
 ];
 
