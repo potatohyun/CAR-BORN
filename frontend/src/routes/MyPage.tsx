@@ -7,7 +7,7 @@ import inspector from "../assets/inspect.png";
 import Insurance from "../assets/Insurance.png";
 import Community from "../assets/Gallery.png";
 import MyCar from "../assets/MyCar.png";
-import Repair from "../assets/repair.png";
+import Repair from "../assets/Repair.png";
 import ChangeKey from "../assets/ChangeKey.png";
 import Sell from "../assets/Sell.png";
 import { useEffect } from "react";
