@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.ResetPwdRequestDTO;
 import site.carborn.entity.account.Account;
 import site.carborn.entity.common.SmsAuth;
@@ -80,7 +81,12 @@ public class AccountService {
     }
 
     public boolean resetPwWithLogin(ResetPwdRequestDTO dto) {
-        String id = dto.getId();
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        String id = accountId;
         String pwd = dto.getPwd();
         String newPwd = dto.getNewPwd();
 

@@ -80,7 +80,6 @@ public class UserCommunityController {
     @Parameter(name = "communityId", description = "게시글 id")
     public ResponseEntity<?> updateBoard(@RequestBody Community community,
                                          @PathVariable("communityId") int communityId) {
-        log.debug("커뮤니티 글 수정");
         int id = userCommunityService.updateBoard(community, communityId);
         return NormalResponse.toResponseEntity(HttpStatus.OK, id);
     }
@@ -97,7 +96,7 @@ public class UserCommunityController {
     @PostMapping("/comment")
     @Operation(description = "댓글 작성")
     public ResponseEntity<?> createcomment(@RequestBody CommunityReview communityReview) {
-        int result = userCommunityService.createcomment(communityReview);
+        int result = userCommunityService.createComment(communityReview);
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
 
@@ -107,10 +106,10 @@ public class UserCommunityController {
             @Parameter(name = "page", description = "페이지 번호"),
             @Parameter(name = "size", description = "페이지 당 게시물 수")
     })
-    public ResponseEntity<?> getcommentList(@PathVariable("page") int page,
+    public ResponseEntity<?> getCommentList(@PathVariable("page") int page,
                                             @PathVariable("size") int size,
                                             @PathVariable("communityId") int communityId) {
-        Page<UserCommunityCommentListMapping> commentList = userCommunityService.getcommentList(page, size, communityId);
+        Page<UserCommunityCommentListMapping> commentList = userCommunityService.getCommentList(page, size, communityId);
         return NormalResponse.toResponseEntity(HttpStatus.OK, commentList);
     }
 
@@ -138,8 +137,7 @@ public class UserCommunityController {
     })
     public ResponseEntity<?> getMyBoardList(@PathVariable("page") int page,
                                           @PathVariable("size") int size){
-        String accountId = "usertest"; //스프링시큐리티 구현시 변경예정
-        Page<UserCommunityListMapping> myboardList = userCommunityService.getMyBoardList(accountId, page,size);
-        return NormalResponse.toResponseEntity(HttpStatus.OK,myboardList);
+        Page<UserCommunityListMapping> myboardList = userCommunityService.getMyBoardList(page, size);
+        return NormalResponse.toResponseEntity(HttpStatus.OK, myboardList);
     }
 }

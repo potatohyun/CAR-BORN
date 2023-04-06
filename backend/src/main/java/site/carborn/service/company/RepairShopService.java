@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.RepairResultRequestDTO;
 import site.carborn.entity.car.Car;
 import site.carborn.entity.user.RepairBook;
@@ -48,26 +49,43 @@ public class RepairShopService {
     private KlaytnService klaytnService;
 
     @Transactional
-    public Page<RepairBookGetListMapping> repairBookList(Pageable page){
-        //현재는 임시 아이디(아이디 받아오는 부분 필요)
-        String repairShop = "againsburgh28";
+    public Page<RepairBookGetListMapping> repairBookList(Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
-        int repairShopId = repairShopRepository.findByAccount_Id(repairShop).getId();
-        return repairBookRepository.findByStatusAndRepairShop_Id(false,repairShopId,page);
+        int repairShopId = repairShopRepository.findByAccount_Id(accountId).getId();
+        return repairBookRepository.findByStatusAndRepairShop_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, repairShopId, page);
     }
 
     @Transactional
-    public RepairBookGetDetailMapping repairBookDetailContent(int id){
+    public RepairBookGetDetailMapping repairBookDetailContent(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return repairBookRepository.findAllById(id);
     }
 
     @Transactional
-    public Optional<RepairBook> repairBookGetData(int id){
+    public Optional<RepairBook> repairBookGetData(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return repairBookRepository.findById(id);
     }
 
     @Transactional
     public void repairBookUpdate(RepairBook repairBook, int status) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         repairBook.setBookStatus(status);
         repairBook.setUptDt(LocalDateTime.now());
         repairBookRepository.save(repairBook);
@@ -75,6 +93,11 @@ public class RepairShopService {
 
     @Transactional
     public void repairResultInsert(RepairResultRequestDTO dto) throws IOException {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         dto.setRegDt(LocalDateTime.now());
 
         //bookId를 통해 carHash를 가져오는 부분
@@ -82,7 +105,7 @@ public class RepairShopService {
         int carId = carRepository.findByVin(carVin).getId();
 
         //carId를 통해 carHash를 가져오는 부분
-        String carHash = carRepository.findAllByStatusAndId(false,carId).getWalletHash();
+        String carHash = carRepository.findAllByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, carId).getWalletHash();
 
         Optional<Car> car = carRepository.findById(carId);
         if(car.isEmpty()){
@@ -121,21 +144,34 @@ public class RepairShopService {
     }
 
     @Transactional
-    public Page<RepairResultGetListMapping> repairResultGetList(Pageable page){
-        //현재는 임시 아이디(아이디 받아오는 부분 필요)
-        String repairShop = "againsburgh28";
-        int repairShopId = repairShopRepository.findByAccount_Id(repairShop).getId();
+    public Page<RepairResultGetListMapping> repairResultGetList(Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        int repairShopId = repairShopRepository.findByAccount_Id(accountId).getId();
 
         return repairResultRepository.findByRepairBook_RepairShop_Id(repairShopId, page);
     }
 
     @Transactional
-    public RepairResultGetDetailMapping repairResultDetailContent(int id){
+    public RepairResultGetDetailMapping repairResultDetailContent(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return repairResultRepository.findAllById(id);
     }
 
     @Transactional
-    public RepairShopReviewMapping repairResultReview(int id){
+    public RepairShopReviewMapping repairResultReview(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return repairShopReviewRepository.findByStatusAndRepairResult_Id(false, id);
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.CarSaleRequestDTO;
 import site.carborn.entity.account.Account;
 import site.carborn.entity.car.Car;
@@ -17,6 +18,7 @@ import site.carborn.repository.car.CarInsuranceHistoryRepository;
 import site.carborn.repository.car.CarRepository;
 import site.carborn.repository.user.*;
 import site.carborn.service.common.KlaytnService;
+import site.carborn.util.board.BoardUtils;
 import site.carborn.util.common.SearchTypeEnum;
 import site.carborn.util.common.BuyUtils;
 import site.carborn.util.common.SellUtils;
@@ -56,7 +58,12 @@ public class UserService {
 
     @Transactional
     public Page<CarSaleRequestDTO> getSaleList(Pageable pageable) {
-        Page<Object[]> page = carSaleRepository.findAllPage(false, SellUtils.SELL_STATUS_CANCEL, pageable);
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        Page<Object[]> page = carSaleRepository.findAllPage(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, pageable);
         return page.map(objects -> {
             CarSaleRequestDTO dto = new CarSaleRequestDTO();
             dto.setId((int) objects[0]);
@@ -72,18 +79,23 @@ public class UserService {
             dto.setRegDt((Timestamp) objects[10]);
             dto.setUptDt((Timestamp) objects[11]);
             dto.setImgNm((String) objects[12]);
+
             return dto;
         });
     }
 
     @Transactional
     public Page<CarSaleRequestDTO> getSaleListOrderByPrice(Pageable pageable, int orderby) {
-        Page<Object[]> page = null;
-        if(orderby == SortUtils.SORT_STATUS_PRICE_DESC){
-            page = carSaleRepository.findAllPageOrderByPriceDESC(false, SellUtils.SELL_STATUS_CANCEL, pageable);
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
         }
-        else if(orderby == SortUtils.SORT_STATUS_PRICE_ASC){
-            page = carSaleRepository.findAllPageOrderByPriceASC(false, SellUtils.SELL_STATUS_CANCEL, pageable);
+
+        Page<Object[]> page = null;
+        if (orderby == SortUtils.SORT_STATUS_PRICE_DESC) {
+            page = carSaleRepository.findAllPageOrderByPriceDESC(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, pageable);
+        } else if (orderby == SortUtils.SORT_STATUS_PRICE_ASC) {
+            page = carSaleRepository.findAllPageOrderByPriceASC(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, pageable);
         }
         return page.map(objects -> {
             CarSaleRequestDTO dto = new CarSaleRequestDTO();
@@ -100,76 +112,109 @@ public class UserService {
             dto.setRegDt((Timestamp) objects[10]);
             dto.setUptDt((Timestamp) objects[11]);
             dto.setImgNm((String) objects[12]);
+
             return dto;
         });
     }
 
     @Transactional
-    public CarSaleGetDetailMapping getSaleDetail(int carSaleId){
-        return carSaleRepository.findByStatusAndSaleStatusNotAndId(false, SellUtils.SELL_STATUS_CANCEL, carSaleId);
+    public CarSaleGetDetailMapping getSaleDetail(int carSaleId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        return carSaleRepository.findByStatusAndSaleStatusNotAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, carSaleId);
     }
 
     @Transactional
-    public CarSaleBookGetBookStatusMapping getSaleBookStatus(int carSaleId){
-        //현재는 임시아이디 시큐리티에서 받는 부분
-        String userid = "testuser2";
-        return carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(false, userid, carSaleId);
+    public CarSaleBookGetBookStatusMapping getSaleBookStatus(int carSaleId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        return carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, carSaleId);
     }
 
     @Transactional
-    public Page<CarTradeGetListMapping> getCarTradeList(int carId, Pageable page){
+    public Page<CarTradeGetListMapping> getCarTradeList(int carId, Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return carTradeRepository.findAllByCar_Id(carId, page);
     }
 
     @Transactional
-    public Page<UserInspectResultListMapping> getSaleInspectList(int carId, Pageable page){
+    public Page<UserInspectResultListMapping> getSaleInspectList(int carId, Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return inspectResultRepository.findByInspectBook_Car_Id(carId, page);
     }
 
     @Transactional
-    public Page<UserRepairResultListMapping> getSaleRepairList(int carId, Pageable page){
+    public Page<UserRepairResultListMapping> getSaleRepairList(int carId, Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return repairResultRepository.findByRepairBook_Car_Id(carId, page);
     }
 
     @Transactional
-    public Page<UserInsuranceListMapping> getSaleInsuranceList(int carId, Pageable page){
+    public Page<UserInsuranceListMapping> getSaleInsuranceList(int carId, Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return carInsuranceHistoryRepository.findAllByCar_Id(carId, page);
     }
 
     @Transactional
-    public void insertCarSale(CarSale carSale){
-        //현재는 임시아이디 시큐리티에서 받는 부분
-        String userid = "testuser2";
+    public void insertCarSale(CarSale carSale) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         carSale.setAccount(new Account());
-        carSale.getAccount().setId(userid);
+        carSale.getAccount().setId(accountId);
         carSale.setSaleStatus(SellUtils.SELL_STATUS_STAY);
         carSale.setRegDt(LocalDateTime.now());
         carSale.setUptDt(LocalDateTime.now());
-        carSale.setStatus(false);
+        carSale.setStatus(BoardUtils.BOARD_DELETE_STATUS_FALSE);
 
         carSaleRepository.save(carSale);
     }
 
     @Transactional
-    public boolean checkSalesReservation(int carSaleId){
-        if(getSaleBookStatus(carSaleId) == null){
+    public boolean checkSalesReservation(int carSaleId) {
+        if (getSaleBookStatus(carSaleId) == null) {
             return true;
         }
-        else if (getSaleBookStatus(carSaleId).getBookStatus()>= 0){
+        else if (getSaleBookStatus(carSaleId).getBookStatus() >= 0) {
             return false;
         }
         return true;
     }
 
     @Transactional
-    public int salesReservation(int carSaleId){
-        //현재는 임시아이디 시큐리티에서 받는 부분
-        String userid = "testuser2";
+    public int salesReservation(int carSaleId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         CarSaleBook carSalebook = new CarSaleBook();
         carSalebook.setAccount(new Account());
-        carSalebook.getAccount().setId(userid);
+        carSalebook.getAccount().setId(accountId);
         carSalebook.setCarSale(new CarSale());
         carSalebook.getCarSale().setId(carSaleId);
         carSalebook.setStatus(false);
@@ -183,21 +228,36 @@ public class UserService {
     }
 
     @Transactional
-    public Page<CarSaleBookGetReservationListMapping> getCarSaleBookList(int carSaleId, Pageable page){
-        return carSaleBookRepository.findAllByStatusAndBookStatusAndCarSale_Id(false,BuyUtils.BUY_STATUS_STAY,carSaleId, page);
+    public Page<CarSaleBookGetReservationListMapping> getCarSaleBookList(int carSaleId, Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        return carSaleBookRepository.findAllByStatusAndBookStatusAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, BuyUtils.BUY_STATUS_STAY, carSaleId, page);
     }
 
     @Transactional
-    public CarSaleGetSaleStatusMapping getSaleStatus(int carSaleId){
-        return carSaleRepository.findByStatusAndId(false,carSaleId);
+    public CarSaleGetSaleStatusMapping getSaleStatus(int carSaleId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        return carSaleRepository.findByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, carSaleId);
     }
 
     @Transactional
-    public boolean checkSaleStatus(int carSaleId){
-        if(getSaleStatus(carSaleId) == null){
+    public boolean checkSaleStatus(int carSaleId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        if (getSaleStatus(carSaleId) == null) {
             return false;
         }
-        else if(getSaleStatus(carSaleId).getSaleStatus() != SellUtils.SELL_STATUS_STAY){
+        else if (getSaleStatus(carSaleId).getSaleStatus() != SellUtils.SELL_STATUS_STAY) {
             return false;
         }
         else {
@@ -206,52 +266,61 @@ public class UserService {
     }
 
     @Transactional
-    public boolean updateSaleStatus(int carSaleId, String buyid){
-        //현재는 임시아이디 시큐리티에서 받는 부분
-        String userid = "testuser2";
+    public boolean updateSaleStatus(int carSaleId, String buyId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
-        if(carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(false,buyid,carSaleId)==null){
+        if (carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, buyId, carSaleId) == null){
             return false;
         }
-        if(carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(false,buyid,carSaleId).getBookStatus()!=BuyUtils.BUY_STATUS_STAY){
+        if (carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, buyId, carSaleId).getBookStatus() != BuyUtils.BUY_STATUS_STAY) {
             return false;
         }
-        carSaleBookRepository.updateBookStatusAllCancel(BuyUtils.BUY_STATUS_CANCEL,false,LocalDateTime.now(),carSaleId, buyid);
-        carSaleRepository.updateSaleComplete(SellUtils.SELL_STATUS_COMPLETE,false,LocalDateTime.now(),carSaleId, userid);
+        carSaleBookRepository.updateBookStatusAllCancel(BuyUtils.BUY_STATUS_CANCEL, BoardUtils.BOARD_DELETE_STATUS_FALSE,LocalDateTime.now(), carSaleId, buyId);
+        carSaleRepository.updateSaleComplete(SellUtils.SELL_STATUS_COMPLETE, BoardUtils.BOARD_DELETE_STATUS_FALSE, LocalDateTime.now(), carSaleId, accountId);
+
         return true;
     }
 
     @Transactional
-    public boolean checkSaleCompleteStatus(int carSaleId){
-        if(getSaleStatus(carSaleId) == null){
-            return false;
+    public boolean checkSaleCompleteStatus(int carSaleId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
         }
-        else if(getSaleStatus(carSaleId).getSaleStatus() != SellUtils.SELL_STATUS_COMPLETE){
+
+        if (getSaleStatus(carSaleId) == null) {
             return false;
-        }
-        else {
+        } else if(getSaleStatus(carSaleId).getSaleStatus() != SellUtils.SELL_STATUS_COMPLETE) {
+            return false;
+        } else {
             return true;
         }
     }
 
     @Transactional
     public boolean confirmTrade(int carSaleId) throws IOException {
-        //현재는 임시아이디 시큐리티에서 받는 부분
-        String userid = "abenion2e";
-        if(carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(false,userid,carSaleId).getBookStatus()!=BuyUtils.BUY_STATUS_STAY){
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        if (carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, carSaleId).getBookStatus() != BuyUtils.BUY_STATUS_STAY) {
             return false;
         }
         LocalDateTime uptDt = LocalDateTime.now();
-        carSaleBookRepository.updateBookStatusComplete(BuyUtils.BUY_STATUS_COMPLETE,false,uptDt,carSaleId, userid);
+        carSaleBookRepository.updateBookStatusComplete(BuyUtils.BUY_STATUS_COMPLETE,BoardUtils.BOARD_DELETE_STATUS_FALSE, uptDt, carSaleId, accountId);
 
-        CarSaleGetSaleStatusMapping csgsm = carSaleRepository.findByStatusAndId(false,carSaleId);
+        CarSaleGetSaleStatusMapping csgsm = carSaleRepository.findByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE,carSaleId);
 
         //carId를 통해 carHash를 가져오는 부분
-        String carHash = carRepository.findAllByStatusAndId(false, csgsm.getCarId()).getWalletHash();
+        String carHash = carRepository.findAllByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, csgsm.getCarId()).getWalletHash();
 
         CarTrade carTrade = new CarTrade();
         carTrade.setBuyerAccount(new Account());
-        carTrade.getBuyerAccount().setId(userid);
+        carTrade.getBuyerAccount().setId(accountId);
         carTrade.setSellerAccount(new Account());
         carTrade.getSellerAccount().setId(csgsm.getAccountId());
         carTrade.setPrice(csgsm.getPrice());
@@ -276,15 +345,21 @@ public class UserService {
         carTradeRepository.save(carTrade);
 
         //차 권한 이양
-        carRepository.updateCar(uptDt,userid,csgsm.getCarId(),false);
+        carRepository.updateCar(uptDt, accountId, csgsm.getCarId(), BoardUtils.BOARD_DELETE_STATUS_FALSE);
 
         return true;
     }
 
     @Transactional
-    public Page<CarSaleRequestDTO> getSaleSearchList(int searchType, String keyword,Pageable pageable) {
+    public Page<CarSaleRequestDTO> getSaleSearchList(int searchType, String keyword, Pageable pageable) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         SearchTypeEnum searchTypeEnum = SearchTypeEnum.valueOf(searchType);
-        Page<Object[]> page = carSaleRepository.findAllPageAndSearch(false, SellUtils.SELL_STATUS_CANCEL,searchTypeEnum.getStringValue(), keyword,pageable);
+        Page<Object[]> page = carSaleRepository.findAllPageAndSearch(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL,searchTypeEnum.getStringValue(), keyword,pageable);
+
         return page.map(objects -> {
             CarSaleRequestDTO dto = new CarSaleRequestDTO();
             dto.setId((int) objects[0]);
@@ -300,20 +375,27 @@ public class UserService {
             dto.setRegDt((Timestamp) objects[10]);
             dto.setUptDt((Timestamp) objects[11]);
             dto.setImgNm((String) objects[12]);
+
             return dto;
         });
     }
 
     @Transactional
-    public Page<CarSaleRequestDTO> getSaleListSearchOrderByPrice(int searchType, String keyword, Pageable pageable, int orderby) {
+    public Page<CarSaleRequestDTO> getSaleListSearchOrderByPrice(int searchType, String keyword, Pageable pageable, int orderBy) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         Page<Object[]> page = null;
         SearchTypeEnum searchTypeEnum = SearchTypeEnum.valueOf(searchType);
-        if(orderby == SortUtils.SORT_STATUS_PRICE_DESC){
-            page = carSaleRepository.findAllPageOrderByPriceDESCAndSearch(false, SellUtils.SELL_STATUS_CANCEL,searchTypeEnum.getStringValue(), keyword, pageable);
+        if (orderBy == SortUtils.SORT_STATUS_PRICE_DESC) {
+            page = carSaleRepository.findAllPageOrderByPriceDESCAndSearch(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, searchTypeEnum.getStringValue(), keyword, pageable);
         }
-        else if(orderby == SortUtils.SORT_STATUS_PRICE_ASC){
-            page = carSaleRepository.findAllPageOrderByPriceASCAndSearch(false, SellUtils.SELL_STATUS_CANCEL,searchTypeEnum.getStringValue(), keyword, pageable);
+        else if (orderBy == SortUtils.SORT_STATUS_PRICE_ASC) {
+            page = carSaleRepository.findAllPageOrderByPriceASCAndSearch(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, searchTypeEnum.getStringValue(), keyword, pageable);
         }
+
         return page.map(objects -> {
             CarSaleRequestDTO dto = new CarSaleRequestDTO();
             dto.setId((int) objects[0]);
@@ -329,6 +411,7 @@ public class UserService {
             dto.setRegDt((Timestamp) objects[10]);
             dto.setUptDt((Timestamp) objects[11]);
             dto.setImgNm((String) objects[12]);
+
             return dto;
         });
     }

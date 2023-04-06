@@ -44,7 +44,7 @@ public class InsuranceController {
     })
     public ResponseEntity<?> carInsuranceHistoryList(@PathVariable("page") int page, @PathVariable("size") int size){
         PageRequest pageRequest = BoardUtils.pageRequestInit(page,size, "id" ,BoardUtils.ORDER_BY_DESC);
-        Page<CarInsuranceHistoryGetListMapping> result = insuranceService.carinsuranceHistoryList(pageRequest);
+        Page<CarInsuranceHistoryGetListMapping> result = insuranceService.carInsuranceHistoryList(pageRequest);
 
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
@@ -53,7 +53,7 @@ public class InsuranceController {
     @Operation(description = "보험회사 손상 내역 상세 조회")
     @Parameter(name = "id", description = "게시물 번호")
     public ResponseEntity<?> carInsuranceHistoryDetailContent(@PathVariable("id") int id){
-        CarInsuranceHistoryGetDetailMapping result = insuranceService.carinsuranceHistoryDetail(id);
+        CarInsuranceHistoryGetDetailMapping result = insuranceService.carInsuranceHistoryDetail(id);
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
 

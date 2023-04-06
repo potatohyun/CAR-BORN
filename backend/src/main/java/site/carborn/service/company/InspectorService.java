@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.InspectResultRequestDTO;
 import site.carborn.entity.car.Car;
 import site.carborn.entity.user.InspectBook;
@@ -51,26 +52,44 @@ public class InspectorService {
     private KlaytnService klaytnService;
 
     @Transactional
-    public Page<InspectBookGetListMapping> inspectBookGetList(Pageable page){
-        //회사 ID 가져오는 부분(현재는 임시)
-        String inspector = "imunseymc";
-        int inspectorId = inspectorRepository.findByAccount_Id(inspector).getId();
+    public Page<InspectBookGetListMapping> inspectBookGetList(Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
-        return inspectBookRepository.findByStatusAndInspector_Id(false,inspectorId,page);
+        int inspectorId = inspectorRepository.findByAccount_Id(accountId).getId();
+
+        return inspectBookRepository.findByStatusAndInspector_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, inspectorId, page);
     }
 
     @Transactional
-    public InspectBookGetDetailMapping inspectBookDetail(int id){
+    public InspectBookGetDetailMapping inspectBookDetail(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return inspectBookRepository.findAllById(id);
     }
 
     @Transactional
-    public Optional<InspectBook> inspectBookUpdateData(int id){
+    public Optional<InspectBook> inspectBookUpdateData(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return inspectBookRepository.findById(id);
     }
 
     @Transactional
-    public void inspectorBookUpdate(InspectBook inspectBook, int status){
+    public void inspectorBookUpdate(InspectBook inspectBook, int status) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         inspectBook.setUptDt(LocalDateTime.now());
         inspectBook.setBookStatus(status);
         inspectBookRepository.save(inspectBook);
@@ -78,6 +97,11 @@ public class InspectorService {
 
     @Transactional
     public void inspectorResultInsert(InspectResultRequestDTO dto) throws IOException {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         //검수 결과 입력
         dto.setRegDt(LocalDateTime.now());
 
@@ -127,21 +151,34 @@ public class InspectorService {
     }
 
     @Transactional
-    public Page<InspectResultGetListMapping> inspectResultGetList(Pageable page){
-        //회사 ID 가져오는 부분(현재는 임시)
-        String inspector = "imunseymc";
-        int inspectorId = inspectorRepository.findByAccount_Id(inspector).getId();
+    public Page<InspectResultGetListMapping> inspectResultGetList(Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
-        return inspectResultRepository.findByInspectBook_Inspector_Id(inspectorId,page);
+        int inspectorId = inspectorRepository.findByAccount_Id(accountId).getId();
+
+        return inspectResultRepository.findByInspectBook_Inspector_Id(inspectorId, page);
     }
 
     @Transactional
     public InspectResultGetDetailMapping inspectResultDetail(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return inspectResultRepository.findAllById(id);
     }
 
     @Transactional
     public InspectorReviewMapping inspectResultReview(int id){
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return inspectorReviewRepository.findByStatusAndInspectResult_Id(false, id);
     }
 }

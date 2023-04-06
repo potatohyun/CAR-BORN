@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.entity.account.Account;
 import site.carborn.entity.company.RepairShopReview;
 import site.carborn.entity.user.RepairBook;
@@ -35,7 +36,12 @@ public class UserRepairService {
     @Autowired
     private RepairShopReviewRepository repairShopReviewRepository;
 
-    public Page<UserRepairBookListMapping> repairBookList(String accountId, int page, int size) {
+    public Page<UserRepairBookListMapping> repairBookList(int page, int size) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         Page<UserRepairBookListMapping> repairBookList = repairBookRepository.findByStatusAndAccount_Id(
                 BoardUtils.BOARD_DELETE_STATUS_FALSE,
                 accountId
@@ -52,7 +58,12 @@ public class UserRepairService {
     }
 
     public UserRepairBookDetailMapping repairBook(int id) {
-        //게시글이 없을때
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        // 게시글이 없을때
         UserRepairBookDetailMapping repairBook = repairBookRepository.findByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, id);
 
 
@@ -65,7 +76,10 @@ public class UserRepairService {
 
 
     public int createRepairBook(RepairBook repairBook) {
-        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         Account account = accountRepository.findById(accountId);
         if (account == null) {
@@ -83,6 +97,11 @@ public class UserRepairService {
     }
 
     public void deleteRepairBook(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         RepairBook delete = repairBookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다")
         );
@@ -97,7 +116,10 @@ public class UserRepairService {
     }
 
     public int updateRepairBook(RepairBook repairBook) {
-        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         Account account = accountRepository.findById(accountId);
         if (account == null) {
@@ -118,6 +140,11 @@ public class UserRepairService {
 
 
     public RepairResultGetDetailMapping repairResultDetail(int repairResultId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         RepairResultGetDetailMapping result = repairResultRepository.findAllByRepairBook_Id(repairResultId);
         if (result == null) {
             throw new RuntimeException("존재하지 않는 데이터입니다");
@@ -127,12 +154,20 @@ public class UserRepairService {
 
 
     public RepairShopReviewMapping getRepairReviewDetail(int repairResultId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         RepairShopReviewMapping result = repairShopReviewRepository.findByStatusAndRepairResult_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, repairResultId);
         return result;
     }
 
     public int createRepairReview(int repairResultId, RepairShopReview repairShopReview) {
-        String accountId = "testuser2"; //스프링시큐리티 구현시 변경예정
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         RepairResult result = repairResultRepository.findById(repairResultId).orElseThrow(() ->
                 new RuntimeException("수리결과가 없습니다"));

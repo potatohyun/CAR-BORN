@@ -32,10 +32,9 @@ public class UserInsuranceController {
             @Parameter(name = "page", description = "페이지 번호"),
             @Parameter(name = "size", description = "페이지 당 게시물 수")
     })
-    public ResponseEntity<?> getInsuranceList(@PathVariable("page") int page,
-                                              @PathVariable("size") int size) {
-        String accountId = "usertest";
-        Page<UserInsuranceListMapping> result = userInsuranceService.insuranceList(accountId, page, size);
+    public ResponseEntity<?> getInsuranceList(@PathVariable("page") int page
+                                              ,@PathVariable("size") int size) {
+        Page<UserInsuranceListMapping> result = userInsuranceService.insuranceList(page, size);
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
 

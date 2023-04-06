@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.CarRequestDTO;
 import site.carborn.entity.account.Account;
 import site.carborn.entity.car.Car;
@@ -38,7 +39,6 @@ import java.util.List;
 @Service
 @Transactional
 public class UserMyPageService {
-
     @Autowired
     private KlaytnService klaytnService;
 
@@ -59,8 +59,10 @@ public class UserMyPageService {
 
     @Transactional
     public Car insertCar(CarRequestDTO dto) throws IOException {
-        //userId 받아오는 부분(현재는 임시)
-        String userId = "usertest";
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         //klaytn 서비스에 계정 생성 후 해시 가져옴
         dto.setWalletHash(klaytnService.getCarHash().get("address").toString());
@@ -69,7 +71,7 @@ public class UserMyPageService {
         dto.setRegDt(LocalDateTime.now());
         dto.setUptDt(LocalDateTime.now());
         dto.setAccount(new Account());
-        dto.getAccount().setId(userId);
+        dto.getAccount().setId(accountId);
         dto.setStatus(false);
 
         Car car = Car.copy(dto);
@@ -200,9 +202,12 @@ public class UserMyPageService {
 
     @Transactional
     public Page<CarGetListMapping> getCarList(Pageable pageable){
-        //유저 아이디 받는 부분 현재는 임시
-        String userId = "testuser2";
-        return carRepository.findAllByAccount_Id(userId, pageable);
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
+        return carRepository.findAllByAccount_Id(accountId, pageable);
     }
 
     @Transactional
@@ -222,23 +227,27 @@ public class UserMyPageService {
 
     @Transactional
     public Page<CarSaleGetListMapping> getCarSellList(Pageable page){
-        //아이디 받는 부분 현재는 임시
-        String userId = "testuser2";
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
-        return carSaleRepository.findAllByStatusAndAccountId(false, userId, page);
+        return carSaleRepository.findAllByStatusAndAccountId(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, page);
     }
 
     @Transactional
-    public Page<CarSaleBookGetListMapping> getCarBuyList(Pageable page){
-        //아이디 받는 부분 현재는 임시
-        String userId = "testuser2";
+    public Page<CarSaleBookGetListMapping> getCarBuyList(Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
-        return carSaleBookRepository.findAllByStatusAndAccountId(false, userId, page);
+        return carSaleBookRepository.findAllByStatusAndAccountId(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, page);
     }
 
     @Transactional
     public String updateBookCancel(int carSaleBookId){
-        carSaleBookRepository.updateBookStatusCancel(carSaleBookId, BuyUtils.BUY_STATUS_CANCEL, false ,LocalDateTime.now(), BuyUtils.BUY_STATUS_STAY);
+        carSaleBookRepository.updateBookStatusCancel(carSaleBookId, BuyUtils.BUY_STATUS_CANCEL, false, LocalDateTime.now(), BuyUtils.BUY_STATUS_STAY);
         return BoardUtils.BOARD_CRUD_SUCCESS;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.CarInsuranceHistoryRequestDTO;
 import site.carborn.entity.car.Car;
 import site.carborn.entity.car.CarInsuranceHistory;
@@ -42,18 +43,20 @@ public class InsuranceService {
 
     @Transactional
     public void insertCarInsuranceHistory(CarInsuranceHistoryRequestDTO dto) throws IOException {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         dto.setRegDt(LocalDateTime.now());
 
         if (dto.getInsuranceImg() != null) {
             String fileName = BoardUtils.singleFileSave((dto).getInsuranceImg());
             dto.setInsuranceImgNm(fileName);
         }
-
-        //회사 ID 가져오는 부분(현재는 임시)
-        String id = "insurancetest";
         
         //회사 아이디 및 carVin을 통해 insuranceId와 carId를 가져오는 부분
-        int insuranceId = insuranceCompanyRepository.findByAccount_Id(id).getId();
+        int insuranceId = insuranceCompanyRepository.findByAccount_Id(accountId).getId();
         int carId = carRepository.findByVin(dto.getCarVin()).getId();
         dto.setCar(new Car());
         dto.getCar().setId(carId);
@@ -83,15 +86,23 @@ public class InsuranceService {
     }
 
     @Transactional
-    public Page<CarInsuranceHistoryGetListMapping> carinsuranceHistoryList(Pageable page){
-        //회사 ID 가져오는 부분(현재는 임시)
-        String id = "insurancetest";
-        int insuranceId = insuranceCompanyRepository.findByAccount_Id(id).getId();
+    public Page<CarInsuranceHistoryGetListMapping> carInsuranceHistoryList(Pageable page) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
-        return carInsuranceHistoryRepository.findAllByInsuranceCompany_Id(insuranceId,page);
+        int insuranceId = insuranceCompanyRepository.findByAccount_Id(accountId).getId();
+
+        return carInsuranceHistoryRepository.findAllByInsuranceCompany_Id(insuranceId, page);
     }
     @Transactional
-    public CarInsuranceHistoryGetDetailMapping carinsuranceHistoryDetail(int id){
+    public CarInsuranceHistoryGetDetailMapping carInsuranceHistoryDetail(int id) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         return carInsuranceHistoryRepository.findAllById(id);
     }
 }

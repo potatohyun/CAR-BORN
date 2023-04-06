@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.entity.account.Account;
 import site.carborn.entity.user.Community;
 import site.carborn.entity.user.CommunityReview;
@@ -28,6 +29,11 @@ public class UserCommunityService {
     private CommunityReviewRepository communityReviewRepository;
 
     public Page<UserCommunityListMapping> getBoardList(int page, int size, int sort, String keyword) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         String orderBy = BoardUtils.ORDER_BY_DESC;
         String sortBy = BoardUtils.SORT_BY_ID;
 
@@ -84,6 +90,11 @@ public class UserCommunityService {
 
     @Transactional
     public UserCommunityListMapping getBoardDetail(int communityId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         communityRepository.updateView(communityId);
         UserCommunityListMapping boardDetail = communityRepository.findAllByIdAndStatus(communityId, BoardUtils.BOARD_DELETE_STATUS_FALSE);
 
@@ -95,6 +106,10 @@ public class UserCommunityService {
     }
 
     public int createBoard(Community community) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         if (community.getAccount().getId().isBlank()) {
             throw new RuntimeException("세션이 만료되었습니다");
@@ -114,6 +129,10 @@ public class UserCommunityService {
     }
 
     public int updateBoard(Community community, int communityId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
 
         if (community.getAccount().getId().isBlank()) {
             throw new RuntimeException("세션이 만료되었습니다");
@@ -129,6 +148,10 @@ public class UserCommunityService {
         Community update = communityRepository.findById(communityId).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다"));
 
+        if (update.getAccount().getId().equals(accountId)) {
+            throw new RuntimeException("작성자가 아닙니다");
+        }
+
         if (!community.getAccount().getId().equals(update.getAccount().getId())) {
             throw new RuntimeException("권한이 없습니다");
         }
@@ -142,9 +165,18 @@ public class UserCommunityService {
     }
 
     public void deleteBoard(int communityId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         Community delete = communityRepository.findById(communityId).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다")
         );
+
+        if (delete.getAccount().getId().equals(accountId) == false) {
+            throw new RuntimeException("작성자가 아닙니다");
+        }
 
         if (delete.isStatus() == BoardUtils.BOARD_DELETE_STATUS_TRUE) {
             throw new RuntimeException("삭제된 데이터입니다");
@@ -157,10 +189,10 @@ public class UserCommunityService {
 
 
     //리뷰
-    public int createcomment(CommunityReview communityReview) {
-
-        if (communityReview.getAccount().getId().isBlank()) {
-            throw new RuntimeException("세션이 만료되었습니다");
+    public int createComment(CommunityReview communityReview) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
         }
 
         Account account = accountRepository.findById(communityReview.getAccount().getId());
@@ -176,7 +208,12 @@ public class UserCommunityService {
         return save.getId();
     }
 
-    public Page<UserCommunityCommentListMapping> getcommentList(int page, int size, int communityId) {
+    public Page<UserCommunityCommentListMapping> getCommentList(int page, int size, int communityId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         Page<UserCommunityCommentListMapping> getcommentList = communityReviewRepository.findByCommunity_IdAndStatus(
                 communityId,
                 BoardUtils.BOARD_DELETE_STATUS_FALSE
@@ -193,10 +230,11 @@ public class UserCommunityService {
     }
 
     public int updateComment(CommunityReview communityReview, int commentId) {
-
-        if (communityReview.getAccount().getId().isBlank()) {
-            throw new RuntimeException("세션이 만료되었습니다");
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
         }
+        communityReview.getAccount().setId(accountId);
 
         if (accountRepository.findById(communityReview.getAccount().getId()) == null) {
             throw new RuntimeException("존재하지 않는 아이디입니다");
@@ -221,6 +259,11 @@ public class UserCommunityService {
     }
 
     public void deleteComment(int commentId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         CommunityReview delete = communityReviewRepository.findById(commentId).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다")
         );
@@ -234,7 +277,12 @@ public class UserCommunityService {
         communityReviewRepository.save(delete);
     }
 
-    public Page<UserCommunityListMapping> getMyBoardList(String accountId, int page, int size) {
+    public Page<UserCommunityListMapping> getMyBoardList(int page, int size) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         Page<UserCommunityListMapping> myList = communityRepository.findByStatusAndAccount_Id(
                 BoardUtils.BOARD_DELETE_STATUS_FALSE
                 ,accountId

@@ -35,8 +35,7 @@ public class UserInspectConteroller {
     })
     public ResponseEntity<?> getInspectBookList(@PathVariable("page") int page,
                                                 @PathVariable("size") int size) {
-        String accountId = "usertest";
-        Page<UserInspectBookListMapping> result = userInspectService.inspectBookList(accountId, page, size);
+        Page<UserInspectBookListMapping> result = userInspectService.inspectBookList(page, size);
         return NormalResponse.toResponseEntity(HttpStatus.OK, result);
     }
 

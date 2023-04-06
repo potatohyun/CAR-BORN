@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import site.carborn.config.SecurityUtil;
 import site.carborn.config.auth.dto.TokenDTO;
 import site.carborn.config.auth.jwt.TokenProvider;
 import site.carborn.entity.account.Account;
@@ -63,6 +64,11 @@ public class LoginService {
     }
 
     public boolean logout(RequestEntity<?> httpMessage) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        if (accountId == null || accountId.isBlank()) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+
         String accessToken = httpMessage.getHeaders().get("Authorization").get(0).substring(7);
         Long expiration = tokenProvider.getExpiration(accessToken);
         redisTemplate.opsForValue().set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);

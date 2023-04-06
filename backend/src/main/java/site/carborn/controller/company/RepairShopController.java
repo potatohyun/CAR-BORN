@@ -32,8 +32,8 @@ public class RepairShopController {
     @GetMapping("/book/list/{page}/{size}")
     @Operation(description = "정비소 정비 예약 전체 목록")
     @Parameters({
-            @Parameter(name = "page", description = "페이지 번호"),
-            @Parameter(name = "size", description = "페이지 사이즈")
+            @Parameter(name = "page", description = "페이지 번호")
+            ,@Parameter(name = "size", description = "페이지 사이즈")
     })
     public ResponseEntity<?> repairBookList(@PathVariable("page") int page, @PathVariable("size") int size) {
         PageRequest pageRequest = BoardUtils.pageRequestInit(page,size, "id" ,BoardUtils.ORDER_BY_DESC);
