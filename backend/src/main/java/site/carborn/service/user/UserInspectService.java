@@ -1,5 +1,6 @@
 package site.carborn.service.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import site.carborn.util.common.BookUtils;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 public class UserInspectService {
     @Autowired
@@ -108,12 +110,15 @@ public class UserInspectService {
         InspectBook delete = inspectBookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다")
         );
+        if (delete.getAccount().getId().equals(accountId) == false) {
+            throw new RuntimeException("작성자가 아닙니다");
+        }
 
         if (delete.isStatus() == BoardUtils.BOARD_DELETE_STATUS_TRUE) {
             throw new RuntimeException("삭제된 데이터입니다");
         }
         if (delete.getBookStatus() != BookUtils.BOOK_STATUS_WAIT) {
-            throw new RuntimeException("거래가 진행중이거나 완료된 상태입니다");
+            throw new RuntimeException("검수가 완료됬거나 취소되어 변경이 불가능 합니다");
         }
 
         delete.setStatus(BoardUtils.BOARD_DELETE_STATUS_TRUE);
@@ -126,13 +131,18 @@ public class UserInspectService {
         String accountId = SecurityUtil.getCurrentUserId();
         AccountUtils.checkJWTAccount(accountId);
 
-        Account account = accountRepository.findById(accountId);
-        if (account == null) {
-            throw new RuntimeException("존재하지 않는 아이디입니다");
-        }
-
         InspectBook update = inspectBookRepository.findById(inspectBook.getId()).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다"));
+
+        if (update.getAccount().getId().equals(accountId) == false) {
+            throw new RuntimeException("작성자가 아닙니다");
+        }
+        if (update.isStatus() == BoardUtils.BOARD_DELETE_STATUS_TRUE) {
+            throw new RuntimeException("삭제된 데이터입니다");
+        }
+        if (update.getBookStatus() != BookUtils.BOOK_STATUS_WAIT) {
+            throw new RuntimeException("검수가 완료됬거나 취소되어 변경이 불가능 합니다");
+        }
 
         update.setCar(inspectBook.getCar());
         update.setContent(inspectBook.getContent());
@@ -172,13 +182,22 @@ public class UserInspectService {
     public int createInspectReview(int inspectResultId, InspectorReview inspectorReview) {
         String accountId = SecurityUtil.getCurrentUserId();
         AccountUtils.checkJWTAccount(accountId);
+        Account account = accountRepository.findById(accountId);
+        if (account == null) {
+            throw new RuntimeException("존재하지 않는 아이디입니다");
+        }
 
         InspectResult result = inspectResultRepository.findById(inspectResultId).orElseThrow(() ->
                 new RuntimeException("수리결과가 없습니다"));
 
-        Account account = accountRepository.findById(accountId);
-        if (account == null) {
-            throw new RuntimeException("존재하지 않는 아이디입니다");
+        //이미 리뷰가 있는경우
+        if (inspectorReviewRepository.findByInspectResult_Id(inspectResultId) != null){
+            throw new RuntimeException("리뷰가 이미 존재합니다");
+        }
+
+        //예약 신청자와 리뷰 작성자가 다를경우
+        if (result.getInspectBook().getAccount().getId().equals(accountId)==false){
+            throw new RuntimeException("권한이 없습니다");
         }
 
         inspectorReview.setInspectResult(result);

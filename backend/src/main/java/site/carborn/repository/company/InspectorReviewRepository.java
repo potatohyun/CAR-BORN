@@ -13,4 +13,5 @@ public interface InspectorReviewRepository extends JpaRepository<InspectorReview
     InspectorReviewMapping findByStatusAndInspectResult_Id(@Param("status") boolean status, @Param("inspectResultId") int inspectResultId);
 
     Page<InspectorReviewMapping> findAllByStatusAndInspector_Id(@Param("status") boolean status, @Param("inspectorId") int inspectorId, Pageable page);
+    InspectorReview findByInspectResult_Id(@Param("inspectResultId") int inspectResultId);
 }
