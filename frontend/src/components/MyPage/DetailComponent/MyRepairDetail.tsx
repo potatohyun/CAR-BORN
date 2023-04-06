@@ -399,9 +399,9 @@ const MyRepairDetail = () => {
         });
 
         let images:any[] = []
-        images.push(CARBORN_IMG+response.data.message.afterImgNm)
-        images.push(CARBORN_IMG+response.data.message.beforeImgNm)
-        images.push(CARBORN_IMG+response.data.message.receiptImgNm)
+        images.push(CARBORN_IMG+response?.data.message.afterImgNm)
+        images.push(CARBORN_IMG+response?.data.message.beforeImgNm)
+        images.push(CARBORN_IMG+response?.data.message.receiptImgNm)
 
         setImages(images)
         // 이미지 받아오기 용
@@ -516,23 +516,23 @@ const MyRepairDetail = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell align="center">
-                    {detail.repairShopAccountName === undefined
+                    {detail?.repairShopAccountName === undefined
                       ? null
-                      : detail.repairShopAccountName}
+                      : detail?.repairShopAccountName}
                   </TableCell>
                   <TableCell align="center">
-                    {detail.carMileage === undefined
+                    {detail?.carMileage === undefined
                       ? null
-                      : detail.carMileage.toLocaleString()}
+                      : detail?.carMileage.toLocaleString()}
                   </TableCell>
-                  <TableCell align="center">{detail.carModelYear}</TableCell>
+                  <TableCell align="center">{detail?.carModelYear}</TableCell>
                   <TableCell align="center">
-                    {detail && detail.bookDt && detail.bookDt.slice(0, 10)}
+                    {detail && detail?.bookDt && detail?.bookDt.slice(0, 10)}
                   </TableCell>
                   <TableCell align="center">
                     {repairResult &&
-                      repairResult.repairDt &&
-                      repairResult.repairDt.slice(0, 10)}
+                      repairResult?.repairDt &&
+                      repairResult?.repairDt.slice(0, 10)}
                   </TableCell>
                   <TableCell align="center">
                     <a href={repairResult.metadataUri}>
@@ -551,7 +551,7 @@ const MyRepairDetail = () => {
           <StyleMyRepairLeftDetailDiv>
             {/* 캐러셀 정보  */}
             <StyledCarousel transitionTime={1000}>
-              {images.map((image, index) => (
+              {images?.map((image, index) => (
                 <div
                   key={index}
                   onClick={() => {
@@ -582,10 +582,10 @@ const MyRepairDetail = () => {
           <StyleMyRepairRightDetailDiv>
             <StyleTableDivRepairDetail>
               {repairResult &&
-                repairResult.content &&
-                repairResult.content.trim() && (
+                repairResult?.content &&
+                repairResult?.content.trim() && (
                   <StyleRepairResultContent>
-                    {repairResult.content
+                    {repairResult?.content
                       .split("-")
                       .slice(1)
                       .map((content: any, index: any) => (

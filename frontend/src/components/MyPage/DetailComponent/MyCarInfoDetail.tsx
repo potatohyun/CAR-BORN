@@ -19,6 +19,7 @@ import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { StyledTableMyCarInfoContainer } from "../Pagination/MyCarInfoPagination";
 import swal from "sweetalert";
+import Basic from '../../../assets/carousel/CarStatus1.jpg'
 
 const StyleMyCarInfoDetailDiv = styled.div`
   width: 100vw;
@@ -282,8 +283,8 @@ const MyCarInfoDetail = () => {
         });
 
         let images:any[] = []
-        response.data.message.img.map((ele:any) => images.push(ele))
-        images.push(response.data.message.vrc)
+        response?.data.message.img.map((ele:any) => images.push(CARBORN_IMG+ele))
+        images.push(CARBORN_IMG+response.data.message.vrc)
 
         setCarouselImg(images)
         setCarInfoData(response.data.message.detail);
@@ -314,15 +315,15 @@ const MyCarInfoDetail = () => {
         <StyleXButton onClick={() => goBack()}>X</StyleXButton>
         {/* 이미지 받아오기 images를 carImages로 수정하기 */}
         <StyledCarousel transitionTime={1000}>
-          {carouselImg.map((image, index) => (
+          {carouselImg?.map((image, index) => (
             <div
               key={index}
               onClick={() => {
-                setSelectedImage(image.imgNm);
+                setSelectedImage(image);
                 setShowModal(true);
               }}
             >
-              {carouselImg ? <img src={`${CARBORN_IMG+image.imgNm}`} alt={`${index}`} /> : null}
+              {carouselImg ? <img src={image} alt={image} /> : null}
             </div>
           ))}
         </StyledCarousel>
@@ -333,7 +334,7 @@ const MyCarInfoDetail = () => {
                 className="modal-content"
                 onClick={() => setShowModal(false)}
               >
-                {selectedImage ? <img src={CARBORN_IMG+selectedImage} alt="modal" /> : null}
+                {selectedImage ? <img src={selectedImage} alt="modal" /> : null}
               </div>
             </div>
           </StyleMyCarInfoCarousels>
@@ -347,17 +348,17 @@ const MyCarInfoDetail = () => {
             </StyleTableCarImgDiv>
             <StyleTableCarMakerModelDiv>
               {/* 제조사, 차량모델 */}
-              <span>{carInfoData.maker}</span>
-              <span>{carInfoData.modelNm}</span>
+              <span>{carInfoData?.maker}</span>
+              <span>{carInfoData?.modelNm}</span>
             </StyleTableCarMakerModelDiv>
             <StyleTableCarRegNmDiv>
               {/* 차량번호 */}
-              <span>{carInfoData.regNm}</span>
+              <span>{carInfoData?.regNm}</span>
             </StyleTableCarRegNmDiv>
             <StyleTableCarVinDiv>
               {/* 차대번호 */}
               <div>차대번호</div>
-              <div>{carInfoData.vin}</div>
+              <div>{carInfoData?.vin}</div>
             </StyleTableCarVinDiv>
             <StyleTableCarInfoDiv>
               {/* 나머지 테이블 정보 */}
@@ -369,9 +370,9 @@ const MyCarInfoDetail = () => {
                     <TableCell align="center">차량등록일자</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="center">{carInfoData.mileage === undefined ? null : carInfoData.mileage.toLocaleString()}</TableCell>
-                    <TableCell align="center">{carInfoData.modelYear}</TableCell>
-                    <TableCell align="center">{carInfoData && carInfoData.regDt && carInfoData.regDt.slice(0, 10)}</TableCell>
+                    <TableCell align="center">{carInfoData?.mileage === undefined ? null : carInfoData?.mileage.toLocaleString()}</TableCell>
+                    <TableCell align="center">{carInfoData?.modelYear}</TableCell>
+                    <TableCell align="center">{carInfoData && carInfoData?.regDt && carInfoData?.regDt.slice(0, 10)}</TableCell>
                   </TableRow>
                 </tbody>
               </Table>
@@ -379,7 +380,6 @@ const MyCarInfoDetail = () => {
           </StyleTableDivMyCarInfoDetail>
         </StyledTableMyCarInfoContainer>
       </StyleMyCarInfoDetailContainerDiv>
-      {/* <img src={`${CARBORN_SITE}/images/2023-04-03T07-14-07.747757767_7293.png`} /> */}
     </StyleMyCarInfoDetailDiv>
   );
 };

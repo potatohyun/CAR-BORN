@@ -147,30 +147,30 @@ export default function HomeCarsInfo() {
             <div>The number of vehicles</div>
             <div className="cardDetail">
               <img src={carsImg} />
-              <p>{data?.data?.message}</p>
+              <p>{data2?.data?.message}</p>
             </div>
           </div>
           <div className="card">
-            <div>Maintenance Network</div>
+            <div>The number of transactions</div>
             <div className="cardDetail">
               <img src={transactionImg} />
-              <p>{data1?.data?.message}</p>
+              <p>{data3?.data?.message}</p>
             </div>
           </div>
         </div>
         <div className="cards">
           <div className="card">
-            <div>The number of transactions</div>
+            <div>Repair-shop partners</div>
             <div className="cardDetail">
               <img src={engineerImg} />
-              <p>{data2?.data?.message}</p>
+              <p>{data?.data?.message}</p>
             </div>
           </div>
           <div className="card">
             <div>Inspection partners</div>
             <div className="cardDetail">
               <img src={gumsuImg} />
-              <p>{data3?.data?.message}</p>
+              <p>{data1?.data?.message}</p>
             </div>
           </div>
         </div>

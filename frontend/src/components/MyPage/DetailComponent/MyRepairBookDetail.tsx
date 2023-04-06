@@ -334,27 +334,27 @@ const MyRepairBookDetail = () => {
           <StyleTableDivRepairDetail>
             <StyleTableCarMakerModelDiv>
               {/* 제조사, 차량모델 */}
-              <span>{location.state.carMaker}</span>
-              <span>{location.state.carModelNm}</span>
+              <span>{location.state?.carMaker}</span>
+              <span>{location.state?.carModelNm}</span>
             </StyleTableCarMakerModelDiv>
             <StyleTableCarRegNmDiv>
               {/* 차량번호 */}
-              <span>{location.state.carRegNm}</span>
+              <span>{location.state?.carRegNm}</span>
             </StyleTableCarRegNmDiv>
             {data && (
               <>
                 <StyleTableCarRepairShopDiv>
                   {/* 정비업체 */}
                   <div>업체명</div>
-                  {data.repairShopAccountName && (
-                    <div>{data.repairShopAccountName}</div>
+                  {data?.repairShopAccountName && (
+                    <div>{data?.repairShopAccountName}</div>
                   )}
                 </StyleTableCarRepairShopDiv>
                 <StyleTableCarRepairShopDiv>
                   {/* 업체주소 */}
                   <div>업체주소</div>
-                  {data.repairShopAddress && (
-                    <div>{data.repairShopAddress}</div>
+                  {data?.repairShopAddress && (
+                    <div>{data?.repairShopAddress}</div>
                   )}
                 </StyleTableCarRepairShopDiv>
                 <StyleTableRepairInfoDiv>
@@ -369,23 +369,23 @@ const MyRepairBookDetail = () => {
                       </TableRow>
                       <TableRow>
                         <TableCell align="center">
-                          {location.state.carMileage === undefined
+                          {location.state?.carMileage === undefined
                             ? null
-                            : location.state.carMileage.toLocaleString()}
+                            : location.state?.carMileage.toLocaleString()}
                         </TableCell>
                         <TableCell align="center">
-                          {location.state.carModelYear}
+                          {location.state?.carModelYear}
                         </TableCell>
                         <TableCell align="center">
                           {data &&
-                            data.bookDt &&
-                            data.bookDt.slice(0, 10)}
+                            data?.bookDt &&
+                            data?.bookDt.slice(0, 10)}
                         </TableCell>
                         <TableCell
                           align="center"
                         >
                         {/* 한글로 바꿔주기 */}
-                          {data.bookStatusString === undefined ? null : data.bookStatusString}
+                          {data?.bookStatusString === undefined ? null : data?.bookStatusString}
                         </TableCell>
                       </TableRow>
                     </tbody>
@@ -505,7 +505,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            선택한 날짜 : {formattedDate.slice(0,4)}년 {formattedDate.slice(5,7)}월 {formattedDate.slice(8,10)}일
+            선택한 날짜 : {formattedDate?.slice(0,4)}년 {formattedDate?.slice(5,7)}월 {formattedDate?.slice(8,10)}일
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']}>
                 <DatePicker label="Basic date picker" value={selectedDate} onChange={handleDateChange}/>

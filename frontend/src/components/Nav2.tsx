@@ -331,12 +331,6 @@ export default function Nav2(msg: any) {
             >
               거래
             </div>
-            <div
-              className="item"
-              onClick={(): void => navigate("/user/community")}
-            >
-              커뮤니티
-            </div>
             <div className="item" onClick={(): void => navigate("/user/map")}>
               예약
             </div>
@@ -369,9 +363,9 @@ export default function Nav2(msg: any) {
           {title}
         </div>
       </div>
-      {isFAQ ? (
+      {/* {isFAQ ? (
         <img css={FAQ} src={FAQimg} onClick={handleClickOpen} alt="FAQ" />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

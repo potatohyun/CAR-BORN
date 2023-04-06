@@ -110,7 +110,7 @@ const SignUpCompanyTypeButton = ({
           handleInspectorType(e)
         }
       >
-        검수원
+        검사소
       </button>
       <button
         className={isUserActive === INSURANCE ? "active" : ""}

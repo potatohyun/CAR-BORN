@@ -3,10 +3,14 @@ import { StyleSignUpInputBtnDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import SignUpUserPhoneNumberModal from "./modal/SignUpUserPhoneNumberModal";
 import { StyleIsValidSpaceBetween, StyleNameLabel } from "./SignUpUserName";
-import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
+import {
+  StyleCheckBtn,
+  StyleIdCheckDiv,
+  StyleIdCheckInput,
+} from "./SignUpUserId";
 import styled from "@emotion/styled";
 import swal from "sweetalert";
-import IsValidComponent from './../../isValid/IsValidComponent';
+import IsValidComponent from "./../../isValid/IsValidComponent";
 import { useSelector } from "react-redux";
 
 export interface SignUpUserPhoneNumberState {
@@ -68,7 +72,7 @@ export const StyleCompanyPhoneNumber = styled.input`
   &:hover {
     opacity: 0.8;
   }
-` 
+`;
 
 const SignUpCompanyPhoneNumber = ({
   setSignupCompanyFormData,
@@ -86,10 +90,10 @@ const SignUpCompanyPhoneNumber = ({
     const regex = /^[0-9]*$/;
     if (regex.test(value)) {
       setPhoneNumber(value);
-      if (value.length >= 10 && value.length <= 11){
-        setIsAlert(true)
+      if (value?.length >= 10 && value?.length <= 11) {
+        setIsAlert(true);
       } else {
-        setIsAlert(false)
+        setIsAlert(false);
       }
       setSignupCompanyFormData({
         ...signupCompanyFormData,
@@ -98,22 +102,24 @@ const SignUpCompanyPhoneNumber = ({
     }
   };
 
-  const { msg, isSignPossible } = useSelector((state:any) => state.SignUpReducer)
+  const { msg, isSignPossible } = useSelector(
+    (state: any) => state.SignUpReducer
+  );
 
   // 모달 관련
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
-    if (phoneNumber.length <= 11 && 10 <= phoneNumber.length) {
+    if (phoneNumber?.length <= 11 && 10 <= phoneNumber?.length) {
       setIsModalOpen(true);
       setSignupCompanyFormData({
         ...signupCompanyFormData,
         isVarify: false,
       });
-      setIsAlert(true)
+      setIsAlert(true);
     } else {
-      setIsAlert(false)
-      setMessage("10 ~ 11자리여야합니다.")
+      setIsAlert(false);
+      setMessage("10 ~ 11자리여야합니다.");
       setIsModalOpen(false);
     }
   };
@@ -132,12 +138,12 @@ const SignUpCompanyPhoneNumber = ({
   }, [isValid]);
 
   useEffect(() => {
-    if(isAlert === false){
-      setMessage("10 ~ 11자리여야합니다.")
+    if (isAlert === false) {
+      setMessage("10 ~ 11자리여야합니다.");
     } else {
-      setMessage(" ")
+      setMessage(" ");
     }
-  }, [isAlert, setMessage, signupCompanyFormData.phonenumber])
+  }, [isAlert, setMessage, signupCompanyFormData.phonenumber]);
 
   return (
     <StyleSignUpInputBtnDiv>
@@ -160,7 +166,11 @@ const SignUpCompanyPhoneNumber = ({
           onChange={(e) => handleChange(e)}
           maxLength={11}
         />
-        <StyleCompanyPhoneNumberCheckBtn tabIndex={9} onClick={openModal} value={`인증하기`}/>
+        <StyleCompanyPhoneNumberCheckBtn
+          tabIndex={9}
+          onClick={openModal}
+          value={`인증하기`}
+        />
       </StyleIdCheckDiv>
 
       {/* 모달 */}

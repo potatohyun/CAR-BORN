@@ -473,12 +473,12 @@ const MyInspectorDetail = () => {
           <div>
             <StyleTableCarMakerModelDiv>
               {/* 제조사, 차량모델 */}
-              <span>{detail.carMaker}</span>
-              <span>{detail.carModelNm}</span>
+              <span>{detail?.carMaker}</span>
+              <span>{detail?.carModelNm}</span>
             </StyleTableCarMakerModelDiv>
             <StyleTableCarRegNmDiv>
               {/* 차량번호 */}
-              <span>{detail.carRegNm}</span>
+              <span>{detail?.carRegNm}</span>
             </StyleTableCarRegNmDiv>
           </div>
           <StyleTableInspectorInfoDiv>
@@ -495,26 +495,26 @@ const MyInspectorDetail = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell align="center">
-                    {detail.inspectorAccountName === undefined
+                    {detail?.inspectorAccountName === undefined
                       ? null
-                      : detail.inspectorAccountName}
+                      : detail?.inspectorAccountName}
                   </TableCell>
                   <TableCell align="center">
-                    {detail.carMileage === undefined
+                    {detail?.carMileage === undefined
                       ? null
-                      : detail.carMileage.toLocaleString()}
+                      : detail?.carMileage.toLocaleString()}
                   </TableCell>
-                  <TableCell align="center">{detail.carModelYear}</TableCell>
+                  <TableCell align="center">{detail?.carModelYear}</TableCell>
                   <TableCell align="center">
-                    {detail && detail.bookDt && detail.bookDt.slice(0, 10)}
+                    {detail && detail?.bookDt && detail?.bookDt.slice(0, 10)}
                   </TableCell>
                   <TableCell align="center">
                     {inspectorResult &&
-                      inspectorResult.inspectDt &&
-                      inspectorResult.inspectDt.slice(0, 10)}
+                      inspectorResult?.inspectDt &&
+                      inspectorResult?.inspectDt.slice(0, 10)}
                   </TableCell>
                   <TableCell align="center">
-                    <a href={inspectorResult.metadataUri}>
+                    <a href={inspectorResult?.metadataUri}>
                       <StyleKlaytnBtn>
                         원본 확인
                       </StyleKlaytnBtn>
@@ -530,7 +530,7 @@ const MyInspectorDetail = () => {
           <StyleMyInspectorLeftDetailDiv>
             {/* 캐러셀 정보  */}
             <StyledCarousel transitionTime={1000}>
-              {images.map((image, index) => (
+              {images?.map((image, index) => (
                 <div
                   key={index}
                   onClick={() => {
@@ -561,8 +561,8 @@ const MyInspectorDetail = () => {
           <StyleMyInspectorRightDetailDiv>
             <StyleTableDivInspectorDetail>
               {inspectorResult &&
-                inspectorResult.content &&
-                inspectorResult.content.trim() && (
+                inspectorResult?.content &&
+                inspectorResult?.content.trim() && (
                   <StyleInspectorResultContent>
                     {/* {inspectorResult.content
                       .split("-")
@@ -570,7 +570,7 @@ const MyInspectorDetail = () => {
                       .map((content: any, index: any) => (
                         <li key={index}>{content}</li>
                       ))} */}
-                    <span>{inspectorResult.content}</span>
+                    <span>{inspectorResult?.content}</span>
                   </StyleInspectorResultContent>
                 )}
             </StyleTableDivInspectorDetail>
@@ -621,7 +621,7 @@ const MyInspectorDetail = () => {
                         createReview({
                           reviewInput,
                           rating,
-                          detailId: inspectorResult.id,
+                          detailId: inspectorResult?.id,
                         })
                       }
                     >
@@ -636,10 +636,10 @@ const MyInspectorDetail = () => {
                       <div>
                         <span>평점</span>
                         <span style={{ color: "gold" }}>
-                          {`★`.repeat(inspectorReviews.point)}
+                          {`★`.repeat(inspectorReviews?.point)}
                         </span>
                       </div>
-                      <p>{inspectorReviews.content}</p>
+                      <p>{inspectorReviews?.content}</p>
                     </StyleGetMyInspectorReviewDiv>
                   )}
                 </StyleGetMyInspectorReviewResultContainer>

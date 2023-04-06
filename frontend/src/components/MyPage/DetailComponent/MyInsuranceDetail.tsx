@@ -168,8 +168,7 @@ export const StyleInsuranceDetailCarousels = styled.div`
     width: 50%;
     margin-top: 2rem !important;
     margin-left: 2rem !important;
-  }import { StyleKlaytnBtn } from './MyRepairDetail';
-
+  }
 `;
 
 const StyleXButton = styled.div`
@@ -326,11 +325,11 @@ const MyInsuranceDetail = () => {
         });
 
         let images:any[] = []
-        images.push(CARBORN_IMG+response.data.message.insuranceImgNm)
+        images.push(CARBORN_IMG+response?.data.message.insuranceImgNm)
 
         setImages(images)
         // 이미지 받아오기 용
-        setInsuranceResult(response.data.message);
+        setInsuranceResult(response?.data.message);
       } catch (error) {
         console.log(error);
       }
@@ -352,12 +351,12 @@ const MyInsuranceDetail = () => {
           <div>
             <StyleTableCarMakerModelDiv>
               {/* 제조사, 차량모델 */}
-              <span>{detail.carMaker}</span>
-              <span>{detail.carModelNm}</span>
+              <span>{detail?.carMaker}</span>
+              <span>{detail?.carModelNm}</span>
             </StyleTableCarMakerModelDiv>
             <StyleTableCarRegNmDiv>
               {/* 차량번호 */}
-              <span>{detail.carRegNm}</span>
+              <span>{detail?.carRegNm}</span>
             </StyleTableCarRegNmDiv>
           </div>
           <StyleTableInsuranceInfoDiv>
@@ -374,25 +373,25 @@ const MyInsuranceDetail = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell align="center">
-                    {detail.insuranceCompanyAccountName === undefined
+                    {detail?.insuranceCompanyAccountName === undefined
                       ? null
-                      : detail.insuranceCompanyAccountName}
+                      : detail?.insuranceCompanyAccountName}
                   </TableCell>
-                  <TableCell align="center">{detail.carModelYear}</TableCell>
+                  <TableCell align="center">{detail?.carModelYear}</TableCell>
                   <TableCell align="center">
-                    {detail.category === undefined
+                    {detail?.category === undefined
                       ? null
-                      : detail.category}
+                      : detail?.category}
                   </TableCell>
                   <TableCell align="center">
-                    {detail && detail.insuranceDt && detail.insuranceDt.slice(0, 10)}
+                    {detail && detail?.insuranceDt && detail?.insuranceDt.slice(0, 10)}
                   </TableCell>
                   <TableCell align="center">
                     {insuranceResult &&
-                    insuranceResult.carVin}
+                    insuranceResult?.carVin}
                   </TableCell>
                   <TableCell align="center">
-                    <a href={insuranceResult.metadataUri}>
+                    <a href={insuranceResult?.metadataUri}>
                       <StyleKlaytnBtn>
                         원본 확인
                       </StyleKlaytnBtn>
