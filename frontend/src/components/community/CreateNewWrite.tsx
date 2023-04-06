@@ -83,7 +83,7 @@ export default function CreateNewWrite() {
   const Toast = Swal.mixin({
     toast: true,
     showConfirmButton: false,
-    timer: 1500,
+    timer: 500,
     timerProgressBar: true,
   });
 

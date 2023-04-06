@@ -27,7 +27,7 @@ export interface Props {
   reserveInfo: ReserveInfoType;
 }
 
-interface IncomeProps {
+export interface IncomeProps {
   setReserve: React.Dispatch<React.SetStateAction<boolean>>;
   setMarkerNum: React.Dispatch<React.SetStateAction<number>>;
   searchInfoWindows: any;
@@ -68,7 +68,11 @@ function ReserveForm({
         setReserveInfo={setReserveInfo}
         reserveInfo={reserveInfo}
       />
-      <TextBox setReserveInfo={setReserveInfo} />
+      <TextBox
+        setReserveInfo={setReserveInfo}
+        markerArr={markerArr}
+        markerNum={markerNum}
+      />
       <Calendar setReserveInfo={setReserveInfo} />
       <ApplyBtn
         markerArr={markerArr}

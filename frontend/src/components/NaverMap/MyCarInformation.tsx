@@ -15,7 +15,7 @@ interface CarType {
 }
 
 const PAGE = 1;
-const SIZE = 1;
+const SIZE = 100;
 const ObjString: any = localStorage.getItem("login-token");
 
 const API = `https://carborn.site/api/user/car/list/${PAGE}/${SIZE}`;

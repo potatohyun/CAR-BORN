@@ -5,7 +5,7 @@ const ErrorComponent = ({ error, queryKey }: any) => {
   const queryClient = useQueryClient();
   return (
     <div>
-      <p> 에러: {error.message} </p>
+      <p> 에러: {error ? error?.message : '에러'} </p>
       <button onClick={() => queryClient.refetchQueries(queryKey)}>
         {" "}
         다시 시도{" "}

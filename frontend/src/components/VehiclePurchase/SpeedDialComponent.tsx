@@ -70,7 +70,7 @@ function SpeedDialComponent() {
   const { data } = useQuery("get-car-list-fnc", () => getCarListFnc, {
     retry: false,
     cacheTime: 1000 * 300,
-    staleTime: 1000 * 300,
+    staleTime: 0,
     select: (data) => {
       return data.data.message.content;
     },
@@ -91,10 +91,6 @@ function SpeedDialComponent() {
       });
     }
   };
-
-  dialogRef.current?.addEventListener("close", () => {
-    console.log(dialogRef.current?.returnValue);
-  });
 
   return (
     <div css={container}>

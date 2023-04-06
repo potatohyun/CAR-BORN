@@ -150,7 +150,10 @@ function MarkerDetail({
       }}
     >
       <CloseIcon
-        style={{ margin: "0 0 0.5% 92.5%", cursor: "pointer" }}
+        style={{
+          margin: "0 0 0.5% 92.5%",
+          cursor: "pointer",
+        }}
         onClick={exit}
       />
       <div css={roadView} ref={roadViewRef}></div>

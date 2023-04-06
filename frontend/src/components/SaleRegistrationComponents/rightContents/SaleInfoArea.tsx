@@ -108,7 +108,7 @@ function SaleInfoContents({
   // 자동차 정보를 받아오는 query
   const { data } = useQuery("get-car-info", () => getCarInfo, {
     cacheTime: 1000 * 300,
-    staleTime: 1000 * 300,
+    staleTime: 0,
     select: (data) => {
       return data.data.message;
     },
@@ -130,7 +130,8 @@ function SaleInfoContents({
       method: "post",
       url: POST_API,
       data: {
-        ...saleInfo,
+        price: parseInt(saleInfo.price),
+        content: saleInfo.content,
         car: { id: data.detail.id },
       },
       headers: {
@@ -147,7 +148,7 @@ function SaleInfoContents({
         text: "2초후 자동으로 닫힙니다.",
         icon: "success",
         timer: 2000,
-        buttons: [false],
+        buttons: ["확인"],
       });
       mutate();
     } else {
@@ -155,19 +156,19 @@ function SaleInfoContents({
         text: "양식을 채워주세요",
         icon: "error",
         timer: 2000,
-        buttons: [false],
+        buttons: ["확인"],
       });
     }
   };
 
   useEffect(() => {
     if (isSuccess) {
-      navigation("/");
+      navigation("/user/car/list");
     }
   }, [isSuccess]);
 
   const back = () => {
-    navigation("/");
+    navigation(-1);
   };
 
   return (

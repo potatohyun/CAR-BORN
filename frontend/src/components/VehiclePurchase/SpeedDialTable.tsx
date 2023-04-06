@@ -10,7 +10,9 @@ const container = css`
   width: 20vw;
   height: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 const content = css`
@@ -20,8 +22,8 @@ const content = css`
   width: 70%;
   border-radius: 10px;
   height: 4vh;
-  margin-top: 3vh;
-  margin-bottom: 3vh;
+  margin-top: 1vh;
+  margin-bottom: 0.5vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,17 +65,15 @@ function SpeedDialTable({
       <div css={container}>
         {data?.map((car: any) => {
           return (
-            <div
-              key={car.id}
-              css={content}
-              onClick={() => goToRegistrationPage(car.id)}
-            >
-              {`${car.maker} / ${car.modelNm}`}
+            <div key={`${car.id}/${car.marker}/${car.modelNm}`} css={content}>
+              <div onClick={() => goToRegistrationPage(car.id)}>
+                {`${car.maker} / ${car.modelNm}`}
+              </div>
             </div>
           );
         })}
       </div>
-      <Stack spacing={2}>
+      <Stack spacing={2} css={{ marginTop: "1vh" }}>
         <Pagination
           count={length ? Math.ceil(length / SIZE) : 1}
           page={page}

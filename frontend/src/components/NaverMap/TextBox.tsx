@@ -1,7 +1,12 @@
 import TextField from "@mui/material/TextField";
-import { Props } from "./ReserveForm";
+import { IncomeProps, Props } from "./ReserveForm";
 
-function TextBox({ setReserveInfo }: Pick<Props, "setReserveInfo">) {
+function TextBox({
+  setReserveInfo,
+  markerArr,
+  markerNum,
+}: Pick<Props, "setReserveInfo"> &
+  Pick<IncomeProps, "markerNum" | "markerArr">) {
   const setTextInput = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
@@ -14,7 +19,9 @@ function TextBox({ setReserveInfo }: Pick<Props, "setReserveInfo">) {
 
   return (
     <>
-      <p style={{ fontSize: "0.85rem", margin: "0 0 3.5% 1%" }}>정비 내용</p>
+      <p style={{ fontSize: "0.85rem", margin: "0 0 3.5% 1%" }}>
+        {markerArr[markerNum].AUTH === 1 ? "정비" : "검사"} 내용
+      </p>
       <TextField
         id="outlined-multiline-static"
         multiline

@@ -138,7 +138,7 @@ function CarList() {
         keepPreviousData: true,
         useErrorBoundary: true,
         getNextPageParam: (lastPage, allPages) => {
-          if (lastPage.data.message.totalPages > allPages.length) {
+          if (lastPage?.data?.message?.totalPages > allPages?.length) {
             return allPages.length + 1;
           }
         },
@@ -168,8 +168,8 @@ function CarList() {
   useEffect(() => {
     if (divRef?.current && isData && data) {
       let lastPage =
-        (data.pages.length - 1) * SIZE +
-        data.pages[data.pages.length - 1].data.message.content.length -
+        (data?.pages?.length - 1) * SIZE +
+        data?.pages[data?.pages?.length - 1].data?.message?.content?.length -
         1;
       intersection.observe(divRef?.current[lastPage]);
     }
@@ -215,7 +215,7 @@ function CarList() {
     <div css={rightContent}>
       {isData ? (
         data?.pages.map((item) => {
-          return item?.data?.message.content.map(
+          return item?.data?.message?.content.map(
             (car: CarType, index: number) => {
               return (
                 // 검색 결과
@@ -236,7 +236,7 @@ function CarList() {
                     Detail
                   </button>
                   <img
-                    src={`${CAR_URL}${car.imgNm}`}
+                    src={`https://carborn.site/images/${car.imgNm}`}
                     alt="carImg"
                     css={imgStyle}
                   />

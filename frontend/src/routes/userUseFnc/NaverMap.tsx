@@ -186,10 +186,10 @@ function NaverMap() {
         position,
         icon: {
           url: key.AUTH === 2 ? inspectIcon : repairIcon,
-          size: new naver.maps.Size(40, 42),
-          scaledSize: new naver.maps.Size(40, 42),
+          size: new naver.maps.Size(90, 92),
+          scaledSize: new naver.maps.Size(90, 92),
           origin: new naver.maps.Point(0, 0),
-          anchor: new naver.maps.Point(20, 26),
+          anchor: new naver.maps.Point(45, 46),
         },
         zIndex: 100,
       });
@@ -228,6 +228,7 @@ function NaverMap() {
       const XButton = infoWindow.getContentElement().childNodes[0];
       XButton.addEventListener("click", () => {
         infoWindow.close();
+        setMarkerNum(-1);
       });
 
       markers.push(marker);

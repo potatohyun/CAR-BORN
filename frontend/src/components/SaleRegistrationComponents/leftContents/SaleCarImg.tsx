@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Carousel } from "react-responsive-carousel";
-import car from "../../../assets/car.png";
 
 const leftContent = css`
   width: 30vw;
@@ -41,15 +40,20 @@ const leftContent = css`
   }
 `;
 
-function SaleCarImg({ imgs }: { imgs: Array<string> }) {
+const IMG_URL = process.env.REACT_APP_IMG_URL;
+
+function SaleCarImg({ imgs }: { imgs: Array<any> }) {
   return (
     <div css={leftContent}>
       {imgs.length ? (
         <Carousel>
-          {imgs?.map((IMG: string) => {
+          {imgs?.map((IMG: { imgNm: string; regDt: string }, index: number) => {
             return (
-              <div>
-                <img src={IMG} alt="qwe" />
+              <div key={`${IMG}/${index}`}>
+                <img
+                  src={`https://carborn.site/images/${IMG.imgNm}`}
+                  alt="img"
+                />
               </div>
             );
           })}

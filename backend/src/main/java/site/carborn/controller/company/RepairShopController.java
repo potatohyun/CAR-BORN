@@ -48,7 +48,7 @@ public class RepairShopController {
     }
 
     @PutMapping("/book")
-    @Operation(description = "정비소 정비 예약 상태 수정 및 검수 데이터 입력")
+    @Operation(description = "정비소 정비 예약 상태 수정 및 정비 결과 데이터 입력")
     @Parameter(name = "repairBookId", description = "예약 번호")
     public ResponseEntity<?> repairBookUpdate(@ModelAttribute RepairResultRequestDTO dto) throws IOException {
         Optional<RepairBook> updateData = repairShopService.repairBookGetData(dto.getRepairBook().getId());

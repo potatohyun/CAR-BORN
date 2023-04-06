@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import { MarkerType } from "../../routes/userUseFnc/NaverMap";
 import { ReserveInfoType } from "./ReserveForm";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function ApplyBtn({
   markerArr,
@@ -13,6 +14,13 @@ function ApplyBtn({
   markerNum: number;
   reserveInfo: ReserveInfoType;
 }) {
+  const Toast = Swal.mixin({
+    toast: true,
+    showConfirmButton: true,
+    timer: 1000,
+    timerProgressBar: true,
+  });
+
   const navigate = useNavigate();
   const ObjString: any = localStorage.getItem("login-token");
 
@@ -33,7 +41,7 @@ function ApplyBtn({
                   id: markerArr[markerNum].ID,
                 },
                 account: {
-                  id: "testuser2",
+                  id: JSON.parse(ObjString).userId,
                 },
                 content: reserveInfo.content,
                 bookDt: reserveInfo.date,
@@ -46,7 +54,7 @@ function ApplyBtn({
                   id: markerArr[markerNum].ID,
                 },
                 account: {
-                  id: "testuser2",
+                  id: JSON.parse(ObjString).userId,
                 },
                 content: reserveInfo.content,
                 bookDt: reserveInfo.date,
@@ -59,13 +67,24 @@ function ApplyBtn({
     },
     {
       onSuccess: () => {
-        navigate("/");
+        navigate(
+          markerArr[markerNum].AUTH === 1
+            ? "/user/mypage/repair"
+            : "/user/mypage/inspector"
+        );
       },
     }
   );
 
   const getApply = () => {
-    mutate();
+    if (!reserveInfo.carId || !reserveInfo.content || !reserveInfo.date) {
+      Toast.fire({
+        icon: "error",
+        title: "양식을 다 작성해주세요.",
+      });
+    } else {
+      mutate();
+    }
   };
   return (
     <>

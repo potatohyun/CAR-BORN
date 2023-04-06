@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 import { useQuery } from "react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CarModel from "./CarModel";
 import CarNumber from "./CarNumber";
 import CarCost from "./CarCost";
@@ -59,8 +59,7 @@ const DetailInfomationComponent = ({
     cacheTime: 0,
     refetchOnWindowFocus: true,
     refetchOnMount: true,
-    keepPreviousData: true,
-    retry: false,
+    retry: true,
     select: (data) => {
       return data.data.message;
     },
@@ -117,7 +116,7 @@ const DetailInfomationComponent = ({
         page={page}
         setPage={setPage}
       />
-      <PurchaseApplicationBtn DetailData={data} id={id} />
+      <PurchaseApplicationBtn DetailData={data} id={id} PAGE={page} />
     </div>
   );
 };

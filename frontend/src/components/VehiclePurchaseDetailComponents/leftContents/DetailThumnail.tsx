@@ -19,11 +19,14 @@ const leftContent = css`
   }
   .carousel-root {
     height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .carousel-slider {
-    height: 100%;
+    height: auto;
     .slider-wrapper {
-      height: 80vh;
+      height: auto;
       width: 30vw;
     }
   }
@@ -53,7 +56,7 @@ function DetailThumnailContent({ img }: { img: any[] }) {
             return (
               <div key={`${img}/${index}`} style={{ height: "50%" }}>
                 <img
-                  src={img}
+                  src={`https://carborn.site/images/${img?.imgNm}`}
                   alt="qwe"
                   style={{ height: "100%", width: "100%" }}
                 />

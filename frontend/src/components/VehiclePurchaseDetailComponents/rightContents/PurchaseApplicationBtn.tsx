@@ -137,23 +137,25 @@ const SIZE: number = 5;
 function PurchaseApplicationBtn({
   id,
   DetailData,
+  PAGE,
 }: {
   id?: string;
   DetailData: any;
+  PAGE: number;
 }) {
   // 로컬스토리지 회원 정보 받아오기
   const ObjString = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const userId = Obj ? Obj.userId : null;
   const token = Obj ? Obj.value : null;
-  console.log(DetailData);
+
   const [page, setPage] = useState<number>(1);
   const modalRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
 
-  // 판매자 - 구매 신청자 목록
+  // 구매 신청
   const API = `https://carborn.site/api/user/car/buy/${id}`;
   const { mutate } = useMutation(
     () => {
@@ -170,15 +172,15 @@ function PurchaseApplicationBtn({
       onError: (error: Error) => {
         console.error(error.message);
       },
-      onSuccess: () => {
-        queryClient.fetchQuery(["get-car-detail", page]);
+      onSettled: () => {
+        queryClient.invalidateQueries(["get-car-detail", page]);
+        navigate("/user/mypage/buycontent");
       },
     }
   );
 
   const goToBuy = () => {
     mutate();
-    queryClient.invalidateQueries(["get-car-detail", page]);
     swal({
       title: "신청되었습니다.",
       text: "2초후 자동으로 닫힙니다.",
@@ -188,7 +190,7 @@ function PurchaseApplicationBtn({
     });
   };
 
-  // 판매자 - 판매 취소
+  // 판매자 - 판매 취소 (확인)
   const SALER_DELETE_API = `https://carborn.site/api/user/sell/cancel/${id}`;
   const { mutate: salerDeleteMutate } = useMutation(
     () => {
@@ -203,7 +205,12 @@ function PurchaseApplicationBtn({
     },
     {
       onSuccess: () => {
-        queryClient.fetchQuery(["get-car-detail", page]);
+        queryClient.invalidateQueries(["get-car-detail", PAGE]);
+        swal("판매가 취소되었습니다..", {
+          icon: "success",
+        });
+        navigate("/user/car/list");
+        queryClient.invalidateQueries("infinity-scroll");
       },
     }
   );
@@ -215,10 +222,6 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         salerDeleteMutate();
-        queryClient.invalidateQueries(["get-car-detail", page]);
-        swal("판매가 취소되었습니다..", {
-          icon: "success",
-        });
       }
     });
   };
@@ -268,7 +271,8 @@ function PurchaseApplicationBtn({
     },
     {
       onSuccess: () => {
-        queryClient.fetchQuery(["get-car-detail", page]);
+        queryClient.invalidateQueries(["get-car-detail", PAGE]);
+        navigate("/user/mypage/sellcontent");
       },
     }
   );
@@ -282,7 +286,6 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         putMutate(userId);
-        queryClient.invalidateQueries(["get-car-detail", page]);
         swal("확정되었습니다.", {
           icon: "success",
         });
@@ -292,7 +295,7 @@ function PurchaseApplicationBtn({
     });
   };
 
-  // 뒤로가기
+  // 뒤로가기 (확인)
   const back = () => {
     navigate(-1);
   };
@@ -313,7 +316,8 @@ function PurchaseApplicationBtn({
     },
     {
       onSuccess: () => {
-        queryClient.fetchQuery(["get-car-detail", page]);
+        queryClient.invalidateQueries("get-car-detail");
+        navigate("/user/mypage/buycontent");
       },
     }
   );
@@ -326,7 +330,7 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         confirmMutate();
-        queryClient.invalidateQueries(["get-car-detail", page]);
+
         swal("확정되었습니다.", {
           icon: "success",
         });
@@ -336,7 +340,7 @@ function PurchaseApplicationBtn({
   };
 
   // 취소
-  const USER_BUY_CENCEL_API = `https://carborn.site/api/user/buy/cancel/${id}`;
+  const USER_BUY_CENCEL_API = `https://carborn.site/api/user/car/sale/buy/cancel/${id}`;
   const { mutate: cancelMutate } = useMutation(
     () => {
       return axios({
@@ -350,7 +354,8 @@ function PurchaseApplicationBtn({
     },
     {
       onSuccess: () => {
-        queryClient.fetchQuery(["get-car-detail", page]);
+        queryClient.invalidateQueries(["get-car-detail", PAGE]);
+        navigate("/user/mypage/buycontent");
       },
     }
   );
@@ -363,7 +368,7 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         cancelMutate();
-        queryClient.invalidateQueries(["get-car-detail", page]);
+
         swal("취소되었습니다.", {
           icon: "success",
         });
@@ -389,7 +394,7 @@ function PurchaseApplicationBtn({
               판매취소
             </button>
             <button className="list" onClick={showModal}>
-              목록
+              신청자 목록
             </button>
             <dialog ref={modalRef} css={dialog}>
               <div css={{ display: "flex", justifyContent: "center" }}>
