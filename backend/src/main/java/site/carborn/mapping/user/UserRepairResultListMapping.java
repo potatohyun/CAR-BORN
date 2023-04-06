@@ -13,6 +13,8 @@ public interface UserRepairResultListMapping {
     //연식
     String getRepairBookCarModelYear();
 
+    String getContent();
+
     //주행거리
     int getMileage();
 
