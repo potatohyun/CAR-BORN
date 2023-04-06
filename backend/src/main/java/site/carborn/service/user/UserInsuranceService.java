@@ -8,6 +8,7 @@ import site.carborn.mapping.car.CarInsuranceHistoryGetDetailMapping;
 import site.carborn.mapping.user.UserInsuranceListMapping;
 import site.carborn.repository.car.CarInsuranceHistoryRepository;
 import site.carborn.util.board.BoardUtils;
+import site.carborn.util.common.AccountUtils;
 
 @Service
 public class UserInsuranceService {
@@ -16,9 +17,7 @@ public class UserInsuranceService {
 
     public Page<UserInsuranceListMapping> insuranceList(int page, int size) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Page<UserInsuranceListMapping> insuranceList = carInsuranceHistoryRepository.findByCar_Account_Id(
                 accountId
@@ -39,9 +38,7 @@ public class UserInsuranceService {
 
     public CarInsuranceHistoryGetDetailMapping insuranceDetail(int insuranceId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         CarInsuranceHistoryGetDetailMapping detail = carInsuranceHistoryRepository.findAllById(insuranceId);
         if (detail == null) {

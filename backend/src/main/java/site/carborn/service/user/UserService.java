@@ -19,10 +19,7 @@ import site.carborn.repository.car.CarRepository;
 import site.carborn.repository.user.*;
 import site.carborn.service.common.KlaytnService;
 import site.carborn.util.board.BoardUtils;
-import site.carborn.util.common.SearchTypeEnum;
-import site.carborn.util.common.BuyUtils;
-import site.carborn.util.common.SellUtils;
-import site.carborn.util.common.SortUtils;
+import site.carborn.util.common.*;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -59,9 +56,7 @@ public class UserService {
     @Transactional
     public Page<CarSaleRequestDTO> getSaleList(Pageable pageable) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Page<Object[]> page = carSaleRepository.findAllPage(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, pageable);
         return page.map(objects -> {
@@ -87,9 +82,7 @@ public class UserService {
     @Transactional
     public Page<CarSaleRequestDTO> getSaleListOrderByPrice(Pageable pageable, int orderby) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Page<Object[]> page = null;
         if (orderby == SortUtils.SORT_STATUS_PRICE_DESC) {
@@ -120,9 +113,7 @@ public class UserService {
     @Transactional
     public CarSaleGetDetailMapping getSaleDetail(int carSaleId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carSaleRepository.findByStatusAndSaleStatusNotAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL, carSaleId);
     }
@@ -130,9 +121,7 @@ public class UserService {
     @Transactional
     public CarSaleBookGetBookStatusMapping getSaleBookStatus(int carSaleId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, carSaleId);
     }
@@ -140,9 +129,7 @@ public class UserService {
     @Transactional
     public Page<CarTradeGetListMapping> getCarTradeList(int carId, Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carTradeRepository.findAllByCar_Id(carId, page);
     }
@@ -150,9 +137,7 @@ public class UserService {
     @Transactional
     public Page<UserInspectResultListMapping> getSaleInspectList(int carId, Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return inspectResultRepository.findByInspectBook_Car_Id(carId, page);
     }
@@ -160,9 +145,7 @@ public class UserService {
     @Transactional
     public Page<UserRepairResultListMapping> getSaleRepairList(int carId, Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return repairResultRepository.findByRepairBook_Car_Id(carId, page);
     }
@@ -170,9 +153,7 @@ public class UserService {
     @Transactional
     public Page<UserInsuranceListMapping> getSaleInsuranceList(int carId, Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carInsuranceHistoryRepository.findAllByCar_Id(carId, page);
     }
@@ -180,9 +161,7 @@ public class UserService {
     @Transactional
     public void insertCarSale(CarSale carSale) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         carSale.setAccount(new Account());
         carSale.getAccount().setId(accountId);
@@ -208,9 +187,7 @@ public class UserService {
     @Transactional
     public int salesReservation(int carSaleId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         CarSaleBook carSalebook = new CarSaleBook();
         carSalebook.setAccount(new Account());
@@ -230,9 +207,7 @@ public class UserService {
     @Transactional
     public Page<CarSaleBookGetReservationListMapping> getCarSaleBookList(int carSaleId, Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carSaleBookRepository.findAllByStatusAndBookStatusAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, BuyUtils.BUY_STATUS_STAY, carSaleId, page);
     }
@@ -240,9 +215,7 @@ public class UserService {
     @Transactional
     public CarSaleGetSaleStatusMapping getSaleStatus(int carSaleId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carSaleRepository.findByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, carSaleId);
     }
@@ -250,9 +223,7 @@ public class UserService {
     @Transactional
     public boolean checkSaleStatus(int carSaleId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         if (getSaleStatus(carSaleId) == null) {
             return false;
@@ -268,9 +239,7 @@ public class UserService {
     @Transactional
     public boolean updateSaleStatus(int carSaleId, String buyId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         if (carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, buyId, carSaleId) == null){
             return false;
@@ -287,9 +256,7 @@ public class UserService {
     @Transactional
     public boolean checkSaleCompleteStatus(int carSaleId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         if (getSaleStatus(carSaleId) == null) {
             return false;
@@ -303,9 +270,7 @@ public class UserService {
     @Transactional
     public boolean confirmTrade(int carSaleId) throws IOException {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         if (carSaleBookRepository.findByStatusAndAccount_IdAndCarSale_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, carSaleId).getBookStatus() != BuyUtils.BUY_STATUS_STAY) {
             return false;
@@ -353,9 +318,7 @@ public class UserService {
     @Transactional
     public Page<CarSaleRequestDTO> getSaleSearchList(int searchType, String keyword, Pageable pageable) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         SearchTypeEnum searchTypeEnum = SearchTypeEnum.valueOf(searchType);
         Page<Object[]> page = carSaleRepository.findAllPageAndSearch(BoardUtils.BOARD_DELETE_STATUS_FALSE, SellUtils.SELL_STATUS_CANCEL,searchTypeEnum.getStringValue(), keyword,pageable);
@@ -383,9 +346,7 @@ public class UserService {
     @Transactional
     public Page<CarSaleRequestDTO> getSaleListSearchOrderByPrice(int searchType, String keyword, Pageable pageable, int orderBy) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Page<Object[]> page = null;
         SearchTypeEnum searchTypeEnum = SearchTypeEnum.valueOf(searchType);

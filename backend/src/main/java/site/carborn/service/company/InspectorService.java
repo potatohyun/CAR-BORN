@@ -23,6 +23,7 @@ import site.carborn.repository.user.InspectBookRepository;
 import site.carborn.repository.user.InspectResultRepository;
 import site.carborn.service.common.KlaytnService;
 import site.carborn.util.board.BoardUtils;
+import site.carborn.util.common.AccountUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -54,9 +55,7 @@ public class InspectorService {
     @Transactional
     public Page<InspectBookGetListMapping> inspectBookGetList(Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         int inspectorId = inspectorRepository.findByAccount_Id(accountId).getId();
 
@@ -66,9 +65,7 @@ public class InspectorService {
     @Transactional
     public InspectBookGetDetailMapping inspectBookDetail(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return inspectBookRepository.findAllById(id);
     }
@@ -76,9 +73,7 @@ public class InspectorService {
     @Transactional
     public Optional<InspectBook> inspectBookUpdateData(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return inspectBookRepository.findById(id);
     }
@@ -86,9 +81,7 @@ public class InspectorService {
     @Transactional
     public void inspectorBookUpdate(InspectBook inspectBook, int status) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         inspectBook.setUptDt(LocalDateTime.now());
         inspectBook.setBookStatus(status);
@@ -98,9 +91,7 @@ public class InspectorService {
     @Transactional
     public void inspectorResultInsert(InspectResultRequestDTO dto) throws IOException {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         //검수 결과 입력
         dto.setRegDt(LocalDateTime.now());
@@ -153,9 +144,7 @@ public class InspectorService {
     @Transactional
     public Page<InspectResultGetListMapping> inspectResultGetList(Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         int inspectorId = inspectorRepository.findByAccount_Id(accountId).getId();
 
@@ -165,9 +154,7 @@ public class InspectorService {
     @Transactional
     public InspectResultGetDetailMapping inspectResultDetail(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return inspectResultRepository.findAllById(id);
     }
@@ -175,9 +162,7 @@ public class InspectorService {
     @Transactional
     public InspectorReviewMapping inspectResultReview(int id){
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return inspectorReviewRepository.findByStatusAndInspectResult_Id(false, id);
     }

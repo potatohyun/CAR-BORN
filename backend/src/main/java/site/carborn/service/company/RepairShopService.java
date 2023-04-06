@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.RepairResultRequestDTO;
 import site.carborn.entity.car.Car;
-import site.carborn.entity.company.RepairShop;
 import site.carborn.entity.user.RepairBook;
 import site.carborn.entity.user.RepairResult;
 import site.carborn.mapping.company.RepairShopReviewMapping;
@@ -22,6 +21,7 @@ import site.carborn.repository.user.RepairBookRepository;
 import site.carborn.repository.user.RepairResultRepository;
 import site.carborn.service.common.KlaytnService;
 import site.carborn.util.board.BoardUtils;
+import site.carborn.util.common.AccountUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -54,9 +54,7 @@ public class RepairShopService {
     @Transactional
     public Page<RepairBookGetListMapping> repairBookList(Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         int repairShopId = repairShopRepository.findByAccount_Id(accountId).getId();
         return repairBookRepository.findByStatusAndRepairShop_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, repairShopId, page);
@@ -65,9 +63,7 @@ public class RepairShopService {
     @Transactional
     public RepairBookGetDetailMapping repairBookDetailContent(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return repairBookRepository.findAllById(id);
     }
@@ -75,9 +71,7 @@ public class RepairShopService {
     @Transactional
     public Optional<RepairBook> repairBookGetData(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return repairBookRepository.findById(id);
     }
@@ -85,9 +79,7 @@ public class RepairShopService {
     @Transactional
     public void repairBookUpdate(RepairBook repairBook, int status) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         repairBook.setBookStatus(status);
         repairBook.setUptDt(LocalDateTime.now());
@@ -97,9 +89,7 @@ public class RepairShopService {
     @Transactional
     public void repairResultInsert(RepairResultRequestDTO dto) throws IOException {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         dto.setRegDt(LocalDateTime.now());
 
@@ -111,7 +101,7 @@ public class RepairShopService {
         String carHash = carRepository.findAllByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, carId).getWalletHash();
 
         Optional<Car> car = carRepository.findById(carId);
-        if(car.isEmpty()){
+        if (car.isEmpty()) {
             throw new RuntimeException("해당 하는 차량의 데이터가 없습니다.");
         }
         car.get().setMileage(dto.getMileage());
@@ -149,9 +139,7 @@ public class RepairShopService {
     @Transactional
     public Page<RepairResultGetListMapping> repairResultGetList(Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         try {
             int repairShopId = repairShopRepository.findByAccount_Id(accountId).getId();
@@ -166,9 +154,7 @@ public class RepairShopService {
     @Transactional
     public RepairResultGetDetailMapping repairResultDetailContent(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return repairResultRepository.findAllById(id);
     }
@@ -176,9 +162,7 @@ public class RepairShopService {
     @Transactional
     public RepairShopReviewMapping repairResultReview(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return repairShopReviewRepository.findByStatusAndRepairResult_Id(false, id);
     }

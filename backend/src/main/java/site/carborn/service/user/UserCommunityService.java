@@ -10,11 +10,11 @@ import site.carborn.entity.user.Community;
 import site.carborn.entity.user.CommunityReview;
 import site.carborn.mapping.user.UserCommunityCommentListMapping;
 import site.carborn.mapping.user.UserCommunityListMapping;
-import site.carborn.mapping.user.UserInspectBookListMapping;
 import site.carborn.repository.account.AccountRepository;
 import site.carborn.repository.user.CommunityRepository;
 import site.carborn.repository.user.CommunityReviewRepository;
 import site.carborn.util.board.BoardUtils;
+import site.carborn.util.common.AccountUtils;
 import site.carborn.util.common.SortUtils;
 
 import java.time.LocalDateTime;
@@ -30,9 +30,7 @@ public class UserCommunityService {
 
     public Page<UserCommunityListMapping> getBoardList(int page, int size, int sort, String keyword) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         String orderBy = BoardUtils.ORDER_BY_DESC;
         String sortBy = BoardUtils.SORT_BY_ID;
@@ -91,9 +89,7 @@ public class UserCommunityService {
     @Transactional
     public UserCommunityListMapping getBoardDetail(int communityId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         communityRepository.updateView(communityId);
         UserCommunityListMapping boardDetail = communityRepository.findAllByIdAndStatus(communityId, BoardUtils.BOARD_DELETE_STATUS_FALSE);
@@ -107,9 +103,8 @@ public class UserCommunityService {
 
     public int createBoard(Community community) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
+
         Account account = accountRepository.findById(accountId);
         if (account == null) {
             throw new RuntimeException("해당하는 계정을 사용할 수 없습니다");
@@ -126,9 +121,7 @@ public class UserCommunityService {
 
     public int updateBoard(Community community, int communityId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         if (community.getId() != communityId) {
             throw new RuntimeException("잘못된 경로입니다");
@@ -151,9 +144,7 @@ public class UserCommunityService {
 
     public void deleteBoard(int communityId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Community delete = communityRepository.findById(communityId).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다")
@@ -176,9 +167,7 @@ public class UserCommunityService {
     //리뷰
     public int createComment(CommunityReview communityReview) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Account account = accountRepository.findById(accountId);
         if (account == null) {
@@ -196,9 +185,7 @@ public class UserCommunityService {
 
     public Page<UserCommunityCommentListMapping> getCommentList(int page, int size, int communityId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Page<UserCommunityCommentListMapping> getcommentList = communityReviewRepository.findByCommunity_IdAndStatus(
                 communityId,
@@ -217,9 +204,8 @@ public class UserCommunityService {
 
     public int updateComment(CommunityReview communityReview, int commentId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
+
         if (communityReview.getId() != commentId) {
             throw new RuntimeException("잘못된 경로입니다");
         }
@@ -239,9 +225,7 @@ public class UserCommunityService {
 
     public void deleteComment(int commentId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         CommunityReview delete = communityReviewRepository.findById(commentId).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다")
@@ -258,9 +242,7 @@ public class UserCommunityService {
 
     public Page<UserCommunityListMapping> getMyBoardList(int page, int size) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Page<UserCommunityListMapping> myList = communityRepository.findByStatusAndAccount_Id(
                 BoardUtils.BOARD_DELETE_STATUS_FALSE
@@ -272,9 +254,11 @@ public class UserCommunityService {
                         ,BoardUtils.ORDER_BY_DESC
                 )
         );
+
         if (myList == null || myList.isEmpty()) {
             throw new NullPointerException("해당 페이지의 데이터가 존재하지 않습니다");
         }
+
         return myList;
     }
 

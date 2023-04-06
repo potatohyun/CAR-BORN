@@ -26,6 +26,7 @@ import site.carborn.repository.user.CarSaleBookRepository;
 import site.carborn.repository.user.CarSaleRepository;
 import site.carborn.service.common.KlaytnService;
 import site.carborn.util.board.BoardUtils;
+import site.carborn.util.common.AccountUtils;
 import site.carborn.util.common.BookUtils;
 import site.carborn.util.common.BuyUtils;
 import site.carborn.util.common.SellUtils;
@@ -60,9 +61,7 @@ public class UserMyPageService {
     @Transactional
     public Car insertCar(CarRequestDTO dto) throws IOException {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         //klaytn 서비스에 계정 생성 후 해시 가져옴
         dto.setWalletHash(klaytnService.getCarHash().get("address").toString());
@@ -203,9 +202,7 @@ public class UserMyPageService {
     @Transactional
     public Page<CarGetListMapping> getCarList(Pageable pageable){
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carRepository.findAllByAccount_Id(accountId, pageable);
     }
@@ -228,9 +225,7 @@ public class UserMyPageService {
     @Transactional
     public Page<CarSaleGetListMapping> getCarSellList(Pageable page){
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carSaleRepository.findAllByStatusAndAccountId(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, page);
     }
@@ -238,9 +233,7 @@ public class UserMyPageService {
     @Transactional
     public Page<CarSaleBookGetListMapping> getCarBuyList(Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carSaleBookRepository.findAllByStatusAndAccountId(BoardUtils.BOARD_DELETE_STATUS_FALSE, accountId, page);
     }

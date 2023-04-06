@@ -18,6 +18,7 @@ import site.carborn.entity.account.Account;
 import site.carborn.entity.account.AccountLoginLog;
 import site.carborn.repository.account.AccountLoginLogRepository;
 import site.carborn.repository.account.AccountRepository;
+import site.carborn.util.common.AccountUtils;
 import site.carborn.util.common.HTTPUtils;
 
 import java.time.LocalDateTime;
@@ -65,9 +66,7 @@ public class LoginService {
 
     public boolean logout(RequestEntity<?> httpMessage) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         String accessToken = httpMessage.getHeaders().get("Authorization").get(0).substring(7);
         Long expiration = tokenProvider.getExpiration(accessToken);

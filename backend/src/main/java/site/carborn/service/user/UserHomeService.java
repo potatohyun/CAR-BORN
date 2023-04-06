@@ -1,6 +1,7 @@
 package site.carborn.service.user;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.carborn.repository.car.CarRepository;
@@ -12,9 +13,9 @@ import site.carborn.util.board.BoardUtils;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class UserHomeService {
-
     @Autowired
     private CarRepository carRepository;
 

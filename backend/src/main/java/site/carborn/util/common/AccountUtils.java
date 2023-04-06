@@ -1,6 +1,14 @@
 package site.carborn.util.common;
 
 public class AccountUtils {
+    public static String ANONYMOUS_USER = "anonymousUser";
+
+    public static void checkJWTAccount(String id) {
+        if (StringUtils.isNullOrEmpty(id) || id.equals(ANONYMOUS_USER)) {
+            throw new NullPointerException("로그인 정보가 없습니다");
+        }
+    }
+
     public static void checkAccountIdFormat(String id) {
         String pattern = "^[a-z0-9_]+$";
 

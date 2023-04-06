@@ -82,9 +82,7 @@ public class AccountService {
 
     public boolean resetPwWithLogin(ResetPwdRequestDTO dto) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         String id = accountId;
         String pwd = dto.getPwd();

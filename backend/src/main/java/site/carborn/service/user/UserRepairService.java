@@ -19,6 +19,7 @@ import site.carborn.repository.company.RepairShopReviewRepository;
 import site.carborn.repository.user.RepairBookRepository;
 import site.carborn.repository.user.RepairResultRepository;
 import site.carborn.util.board.BoardUtils;
+import site.carborn.util.common.AccountUtils;
 import site.carborn.util.common.BookUtils;
 
 import java.time.LocalDateTime;
@@ -38,9 +39,7 @@ public class UserRepairService {
 
     public Page<UserRepairBookListMapping> repairBookList(int page, int size) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Page<UserRepairBookListMapping> repairBookList = repairBookRepository.findByStatusAndAccount_Id(
                 BoardUtils.BOARD_DELETE_STATUS_FALSE,
@@ -59,9 +58,7 @@ public class UserRepairService {
 
     public UserRepairBookDetailMapping repairBook(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         // 게시글이 없을때
         UserRepairBookDetailMapping repairBook = repairBookRepository.findByStatusAndId(BoardUtils.BOARD_DELETE_STATUS_FALSE, id);
@@ -77,9 +74,7 @@ public class UserRepairService {
 
     public int createRepairBook(RepairBook repairBook) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Account account = accountRepository.findById(accountId);
         if (account == null) {
@@ -98,9 +93,7 @@ public class UserRepairService {
 
     public void deleteRepairBook(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         RepairBook delete = repairBookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다")
@@ -117,9 +110,7 @@ public class UserRepairService {
 
     public int updateRepairBook(RepairBook repairBook) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         Account account = accountRepository.findById(accountId);
         if (account == null) {
@@ -141,9 +132,7 @@ public class UserRepairService {
 
     public RepairResultGetDetailMapping repairResultDetail(int repairResultId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         RepairResultGetDetailMapping result = repairResultRepository.findAllByRepairBook_Id(repairResultId);
         if (result == null) {
@@ -155,9 +144,7 @@ public class UserRepairService {
 
     public RepairShopReviewMapping getRepairReviewDetail(int repairResultId) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         RepairShopReviewMapping result = repairShopReviewRepository.findByStatusAndRepairResult_Id(BoardUtils.BOARD_DELETE_STATUS_FALSE, repairResultId);
         return result;
@@ -165,9 +152,7 @@ public class UserRepairService {
 
     public int createRepairReview(int repairResultId, RepairShopReview repairShopReview) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         RepairResult result = repairResultRepository.findById(repairResultId).orElseThrow(() ->
                 new RuntimeException("수리결과가 없습니다"));

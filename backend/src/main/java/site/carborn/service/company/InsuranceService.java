@@ -19,6 +19,7 @@ import site.carborn.repository.car.CarRepository;
 import site.carborn.repository.company.InsuranceCompanyRepository;
 import site.carborn.service.common.KlaytnService;
 import site.carborn.util.board.BoardUtils;
+import site.carborn.util.common.AccountUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -44,9 +45,7 @@ public class InsuranceService {
     @Transactional
     public void insertCarInsuranceHistory(CarInsuranceHistoryRequestDTO dto) throws IOException {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         dto.setRegDt(LocalDateTime.now());
 
@@ -88,9 +87,7 @@ public class InsuranceService {
     @Transactional
     public Page<CarInsuranceHistoryGetListMapping> carInsuranceHistoryList(Pageable page) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         int insuranceId = insuranceCompanyRepository.findByAccount_Id(accountId).getId();
 
@@ -99,9 +96,7 @@ public class InsuranceService {
     @Transactional
     public CarInsuranceHistoryGetDetailMapping carInsuranceHistoryDetail(int id) {
         String accountId = SecurityUtil.getCurrentUserId();
-        if (accountId == null || accountId.isBlank()) {
-            throw new NullPointerException("로그인 정보가 없습니다");
-        }
+        AccountUtils.checkJWTAccount(accountId);
 
         return carInsuranceHistoryRepository.findAllById(id);
     }
