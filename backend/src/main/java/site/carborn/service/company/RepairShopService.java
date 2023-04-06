@@ -2,6 +2,7 @@ package site.carborn.service.company;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import site.carborn.config.SecurityUtil;
 import site.carborn.dto.request.RepairResultRequestDTO;
 import site.carborn.entity.car.Car;
+import site.carborn.entity.company.RepairShop;
 import site.carborn.entity.user.RepairBook;
 import site.carborn.entity.user.RepairResult;
 import site.carborn.mapping.company.RepairShopReviewMapping;
@@ -26,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RepairShopService {
@@ -150,9 +153,14 @@ public class RepairShopService {
             throw new NullPointerException("로그인 정보가 없습니다");
         }
 
-        int repairShopId = repairShopRepository.findByAccount_Id(accountId).getId();
-
-        return repairResultRepository.findByRepairBook_RepairShop_Id(repairShopId, page);
+        try {
+            int repairShopId = repairShopRepository.findByAccount_Id(accountId).getId();
+            return repairResultRepository.findByRepairBook_RepairShop_Id(repairShopId, page);
+        } catch(RuntimeException e) {
+            log.error("사용자 정보에 해당하는 RepairShop ID를 찾을 수 없습니다");
+            log.error("사용자 정보 [{}]", accountId);
+            throw new RuntimeException("사용자 정보에 해당하는 RepairShop ID를 찾을 수 없습니다");
+        }
     }
 
     @Transactional
