@@ -14,8 +14,9 @@ import { useSelector } from "react-redux";
 import { LoginOutReducer } from "./modules/takeLoginLogoutModule";
 
 const globalStyles = css`
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   body {
-    font-family: "Open Sans", sans-serif;
+    font-family: Pretendard;
     margin: 0;
     padding: 0 0 0 0;
     user-select: none;
