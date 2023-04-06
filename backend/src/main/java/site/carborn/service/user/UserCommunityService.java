@@ -110,16 +110,12 @@ public class UserCommunityService {
         if (accountId == null || accountId.isBlank()) {
             throw new NullPointerException("로그인 정보가 없습니다");
         }
-
-        if (community.getAccount().getId().isBlank()) {
-            throw new RuntimeException("세션이 만료되었습니다");
-        }
-
-        Account account = accountRepository.findById(community.getAccount().getId());
+        Account account = accountRepository.findById(accountId);
         if (account == null) {
-            throw new RuntimeException("존재하지 않는 아이디입니다");
+            throw new RuntimeException("해당하는 계정을 사용할 수 없습니다");
         }
 
+        community.setAccount(account);
         community.setRegDt(LocalDateTime.now());
         community.setUptDt(LocalDateTime.now());
         community.setStatus(BoardUtils.BOARD_DELETE_STATUS_FALSE);
@@ -134,13 +130,6 @@ public class UserCommunityService {
             throw new NullPointerException("로그인 정보가 없습니다");
         }
 
-        if (community.getAccount().getId().isBlank()) {
-            throw new RuntimeException("세션이 만료되었습니다");
-        }
-
-        if (accountRepository.findById(community.getAccount().getId()) == null) {
-            throw new RuntimeException("존재하지 않는 아이디입니다");
-        }
         if (community.getId() != communityId) {
             throw new RuntimeException("잘못된 경로입니다");
         }
@@ -150,10 +139,6 @@ public class UserCommunityService {
 
         if (update.getAccount().getId().equals(accountId)) {
             throw new RuntimeException("작성자가 아닙니다");
-        }
-
-        if (!community.getAccount().getId().equals(update.getAccount().getId())) {
-            throw new RuntimeException("권한이 없습니다");
         }
 
         update.setTitle(community.getTitle());
@@ -195,11 +180,12 @@ public class UserCommunityService {
             throw new NullPointerException("로그인 정보가 없습니다");
         }
 
-        Account account = accountRepository.findById(communityReview.getAccount().getId());
+        Account account = accountRepository.findById(accountId);
         if (account == null) {
-            throw new RuntimeException("존재하지 않는 아이디입니다");
+            throw new RuntimeException("해당하는 계정을 사용할 수 없습니다");
         }
 
+        communityReview.setAccount(account);
         communityReview.setRegDt(LocalDateTime.now());
         communityReview.setUptDt(LocalDateTime.now());
         communityReview.setStatus(BoardUtils.BOARD_DELETE_STATUS_FALSE);
@@ -234,21 +220,14 @@ public class UserCommunityService {
         if (accountId == null || accountId.isBlank()) {
             throw new NullPointerException("로그인 정보가 없습니다");
         }
-        communityReview.getAccount().setId(accountId);
-
-        if (accountRepository.findById(communityReview.getAccount().getId()) == null) {
-            throw new RuntimeException("존재하지 않는 아이디입니다");
-        }
         if (communityReview.getId() != commentId) {
             throw new RuntimeException("잘못된 경로입니다");
         }
         CommunityReview update = communityReviewRepository.findById(commentId).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다"));
+
         if (update.isStatus() == BoardUtils.BOARD_DELETE_STATUS_TRUE) {
             throw new RuntimeException("삭제된 게시글입니다");
-        }
-        if (!communityReview.getAccount().getId().equals(update.getAccount().getId())) {
-            throw new RuntimeException("권한이 없습니다");
         }
 
         update.setContent(communityReview.getContent());
