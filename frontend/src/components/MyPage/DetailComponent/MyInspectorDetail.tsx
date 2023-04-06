@@ -169,7 +169,7 @@ export const StyleInspectorDetailCarousels = styled.div`
     align-items: center;
 
     img {
-      width: 60%;
+      height: 100%;
     }
   }
 

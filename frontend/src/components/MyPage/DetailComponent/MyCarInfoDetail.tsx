@@ -85,8 +85,7 @@ export const StyleMyCarInfoCarousels = styled.div`
   }
 
   .slick-slide img {
-    width: 50%;
-    object-fit: contain;
+    width: 30%;
   }
 
   .modal {
@@ -120,7 +119,7 @@ export const StyleMyCarInfoCarousels = styled.div`
     align-items: center;
 
     img {
-      width: 60%;
+      height: 100%;
     }
   }
 
@@ -283,8 +282,8 @@ const MyCarInfoDetail = () => {
         });
 
         let images:any[] = []
-        response?.data.message.img.map((ele:any) => images.push(CARBORN_IMG+ele))
-        images.push(CARBORN_IMG+response.data.message.vrc)
+        response?.data.message.img.map((ele:any) => images.push(CARBORN_IMG+ele.imgNm))
+        images.push(CARBORN_IMG+response.data.message.vrc.imgNm)
 
         setCarouselImg(images)
         setCarInfoData(response.data.message.detail);
@@ -298,11 +297,6 @@ const MyCarInfoDetail = () => {
     fetchData(carId);
   }, []);
 
-  // 페이지 beforeunload 시 로컬 스토리지에서 "carId" 데이터 제거
-  useEffect(() => {
-    localStorage.removeItem("carId");
-  }, []);
-  
   // 뒤로가기
   const goBack = () => {
     window.history.back()
@@ -344,7 +338,7 @@ const MyCarInfoDetail = () => {
           <StyleTableDivMyCarInfoDetail>
             <StyleTableCarImgDiv>
               {/* 받아온 이미지 중 첫번째 이미지 */}
-              {carouselImg ? <img src={CARBORN_IMG+carouselImg[0]?.imgNm} alt='대표 이미지'/> : null}
+              {carouselImg ? <img src={carouselImg[0]} alt='대표 이미지'/> : null}
             </StyleTableCarImgDiv>
             <StyleTableCarMakerModelDiv>
               {/* 제조사, 차량모델 */}

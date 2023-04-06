@@ -20,7 +20,7 @@ function TextBox({
   return (
     <>
       <p style={{ fontSize: "0.85rem", margin: "0 0 3.5% 1%" }}>
-        {markerArr[markerNum].AUTH === 1 ? "정비" : "검사"} 내용
+        {markerArr[markerNum]?.AUTH === 1 ? "정비" : "검사"} 내용
       </p>
       <TextField
         id="outlined-multiline-static"

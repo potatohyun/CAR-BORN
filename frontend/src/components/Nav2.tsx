@@ -7,22 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   loginFailureReset,
   logoutAction,
-  logoutSuccessAction,
 } from "../modules/takeLoginLogoutModule";
 import Logo from "../assets/Logo.png";
-import FAQimg from "../assets/FAQ.png";
-import { applicationjson, ContentType } from "../lib/api";
-import { CARBORN_SITE } from "./../lib/api";
-import axios from "axios";
-
-import { Table, TableCell, TableRow } from "@mui/material";
-
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
 import swal from "sweetalert";
 
 const container = css`
@@ -162,6 +148,7 @@ export default function Nav2(msg: any) {
     const carId = localStorage.getItem("carId");
     const resultId = localStorage.getItem("resultId");
     const bookId = localStorage.getItem("bookId");
+    console.log(carId)
     if (location.pathname === "/") {
       setTitle("Car-Born Home");
     } else if (location.pathname === "/login") {
@@ -240,6 +227,8 @@ export default function Nav2(msg: any) {
       setTitle("NewArticleWrite");
     } else if (location.pathname === `/user/self-repair`) {
       setTitle("CheckList");
+    } else if (location.pathname === `user/mypage/mycarinfo/${carId}/detail`) {
+      setTitle("CarDetail")
     }
   }, [location.pathname, setTitle, title]);
 

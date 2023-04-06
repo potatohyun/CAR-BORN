@@ -1,23 +1,15 @@
-import * as React from "react";
 import {
   Box,
-  Button,
   Container,
-  InputAdornment,
-  IconButton,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Search as SearchIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
@@ -46,19 +38,12 @@ interface MapType {
 }
 
 export default function Articles() {
-  const [page, setPage] = useState<number>(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  // const [filteredPosts, setFilteredPosts] = useState(posts);
+  const [page, setPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
 
   const navigate = useNavigate();
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event?.target?.value;
-    setSearchTerm(value);
-  };
-
-  const URL = `https://carborn.site/api/user/community/list/${page + 1}/10/0`;
+  const URL = `https://carborn.site/api/user/community/list/${page}/10/0`;
   const ObjString: any = localStorage.getItem("login-token");
 
   const option = {
@@ -70,27 +55,22 @@ export default function Articles() {
 
   const getArticles = useAPI("get", URL, option);
 
-  const { data } = useQuery("getArticles", () => getArticles, {
-    select: (res) => res.data?.message?.content,
-    onSuccess: (res) => setTotalPage(res.data?.message?.totalPages),
+  const { data, refetch } = useQuery("getArticles", () => getArticles, {
+    select: (res) => res.data?.message,
+    onSuccess: (res) => setTotalPage(res.totalPages),
   });
 
+  useEffect(() => {
+    refetch();
+  }, [page]);
   return (
     <ThemeProvider theme={theme}>
       <Container sx={{ marginTop: "50px", width: "70vw" }}>
         <Box component="div" sx={{ mb: "40px" }}>
           <Box
             component="div"
-            sx={{ display: "flex", justifyContent: "center" }}>
-            {/* <Button
-              component={Link}
-              to="/new"
-              variant="contained"
-              color="primary"
-            >
-              새 글 쓰기
-            </Button> */}
-          </Box>
+            sx={{ display: "flex", justifyContent: "center" }}
+          ></Box>
         </Box>
         <Table sx={{ borderCollapse: "collapse" }}>
           <TableHead sx={{ backgroundColor: "#f7f7f7" }}>
@@ -102,7 +82,8 @@ export default function Articles() {
                   width: "6%",
                   color: "#23131",
                   border: "none",
-                }}>
+                }}
+              >
                 번호
               </TableCell>
               <TableCell
@@ -112,7 +93,8 @@ export default function Articles() {
                   width: "50%",
                   color: "#23131",
                   border: "none",
-                }}>
+                }}
+              >
                 제목
               </TableCell>
               <TableCell
@@ -122,7 +104,8 @@ export default function Articles() {
                   width: "10%",
                   color: "#23131",
                   border: "none",
-                }}>
+                }}
+              >
                 작성자
               </TableCell>
               <TableCell
@@ -132,13 +115,14 @@ export default function Articles() {
                   width: "15%",
                   color: "#23131",
                   border: "none",
-                }}>
+                }}
+              >
                 작성일자
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map(
+            {data?.content?.map(
               ({ id, accountName, regDt, title }: MapType, idx: number) => (
                 <TableRow
                   key={id}
@@ -148,7 +132,8 @@ export default function Articles() {
                       backgroundColor: theme.palette.secondary.main,
                     },
                     textDecoration: "none",
-                  }}>
+                  }}
+                >
                   <TableCell sx={{ color: "gray" }}>{id}</TableCell>
                   <TableCell
                     sx={{
@@ -158,7 +143,8 @@ export default function Articles() {
                       color: "black",
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate(`/user/community/${id}`)}>
+                    onClick={() => navigate(`/user/community/${id}`)}
+                  >
                     {title}
                   </TableCell>
                   <TableCell sx={{ color: "gray" }}>{accountName}</TableCell>
@@ -170,28 +156,13 @@ export default function Articles() {
             )}
           </TableBody>
         </Table>
-        <Stack spacing={2} alignItems="center" sx={{ mt: "15px" }}>
-          <Pagination count={totalPage} size="large" />
-        </Stack>
-        <Box
-          component="div"
-          sx={{ mb: "20px", textAlign: "center", width: "300px" }}>
-          <TextField
-            id="search"
-            label="검색"
-            variant="outlined"
-            size="small"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+        <Stack spacing={2} alignItems="center" sx={{ mt: "15px", mb: "20px" }}>
+          <Pagination
+            count={totalPage}
+            size="large"
+            onChange={(e, v) => setPage(v)}
           />
-        </Box>
+        </Stack>
       </Container>
     </ThemeProvider>
   );

@@ -35,7 +35,7 @@ function SaleCarCost({
 
   return (
     <>
-      <span css={titleStyle}>차량 가격(만원)</span>
+      <span css={titleStyle}>차량 가격(원)</span>
       <div>
         <input css={inputBoxStyle} type="number" min="0" onChange={getTyping} />
       </div>

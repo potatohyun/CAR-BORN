@@ -18,7 +18,7 @@ const leftContent = css`
     height: auto;
   }
   .carousel-root {
-    height: 85%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;

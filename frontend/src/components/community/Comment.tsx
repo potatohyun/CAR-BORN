@@ -124,12 +124,14 @@ export default function Comment() {
               sx={{
                 mt: "5px",
                 pb: "10px",
-              }}>
+              }}
+            >
               <Typography
                 variant="subtitle2"
                 component="p"
                 gutterBottom
-                sx={{ fontWeight: "bolder" }}>
+                sx={{ fontWeight: "bolder" }}
+              >
                 {accountName}
               </Typography>
 
@@ -158,8 +160,9 @@ export default function Comment() {
           variant="contained"
           type="submit"
           onClick={handleSubmit}
-          sx={{ mt: "10px", float: "right" }}>
-          작성 완료
+          sx={{ mt: "10px", float: "right" }}
+        >
+          댓글 달기
         </Button>
       </Box>
     </Box>

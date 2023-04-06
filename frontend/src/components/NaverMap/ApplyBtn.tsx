@@ -29,35 +29,35 @@ function ApplyBtn({
       return axios({
         method: "post",
         url: `https://carborn.site/api/user/${
-          markerArr[markerNum].AUTH === 1 ? "repair" : "inspect"
+          markerArr[markerNum]?.AUTH === 1 ? "repair" : "inspect"
         }/book`,
         data:
-          markerArr[markerNum].AUTH === 1
+          markerArr[markerNum]?.AUTH === 1
             ? {
                 car: {
-                  id: reserveInfo.carId,
+                  id: reserveInfo?.carId,
                 },
                 repairShop: {
-                  id: markerArr[markerNum].ID,
+                  id: markerArr[markerNum]?.ID,
                 },
                 account: {
                   id: JSON.parse(ObjString).userId,
                 },
-                content: reserveInfo.content,
-                bookDt: reserveInfo.date,
+                content: reserveInfo?.content,
+                bookDt: reserveInfo?.date,
               }
             : {
                 car: {
-                  id: reserveInfo.carId,
+                  id: reserveInfo?.carId,
                 },
                 inspector: {
-                  id: markerArr[markerNum].ID,
+                  id: markerArr[markerNum]?.ID,
                 },
                 account: {
                   id: JSON.parse(ObjString).userId,
                 },
-                content: reserveInfo.content,
-                bookDt: reserveInfo.date,
+                content: reserveInfo?.content,
+                bookDt: reserveInfo?.date,
               },
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function ApplyBtn({
     {
       onSuccess: () => {
         navigate(
-          markerArr[markerNum].AUTH === 1
+          markerArr[markerNum]?.AUTH === 1
             ? "/user/mypage/repair"
             : "/user/mypage/inspector"
         );
@@ -77,7 +77,7 @@ function ApplyBtn({
   );
 
   const getApply = () => {
-    if (!reserveInfo.carId || !reserveInfo.content || !reserveInfo.date) {
+    if (!reserveInfo?.carId || !reserveInfo?.content || !reserveInfo?.date) {
       Toast.fire({
         icon: "error",
         title: "양식을 다 작성해주세요.",

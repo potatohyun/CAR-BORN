@@ -248,7 +248,7 @@ export default function HomeCarForSales() {
             <div className="img" key={idx} onClick={() => handleClick(data.ID)}>
               <div className="imgUrl">
                 <img
-                  src={`${data.IMG_NM}`}
+                  src={`https://carborn.site/images/${data.IMG_NM}`}
                   height="100%"
                   width="100%"
                   alt="img"

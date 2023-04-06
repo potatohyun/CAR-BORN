@@ -174,7 +174,7 @@ export const StyleRepairDetailCarousels = styled.div`
     align-items: center;
 
     img {
-      width: 60%;
+      height: 100%;
     }
   }
 
@@ -535,7 +535,7 @@ const MyRepairDetail = () => {
                       repairResult?.repairDt.slice(0, 10)}
                   </TableCell>
                   <TableCell align="center">
-                    <a href={repairResult.metadataUri}>
+                    <a href={repairResult?.metadataUri}>
                       <StyleKlaytnBtn>
                         원본 확인
                       </StyleKlaytnBtn>

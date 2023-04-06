@@ -9,7 +9,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // 스타일 시
 import axios from "axios";
 import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { StyleKlaytnBtn } from "./MyRepairDetail";
@@ -160,7 +160,7 @@ export const StyleInsuranceDetailCarousels = styled.div`
     align-items: center;
 
     img {
-      width: 60%;
+      height: 100%;
     }
   }
 
