@@ -138,15 +138,15 @@ public class JoinService {
 
         MultipartFile cbrFile = dto.getCbr();
 
-        String ocrCbr = ocrService.ocr(cbrFile);
-
-        if (StringUtils.isNullOrEmpty(ocrCbr)) {
-            throw new NullPointerException("올바른 사업자 등록증이 아닙니다");
-        }
-
-        if (ocrCbr.equals(dto.getCbr()) == false) {
-            throw new RuntimeException("사업자 등록번호가 일치하지 않습니다");
-        }
+//        String ocrCbr = ocrService.ocr(cbrFile);
+//
+//        if (StringUtils.isNullOrEmpty(ocrCbr)) {
+//            throw new NullPointerException("올바른 사업자 등록증이 아닙니다");
+//        }
+//
+//        if (ocrCbr.equals(dto.getCbr()) == false) {
+//            throw new RuntimeException("사업자 등록번호가 일치하지 않습니다");
+//        }
 
         String cbrImgNm = BoardUtils.singleFileSave(cbrFile);
 
