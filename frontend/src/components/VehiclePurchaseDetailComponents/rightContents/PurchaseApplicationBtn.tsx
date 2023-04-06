@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
+import { Button } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -14,14 +15,14 @@ const buttonStyle = css`
   display: flex;
   justify-content: center;
   .back {
-    border: 0;
     margin-left: 1.5%;
     width: 30.1%;
     margin-right: 2.2%;
     height: 5vh;
-    background-color: lightgray;
     cursor: pointer;
     font-weight: 900;
+    color: #d23131;
+    border-color: #d23131;
   }
   .apply {
     border: 0;
@@ -36,14 +37,17 @@ const buttonStyle = css`
     font-weight: 900;
   }
   .user-delete {
-    border: 0;
+    /* border: 0; */
     width: 27.5%;
     margin-left: 2.5%;
     height: 5vh;
-    background-color: #000000;
+    background-color: #d23131;
     color: white;
     cursor: pointer;
     font-weight: 900;
+    &:hover {
+      background-color: #000000;
+    }
   }
   .user-complete {
     border: 0;
@@ -64,15 +68,20 @@ const buttonStyle = css`
     color: white;
     cursor: pointer;
     font-weight: 900;
+    &:hover {
+      background-color: #000000;
+    }
   }
   .complete {
     border: 0;
     width: 67.5%;
     margin-left: 2.5%;
     height: 5vh;
-    background-color: #00000067;
     color: white;
     font-weight: 900;
+    &:hover {
+      background-color: #000000;
+    }
   }
 `;
 
@@ -384,18 +393,18 @@ function PurchaseApplicationBtn({
 
   return (
     <div css={buttonStyle}>
-      <button className="back" onClick={back}>
+      <Button variant="outlined" className="back" onClick={back}>
         뒤로가기
-      </button>
+      </Button>
       {userId === DetailData?.detail?.accountId ? (
         DetailData?.detail?.saleStatus === 0 ? (
           <>
-            <button className="user-delete" onClick={salerDelete}>
+            <Button className="user-delete" onClick={salerDelete}>
               판매취소
-            </button>
-            <button className="list" onClick={showModal}>
+            </Button>
+            <Button className="list" onClick={showModal}>
               신청자 목록
-            </button>
+            </Button>
             <dialog ref={modalRef} css={dialog}>
               <div css={{ display: "flex", justifyContent: "center" }}>
                 {data?.map((userInfo: DataType) => {
@@ -434,9 +443,11 @@ function PurchaseApplicationBtn({
             </dialog>
           </>
         ) : DetailData?.detail?.saleStatus === 1 ? (
-          <button className="complete">확정완료</button>
+          <Button sx={{ backgroundColor: "#d23131" }} className="complete">
+            확정완료
+          </Button>
         ) : (
-          <button className="complete">취소완료</button>
+          <Button className="complete">취소완료</Button>
         )
       ) : DetailData?.bookStatus?.bookStatus === undefined ? (
         <button className="apply" onClick={goToBuy}>

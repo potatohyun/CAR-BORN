@@ -54,12 +54,10 @@ export default function Articles() {
   };
 
   const getArticles = useAPI("get", URL, option);
-
   const { data, refetch } = useQuery("getArticles", () => getArticles, {
-    select: (res) => res.data?.message,
-    onSuccess: (res) => setTotalPage(res.totalPages),
+    select: (res) => res?.data?.message,
+    onSuccess: (res) => setTotalPage(res?.totalPages),
   });
-
   useEffect(() => {
     refetch();
   }, [page]);

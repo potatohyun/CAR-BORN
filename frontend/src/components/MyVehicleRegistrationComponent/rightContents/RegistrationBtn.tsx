@@ -8,7 +8,7 @@ import {
   RegistrationInfo,
 } from "./../../../routes/userUseFnc/MyVehicleRegistration";
 import swal from "sweetalert";
-
+import { Button } from "@mui/material";
 interface APIType {
   API: string;
 }
@@ -30,14 +30,17 @@ const registerBtnStyle = css`
     color: white;
     font-weight: 900;
     cursor: pointer;
+    &:hover {
+      background-color: #761c1cea;
+    }
   }
   .backBtn {
-    border: 0;
+    border-color: #d23131;
     width: 30%;
     height: 5.5vh;
     font-weight: 900;
-    background-color: black;
-    color: white;
+    color: #d23131;
+
     cursor: pointer;
   }
 `;
@@ -114,12 +117,16 @@ function RegistrationBtn({
   return (
     <div css={registerBtnStyle}>
       {/* 등록하기 버튼 */}
-      <button className="backBtn" onClick={back}>
+      <Button variant="outlined" className="backBtn" onClick={back}>
         뒤로가기
-      </button>
-      <button className="regBtn" onClick={onFileUpload}>
+      </Button>
+      <Button
+        className="regBtn"
+        sx={{ backgroundColor: "#d23131" }}
+        onClick={onFileUpload}
+      >
         등록하기
-      </button>
+      </Button>
     </div>
   );
 }
