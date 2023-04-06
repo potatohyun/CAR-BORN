@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import SignUpUserPhoneNumberModal from "./modal/SignUpUserPhoneNumberModal";
-import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
-import { StyleNameLabel } from './SignUpUserName';
-import swal from "sweetalert";
+import {
+  StyleCheckBtn,
+  StyleIdCheckDiv,
+  StyleIdCheckInput,
+} from "./SignUpUserId";
+import { StyleIsValidSpaceBetween, StyleNameLabel } from "./SignUpUserName";
 import IsValidComponent from "../../isValid/IsValidComponent";
+import { useSelector } from "react-redux";
 
 export interface SignUpUserPhoneNumberState {
   phoneNumber: string;
@@ -33,12 +37,22 @@ const SignUpUserPhoneNumber = ({
   const [phoneNumber, setPhoneNumber] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setPhoneNumber(value);
-    setSignupUserFormData({
-      ...signupUserFormData,
-      phonenumber: value,
-    });
+    const regex = /^[0-9]*$/;
+    if (regex.test(value)) {
+      setPhoneNumber(value);
+      if (value.length >= 10 && value.length <= 11){
+        setIsAlert(true)
+      } else {
+        setIsAlert(false)
+      }
+      setSignupUserFormData({
+        ...signupUserFormData,
+        phonenumber: value,
+      });
+    }
   };
+
+  const { msg, isSignPossible} = useSelector((state:any) => state.SignUpReducer)
 
   // 모달 관련
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,8 +64,10 @@ const SignUpUserPhoneNumber = ({
         ...signupUserFormData,
         isVarify: false,
       });
+      setIsAlert(true)
     } else {
-      swal("유효성 검사", "휴대폰 번호는 10자리이상 11자리 이하 여야합니다.", "error");
+      setIsAlert(false)
+      setMessage("10 ~ 11자리여야합니다.")
       setIsModalOpen(false);
     }
   };
@@ -69,10 +85,25 @@ const SignUpUserPhoneNumber = ({
     }
   }, [isValid]);
 
+  useEffect(() => {
+    if(isAlert === false){
+      setMessage("10 ~ 11자리여야합니다.")
+    } else {
+      setMessage(" ")
+    }
+  }, [isAlert, setMessage, signupUserFormData.phonenumber])
+
   return (
     <StyleSignUpInputDiv>
       <br />
-      <StyleNameLabel htmlFor="phoneNumber">휴대폰 번호</StyleNameLabel>
+      <StyleIsValidSpaceBetween>
+        <StyleNameLabel htmlFor="phoneNumber">
+          휴대폰 번호
+          <IsValidComponent isValid={isSignPossible} />
+        </StyleNameLabel>
+        {isSignPossible ? null : <span>{msg}</span>}
+        {isAlert ? null : <span>{message}</span>}
+      </StyleIsValidSpaceBetween>
       <StyleIdCheckDiv>
         <StyleIdCheckInput
           tabIndex={7}
@@ -84,7 +115,12 @@ const SignUpUserPhoneNumber = ({
           onChange={(e) => handleChange(e)}
           maxLength={11}
         />
-        <StyleCheckBtn type="button" tabIndex={8} onClick={openModal} value={`인증하기`}/>
+        <StyleCheckBtn
+          type="button"
+          tabIndex={8}
+          onClick={openModal}
+          value={`인증하기`}
+        />
       </StyleIdCheckDiv>
 
       {/* 모달 */}

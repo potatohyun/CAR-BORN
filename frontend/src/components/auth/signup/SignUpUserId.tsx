@@ -13,9 +13,8 @@ import {
 import { StyleSignUpInputBtnDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
 import { useridCheckReset } from "../../../modules/UserIdCheckModule";
-import { StyleNameLabel } from "./SignUpUserName";
+import { StyleIsValidSpaceBetween, StyleNameLabel } from "./SignUpUserName";
 import styled from "@emotion/styled";
-import CustomAlert from "./modal/CustomAlert";
 import swal from "sweetalert";
 import IsValidComponent from "./../../isValid/IsValidComponent";
 
@@ -77,29 +76,33 @@ const SignUpUserId = ({
 }: SignUpUserIdProps) => {
   // 메세지
   const [isAlert, setIsAlert] = useState<boolean>(false);
+  const [isCheck, setIsCheck] = useState<boolean>(false);
   const [message, setMessage] = useState<String>("");
 
-  // const { useridcheck } = useSelector((state: any) => state.idcheck);
   const { useridcheck } = useSelector((state: any) => state.IdCheckReducer);
-
   const dispatch = useDispatch();
 
   // 입력되는거 formdata에 넘겨주기
   const handleUserId = (e: ChangeEvent<HTMLInputElement>) => {
     const regex = /^[a-z0-9_]+(\s*[a-z0-9_]+)*$/i;
     const { value } = e.target;
+    if(e.target.value === '') {
+      setMessage(" ")
+      setIsAlert(false);
+    }
+
     if (value === "" || regex.test(value)) {
       setSignupUserFormData({
         ...signupUserFormData,
         userid: value,
       });
     } else {
-      setIsAlert(false);
-      swal(
-        "유효성 검사",
-        "아이디는 영소문자와 숫자만 입력 가능합니다.",
-        "error"
-      );
+      setIsCheck(false);
+      setMessage("영소문자, 숫자, '_'만 입력 가능합니다.")
+      setSignupUserFormData({
+        ...signupUserFormData,
+        userid: e.target.value,
+      });
     }
   };
 
@@ -107,82 +110,70 @@ const SignUpUserId = ({
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      if(e.currentTarget.value === '') {
+        setMessage(" ")
+        setIsAlert(false);
+        setIsCheck(true)
+      }
+
       const regex = /^[a-z0-9_]+$/;
       const isValidLength =
-        e.currentTarget.value.length >= 5 && e.currentTarget.value.length <= 20;
+        e.currentTarget.value.length >= 8 && e.currentTarget.value.length <= 20;
       if (regex.test(e.currentTarget.value) && isValidLength) {
-        setIsAlert(true);
-        swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
+        setIsCheck(true);
       } else if (!regex.test(e.currentTarget.value)) {
-        setIsAlert(false);
-        swal(
-          "유효성 검사",
-          "아이디는 영어 소문자와 숫자, _만 가능합니다.",
-          "error"
-        );
-        setSignupUserFormData({
-          ...signupUserFormData,
-          userid: "",
-        });
+        if(e.currentTarget.value === '') {
+          setMessage(" ")
+          setIsAlert(false);
+          setIsCheck(true)
+        } else {
+          setIsCheck(false);
+          setMessage("영소문자, 숫자, '_'만 입력 가능합니다.");
+          setSignupUserFormData({
+            ...signupUserFormData,
+            userid: "",
+          });
+        }
       } else if (!isValidLength) {
-        setIsAlert(false);
-        swal("유효성 검사", "아이디 길이는 5글자에서 20글자입니다.", "error");
+        setIsCheck(false);
+        setMessage("아이디 길이는 8글자에서 20글자입니다.");
         setSignupUserFormData({
           ...signupUserFormData,
           userid: "",
         });
-      } else {
+      } 
+    }
+  };
+
+  const handleBlur = (e: any) => {
+    e.preventDefault()
+    
+    const regex = /^[a-z0-9_]+$/;
+    const isValidLength =
+      e.currentTarget.value.length >= 8 && e.currentTarget.value.length <= 20;
+    if (regex.test(e.currentTarget.value) && isValidLength) {
+      setIsCheck(true);
+    } else if (!regex.test(e.currentTarget.value)) {
+      if(e.currentTarget.value === '') {
+        setMessage(" ")
         setIsAlert(false);
-        swal(
-          "유효성 검사",
-          "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.",
-          "error"
-        );
+        setIsCheck(true)
+      } else {
+        setIsCheck(false);
+        setMessage("영소문자, 숫자, '_'만 입력 가능합니다.");
         setSignupUserFormData({
           ...signupUserFormData,
           userid: "",
         });
       }
-    }
-  };
-
-  const handleBlur = (e: any) => {
-    const regex = /^[a-z0-9_]+$/;
-    const isValidLength =
-      e.currentTarget.value.length >= 5 && e.currentTarget.value.length <= 20;
-    if (regex.test(e.currentTarget.value) && isValidLength) {
-      setIsAlert(true);
-      swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
-    } else if (!regex.test(e.currentTarget.value)) {
-      setIsAlert(false);
-      swal(
-        "유효성 검사",
-        "아이디는 영어 소문자와 숫자, _만 가능합니다.",
-        "error"
-      );
-      setSignupUserFormData({
-        ...signupUserFormData,
-        userid: "",
-      });
     } else if (!isValidLength) {
-      setIsAlert(false);
-      swal("유효성 검사", "아이디 길이는 5글자에서 20글자입니다.", "error");
+      setIsCheck(false);
+      setMessage("아이디 길이는 8글자에서 20글자입니다.");
       setSignupUserFormData({
         ...signupUserFormData,
         userid: "",
       });
-    } else {
-      setIsAlert(false);
-      swal(
-        "유효성 검사",
-        "입력하신 아이디가 영어 대소문자와 숫자가 아니거나, 길이가 5글자이하 또는 20글자 이상입니다.",
-        "error"
-      );
-      setSignupUserFormData({
-        ...signupUserFormData,
-        userid: "",
-      });
-    }
+    } 
   };
 
   // 아이디 중복체크용
@@ -194,18 +185,14 @@ const SignUpUserId = ({
   useEffect(() => {
     if (useridcheck === true) {
       setIsAlert(true);
-      swal("유효성 검사", "사용가능한 아이디 입니다.", "success");
       setSignupUserFormData({
         ...signupUserFormData,
         idcheck: true,
       });
+      swal("유효성 검사", "입력한 아이디가 유효합니다.", "success");
     } else if (useridcheck === false) {
       setIsAlert(false);
-      swal(
-        "유효성 검사",
-        "중복된 아이디가 있습니다. 다른 아이디로 회원가입 해주세요.",
-        "error"
-      );
+      swal("유효성 검사", "이미 가입한 아이디", "error");
       setSignupUserFormData({
         ...signupUserFormData,
         idcheck: false,
@@ -217,10 +204,13 @@ const SignUpUserId = ({
 
   return (
     <StyleSignUpInputBtnDiv>
-      <StyleNameLabel htmlFor="userid">
-        아이디
-        <IsValidComponent isValid={isAlert} />
-      </StyleNameLabel>
+      <StyleIsValidSpaceBetween>
+        <StyleNameLabel htmlFor="userid">
+          아이디
+          <IsValidComponent isValid={isAlert} />
+        </StyleNameLabel>
+        {isCheck ? null : <span>{message}</span>}
+      </StyleIsValidSpaceBetween>
       <StyleIdCheckDiv>
         <StyleIdCheckInput
           tabIndex={2}
@@ -230,6 +220,8 @@ const SignUpUserId = ({
           placeholder="UserID"
           autoComplete="off"
           required
+          minLength={8}
+          maxLength={20}
           value={signupUserFormData.userid}
           onChange={(e) => handleUserId(e)}
           onKeyDown={(e) => handleKeyPress(e)}

@@ -153,7 +153,7 @@ export default function Nav2(msg: any) {
   }, [location.pathname, setIsFAQ]);
 
   const handleClickOpen = () => {
-    navigate('user/self-repair');
+    navigate("user/self-repair");
   };
 
   // 제목 얘기하기
@@ -226,6 +226,8 @@ export default function Nav2(msg: any) {
       setTitle("ResetPassword");
     } else if (location.pathname === "/user/community") {
       setTitle("Community");
+    } else if (location.pathname.split("/")[2] === "community") {
+      setTitle("Community");
     } else if (location.pathname === `/user/car/list`) {
       setTitle("CarList");
     } else if (location.pathname === `/user/car/${CARID}/${ID}`) {
@@ -237,7 +239,7 @@ export default function Nav2(msg: any) {
     } else if (location.pathname === `/user/community/write`) {
       setTitle("NewArticleWrite");
     } else if (location.pathname === `/user/self-repair`) {
-      setTitle("CheckList")
+      setTitle("CheckList");
     }
   }, [location.pathname, setTitle, title]);
 
@@ -247,6 +249,7 @@ export default function Nav2(msg: any) {
   };
 
   const isLoggedIn = useSelector((state: any) => state.LoginOutReducer.success);
+
   useEffect(() => {
     if (isLoggedIn === undefined) {
       dispatch(loginFailureReset());
@@ -260,16 +263,25 @@ export default function Nav2(msg: any) {
   const { success } = useSelector((state: any) => state.LoginOutReducer);
   const localToken = Obj?.value;
 
+  useEffect(() => {
+    if (isLoggedIn === true && location.pathname === '/') {
+      window.location.reload();
+    }
+  }, [isLoggedIn])
+
   // 유저아이디랑 토큰 가져오기
   useEffect(() => {
     const ObjString = localStorage.getItem("login-token");
     let Obj = null;
     if (ObjString) {
       Obj = JSON.parse(ObjString);
-      console.log(Date.now(), Obj.expire)
       if (Date.now() > Obj.expire) {
-        dispatch(logoutAction())
-        swal("로그인 시간 만료", "로그아웃 되었습니다. 다시 로그인 해주세요.", "error");
+        dispatch(logoutAction());
+        swal(
+          "로그인 시간 만료",
+          "로그아웃 되었습니다. 다시 로그인 해주세요.",
+          "error"
+        );
         if (isLoggedIn === undefined) {
           dispatch(loginFailureReset());
           navigate("/login");
@@ -286,16 +298,14 @@ export default function Nav2(msg: any) {
             <div
               className="logo"
               onClick={handleLogout}
-              css={{ cursor: "pointer" }}
-            >
+              css={{ cursor: "pointer" }}>
               LOGOUT
             </div>
           ) : (
             <div
               className="logo"
               onClick={(): void => navigate("/login")}
-              css={{ cursor: "pointer" }}
-            >
+              css={{ cursor: "pointer" }}>
               LOGIN
             </div>
           )}
@@ -315,33 +325,29 @@ export default function Nav2(msg: any) {
           <div className="menu">
             <div
               className="item"
-              onClick={(): void => navigate("/user/car/list")}
-            >
+              onClick={(): void => navigate("/user/car/list")}>
               구매
-            </div>
-            <div
-              className="item"
-              onClick={(): void => navigate("/user/car/sale/4")}
-            >
-              판매
-            </div>
-            <div
-              className="item"
-              onClick={(): void => navigate("/user/community")}
-            >
-              커뮤니티
             </div>
             <div className="item" onClick={(): void => navigate("/user/map")}>
               예약
             </div>
+            <div
+              className="item"
+              onClick={(): void => navigate("/user/community")}>
+              커뮤니티
+            </div>
             <div className="item" onClick={(): void => navigate("/user/car")}>
               MY CAR
+            </div>
+            <div
+              className="item"
+              onClick={(): void => navigate("/user/self-repair")}>
+              셀프 정비
             </div>
             {success || localToken ? (
               <div
                 className="item"
-                onClick={(): void => navigate(`/user/mypage`)}
-              >
+                onClick={(): void => navigate(`/user/mypage`)}>
                 MY PAGE
               </div>
             ) : null}

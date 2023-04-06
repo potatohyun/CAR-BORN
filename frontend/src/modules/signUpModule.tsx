@@ -9,6 +9,7 @@ export const USER_SIGN_UP_SEND_SUCCESS = "USER_SIGN_UP_SEND_SUCCESS";
 export const COMPANY_SIGN_UP_SEND_REQUEST = "COMPANY_SIGN_UP_SEND_REQUEST";
 export const COMPANY_SIGN_UP_SEND_SUCCESS = "COMPANY_SIGN_UP_SEND_SUCCESS";
 export const IS_CAN_SIGNUP_ACTION = "IS_CAN_SIGNUP_ACTION";
+export const IS_CAN_SIGNUP_FAILURE = "IS_CAN_SIGNUP_FAILURE"
 export const IS_CAN_SIGNUP_RESET = "IS_CAN_SIGNUP_RESET";
 
 // 액션 생성 함수
@@ -44,6 +45,11 @@ export const IsCanSignUpAction = () => ({
 export const IsCanSignUpReset = () => ({
   type: IS_CAN_SIGNUP_RESET,
 });
+
+export const IsCanSignUpFailure = (msg:string) => ({
+  type: IS_CAN_SIGNUP_FAILURE,
+  payload: msg
+})
 
 // 초기값
 const initialState = {
@@ -83,13 +89,15 @@ export function SignUpReducer(state = initialState, action: any) {
     case SIGNUP_CHECK:
       return { ...state, success: action.payload };
     case USER_SIGN_UP_SEND_SUCCESS:
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, success:true };
     case COMPANY_SIGN_UP_SEND_SUCCESS:
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, success:true };
     case IS_CAN_SIGNUP_ACTION:
       return { ...state, isSignPossible: true };
     case IS_CAN_SIGNUP_RESET:
       return { ...state, isSignPossible: false };
+    case IS_CAN_SIGNUP_FAILURE:
+      return { ...state, msg: action.payload, isSignPossible: false }
     default:
       return state;
   }

@@ -26,6 +26,7 @@ import CustomAlert from "../../components/auth/signup/modal/CustomAlert";
 import ReCAPTCHA from "react-google-recaptcha";
 import Nav2 from "../../components/Nav2";
 import { StyleLoginBoxDiv } from "./LoginPage";
+import swal from "sweetalert";
 
 // CSS 타입
 export interface StyleGoRegisterProps
@@ -167,11 +168,13 @@ const SignupPages: React.FC = () => {
 
   // 파일 담기
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isFiles, setIsFiles] = useState<boolean>(false);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
       const fileList = Array.from(files);
       setSelectedFiles(fileList);
+      setIsFiles(true)
     }
   };
 
@@ -216,9 +219,7 @@ const SignupPages: React.FC = () => {
               setTimeout(() => {
                 setIsAlert(false);
               }, 2000);
-              setMessage(
-                "알 수 없는 이유로 회원가입에 실패했습니다. 계정 정보를 다시 한 번 확인해주세요."
-              );
+              swal("회원가입 실패", "회원가입에 실패했습니다. 계정 정보를 다시 한 번 확인해주세요.", "error");
               throw new Error(`${res.status} 오류가 발생했습니다`);
             }
 
@@ -226,6 +227,7 @@ const SignupPages: React.FC = () => {
             navigate("/login");
           })
           .catch((err) => {
+            swal("회원가입 실패", "회원가입에 실패했습니다. 계정 정보를 다시 한 번 확인해주세요.", "error");
             console.log(err.message);
           });
       } catch (error) {
@@ -244,9 +246,7 @@ const SignupPages: React.FC = () => {
               setTimeout(() => {
                 setIsAlert(false);
               }, 2000);
-              setMessage(
-                "알 수 없는 이유로 회원가입에 실패했습니다. 계정 정보를 다시 한 번 확인해주세요."
-              );
+              swal("회원가입 실패", "회원가입에 실패했습니다. 계정 정보를 다시 한 번 확인해주세요.", "error");
               throw new Error(`${res.status} 오류가 발생했습니다`);
             }
 
@@ -254,6 +254,7 @@ const SignupPages: React.FC = () => {
             navigate("/login");
           })
           .catch((err) => {
+            swal("회원가입 실패", "회원가입에 실패했습니다. 계정 정보를 다시 한 번 확인해주세요.", "error");
             console.log(err.message);
           });
       } catch (error) {
@@ -336,6 +337,7 @@ const SignupPages: React.FC = () => {
         iddupliCheck={iddupliCheck}
         setIsValid={setIsValid}
         isValid={isValid}
+        setSelectedFiles={setSelectedFiles}
       />
       <StyleSignUpCenterDiv>
         <StyleLoginBoxDiv border={isRecaptcha ? "#d23131" : "grey"}>
@@ -420,7 +422,8 @@ const SignupPages: React.FC = () => {
               />
               <SignUpCompanyDocument
                 handleFileChange={handleFileChange}
-                isSelectedFiles={selectedFiles ? true : false} // IsSelectedFiles -> isSelectedFiles 로 수정
+                isFiles={isFiles}
+                setSelectedFiles={setSelectedFiles}
               />
             </StyleSignUpBoxDiv>
           )}

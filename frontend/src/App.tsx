@@ -10,7 +10,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { JustRoutes, PrivateRoutes } from "./routes";
 
 const globalStyles = css`
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
   body {
     font-family: Pretendard;
     margin: 0;

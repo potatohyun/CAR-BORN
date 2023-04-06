@@ -21,8 +21,9 @@ export default function Comment() {
   const [page, setPage] = useState<any>(1);
   const [comment, setComment] = useState<string>("");
   const { id } = useParams<{ id: string }>();
-  const queryClient = useQueryClient();
+  const [isFetch, setIsFetch] = useState(false);
 
+  const queryClient = useQueryClient();
   const ObjString: any = localStorage.getItem("login-token");
   const option = {
     headers: {
@@ -49,9 +50,16 @@ export default function Comment() {
 
   const getComments = useAPI("get", getCommentsUrl, option);
 
-  const { data, refetch } = useQuery(`getComments${id}`, () => getComments, {
-    select: (res) => res?.data?.message,
-  });
+  const { data, refetch }: any = useQuery(
+    `getComments${id}`,
+    () => getComments,
+    {
+      select: (res) => res?.data?.message,
+      enabled: !!isFetch,
+      retry: false,
+    }
+  );
+
   const { mutate } = useMutation(
     () =>
       axios({
@@ -65,28 +73,31 @@ export default function Comment() {
       },
     }
   );
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (comment) {
       mutate();
-      setComment("");
       queryClient.invalidateQueries(`getComments${id}`);
+      setIsFetch(true);
     } else {
       alert("내용을 입력해 주세요");
     }
+    setComment("");
   };
 
   const handleComment = (e: any) => {
     setComment(e.target.value);
   };
+
   useEffect(() => {
     refetch();
   }, [page]);
+
   useEffect(() => {
-    if (data) {
-      setCommentData(data?.content);
-    }
+    setCommentData(data?.content);
   }, [data?.content]);
+
   return (
     <Box component="div" sx={{ mb: "20px" }}>
       <Typography variant="h6" component="h2" gutterBottom>
@@ -102,7 +113,7 @@ export default function Comment() {
         }}
       />
 
-      {!data ? (
+      {!commentData?.length ? (
         <p>댓글이 없습니다.</p>
       ) : (
         <Box component="ul" sx={{ listStyle: "none", p: 0 }}>

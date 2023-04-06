@@ -141,16 +141,21 @@ export default function RegisterForm() {
   });
 
   const submit = () => {
-    const formData = new FormData();
+    const formData: any = new FormData();
     formData.append("beforeImg", beforeImageFile);
     formData.append("afterImg", afterImageFile);
     formData.append("receiptImg", reciptImageFile);
     formData.append("repairBook.id", id);
     formData.append("content", content);
     formData.append("mileage", 연비);
-    formData.append("inspectDt", selectTime);
+    if (isGarage) {
+      formData.append("repairDt", selectTime);
+      formData.append("repairBook.bookStatus", 1);
+    } else {
+      formData.append("inspectDt", selectTime);
+      formData.append("inspectBook.bookStatus", 1);
+    }
 
-    console.log(JSON.parse(ObjString).value);
     if (
       beforeImageFile &&
       afterImageFile &&

@@ -132,7 +132,7 @@ const WebsiteComponent: React.FC<WebsiteProps> = ({
             <label htmlFor="websitecheck" className="checkbox-label">
               &#10003;
             </label>
-            <span>웹사이트 이용내역</span>
+            <span>웹사이트 이용약관</span>
           </div>
           <div>
             <button onClick={handleWebsiteDropdown}>▼</button>

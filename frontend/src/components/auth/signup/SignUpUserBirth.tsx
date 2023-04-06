@@ -1,9 +1,9 @@
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styled from "@emotion/styled";
-import { StyleNameLabel } from "./SignUpUserName";
+import { StyleIsValidSpaceBetween, StyleNameLabel } from "./SignUpUserName";
 
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -11,7 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import IsValidComponent from './../../isValid/IsValidComponent';
-import swal from "sweetalert";
+import 'dayjs/locale/zh-cn';
 
 type SignUpUserBirthProps = {
   setSignupUserFormData: React.Dispatch<React.SetStateAction<SignupFormData>>;
@@ -25,7 +25,6 @@ export const StyleDatePickerDiv = styled.div`
     border: 1px solid #d23131;
   }
 
-  
   label {
     display: none;
   }
@@ -46,13 +45,31 @@ export const StyleDatePickerDiv = styled.div`
     margin-right: 10px;
   }
 
+  .MuiInputBase-input {
+    width: 30vw;
+  }
+
+  .MuiInputBase-formControl {
+    border: 1px solid #d23131;
+  }
+
+  .MuiOutlinedInput-input {
+    border-top:1px solid #d23131;
+  }
+
 `
+
+dayjs.locale('zh-cn');
 
 const SignUpUserBirth = ({
   setSignupUserFormData,
   signupUserFormData,
 }: SignUpUserBirthProps) => {
-  const [value, setValue] = useState<Dayjs | null>(dayjs("2023-04-07"));
+  // 메세지
+  const [isAlert, setIsAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<String>("");
+
+  const [value, setValue] = useState<Dayjs | null>(dayjs());
   const [userBirth, setUserBirth] = useState<null | String>(null);
 
   const handleDateChange = (date: Dayjs | null) => {
@@ -63,14 +80,33 @@ const SignUpUserBirth = ({
       identifynumber: formattedDate,
     });
     setUserBirth(formattedDate);
-    swal("유효성 검사", "생년월일이 정상적으로 입력되었습니다.", "success");
+    if (signupUserFormData.identifynumber === ''){
+      setIsAlert(false)
+    } else {
+      setIsAlert(true)
+    }
   };
+
+  useEffect(() => {
+    if (signupUserFormData.identifynumber === ''){
+      setIsAlert(false)
+      setMessage("생년월일을 입력해주세요.")
+    } else {
+      setIsAlert(true)
+    }
+  }, [signupUserFormData.identifynumber, setIsAlert])
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="userbirth">생년월일<IsValidComponent isValid={userBirth ? true : false}/></StyleNameLabel>
+      <StyleIsValidSpaceBetween>
+        <StyleNameLabel htmlFor="userbirth">
+          생년월일
+          <IsValidComponent isValid={isAlert} />
+        </StyleNameLabel>
+        {isAlert ? null : <span>{message}</span>}
+      </StyleIsValidSpaceBetween>
       <StyleDatePickerDiv style={{ width: '100%' }}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'zh-cn'}>
           <DemoContainer components={['DatePicker', 'DatePicker']}>
             <DatePicker
               label="Controlled picker"
@@ -79,6 +115,7 @@ const SignUpUserBirth = ({
                 setValue(newValue);
                 handleDateChange(newValue);
               }}
+              // renderInput={(params) => <TextField {...params} />}
             />
           </DemoContainer>
         </LocalizationProvider>

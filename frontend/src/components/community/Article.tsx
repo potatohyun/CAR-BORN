@@ -22,6 +22,10 @@ const theme = createTheme({
   },
 });
 
+const stringToHTML = (str: any) => {
+  return;
+};
+
 export default function ArticleDetail() {
   const { id } = useParams<{ id: string }>();
 
@@ -44,7 +48,7 @@ export default function ArticleDetail() {
   });
 
   const titleLen = data?.title?.length;
-
+  console.log(data?.content, typeof data?.content);
   return (
     <ThemeProvider theme={theme}>
       <Container sx={{ marginTop: "100px", width: "65vw" }}>
@@ -74,10 +78,13 @@ export default function ArticleDetail() {
           sx={{
             mb: "10px",
             minHeight: "20vh",
-          }}
-        >
-          <Typography variant="body1" component="p">
-            {data?.content}
+          }}>
+          <Typography variant="body1" component="div">
+            {data ? (
+              <div dangerouslySetInnerHTML={{ __html: data?.content }}></div>
+            ) : (
+              ""
+            )}
           </Typography>
         </Box>
         <Comment />

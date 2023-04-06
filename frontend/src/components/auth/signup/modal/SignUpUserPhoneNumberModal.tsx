@@ -5,14 +5,14 @@ import {
   userSmsAuthAction,
   userverificationNumber,
 } from "../../../../modules/verificationNumberModule";
-import { IsCanSignUpAction } from "../../../../modules/signUpModule";
+import { IsCanSignUpAction, IsCanSignUpFailure } from "../../../../modules/signUpModule";
 import axios from "axios";
 import {
   applicationjson,
   CARBORN_SITE,
   ContentType,
 } from "./../../../../lib/api";
-import CustomAlert from './CustomAlert';
+import CustomAlert from "./CustomAlert";
 import swal from "sweetalert";
 
 const ModalWrapper = styled.div<ModalWrapperProps>`
@@ -167,7 +167,7 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
   isValid,
 }) => {
   // 토큰 넣기
-  const ObjString:any = localStorage.getItem("login-token");
+  const ObjString: any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
 
@@ -178,18 +178,18 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
 
   // 인증되었는지 관련 불린
   // const isPass = useSelector((state:any) => state.verificationNumberReducer.isPass)
-  
   const [inputValue, setInputValue] = useState("");
   const [countdown, setCountdown] = useState(180);
   const [countdownInterval, setCountdownInterval] = useState<ReturnType<
-  typeof setTimeout
+    typeof setTimeout
   > | null>(null);
   const [isButtonValid, setIsButtonValid] = useState(false);
   const dispatch = useDispatch();
-  
+
   // 메세지
   const [isAlert, setIsAlert] = useState<boolean>(false);
   const [message, setMessage] = useState<String>("");
+
   // 인증번호 발송버튼
   const handleSendVerifyRequest = (phoneNumber: string) => {
     dispatch(userverificationNumber(phoneNumber));
@@ -248,13 +248,12 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
 
       if (isPass) {
         setIsAlert(true);
-        swal("유효성 검사", "전화번호 인증을 성공했습니다.", "success");
         dispatch(IsCanSignUpAction());
         setIsValid(true);
         handleClose();
       } else {
         setIsValid(false);
-        swal("유효성 검사", "전화번호 인증에 실패했습니다.", "error");
+        dispatch(IsCanSignUpFailure("전화번호 인증에 실패했습니다."))
       }
     } catch (error) {
       console.log(error);
@@ -317,10 +316,10 @@ const SignUpUserPhoneNumberModal: React.FC<SignUpUserPhoneNumberModalProps> = ({
         </VerifyNumberButtonDiv>
       </ModalContent>
       {isAlert ? (
-          <div>
-            <CustomAlert message={message} />
-          </div>
-        ) : null}
+        <div>
+          <CustomAlert message={message} />
+        </div>
+      ) : null}
     </ModalWrapper>
   );
 };

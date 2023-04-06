@@ -11,7 +11,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { useQuery, useQueryClient } from "react-query";
-import { useState } from "react";
 import { useAPI } from "./../../../hooks/useAPI";
 
 interface Props {
@@ -21,10 +20,10 @@ interface Props {
 
 const tableStyle = css`
   tr {
-    border-spacing: 10px;
+    border-spacing: 20px;
   }
   td {
-    width: 1.2vw;
+    width: 1.5vw;
     font-size: 15px;
   }
   width: 30vw;
@@ -79,7 +78,6 @@ export default function InsuranceModal({ id }: Props) {
     setOpen(false);
   };
 
-  console.log(data);
   return (
     <div>
       <Button
@@ -95,9 +93,16 @@ export default function InsuranceModal({ id }: Props) {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
-        sx={{ minWidth: "10vw" }}
+        sx={{ minWidth: "8vw" }}
         maxWidth={false}>
-        <DialogTitle>사진</DialogTitle>
+        <DialogTitle>
+          <img
+            src={data?.insuranceImgNm}
+            height="200px"
+            width="auto"
+            alt="img"
+          />
+        </DialogTitle>
         <DialogContent>
           <table css={tableStyle}>
             <thead></thead>

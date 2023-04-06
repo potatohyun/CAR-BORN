@@ -1,4 +1,5 @@
 import axios from "axios";
+import swal from "sweetalert";
 
 // export const API_URL = "https://carborn.site";
 export const CARBORN_SITE = "https://carborn.site";
@@ -62,6 +63,10 @@ export const userSignUpSendApi = async (formData: FormData): Promise<any> => {
       body: formData,
     });
 
+    console.log(response.status)
+    if (response.status === 200) {
+      swal("회원가입 성공", "회원가입에 성공했습니다.", "success");
+    }
     return response.body;
   } catch (error) {
     console.log(error);
@@ -77,8 +82,10 @@ export const companySignUpSendApi = async (
       method: "POST",
       body: formData,
     });
-    console.log(response);
 
+    if (response.status === 200) {
+      swal("회원가입 성공", "회원가입에 성공했습니다.", "success");
+    }
     return response.body;
   } catch (error) {
     console.log(error);

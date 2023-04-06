@@ -77,16 +77,16 @@ const container = css`
 `;
 
 export default function InsuranceForm() {
+  const [carVin, setCarVin] = useState<string>("");
   const [selectTime, setSelectTime] = useState<any>("");
   const [reciptImage, setReciptImage] = useState<string>("");
   const [reciptImageFile, setReciptImageFile] = useState<string>("");
-  // const [연비, set연비] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const URL = "https://carborn.site/api/insurance/book";
+  const URL = "https://carborn.site/api/insurance";
 
   const ObjString: any = localStorage.getItem("login-token");
   const option = {
@@ -95,37 +95,61 @@ export default function InsuranceForm() {
       Authorization: `Bearer ${JSON.parse(ObjString).value}`,
     },
   };
-  const fileUpLoadAPI = async (data: FormData) => {
-    return fetch(URL, {
-      method: "PUT",
-      body: data,
-      ...option,
-    });
-  };
-
-  const { mutate } = useMutation(fileUpLoadAPI);
-
   const Toast = Swal.mixin({
     toast: true,
     showConfirmButton: false,
     timer: 1500,
     timerProgressBar: true,
   });
+  const fileUpLoadAPI = async (data: FormData) => {
+    return fetch(URL, {
+      method: "post",
+      body: data,
+      ...option,
+    }).then((res) => {
+      console.log(res.ok);
+      if (res.ok) {
+        Toast.fire({
+          icon: "success",
+          title: "등록이 성공적으로 완료됐습니다.",
+          didClose: () => navigate("/insurance"),
+        });
+      } else {
+        Toast.fire({
+          icon: "error",
+          title: "등록되지 않은 차대번호 입니다.",
+        });
+      }
+    });
+  };
+
+  const { mutate } = useMutation(fileUpLoadAPI, {
+    // onSuccess: () => {
+    //   Toast.fire({
+    //     icon: "success",
+    //     title: "등록이 성공적으로 완료됐습니다.",
+    //     // didClose: () => navigate("/insurance"),
+    //   });
+    // },
+  });
 
   const submit = () => {
     const formData = new FormData();
 
-    formData.append("receiptImg", reciptImageFile);
-    // formData.append("mileage", 연비);
-    formData.append("inspectDt", selectTime);
+    formData.append("insuranceImg", reciptImageFile);
+    formData.append("carVin", carVin);
+    formData.append("insuranceDt", selectTime);
     formData.append("category", category);
-    if (reciptImageFile && content && selectTime) {
+    formData.append("content", content);
+
+    console.log(reciptImageFile);
+    console.log(carVin);
+    console.log(selectTime);
+    console.log(category);
+    console.log(content);
+
+    if (reciptImageFile && content && selectTime && carVin) {
       mutate(formData);
-      Toast.fire({
-        icon: "success",
-        title: "등록이 성공적으로 완료됐습니다.",
-        didClose: () => navigate("/insurance"),
-      });
     } else {
       Toast.fire({
         icon: "error",
@@ -142,6 +166,9 @@ export default function InsuranceForm() {
     setContent(e.target.value);
   };
 
+  const changeCarvin = (e: any) => {
+    setCarVin(e.target.value);
+  };
   return (
     <div css={container}>
       <div className="section1">
@@ -164,10 +191,19 @@ export default function InsuranceForm() {
               InputProps={{
                 readOnly: true,
               }}
-              onChange={changeContent}
             />
             <TimePicker setSelectTime={setSelectTime} />
           </div>
+        </div>
+        <div className="formDetail">
+          차대 번호
+          <TextField
+            id="standard-basic"
+            variant="standard"
+            size="small"
+            placeholder="차대 번호를 입력해 주세요"
+            onChange={changeCarvin}
+          />
         </div>
         <div className="formDetail">
           사고 유형

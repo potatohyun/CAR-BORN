@@ -10,6 +10,9 @@ import Nav2 from "../../components/Nav2";
 import Footer from "../../components/Footer";
 import { ScrollTrigger, gsap } from "gsap/all";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { loginFailureReset } from "../../modules/takeLoginLogoutModule";
+import { useDispatch } from 'react-redux';
 
 const container = css`
   position: absolute;
@@ -20,6 +23,15 @@ const container = css`
 `;
 
 export default function UserHome() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: any) => state.LoginOutReducer.success);
+  
+  useEffect(() => {
+    if (isLoggedIn === undefined) {
+      dispatch(loginFailureReset());
+    }
+  }, [isLoggedIn]);
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 

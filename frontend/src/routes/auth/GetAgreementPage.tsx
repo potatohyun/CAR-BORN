@@ -152,9 +152,9 @@ export const StyleTermExplainDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content : center;
-
+  height: 13vh;
   span {
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
     font-weight: 700;
     color: #959595 !important;
   }

@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SignupFormData } from "./SignUpButton";
 import DaumPostcode, { Address } from "react-daum-postcode";
-import { StyleSignUpInputBtnDiv, StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
-import { StyleNameLabel } from "./SignUpUserName";
+import { StyleSignUpInputBtnDiv } from "../../../routes/auth/SignupPage";
+import { StyleIsValidSpaceBetween, StyleNameLabel } from "./SignUpUserName";
 import {
   CloseButton,
   ModalBox,
@@ -11,7 +11,6 @@ import {
 } from "./SignUpUserAddress";
 import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "./SignUpUserId";
 import styled from "@emotion/styled";
-import swal from "sweetalert";
 import IsValidComponent from './../../isValid/IsValidComponent';
 
 export type SignUpCompanyAddressProps = {
@@ -53,23 +52,42 @@ const SignUpCompanyAddress = ({
   setSignupCompanyFormData,
   signupCompanyFormData,
 }: SignUpCompanyAddressProps) => {
+  // 메세지
+  const [isAlert, setIsAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<String>("주소가 입력되지 않았습니다.");
+
   const [isOpen, setIsOpen] = useState(false);
   const [addressData, setAddressData] = useState<string>("");
+
   const handleComplete = (data: Address) => {
     setSignupCompanyFormData({
       ...signupCompanyFormData,
       address: data.address,
     });
-    swal("유효성 검사", `주소(${signupCompanyFormData.address})가 입력되었습니다.`, "success");
     setIsOpen(false);
     setAddressData(data.address);
+    if (isAlert === false && signupCompanyFormData.address === '') {
+      setIsAlert(false)
+    } 
   };
+
+  useEffect(() => {
+    if (signupCompanyFormData.address !== '') {
+      setIsAlert(true)
+    }
+  }, [signupCompanyFormData.address])
 
   return (
     <StyleSignUpInputBtnDiv>
-      <StyleNameLabel>주소<IsValidComponent isValid={signupCompanyFormData.address ? true : false} /></StyleNameLabel>
+      <StyleIsValidSpaceBetween>
+        <StyleNameLabel htmlFor="companyaddress">
+          주소
+          <IsValidComponent isValid={signupCompanyFormData.address ? true : false} />
+        </StyleNameLabel>
+        {isAlert ? null : <span>{message}</span>}
+      </StyleIsValidSpaceBetween>
       <StyleIdCheckDiv>
-        <StyleIdCheckInput autoComplete="off" placeholder="주소를 입력해주세요" type="text" value={`  `+addressData} />
+        <StyleIdCheckInput autoComplete="off" placeholder="Address" type="text" value={addressData} />
         <StyleCheckBtn type="button" className="addressCheckBtn" tabIndex={7} onClick={() => setIsOpen(true)} value={`검색하기`}/>
       </StyleIdCheckDiv>
       {isOpen && (

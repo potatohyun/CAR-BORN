@@ -7,6 +7,11 @@ import DialogContent from "@mui/material/DialogContent";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import FileListStack from "./FileListStack";
+import { Button } from "@mui/material";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import BuildIcon from "@mui/icons-material/Build";
+import SearchIcon from "@mui/icons-material/Search";
+import CarCrashIcon from "@mui/icons-material/CarCrash";
 
 const historyBtnStyle = css`
   border: none;
@@ -58,7 +63,20 @@ function WatchFileBtn<T>({
 
   return (
     <span>
-      <button css={historyBtnStyle} onClick={handleClickOpen}>
+      <Button
+        css={historyBtnStyle}
+        onClick={handleClickOpen}
+        startIcon={
+          value === 0 ? (
+            <PaymentsIcon />
+          ) : value === 1 ? (
+            <BuildIcon />
+          ) : value === 2 ? (
+            <SearchIcon />
+          ) : (
+            <CarCrashIcon />
+          )
+        }>
         {value === 0
           ? "거래"
           : value === 1
@@ -67,14 +85,13 @@ function WatchFileBtn<T>({
           ? "검수"
           : "보험"}
         기록
-      </button>
+      </Button>
       <Dialog
         open={modalOpen}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
+        aria-describedby="alert-dialog-slide-description">
         <DialogContent>
           <FileListStack<T>
             data={data}

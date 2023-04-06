@@ -88,6 +88,7 @@
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.6",
     "@faker-js/faker": "^7.6.0",
+    "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
     "@types/gsap": "^3.0.0",
     "@types/node": "^18.15.11",
     "@types/react-datepicker": "^4.10.0",

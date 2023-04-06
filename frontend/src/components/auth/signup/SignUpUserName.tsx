@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
 import { SignupFormData } from "./SignUpButton";
-import CustomAlert from "./modal/CustomAlert";
 import swal from "sweetalert";
 import IsValidComponent from './../../isValid/IsValidComponent';
 
@@ -35,6 +34,17 @@ export const StyleNameLabel = styled.label`
   align-items: center;
 `;
 
+export const StyleIsValidSpaceBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  & > span {
+    color: #d23131;
+    font-size: 0.7rem;
+  }
+`
+
 const SignUpUserName = ({
   setSignupUserFormData,
   signupUserFormData,
@@ -47,6 +57,10 @@ const SignUpUserName = ({
   const handleUserName = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const regex = /^[가-힣ㄱ-ㅎㅏ-ㅣ\s]*$/;
+    if(e.target.value === '') {
+      setMessage(" ")
+    }
+
     if (regex.test(e.target.value)) {
       setSignupUserFormData({
         ...signupUserFormData,
@@ -54,10 +68,10 @@ const SignUpUserName = ({
       });
     } else {
       setIsAlert(false);
-      swal("유효성 검사", "한글 이름만 가능합니다. 한영키를 눌러주세요.", "error");
+      setMessage("한글 이름만 가능합니다. 한영키를 눌러주세요");
       setSignupUserFormData({
         ...signupUserFormData,
-        name: "",
+        name: e.target.value,
       });
     }
   };
@@ -71,10 +85,8 @@ const SignUpUserName = ({
       e.preventDefault();
       if (/^[가-힣]+$/.test(signupUserFormData.name)) {
         setIsAlert(true);
-        swal("유효성 검사", "입력한 이름이 유효합니다.", "success");
       } else {
         setIsAlert(false);
-        swal("유효성 검사", "이름은 꼭 한글명입니다.", "error");
         setSignupUserFormData({
           ...signupUserFormData,
           name: "",
@@ -86,10 +98,8 @@ const SignUpUserName = ({
   const handleBlur = () => {
     if (/^[가-힣]+$/.test(signupUserFormData.name)) {
       setIsAlert(true);
-      swal("유효성 검사", "입력한 이름이 유효합니다.", "success");
     } else {
       setIsAlert(false);
-      swal("유효성 검사", "이름은 꼭 한글명입니다.", "error");
       setSignupUserFormData({
         ...signupUserFormData,
         name: "",
@@ -99,13 +109,15 @@ const SignUpUserName = ({
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="username">이름<IsValidComponent isValid={isAlert}/></StyleNameLabel>
+      <StyleIsValidSpaceBetween>
+        <StyleNameLabel htmlFor="username">이름<IsValidComponent isValid={isAlert}/></StyleNameLabel>
+        {isAlert ? null : <span>{message}</span>}
+      </StyleIsValidSpaceBetween>
       <StyledInput
         tabIndex={1}
         type="text"
         id="username"
         placeholder="UserName"
-        maxLength={4}
         autoComplete="off"
         value={signupUserFormData.name}
         onKeyDown={(e) => handleKeyPress(e)}

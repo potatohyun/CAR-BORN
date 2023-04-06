@@ -34,10 +34,8 @@ export default function ReserveTable() {
   const [page, setPage] = useState<number>(0);
   const rowsPerPage = 7;
   const isGarage = useLocation().pathname == "/garage/reserve";
-  // 페이지 상태 표시를 바꿔주는 함수
   let URL;
   let queryKey;
-  // 컴포넌트 재사용을 위해 url로 분기 만들기
   if (isGarage) {
     URL = `https://carborn.site/api/repair-shop/book/list/${page + 1}/7`;
     queryKey = "getRepairReserveData";
@@ -88,8 +86,7 @@ export default function ReserveTable() {
         sx={{
           backgroundColor: "rgba(246, 246, 246, 0.85)",
           width: "70vw",
-        }}
-      >
+        }}>
         <Table sx={{ minWidth: "70vw", minHeight: "60vh" }}>
           <TableHead>
             <TableRow>
@@ -98,50 +95,42 @@ export default function ReserveTable() {
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 유저 아이디
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 요청 시간
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 희망 시간
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 차 종
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 차 번호
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 차대 번호
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 전화 번호
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
-              >
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 자세히 보기
               </TableCell>
             </TableRow>
@@ -172,8 +161,7 @@ export default function ReserveTable() {
                           height: "10px",
                         }
                       : null
-                  }
-                >
+                  }>
                   <TableCell component="th" scope="row" align="center">
                     {bookStatus ? (
                       <CheckOutlinedIcon color="error" fontSize="small" />

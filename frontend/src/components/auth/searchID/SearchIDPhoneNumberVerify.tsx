@@ -5,6 +5,7 @@ import { SearchInputType } from "../../../routes/auth/SearchID";
 import { StyleNameLabel } from "../signup/SignUpUserName";
 import { StyleCheckBtn, StyleIdCheckDiv, StyleIdCheckInput } from "../signup/SignUpUserId";
 import { StyleSignUpInputBtnDiv } from "../../../routes/auth/SignupPage";
+import swal from "sweetalert";
 
 // input DIV
 export const StylePhoneNumberVerifyContainer = styled.div`
@@ -124,7 +125,7 @@ const SearchIDPhoneNumberVerify = ({
       searchInput.phonenumber.length <= 10 &&
       searchInput.phonenumber.length <= 11
     ) {
-      alert("휴대폰 번호는 10자리이상 11자리 이하 여야합니다.");
+      swal("입력 에러","휴대폰 번호는 10자리이상 11자리 이하 여야합니다.","error");
       setIsModalOpen(false);
     } else {
       setIsModalOpen(true);
@@ -161,6 +162,7 @@ const SearchIDPhoneNumberVerify = ({
             id="searchIDPhoneNumber"
             name="searchIDPhoneNumber"
             autoComplete="off"
+            maxLength={11}
             placeholder="phoneNumber"
             value={searchInput.phonenumber}
             onChange={handleChange}

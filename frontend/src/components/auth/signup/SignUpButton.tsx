@@ -39,6 +39,7 @@ export type SignUpButtonProps = {
   iddupliCheck: boolean | null | undefined;
   setIsValid: any;
   isValid: any;
+  setSelectedFiles:any;
 };
 
 const StyleUserCompanyBtn = styled.div`
@@ -58,15 +59,8 @@ const StyleUserCompanyBtn = styled.div`
     font-weight: 500;
     border-radius: 5px;
     cursor: pointer;
-<<<<<<< HEAD
-    background-color: #6d1b1b;
-    box-shadow: 4px 4px 2px rgba(181, 181, 181, 0.832);
-    
-=======
-    background-color: #d2313170;
-    /* box-shadow: 4px 4px 2px rgba(181, 181, 181, 0.832); */
+    background-color: #702323;
 
->>>>>>> feature/FE/user-community
     &:hover {
       opacity: 0.8;
     }
@@ -98,6 +92,7 @@ const SignUpButton = ({
   iddupliCheck,
   setIsValid,
   isValid,
+  setSelectedFiles
 }: SignUpButtonProps) => {
   // 상수화
   const USER = 0;
@@ -155,6 +150,7 @@ const SignUpButton = ({
         address: "",
         isVarify: false,
       });
+      setSelectedFiles(null)
       dispatch(SetIsSignupAction(true));
     } else {
       setSignupUserFormData({
@@ -176,6 +172,7 @@ const SignUpButton = ({
     dispatch,
     setSignupUserFormData,
     setSignupCompanyFormData,
+    setSelectedFiles
   ]);
 
   return (

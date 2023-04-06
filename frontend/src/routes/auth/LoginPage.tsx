@@ -134,6 +134,8 @@ const LoginPages = () => {
     loginpassword: "",
   };
 
+  const signUpSuccess = useSelector((state:any) => state.SignUpReducer.success) 
+
   // 로그인 인풋, 리캡챠 적용여부 useState
   const [loginInput, setLoginInput] = useState<loginInputType>(initialState);
   const [captchaValue, setCaptchaValue] = useState<boolean>(false);
@@ -193,6 +195,12 @@ const LoginPages = () => {
       }
     }
   }, [success, navigate, error]);
+
+  useEffect(() => {
+    if(signUpSuccess === true) {
+      swal("회원가입 성공", "회원가입에 성공했습니다.", "success");
+    }
+  }, [signUpSuccess])
 
   return (
     <StyleLoginContainer>

@@ -54,7 +54,7 @@ export default function Articles() {
   const navigate = useNavigate();
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const value = event?.target?.value;
     setSearchTerm(value);
   };
 
@@ -81,8 +81,7 @@ export default function Articles() {
         <Box component="div" sx={{ mb: "40px" }}>
           <Box
             component="div"
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
+            sx={{ display: "flex", justifyContent: "center" }}>
             {/* <Button
               component={Link}
               to="/new"
@@ -103,8 +102,7 @@ export default function Articles() {
                   width: "6%",
                   color: "#23131",
                   border: "none",
-                }}
-              >
+                }}>
                 번호
               </TableCell>
               <TableCell
@@ -114,8 +112,7 @@ export default function Articles() {
                   width: "50%",
                   color: "#23131",
                   border: "none",
-                }}
-              >
+                }}>
                 제목
               </TableCell>
               <TableCell
@@ -125,8 +122,7 @@ export default function Articles() {
                   width: "10%",
                   color: "#23131",
                   border: "none",
-                }}
-              >
+                }}>
                 작성자
               </TableCell>
               <TableCell
@@ -136,8 +132,7 @@ export default function Articles() {
                   width: "15%",
                   color: "#23131",
                   border: "none",
-                }}
-              >
+                }}>
                 작성일자
               </TableCell>
             </TableRow>
@@ -153,8 +148,7 @@ export default function Articles() {
                       backgroundColor: theme.palette.secondary.main,
                     },
                     textDecoration: "none",
-                  }}
-                >
+                  }}>
                   <TableCell sx={{ color: "gray" }}>{id}</TableCell>
                   <TableCell
                     sx={{
@@ -164,8 +158,7 @@ export default function Articles() {
                       color: "black",
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate(`/user/community/${id}`)}
-                  >
+                    onClick={() => navigate(`/user/community/${id}`)}>
                     {title}
                   </TableCell>
                   <TableCell sx={{ color: "gray" }}>{accountName}</TableCell>
@@ -182,8 +175,7 @@ export default function Articles() {
         </Stack>
         <Box
           component="div"
-          sx={{ mb: "20px", textAlign: "center", width: "300px" }}
-        >
+          sx={{ mb: "20px", textAlign: "center", width: "300px" }}>
           <TextField
             id="search"
             label="검색"

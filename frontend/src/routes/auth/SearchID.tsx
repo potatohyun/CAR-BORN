@@ -155,11 +155,6 @@ const SearchID = () => {
   });
 
   const handleSearchID = () => {
-    if (searchInput.isVerify === false) {
-      alert(
-        "이름과 전화번호를 모두 입력해주시고, 인증을 완료하고 눌러주세요."
-      );
-    }
     dispatch(SearchIDCheckAction(searchInput));
   };
 

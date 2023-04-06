@@ -4,6 +4,7 @@ import SignUpUserPhoneNumberModal from "../signup/modal/SignUpUserPhoneNumberMod
 import { PasswordResetInputObj } from "../../../routes/auth/PasswordResetCheck";
 import { StyleNameLabel } from "../signup/SignUpUserName";
 import { StyleCheckBtn, StyleIdCheckDiv } from "../signup/SignUpUserId";
+import swal from "sweetalert";
 
 export const StylePasswordResetBtnDiv = styled.div`
   width: 90%;
@@ -76,7 +77,7 @@ const PasswordResetVerify = ({
       inputObj.phonenumber.length <= 10 &&
       inputObj.phonenumber.length <= 11
     ) {
-      alert("휴대폰 번호는 10자리이상 11자리 이하 여야합니다.");
+      swal("입력 에러","휴대폰 번호는 10자리이상 11자리 이하 여야합니다.","error");
       setIsModalOpen(false);
     } else {
       setIsModalOpen(true);

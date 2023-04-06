@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import PasswordResetVerify from "../../components/auth/passwordreset/PasswordResetVerify";
@@ -147,7 +147,8 @@ const PasswordResetCheck = () => {
     isVerify: false,
   });
 
-  const handlePasswordReset = () => {
+  const handlePasswordReset = (e:FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(passwordResetCheck(inputObj));
   };
 
@@ -165,7 +166,7 @@ const PasswordResetCheck = () => {
       <Nav2 />
       <StylePasswordResetCheckCenterDiv>
         <StylePasswordResetCheckBoxDiv>
-          <StylePasswordResetCheckForm onSubmit={handlePasswordReset}>
+          <StylePasswordResetCheckForm onSubmit={(e) => handlePasswordReset(e)}>
             <PasswordResetID 
               setinputObj={setinputObj} 
               inputObj={inputObj} 

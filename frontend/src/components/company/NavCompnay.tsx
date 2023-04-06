@@ -90,11 +90,6 @@ export default function NavGarage() {
     dispatch(logoutAction());
     localStorage.removeItem("login-token");
     navigate("/");
-    // (async () => {
-    //   await logOut.then((res: any) => {
-    //     console.log(res);
-    //   });
-    // })();
   };
 
   useEffect(() => {
@@ -126,8 +121,7 @@ export default function NavGarage() {
         <div
           className="logo2"
           onClick={handleClick}
-          css={{ cursor: "pointer" }}
-        >
+          css={{ cursor: "pointer" }}>
           <img
             src={logo}
             alt="logo"
@@ -138,8 +132,7 @@ export default function NavGarage() {
         </div>
         <div
           className="loginInfo"
-          css={{ cursor: "default", marginRight: "20px" }}
-        >
+          css={{ cursor: "default", marginRight: "20px" }}>
           <div>{name}님 환영합니다</div>
           <div css={{ cursor: "pointer" }} onClick={handleLogout}>
             로그아웃

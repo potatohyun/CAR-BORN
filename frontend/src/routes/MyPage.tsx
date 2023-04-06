@@ -3,11 +3,11 @@ import styled from "@emotion/styled";
 
 // 이미지 가져오기
 import Buy from "../assets/Buy.png";
-import inspector from "../assets/Booking.png";
+import inspector from "../assets/inspect.png";
 import Insurance from "../assets/Insurance.png";
 import Community from "../assets/Gallery.png";
 import MyCar from "../assets/MyCar.png";
-import Repair from "../assets/Repair.png";
+import Repair from "../assets/repair.png";
 import ChangeKey from "../assets/ChangeKey.png";
 import Sell from "../assets/Sell.png";
 import { useEffect } from "react";
@@ -111,11 +111,7 @@ const StyleMypageCardImg = styled.div`
   align-items: center;
   margin-bottom: 4rem;
   img {
-    width: 40%;
-  }
-
-  .myCarInfo {
-    width: 80%;
+    width: 55%;
   }
 `;
 

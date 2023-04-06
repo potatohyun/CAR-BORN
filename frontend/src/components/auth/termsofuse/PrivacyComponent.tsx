@@ -133,7 +133,7 @@ const PrivacyComponent: React.FC<WebsiteProps> = ({
           <label htmlFor="privacycheck" className="checkbox-label">
             &#10003;
           </label>
-          <span>개인정보 이용내역</span>
+          <span>개인정보 이용약관</span>
         </div>
         <div>
           <button onClick={handlePrivacyDropdown}>▼</button>

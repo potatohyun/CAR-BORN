@@ -1,9 +1,8 @@
 import { SetStateAction, Dispatch, useState, ChangeEvent } from "react";
 import swal from "sweetalert";
 import { StyleSignUpInputDiv } from "../../../routes/auth/SignupPage";
-import CustomAlert from "./modal/CustomAlert";
 import { SignupFormData } from "./SignUpButton";
-import { StyledInput, StyleNameLabel } from "./SignUpUserName";
+import { StyledInput, StyleIsValidSpaceBetween, StyleNameLabel } from "./SignUpUserName";
 import IsValidComponent from './../../isValid/IsValidComponent';
 
 type SignUpCompanyBusinessNumberProps = {
@@ -32,25 +31,29 @@ const SignUpCompanyBusinessNumber = ({
       setShowWarning(false);
       if (e.target.value.length === 10) {
         setIsAlert(true);
-        swal("유효성 검사", "사업자등록번호가 유효합니다", "success");
         setSignupCompanyFormData({
           ...signupCompanyFormData,
           identifynumber: e.target.value,
         });
+      } else {
+        setIsAlert(false);
+        setMessage("사업자등록번호 10자리가 아닙니다.");
       }
     } else {
-      if (!showWarning) {
-        setIsAlert(false);
-        swal("유효성 검사", "숫자만 입력 가능합니다.", "error");
-        setShowWarning(true);
-        setTimeout(() => setShowWarning(false), 200); // 1초 후에 상태값 초기화
-      }
+      setIsAlert(false);
+      setMessage("숫자만 입력 가능합니다.");
     }
   };
 
   return (
     <StyleSignUpInputDiv>
-      <StyleNameLabel htmlFor="businessNumber">사업자등록번호<IsValidComponent isValid={isAlert}/></StyleNameLabel>
+      <StyleIsValidSpaceBetween>
+        <StyleNameLabel htmlFor="businessNumber">
+          사업자등록번호
+          <IsValidComponent isValid={isAlert} />
+        </StyleNameLabel>
+        {isAlert ? null : <span>{message}</span>}
+      </StyleIsValidSpaceBetween>
       <StyledInput
         tabIndex={6}
         type="text"
