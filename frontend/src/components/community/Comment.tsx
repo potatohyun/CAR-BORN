@@ -1,11 +1,4 @@
-import {
-  Box,
-  Typography,
-  Divider,
-  Button,
-  Stack,
-  Pagination,
-} from "@mui/material";
+import { Box, Typography, Divider, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useQuery, useMutation } from "react-query";
 import { useAPI } from "./../../hooks/useAPI";
@@ -13,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import { useQueryClient } from "react-query";
+import CommentPageNation from "./CommentPageNation";
 
 interface MapType {
   accountId: string;
@@ -24,7 +18,7 @@ interface MapType {
 
 export default function Comment() {
   const [commentData, setCommentData] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<any>(1);
   const [comment, setComment] = useState<string>("");
   const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
@@ -50,15 +44,13 @@ export default function Comment() {
     },
   };
 
-  const getCommentsUrl = `https://carborn.site/api/user/community/${id}/comment/${page}/5`;
+  let getCommentsUrl = `https://carborn.site/api/user/community/${id}/comment/${page}/5`;
   const postCommentUrl = `https://carborn.site/api/user/community/comment`;
 
   const getComments = useAPI("get", getCommentsUrl, option);
 
   const { data, refetch } = useQuery(`getComments${id}`, () => getComments, {
-    select: (res) => res.data.message,
-    onSuccess: (res): any => console.log(data.content),
-    onError: (err) => console.log(err),
+    select: (res) => res?.data?.message,
   });
   const { mutate } = useMutation(
     () =>
@@ -87,16 +79,12 @@ export default function Comment() {
   const handleComment = (e: any) => {
     setComment(e.target.value);
   };
-
-  const changeCommentPage = (v: any) => {
-    setPage(v);
-    refetch({});
-  };
-  console.log(data?.content);
+  useEffect(() => {
+    refetch();
+  }, [page]);
   useEffect(() => {
     if (data) {
       setCommentData(data?.content);
-      console.log("change");
     }
   }, [data?.content]);
   return (
@@ -125,14 +113,12 @@ export default function Comment() {
               sx={{
                 mt: "5px",
                 pb: "10px",
-              }}
-            >
+              }}>
               <Typography
                 variant="subtitle2"
                 component="p"
                 gutterBottom
-                sx={{ fontWeight: "bolder" }}
-              >
+                sx={{ fontWeight: "bolder" }}>
                 {accountName}
               </Typography>
 
@@ -144,13 +130,10 @@ export default function Comment() {
           ))}
         </Box>
       )}
-      <Stack spacing={2} alignItems="center" sx={{ mt: "15px" }}>
-        <Pagination
-          count={data ? Math.ceil(data?.totalElements / 5) : 0}
-          size="small"
-          onChange={(e, v) => changeCommentPage(v)}
-        />
-      </Stack>
+      <CommentPageNation
+        totalLen={data ? Math.ceil(data?.totalElements / 5) : 0}
+        setPage={setPage}
+      />
       <Box component="form">
         <TextField
           id="standard-basic"
@@ -164,8 +147,7 @@ export default function Comment() {
           variant="contained"
           type="submit"
           onClick={handleSubmit}
-          sx={{ mt: "10px", float: "right" }}
-        >
+          sx={{ mt: "10px", float: "right" }}>
           작성 완료
         </Button>
       </Box>

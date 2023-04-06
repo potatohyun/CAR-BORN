@@ -2,12 +2,11 @@
 import { css } from "@emotion/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo.png";
-import { useAPI } from "../../hooks/useAPI";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
-import { loginFailureReset } from "./../../modules/takeLoginLogoutModule";
+import { logoutAction } from "../../modules/takeLoginLogoutModule";
 
 const container = css`
   width: 100%;
@@ -69,15 +68,6 @@ export default function NavGarage() {
   const ObjString: any = localStorage.getItem("login-token");
   const account = JSON.parse(ObjString)?.accountType;
   const url: any = useLocation().pathname;
-  const logOutUrl = "https://carborn.site/api/logout";
-
-  const option = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${JSON.parse(ObjString)?.value}`,
-    },
-  };
-  const logOut: any = useAPI("get", logOutUrl, option);
 
   useEffect(() => {
     if (!ObjString) navigate("/");
@@ -97,13 +87,14 @@ export default function NavGarage() {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    (async () => {
-      await logOut.then((res: any) => {
-        dispatch(loginFailureReset());
-        localStorage.removeItem("login-token");
-        navigate("/");
-      });
-    })();
+    dispatch(logoutAction());
+    localStorage.removeItem("login-token");
+    navigate("/");
+    // (async () => {
+    //   await logOut.then((res: any) => {
+    //     console.log(res);
+    //   });
+    // })();
   };
 
   useEffect(() => {
