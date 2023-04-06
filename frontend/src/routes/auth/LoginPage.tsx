@@ -161,17 +161,19 @@ const LoginPages = () => {
   }, [accountType, loginInput.loginid, loginInput.loginpassword]);
   useEffect(() => {
     // 실패하면 이거
-    if (!success) {
+    if (success !== true) {
       if (success === false) {
-        if (Token) {
-          swal("로그인 문제", "아이디 또는 비밀번호가 맞지 않습니다.", "error");
-        }
-        dispatch(loginFailureReset());
+        swal(
+          "로그인 문제",
+          "아이디 또는 비밀번호가 맞지 않습니다.",
+          "error"
+        ).then(() => {
+          dispatch(loginFailureReset());
+          navigate("/login");
+        });
       }
-      navigate("/login");
       // 성공하면 이거
     } else {
-      swal("로그인 완료", "CAR-BORN에 오신 걸 환영합니다.", "success");
       switch (accountType) {
         case USER:
           navigate("/");

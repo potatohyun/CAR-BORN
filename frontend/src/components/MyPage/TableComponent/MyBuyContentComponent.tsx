@@ -15,7 +15,7 @@ const StyleMyBuyContentTableDiv = styled.div`
 `;
 
 const MyBuyContentComponent = () => {
-  const ITEMS_PER_PAGES = 4;
+  const ITEMS_PER_PAGES = 10;
 
   return (
     <StyleMyBuyContentTableDiv>

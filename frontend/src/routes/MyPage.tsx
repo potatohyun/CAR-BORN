@@ -8,6 +8,7 @@ import Insurance from "../assets/Insurance.png";
 import Community from "../assets/Gallery.png";
 import MyCar from "../assets/MyCar.png";
 import Repair from "../assets/Repair.png";
+import ChangeKey from "../assets/ChangeKey.png";
 import Sell from "../assets/Sell.png";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -112,6 +113,10 @@ const StyleMypageCardImg = styled.div`
   img {
     width: 40%;
   }
+
+  .myCarInfo {
+    width: 80%;
+  }
 `;
 
 const MyPage = () => {
@@ -139,7 +144,7 @@ const MyPage = () => {
           <StyleMypageCards>
             <Link to={`/user/mypage/mycarinfo`}>
               <StyleMypageCardImg>
-                <img src={MyCar} alt="MyCarInfo" />
+                <img src={MyCar} alt="MyCarInfo" className="myCarInfo" />
               </StyleMypageCardImg>
               <p>내 차 정보</p>
             </Link>
@@ -196,7 +201,7 @@ const MyPage = () => {
             <StyleMypageCards>
               <Link to={`/user/mypage/userpasswordmodify`}>
                 <StyleMypageCardImg>
-                  <img src={Insurance} alt="Damage" />
+                  <img src={ChangeKey} alt="Damage" />
                 </StyleMypageCardImg>
                 <p>{`비밀번호 변경(유저)`}</p>
               </Link>
@@ -205,7 +210,7 @@ const MyPage = () => {
             <StyleMypageCards>
               <Link to={`/user/mypage/companypasswordmodify`}>
                 <StyleMypageCardImg>
-                  <img src={Insurance} alt="Damage" />
+                  <img src={ChangeKey} alt="Damage" />
                 </StyleMypageCardImg>
                 <p>{`비밀번호 변경(기업)`}</p>
               </Link>

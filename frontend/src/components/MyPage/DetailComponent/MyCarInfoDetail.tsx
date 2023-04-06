@@ -7,27 +7,18 @@ import {
   TableRow,
 } from "@mui/material";
 
-// CarStatus 이미지 import 해오기
-import carousel1 from "../../../assets/carousel/CarStatus1.jpg";
-import carousel2 from "../../../assets/carousel/CarStatus2.jpg";
-import carousel4 from "../../../assets/carousel/CarStatus4.jpg";
-import carousel5 from "../../../assets/carousel/CarStatus5.jpg";
-import carousel7 from "../../../assets/carousel/CarStatus7.jpg";
-import carousel8 from "../../../assets/carousel/CarStatus8.jpg";
-import carousel9 from "../../../assets/carousel/CarStatus9.jpg";
-import carousel10 from "../../../assets/carousel/CarStatus10.jpg";
-
 // 캐러셀
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // 스타일 시트를 import 해야함
 
 // CarStatus 이미지 import 해오기
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { StyledTableMyCarInfoContainer } from "../Pagination/MyCarInfoPagination";
+import swal from "sweetalert";
 
 const StyleMyCarInfoDetailDiv = styled.div`
   width: 100vw;
@@ -254,7 +245,10 @@ export type insuranceResultType = {
   inspectorResult: any;
 };
 
+export const CARBORN_IMG = `${CARBORN_SITE}/images/`;
+
 const MyCarInfoDetail = () => {
+
   // 토큰 넣기
   const ObjString:any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
@@ -263,29 +257,17 @@ const MyCarInfoDetail = () => {
   const param = useParams();
   const carId = param.carId;
 
-  // 이미지
-  const [carouselImg, setCarouselImg] = useState<any[]>([]);
-  const [images, setImages] = useState<any[]>([
-    carousel1,
-    carousel2,
-    carousel4,
-    carousel5,
-    carousel7,
-    carousel8,
-    carousel9,
-    carousel10,
-  ]);
-
+  
   // 이미지 모달 키우기
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [carInfoData, setCarInfoData] = useState<any>("");
+  const navigate = useNavigate();
+
+  // 이미지
+  const [carouselImg, setCarouselImg] = useState<any[]>([]);
 
   // 검수 결과 보여주기 위한 데이터 가져오기.
-  useEffect(() => {
-    // 배열 받는다 치고
-    // setCarouselImg(detail.images);
-  }, []);
 
   useEffect(() => {
     const fetchData = async (carId: string | number | undefined) => {
@@ -298,9 +280,17 @@ const MyCarInfoDetail = () => {
             [ContentType]: applicationjson,
           },
         });
+
+        let images:any[] = []
+        response.data.message.img.map((ele:any) => images.push(ele))
+        images.push(response.data.message.vrc)
+
+        setCarouselImg(images)
         setCarInfoData(response.data.message.detail);
         return response.data.message.content;
       } catch (error) {
+        navigate('/')
+        swal("오류", "해당 자료가 없음.", "error");
         console.log(error);
       }
     };
@@ -324,16 +314,15 @@ const MyCarInfoDetail = () => {
         <StyleXButton onClick={() => goBack()}>X</StyleXButton>
         {/* 이미지 받아오기 images를 carImages로 수정하기 */}
         <StyledCarousel transitionTime={1000}>
-          {images.map((image, index) => (
+          {carouselImg.map((image, index) => (
             <div
               key={index}
               onClick={() => {
-                setSelectedImage(image);
+                setSelectedImage(image.imgNm);
                 setShowModal(true);
               }}
             >
-              <img src={image} alt={`${index}`} />
-              <p className="legend">{index + 1}. {image}</p>
+              {carouselImg ? <img src={`${CARBORN_IMG+image.imgNm}`} alt={`${index}`} /> : null}
             </div>
           ))}
         </StyledCarousel>
@@ -344,7 +333,7 @@ const MyCarInfoDetail = () => {
                 className="modal-content"
                 onClick={() => setShowModal(false)}
               >
-                <img src={selectedImage} alt="modal" />
+                {selectedImage ? <img src={CARBORN_IMG+selectedImage} alt="modal" /> : null}
               </div>
             </div>
           </StyleMyCarInfoCarousels>
@@ -354,7 +343,7 @@ const MyCarInfoDetail = () => {
           <StyleTableDivMyCarInfoDetail>
             <StyleTableCarImgDiv>
               {/* 받아온 이미지 중 첫번째 이미지 */}
-              <img src={images[0]} alt='대표 이미지'/>
+              {carouselImg ? <img src={CARBORN_IMG+carouselImg[0]?.imgNm} alt='대표 이미지'/> : null}
             </StyleTableCarImgDiv>
             <StyleTableCarMakerModelDiv>
               {/* 제조사, 차량모델 */}

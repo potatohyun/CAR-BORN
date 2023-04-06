@@ -1,11 +1,6 @@
 import styled from "@emotion/styled";
 import { Table, TableCell, TableRow } from "@mui/material";
 
-// CarStatus 이미지 import 해오기
-import carousel1 from "../../../assets/carousel/CarStatus1.jpg";
-import carousel2 from "../../../assets/carousel/CarStatus2.jpg";
-import carousel4 from "../../../assets/carousel/CarStatus4.jpg";
-
 // 캐러셀
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // 스타일 시트를 import 해야함
@@ -17,6 +12,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
+import { StyleKlaytnBtn } from "./MyRepairDetail";
+import { CARBORN_IMG } from "./MyCarInfoDetail";
 
 const StyleMyInsuranceDetailDiv = styled.div`
   width: 100vw;
@@ -171,7 +168,8 @@ export const StyleInsuranceDetailCarousels = styled.div`
     width: 50%;
     margin-top: 2rem !important;
     margin-left: 2rem !important;
-  }
+  }import { StyleKlaytnBtn } from './MyRepairDetail';
+
 `;
 
 const StyleXButton = styled.div`
@@ -311,14 +309,6 @@ const MyInsuranceDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
-  useEffect(() => {
-    // 이미지 url 배열
-    const imgUrls = [carousel1, carousel2, carousel4];
-
-    // 이미지 url 배열을 images state 변수에 추가
-    setImages(imgUrls);
-  }, []);
-
   // 데이터 관련
   const [insuranceResult, setInsuranceResult] = useState<any>("");
 
@@ -334,6 +324,11 @@ const MyInsuranceDetail = () => {
             [ContentType]: applicationjson,
           },
         });
+
+        let images:any[] = []
+        images.push(CARBORN_IMG+response.data.message.insuranceImgNm)
+
+        setImages(images)
         // 이미지 받아오기 용
         setInsuranceResult(response.data.message);
       } catch (error) {
@@ -347,9 +342,6 @@ const MyInsuranceDetail = () => {
   const goBack = () => {
     window.history.back();
   };
-
-  console.log(insuranceResult);
-  console.log(detail)
 
   return (
     <StyleMyInsuranceDetailDiv>
@@ -378,6 +370,7 @@ const MyInsuranceDetail = () => {
                   <TableCell align="center">{`원인`}</TableCell>
                   <TableCell align="center">보험처리일</TableCell>
                   <TableCell align="center">차대번호</TableCell>
+                  <TableCell align="center">블록체인 기록정보</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="center">
@@ -397,6 +390,13 @@ const MyInsuranceDetail = () => {
                   <TableCell align="center">
                     {insuranceResult &&
                     insuranceResult.carVin}
+                  </TableCell>
+                  <TableCell align="center">
+                    <a href={insuranceResult.metadataUri}>
+                      <StyleKlaytnBtn>
+                        원본 확인
+                      </StyleKlaytnBtn>
+                    </a>
                   </TableCell>
                 </TableRow>
               </tbody>

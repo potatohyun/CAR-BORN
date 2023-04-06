@@ -26,7 +26,7 @@ import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { createRepairReviewAction } from "../../../modules/createReviewModule";
 import swal from "sweetalert";
-import { fontSize } from "@mui/system";
+import { CARBORN_IMG } from "./MyCarInfoDetail";
 
 const StyleMyRepairDetailDiv = styled.div`
   width: 100vw;
@@ -339,6 +339,17 @@ const StyleGetMyRepairReviewDiv = styled.div`
   margin-bottom: 5vh;
 `;
 
+export const StyleKlaytnBtn = styled.button`
+  height: 5vh;
+  font-weight: 900;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #f93d3d;
+  color: white;
+  cursor: pointer;
+`;
+
 export type repairResultType = {
   setRepairResult: React.SetStateAction<any[]>;
   repairResult: any;
@@ -357,59 +368,18 @@ const MyRepairDetail = () => {
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
 
-  // MUI //////////////////////////////////////
-  const [open, setOpen] = useState(false);
-  const [selfHelp, setSelfHelp] = useState<any[]>([]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    const fetchSelfData = async () => {
-      const response = await axios({
-        method: "GET",
-        url: `${CARBORN_SITE}/api/user/self-repair/list/1/10`,
-        headers: {
-          [ContentType]: applicationjson,
-          Authorization: `Bearer ${JSON.parse(ObjString).value}`,
-        },
-      });
-
-      setSelfHelp(response.data.message.content);
-    };
-    fetchSelfData();
-  }, []);
-
-  //////////////////////////////////////////////
-
   const param = useParams();
   const resultid = param.carId;
   const location = useLocation();
   const dispatch = useDispatch();
   const detail = location.state;
-  const navigate = useNavigate();
 
   const [images, setImages] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
-  useEffect(() => {
-    // 이미지 url 배열
-    const imgUrls = [carousel1, carousel2, carousel4];
-
-    // 이미지 url 배열을 images state 변수에 추가
-    setImages(imgUrls);
-  }, []);
-
   // 데이터 관련
   const [repairResult, setRepairResult] = useState<any>("");
-
-  console.log(repairResult.metadataUri);
 
   // 리뷰 관련
   const [isReviewExist, setIsReviewExist] = useState<boolean>(false);
@@ -427,6 +397,13 @@ const MyRepairDetail = () => {
             [ContentType]: applicationjson,
           },
         });
+
+        let images:any[] = []
+        images.push(CARBORN_IMG+response.data.message.afterImgNm)
+        images.push(CARBORN_IMG+response.data.message.beforeImgNm)
+        images.push(CARBORN_IMG+response.data.message.receiptImgNm)
+
+        setImages(images)
         // 이미지 받아오기 용
         setRepairResult(response.data.message);
       } catch (error) {
@@ -453,7 +430,6 @@ const MyRepairDetail = () => {
         if (response.data.message === null) {
           setIsReviewExist(false);
         } else {
-          console.log(response.data.message);
           setIsReviewExist(true);
         }
 
@@ -467,6 +443,10 @@ const MyRepairDetail = () => {
       getData();
     }
   }, [repairResult.id, setIsReviewExist, setRepairResult]);
+
+  useEffect(() => {
+    console.log(images)
+  }, [images])
 
   // 리뷰달기 버튼 활성화 및 textarea 값 보여주기
   const [reviewInput, setReviewInput] = useState<string>("");
@@ -505,15 +485,6 @@ const MyRepairDetail = () => {
     window.history.back();
   };
 
-  const handleMetaData = () => {
-    navigate(`${repairResult.metadataUri}`);
-  };
-
-  const StyleSelfHelpTable = styled.div`
-    display: flex;
-    border: 1px solid black;
-  `;
-
   return (
     <StyleMyRepairDetailDiv>
       <Nav2 />
@@ -541,6 +512,7 @@ const MyRepairDetail = () => {
                   <TableCell align="center">{`연식(년)`}</TableCell>
                   <TableCell align="center">정비예약일</TableCell>
                   <TableCell align="center">정비완료일</TableCell>
+                  <TableCell align="center">블록체인 기록정보</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="center">
@@ -562,12 +534,17 @@ const MyRepairDetail = () => {
                       repairResult.repairDt &&
                       repairResult.repairDt.slice(0, 10)}
                   </TableCell>
+                  <TableCell align="center">
+                    <a href={repairResult.metadataUri}>
+                      <StyleKlaytnBtn>
+                        원본 확인
+                      </StyleKlaytnBtn>
+                    </a>
+                  </TableCell>
                 </TableRow>
               </tbody>
             </Table>
           </StyleTableRepairInfoDiv>
-          <button onClick={handleMetaData}>클레이튼</button>
-          <button onClick={handleClickOpen}>셀프정비도우미</button>
         </StyleMyRepairDetailHeaderDiv>
         {/* 밑에 메인 섹션 부분 */}
         <StyleMainRepairDetailContainerDiv>
@@ -691,47 +668,6 @@ const MyRepairDetail = () => {
           </StyleMyRepairRightDetailDiv>
         </StyleMainRepairDetailContainerDiv>
       </StyleMyRepairDetailContainerDiv>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        maxWidth="lg"
-      >
-        <DialogTitle id="alert-dialog-title">셀프 정비 도우미</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <strong>해당 내용은 셀프로 정비를 할 때 참고할 만한 자료 입니다!</strong>
-          </DialogContentText>
-          <Table>
-            <thead>
-              <TableRow>
-                <TableCell style={{ width: "20%" }} align="center">
-                  {`제목`}
-                </TableCell>
-                <TableCell style={{ width: "80%" }} align="center">
-                  {`내용`}
-                </TableCell>
-              </TableRow>
-            </thead>
-            <tbody>
-              {selfHelp.map((help) => (
-                <TableRow key={help.id}>
-                  <TableCell style={{ width: "20%", fontWeight:'900', fontSize:'1.1rem' }} align="center">
-                    {help.title}
-                  </TableCell>
-                  <TableCell style={{ width: "80%" }} align="center">
-                    {help.content}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </tbody>
-          </Table>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>닫기</Button>
-        </DialogActions>
-      </Dialog>
     </StyleMyRepairDetailDiv>
   );
 };

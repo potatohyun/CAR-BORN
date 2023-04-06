@@ -3,7 +3,7 @@ import MyCarInfoPagination from "../Pagination/MyCarInfoPagination";
 
 const StyleMyCarInfoTableDiv = styled.div`
   width: 72%;
-  height: 60vh;
+  height: 123vh;
   display: flex;
   flex-direction: column;
   align-items: center;

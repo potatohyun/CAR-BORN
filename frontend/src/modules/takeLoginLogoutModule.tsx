@@ -125,10 +125,9 @@ export function LoginOutReducer(state = initialState, action: any) {
       return {
         ...state,
         user: null,
-        success: false,
+        success: undefined,
       };
     case LOGIN_FAILURE_RESET:
-      console.log(1);
       return {
         ...state,
         success: null,

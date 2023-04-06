@@ -19,6 +19,8 @@ import { applicationjson, CARBORN_SITE, ContentType } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { createInspectorReviewAction } from "./../../../modules/createReviewModule";
 import swal from "sweetalert";
+import { CARBORN_IMG } from "./MyCarInfoDetail";
+import { StyleKlaytnBtn } from "./MyRepairDetail";
 
 const StyleMyInspectorDetailDiv = styled.div`
   width: 100vw;
@@ -363,14 +365,6 @@ const MyInspectorDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
-  useEffect(() => {
-    // 이미지 url 배열
-    const imgUrls = [carousel1, carousel2, carousel4];
-
-    // 이미지 url 배열을 images state 변수에 추가
-    setImages(imgUrls);
-  }, []);
-
   // 데이터 관련
   const [inspectorResult, setInspectorResult] = useState<any>("");
 
@@ -390,6 +384,13 @@ const MyInspectorDetail = () => {
             [ContentType]: applicationjson,
           },
         });
+
+        let images:any[] = []
+        images.push(CARBORN_IMG+response.data.message.afterImgNm)
+        images.push(CARBORN_IMG+response.data.message.beforeImgNm)
+        images.push(CARBORN_IMG+response.data.message.receiptImgNm)
+
+        setImages(images)
         // 이미지 받아오기 용
         setInspectorResult(response.data.message);
       } catch (error) {
@@ -463,8 +464,6 @@ const MyInspectorDetail = () => {
     window.history.back();
   };
 
-  console.log(inspectorResult);
-
   return (
     <StyleMyInspectorDetailDiv>
       <Nav2 />
@@ -492,6 +491,7 @@ const MyInspectorDetail = () => {
                   <TableCell align="center">{`연식(년)`}</TableCell>
                   <TableCell align="center">검수예약일</TableCell>
                   <TableCell align="center">검수완료일</TableCell>
+                  <TableCell align="center">블록체인 기록정보</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="center">
@@ -512,6 +512,13 @@ const MyInspectorDetail = () => {
                     {inspectorResult &&
                       inspectorResult.inspectDt &&
                       inspectorResult.inspectDt.slice(0, 10)}
+                  </TableCell>
+                  <TableCell align="center">
+                    <a href={inspectorResult.metadataUri}>
+                      <StyleKlaytnBtn>
+                        원본 확인
+                      </StyleKlaytnBtn>
+                    </a>
                   </TableCell>
                 </TableRow>
               </tbody>

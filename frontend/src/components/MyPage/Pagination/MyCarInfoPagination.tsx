@@ -135,6 +135,28 @@ export const StyleTableCellDivMyCarInfoPagination = styled.div`
   }
 `
 
+const StyleMyCarInfoPaginationDiv = styled.div`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .MuiStack-root {
+    position: absolute;
+    top: 181vh;
+  }
+
+  .MuiButtonBase-root {
+    background-color: #fffffff6;
+  }
+
+  .Mui-selected {
+    background-color: #d23131 !important;
+    color: white;
+  }
+`
+
 const MyCarInfoPagination = ({ itemsPerPage }: MyCarInfoPaginationProps) => {
   // 토큰 넣기
   const ObjString:any = localStorage.getItem("login-token");
@@ -183,7 +205,7 @@ const MyCarInfoPagination = ({ itemsPerPage }: MyCarInfoPaginationProps) => {
   };
 
   return (
-    <div>
+    <StyleMyCarInfoPaginationDiv>
       <StyledTableMyCarInfoContainer>
           <StyleTableHeadMyCarInfoPagination>
             {myCarInfoData.map((car: Car, index) => (
@@ -212,21 +234,19 @@ const MyCarInfoPagination = ({ itemsPerPage }: MyCarInfoPaginationProps) => {
             ))}
           </StyleTableHeadMyCarInfoPagination>
       </StyledTableMyCarInfoContainer>
-      <StyledPagination>
-        <Stack spacing={2}>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={(event, value) =>
-              handleRequestMyCarInfoData(value, itemsPerPage)
-            }
-            sx={{ backgroundColor: "transparent" }}
-            size="large"
-            disabled={totalPages === 0}
-          />
-        </Stack>
-      </StyledPagination>
-    </div>
+      <Stack spacing={2}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={(event, value) =>
+            handleRequestMyCarInfoData(value, itemsPerPage)
+          }
+          sx={{ backgroundColor: "transparent" }}
+          size="large"
+          disabled={totalPages === 0}
+        />
+      </Stack>
+    </StyleMyCarInfoPaginationDiv>
   );
 };
 

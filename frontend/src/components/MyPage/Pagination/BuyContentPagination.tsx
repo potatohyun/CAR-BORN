@@ -40,7 +40,7 @@ const StyleBuyContentPaginationDiv = styled.div`
 
   .MuiPagination-root {
     position: absolute;
-    top: 114vh;
+    top: 185vh;
   }
 
   .MuiButtonBase-root {
@@ -326,14 +326,18 @@ const BuyContentPagination = ({
           ))}
         </StyleTableHeadBuyContentPagination>
       </StyledTableBuyContentContainer>
-      <Pagination
-        count={totalPages}
-        page={currentPage}
-        onChange={(event, value) => handleRequestBuyData(value, itemsPerPage)}
-        color="primary"
-        size="large"
-        disabled={totalPages === 0}
-      />
+      <Stack spacing={2}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={(event, value) =>
+            handleRequestBuyData(value, itemsPerPage)
+          }
+          sx={{ backgroundColor: "transparent" }}
+          size="large"
+          disabled={totalPages === 0}
+        />
+      </Stack>
       <BuyDeleteWarningModal
         message="구매예약을 취소하시겠습니까?"
         onClose={handleCloseModal}
