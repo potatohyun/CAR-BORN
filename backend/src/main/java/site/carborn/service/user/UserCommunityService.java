@@ -130,6 +130,9 @@ public class UserCommunityService {
         Community update = communityRepository.findById(communityId).orElseThrow(() ->
                 new RuntimeException("존재하지 않는 데이터입니다"));
 
+        if (update.isStatus() == BoardUtils.BOARD_DELETE_STATUS_TRUE) {
+            throw new RuntimeException("삭제된 데이터입니다");
+        }
         if (update.getAccount().getId().equals(accountId)) {
             throw new RuntimeException("작성자가 아닙니다");
         }
