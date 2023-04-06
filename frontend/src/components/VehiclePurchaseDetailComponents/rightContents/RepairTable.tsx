@@ -21,6 +21,9 @@ function RepairTable({ data }: { data: ReturnType<typeof createData> }) {
           {parseInt(data?.item?.mileage).toLocaleString("ko-KR")}
         </TableCell>
         <TableCell sx={contentStyle}>
+          <a href={data?.item?.metadataUri}>블록체인 거래 정보</a>
+        </TableCell>
+        <TableCell sx={contentStyle}>
           {(data?.item?.repairDt).replace("T", " ")}
         </TableCell>
       </TableRow>

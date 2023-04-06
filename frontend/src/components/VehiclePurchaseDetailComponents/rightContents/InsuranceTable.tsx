@@ -15,6 +15,9 @@ function InsuranceTable({ data }: { data: ReturnType<typeof createData> }) {
         <TableCell sx={contentStyle}>{data?.item?.carModelYear}</TableCell>
         <TableCell sx={contentStyle}>{data?.item?.category}</TableCell>
         <TableCell sx={contentStyle}>
+          <a href={data?.item?.metadataUri}>블록체인 거래 정보</a>
+        </TableCell>
+        <TableCell sx={contentStyle}>
           {(data?.item?.regDt).replace("T", " ")}
         </TableCell>
       </TableRow>

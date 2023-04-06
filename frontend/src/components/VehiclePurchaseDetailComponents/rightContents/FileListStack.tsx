@@ -42,11 +42,17 @@ const repairTableRowName: string[] = [
   "차량번호",
   "연식",
   "주행거리",
+  "블록체인 정보",
   "등록일시",
 ];
 
 // 검수
-const inspectTableRowName: string[] = ["검수내용", "주행거리", "등록일시"];
+const inspectTableRowName: string[] = [
+  "검수내용",
+  "주행거리",
+  "블록체인 정보",
+  "등록일시",
+];
 
 // 보험
 const insuranceTableRowName: string[] = [
@@ -54,6 +60,7 @@ const insuranceTableRowName: string[] = [
   "차량번호",
   "연식",
   "유형",
+  "블록체인 정보",
   "등록일시",
 ];
 
@@ -201,7 +208,7 @@ function Row(props: {
                       {value === 1 ? "정비전" : "검수전"}
                     </span>
                     <img
-                      src={data?.item.beforeImgNm}
+                      src={`https://carborn.site/images/${data?.item.beforeImgNm}`}
                       alt="전"
                       style={{ width: "100%" }}
                     />
@@ -211,7 +218,7 @@ function Row(props: {
                       {value === 1 ? "정비후" : "검수후"}
                     </span>
                     <img
-                      src={data?.item.afterImgNm}
+                      src={`https://carborn.site/images/${data?.item.afterImgNm}`}
                       alt="후"
                       style={{ width: "100%" }}
                     />
@@ -219,7 +226,7 @@ function Row(props: {
                   <div>
                     <span style={imgFontStyle}>영수증</span>
                     <img
-                      src={data?.item.receiptImgNm}
+                      src={`https://carborn.site/images/${data?.item.receiptImgNm}`}
                       alt="영수증"
                       style={{ width: "100%" }}
                     />

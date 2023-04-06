@@ -264,10 +264,10 @@ export default function Nav2(msg: any) {
   const localToken = Obj?.value;
 
   useEffect(() => {
-    if (isLoggedIn === true && location.pathname === '/') {
+    if (isLoggedIn === true && location.pathname === "/") {
       window.location.reload();
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   // 유저아이디랑 토큰 가져오기
   useEffect(() => {
@@ -298,14 +298,16 @@ export default function Nav2(msg: any) {
             <div
               className="logo"
               onClick={handleLogout}
-              css={{ cursor: "pointer" }}>
+              css={{ cursor: "pointer" }}
+            >
               LOGOUT
             </div>
           ) : (
             <div
               className="logo"
               onClick={(): void => navigate("/login")}
-              css={{ cursor: "pointer" }}>
+              css={{ cursor: "pointer" }}
+            >
               LOGIN
             </div>
           )}
@@ -325,30 +327,40 @@ export default function Nav2(msg: any) {
           <div className="menu">
             <div
               className="item"
-              onClick={(): void => navigate("/user/car/list")}>
-              구매
+              onClick={(): void => navigate("/user/car/list")}
+            >
+              거래
+            </div>
+            <div
+              className="item"
+              onClick={(): void => navigate("/user/community")}
+            >
+              커뮤니티
             </div>
             <div className="item" onClick={(): void => navigate("/user/map")}>
               예약
             </div>
             <div
               className="item"
-              onClick={(): void => navigate("/user/community")}>
+              onClick={(): void => navigate("/user/community")}
+            >
               커뮤니티
             </div>
             <div className="item" onClick={(): void => navigate("/user/car")}>
-              MY CAR
+              내 차 등록
             </div>
             <div
               className="item"
-              onClick={(): void => navigate("/user/self-repair")}>
+              onClick={(): void => navigate("/user/self-repair")}
+            >
               셀프 정비
             </div>
             {success || localToken ? (
               <div
                 className="item"
-                onClick={(): void => navigate(`/user/mypage`)}>
-                MY PAGE
+                onClick={(): void => navigate(`/user/mypage`)}
+              >
+                마이페이지
               </div>
             ) : null}
           </div>
