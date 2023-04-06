@@ -91,14 +91,14 @@ export default function Articles() {
             component="div"
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Button
+            {/* <Button
               component={Link}
               to="/new"
               variant="contained"
               color="primary"
             >
               새 글 쓰기
-            </Button>
+            </Button> */}
           </Box>
         </Box>
         <Table sx={{ borderCollapse: "collapse" }}>

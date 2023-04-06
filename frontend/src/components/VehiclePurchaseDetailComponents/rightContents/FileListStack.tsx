@@ -24,7 +24,19 @@ import InspectTable from "./InspectTable";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useQueryClient } from "react-query";
+import TradeTable from "./TradeTable";
 
+// 거래
+
+const tradeTableRowName: string[] = [
+  "판매자",
+  "구매자",
+  "거래가",
+  "블록체인 정보",
+  "등록일시",
+];
+
+// 정비
 const repairTableRowName: string[] = [
   "차량모델",
   "차량번호",
@@ -32,7 +44,11 @@ const repairTableRowName: string[] = [
   "주행거리",
   "등록일시",
 ];
+
+// 검수
 const inspectTableRowName: string[] = ["검수내용", "주행거리", "등록일시"];
+
+// 보험
 const insuranceTableRowName: string[] = [
   "제조사 / 차량모델",
   "차량번호",
@@ -131,7 +147,9 @@ function Row(props: {
                   }}
                 >
                   <TableRow>
-                    {(value === 1
+                    {(value === 0
+                      ? tradeTableRowName
+                      : value === 1
                       ? // 정비
                         repairTableRowName
                       : value === 2
@@ -157,7 +175,9 @@ function Row(props: {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {value === 1 ? (
+                  {value === 0 ? (
+                    <TradeTable data={data} />
+                  ) : value === 1 ? (
                     <RepairTable data={data} />
                   ) : value === 2 ? (
                     <InspectTable data={data} />
@@ -174,7 +194,7 @@ function Row(props: {
                   </span>{" "}
                 </span>
               </div>
-              {value !== 3 ? (
+              {value === 0 ? null : value !== 3 ? (
                 <>
                   <div>
                     <span style={imgFontStyle}>
@@ -243,7 +263,9 @@ export default function FileListStack<T>({
 
   if (data.length) {
     DATA = data?.map((item: any) => {
-      return value === 1
+      return value === 0
+        ? createData(item?.sellerAccountId, item?.regDt, item)
+        : value === 1
         ? // 정비
           createData(
             item?.repairBookRepairShopAccountName,
@@ -269,8 +291,9 @@ export default function FileListStack<T>({
   React.useEffect(() => {
     const pageData = queryClient.getQueryData<any>(["get-car-detail", page])
       .data.message;
-
-    if (value === 1) {
+    if (value === 0) {
+      setTotalPage(pageData?.trade?.totalPages);
+    } else if (value === 1) {
       setTotalPage(pageData?.repair?.totalPages);
     } else if (value === 2) {
       setTotalPage(pageData?.inspect?.totalPages);
@@ -291,13 +314,21 @@ export default function FileListStack<T>({
                   align="center"
                   sx={{ color: "white", fontWeight: "bold" }}
                 >
-                  {value === 1 ? "정비소" : value === 2 ? "검사소" : "보험회사"}
+                  {value === 0
+                    ? "판매자"
+                    : value === 1
+                    ? "정비소"
+                    : value === 2
+                    ? "검사소"
+                    : "보험회사"}
                 </TableCell>
                 <TableCell
                   align="center"
                   sx={{ color: "white", fontWeight: "bold" }}
                 >
-                  {value === 1
+                  {value === 0
+                    ? "거래일시"
+                    : value === 1
                     ? "정비일시"
                     : value === 2
                     ? "검수일시"

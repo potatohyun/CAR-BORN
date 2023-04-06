@@ -5,6 +5,7 @@ import SaleInfoArea from "../../components/SaleRegistrationComponents/rightConte
 import SaleCarImg from "./../../components/SaleRegistrationComponents/leftContents/SaleCarImg";
 import { useState } from "react";
 import Nav2 from "./../../components/Nav2";
+import Footer from "../../components/Footer";
 
 const outer = css`
   width: 100%;
@@ -32,6 +33,7 @@ function SaleRegistration() {
           <SaleInfoArea setImg={setImg} />
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -7,6 +7,7 @@ import { Params, useParams } from "react-router-dom";
 import Nav2 from "../../components/Nav2";
 import DetailThumnail from "../../components/VehiclePurchaseDetailComponents/leftContents/DetailThumnail";
 import DetailInfomation from "../../components/VehiclePurchaseDetailComponents/rightContents/DetailInfomation";
+import Footer from "./../../components/Footer";
 
 const outer = css`
   width: 100%;
@@ -35,6 +36,7 @@ function VehiclePurchaseDetail() {
           <DetailInfomation id={id} setImg={setImg} />
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -14,6 +14,16 @@ import { useQuery } from "react-query";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 
+const container = css`
+  position: absolute;
+  .MuiButtonBase-root {
+    background-color: #d23131;
+    &:hover {
+      background-color: black;
+    }
+  }
+`;
+
 const dialog = css`
   box-shadow: 0 14px 28px rgba(255, 0, 0, 0.25),
     0 10px 10px rgba(255, 0, 0, 0.22);
@@ -87,7 +97,7 @@ function SpeedDialComponent() {
   });
 
   return (
-    <div css={{ position: "absolute" }}>
+    <div css={container}>
       <Box
         component="div"
         sx={{ height: 320, transform: "translateZ(0px)", flexGrow: 1 }}

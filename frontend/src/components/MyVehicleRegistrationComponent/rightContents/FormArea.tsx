@@ -16,7 +16,7 @@ import VehicleRegistrationCertificate from "./VehicleRegistrationCertificate";
 
 const rightContent = css`
   width: 30vw;
-  height: 90vh;
+  height: auto;
   margin-top: 10vh;
 `;
 

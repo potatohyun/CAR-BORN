@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 import { useQuery } from "react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import CarModel from "./CarModel";
 import CarNumber from "./CarNumber";
 import CarCost from "./CarCost";
@@ -23,7 +23,7 @@ import {
 
 const rightContent = css`
   width: 30vw;
-  height: 90vh;
+  height: auto;
   margin-top: 10vh;
 `;
 
@@ -59,6 +59,7 @@ const DetailInfomationComponent = ({
     cacheTime: 0,
     refetchOnWindowFocus: true,
     refetchOnMount: true,
+    keepPreviousData: true,
     retry: false,
     select: (data) => {
       return data.data.message;
@@ -67,7 +68,7 @@ const DetailInfomationComponent = ({
       setError(error);
     },
     onSuccess: (data) => {
-      setImg(data.img);
+      setImg([...data?.img, data?.vrc]);
       return data;
     },
     suspense: true,
@@ -91,6 +92,13 @@ const DetailInfomationComponent = ({
       <CarCost data={data.detail} />
       <CarDistance data={data.detail} />
       <CarContent data={data.detail} />
+
+      <WatchFileBtn<InsuranceDataType>
+        data={data.trade.content}
+        value={0}
+        page={page}
+        setPage={setPage}
+      />
       <WatchFileBtn<RepairDataType>
         data={data.repair.content}
         value={1}

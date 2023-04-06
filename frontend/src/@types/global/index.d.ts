@@ -7,6 +7,7 @@ declare module "*.glb";
 declare module "gsap/all";
 declare module "*.module.css";
 declare module "jwt-decode";
+declare module "@ckeditor/ckeditor5-react";
 
 declare namespace NodeJS {
   interface ProcessEnv {

@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "react-query";
 import swal from "sweetalert";
 import { useAPI } from "../../../hooks/useAPI";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "react-query";
 
 const buttonStyle = css`
   padding-bottom: 3vh;
@@ -14,8 +15,9 @@ const buttonStyle = css`
   justify-content: center;
   .back {
     border: 0;
-    width: 27.5%;
-    margin-right: 2.5%;
+    margin-left: 1.5%;
+    width: 30.1%;
+    margin-right: 2.2%;
     height: 5vh;
     background-color: lightgray;
     cursor: pointer;
@@ -23,8 +25,10 @@ const buttonStyle = css`
   }
   .apply {
     border: 0;
-    width: 67.5%;
-    margin-left: 2.5%;
+    width: 63.3%;
+    margin-left: 1%;
+    margin-right: 1.5%;
+
     height: 5vh;
     background-color: #d23131;
     color: white;
@@ -147,6 +151,8 @@ function PurchaseApplicationBtn({
   const modalRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+
   // 판매자 - 구매 신청자 목록
   const API = `https://carborn.site/api/user/car/buy/${id}`;
   const { mutate } = useMutation(
@@ -164,11 +170,15 @@ function PurchaseApplicationBtn({
       onError: (error: Error) => {
         console.error(error.message);
       },
+      onSuccess: () => {
+        queryClient.fetchQuery(["get-car-detail", page]);
+      },
     }
   );
 
   const goToBuy = () => {
     mutate();
+    queryClient.invalidateQueries(["get-car-detail", page]);
     swal({
       title: "신청되었습니다.",
       text: "2초후 자동으로 닫힙니다.",
@@ -180,16 +190,23 @@ function PurchaseApplicationBtn({
 
   // 판매자 - 판매 취소
   const SALER_DELETE_API = `https://carborn.site/api/user/sell/cancel/${id}`;
-  const { mutate: salerDeleteMutate } = useMutation(() => {
-    return axios({
-      method: "put",
-      url: SALER_DELETE_API,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+  const { mutate: salerDeleteMutate } = useMutation(
+    () => {
+      return axios({
+        method: "put",
+        url: SALER_DELETE_API,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.fetchQuery(["get-car-detail", page]);
       },
-    });
-  });
+    }
+  );
   const salerDelete = () => {
     swal({
       text: "판매를 취소하겠습니까?",
@@ -198,6 +215,7 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         salerDeleteMutate();
+        queryClient.invalidateQueries(["get-car-detail", page]);
         swal("판매가 취소되었습니다..", {
           icon: "success",
         });
@@ -237,16 +255,23 @@ function PurchaseApplicationBtn({
   };
 
   // 판매 확정
-  const { mutate: putMutate } = useMutation((userId: string) => {
-    return axios({
-      method: "put",
-      url: `https://carborn.site/api/user/car/sale/sell/confirm/${id}/${userId}`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+  const { mutate: putMutate } = useMutation(
+    (userId: string) => {
+      return axios({
+        method: "put",
+        url: `https://carborn.site/api/user/car/sale/sell/confirm/${id}/${userId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.fetchQuery(["get-car-detail", page]);
       },
-    });
-  });
+    }
+  );
 
   const isConfirm = (userId: string) => {
     modalRef?.current?.close();
@@ -257,6 +282,7 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         putMutate(userId);
+        queryClient.invalidateQueries(["get-car-detail", page]);
         swal("확정되었습니다.", {
           icon: "success",
         });
@@ -268,22 +294,29 @@ function PurchaseApplicationBtn({
 
   // 뒤로가기
   const back = () => {
-    navigate("/user/car/list");
+    navigate(-1);
   };
 
   // 사용자 구매 확정 및 취소
   // 확정
   const USER_BUY_CONFIRM_API = `https://carborn.site/api/user/car/sale/buy/confirm/${id}`;
-  const { mutate: confirmMutate } = useMutation(() => {
-    return axios({
-      method: "put",
-      url: USER_BUY_CONFIRM_API,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+  const { mutate: confirmMutate } = useMutation(
+    () => {
+      return axios({
+        method: "put",
+        url: USER_BUY_CONFIRM_API,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.fetchQuery(["get-car-detail", page]);
       },
-    });
-  });
+    }
+  );
 
   const userConfirmBtn = () => {
     swal({
@@ -293,6 +326,7 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         confirmMutate();
+        queryClient.invalidateQueries(["get-car-detail", page]);
         swal("확정되었습니다.", {
           icon: "success",
         });
@@ -303,16 +337,23 @@ function PurchaseApplicationBtn({
 
   // 취소
   const USER_BUY_CENCEL_API = `https://carborn.site/api/user/buy/cancel/${id}`;
-  const { mutate: cancelMutate } = useMutation(() => {
-    return axios({
-      method: "put",
-      url: USER_BUY_CENCEL_API,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+  const { mutate: cancelMutate } = useMutation(
+    () => {
+      return axios({
+        method: "put",
+        url: USER_BUY_CENCEL_API,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.fetchQuery(["get-car-detail", page]);
       },
-    });
-  });
+    }
+  );
 
   const userCencelBtn = () => {
     swal({
@@ -322,6 +363,7 @@ function PurchaseApplicationBtn({
     }).then((willDelete) => {
       if (willDelete) {
         cancelMutate();
+        queryClient.invalidateQueries(["get-car-detail", page]);
         swal("취소되었습니다.", {
           icon: "success",
         });

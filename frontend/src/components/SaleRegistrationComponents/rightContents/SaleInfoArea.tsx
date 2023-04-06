@@ -23,7 +23,7 @@ import swal from "sweetalert";
 
 const rightContent = css`
   width: 30vw;
-  height: 90vh;
+  height: auto;
   margin-top: 10vh;
 
   .back {

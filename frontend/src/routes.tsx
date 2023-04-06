@@ -36,6 +36,8 @@ import MyInspectorBookDetail from "./components/MyPage/DetailComponent/MyInspect
 import MyRepairBookDetail from "./components/MyPage/DetailComponent/MyRepairBookDetail";
 import Community from "./routes/userUseFnc/Community";
 import ArticleDetail from "./routes/userUseFnc/ArticleDetail";
+import CreateNewWrite from "./components/community/CreateNewWrite";
+import NotFound404 from "./components/NotFound404";
 
 export const JustRoutes = [
   { path: "/", element: <UserHome /> },
@@ -53,6 +55,7 @@ export const JustRoutes = [
   { path: "/garage", element: <GarageHome /> },
   { path: "/inspector", element: <InspectorHome /> },
   { path: "/insurance", element: <InsuranceHome /> },
+  { path: "/*", element: <NotFound404 /> },
 ];
 
 // 로그인 필수 경로 지정
@@ -113,4 +116,5 @@ export const PrivateRoutes = [
   { path: "/user/map", element: <NaverMap /> },
   { path: "/user/community", element: <Community /> },
   { path: "/user/community/:id", element: <ArticleDetail /> },
+  { path: "/user/community/write", element: <CreateNewWrite /> },
 ];

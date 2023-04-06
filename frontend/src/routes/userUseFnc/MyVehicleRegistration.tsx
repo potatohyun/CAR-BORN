@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 
 import { useState } from "react";
+import Footer from "../../components/Footer";
 import Thumnail from "../../components/MyVehicleRegistrationComponent/leftContents/Thumnail";
 import FormArea from "../../components/MyVehicleRegistrationComponent/rightContents/FormArea";
 import Nav2 from "./../../components/Nav2";
@@ -66,6 +67,7 @@ function MyVehicleRegistration() {
           />
         </div>
       </div>
+      <Footer />
     </>
   );
 }

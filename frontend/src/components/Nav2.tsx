@@ -269,6 +269,8 @@ export default function Nav2(msg: any) {
       setTitle("CarSaleRegister");
     } else if (location.pathname === `/user/car`) {
       setTitle("MyCarRegister");
+    } else if (location.pathname === `/user/community/write`) {
+      setTitle("NewArticleWrite");
     }
   }, [location.pathname, setTitle, title]);
   // 로그아웃

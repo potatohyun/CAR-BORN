@@ -9,6 +9,7 @@ import { useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import { StateType } from "../../modules/carListModule";
 import SpeedDialComponent from "./../../components/VehiclePurchase/SpeedDialComponent";
+import Footer from "../../components/Footer";
 
 const outer = css`
   width: 100%;
@@ -52,12 +53,14 @@ function VehiclePurchase() {
             bottom: "0",
             height: "100px",
             width: "100px",
+            zIndex: "3",
           }}
         >
           {/* 스피드 다이얼 */}
           <SpeedDialComponent />
         </div>
       </div>
+      <Footer />
     </>
   );
 }

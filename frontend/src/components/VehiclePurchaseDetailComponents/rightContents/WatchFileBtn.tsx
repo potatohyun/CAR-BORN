@@ -11,8 +11,8 @@ import FileListStack from "./FileListStack";
 const historyBtnStyle = css`
   border: none;
   margin-right: 1.83%;
-  width: 30%;
-  height: 5%;
+  width: 21.65%;
+  height: 5vh;
   background-color: black;
   color: white;
   margin-left: 1.5%;
@@ -59,7 +59,14 @@ function WatchFileBtn<T>({
   return (
     <span>
       <button css={historyBtnStyle} onClick={handleClickOpen}>
-        {value === 1 ? "정비" : value === 2 ? "검수" : "보험"}기록
+        {value === 0
+          ? "거래"
+          : value === 1
+          ? "정비"
+          : value === 2
+          ? "검수"
+          : "보험"}
+        기록
       </button>
       <Dialog
         open={modalOpen}
