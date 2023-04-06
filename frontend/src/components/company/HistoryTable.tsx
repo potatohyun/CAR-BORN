@@ -94,39 +94,39 @@ export default function HistoryTable() {
   return (
     <div css={container}>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: "60vw", minHeight: "60vh" }}>
+        <Table sx={{ minWidth: "60vw", minHeight: "50vh" }}>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontSize: "18px", fontWeight: "bold" }}>
+              <TableCell sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 No
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 요청 날짜
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 완료 날짜
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 주행 거리
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 자세히 보기
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 리뷰 보기
               </TableCell>
@@ -136,10 +136,16 @@ export default function HistoryTable() {
             {data?.content?.map(
               ({ id, regDt, repairDt, mileage }: MapType, idx: number) => (
                 <TableRow key={idx}>
-                  <TableCell sx={{ minWidth: "20px" }}>{id}</TableCell>
-                  <TableCell align="center">{regDt}</TableCell>
-                  <TableCell align="center">{repairDt}</TableCell>
-                  <TableCell align="center" sx={{ minWidth: "30px" }}>
+                  <TableCell sx={{ minWidth: "20px", fontSize: "0.8rem" }}>
+                    {id}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "0.8rem" }} align="center">
+                    {regDt}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "0.8rem" }} align="center">
+                    {repairDt}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "0.8rem" }} align="center">
                     {mileage} KM
                   </TableCell>
                   <TableCell align="center">

@@ -25,6 +25,34 @@ const rightContent = css`
   width: 30vw;
   height: 90vh;
   margin-top: 10vh;
+
+  .back {
+    border: 0;
+    width: 30%;
+    height: 5.5vh;
+    margin-bottom: 3%;
+    color: black;
+    margin-right: 5%;
+    background-color: lightgray;
+    cursor: pointer;
+    font-weight: 600;
+    &:hover {
+      background-color: #afafaf;
+    }
+  }
+  .submit {
+    border: 0;
+    width: 65%;
+    height: 5.5vh;
+    margin-bottom: 3%;
+    color: white;
+    background-color: #d23131;
+    cursor: pointer;
+    font-weight: 600;
+    &:hover {
+      background-color: black;
+    }
+  }
 `;
 
 export interface SaleInfoType {
@@ -166,34 +194,11 @@ function SaleInfoContents({
       {/* 판매내용 */}
       <SaleCarContent setSaleInfo={setSaleInfo} />
       {/* 뒤로가기 버튼 */}
-      <button
-        css={{
-          border: "0",
-          width: "30%",
-          height: "5.5%",
-          marginBottom: "3%",
-          color: "black",
-          marginRight: "5%",
-          backgroundColor: "lightgray",
-          cursor: "pointer",
-        }}
-        onClick={back}
-      >
+      <button className="back" onClick={back}>
         뒤로가기
       </button>
       {/* 제출 버튼 */}
-      <button
-        css={{
-          border: "0",
-          width: "65%",
-          height: "5.5%",
-          marginBottom: "3%",
-          color: "white",
-          backgroundColor: "#D23131",
-          cursor: "pointer",
-        }}
-        onClick={submitInfo}
-      >
+      <button className="submit" onClick={submitInfo}>
         제출
       </button>
     </div>

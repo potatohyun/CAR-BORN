@@ -76,6 +76,7 @@ const container = css`
 
 export default function HomeCarsInfo() {
   const URL = "https://carborn.site/";
+
   const getRepairCount = useAPI("get", `${URL}api/user/repair/count`);
   const getInspectorCount = useAPI("get", `${URL}api/user/inspector/count`);
   const getCarCount = useAPI("get", `${URL}api/user/car/count`);

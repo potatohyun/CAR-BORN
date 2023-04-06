@@ -24,11 +24,20 @@ export default function UserHome() {
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.from(".carSale", {
-      y: "30vh",
+      y: "20vh",
       scrollTrigger: {
         trigger: ".carSale",
-        start: "top 80%",
-        end: "top 80%",
+        start: "top 50%",
+        end: "top 50%",
+        scrub: 1,
+      },
+    });
+    gsap.to(".homeMenu", {
+      opacity: 0.2,
+      scrollTrigger: {
+        trigger: ".carSale",
+        start: "top 50%",
+        end: "top 50%",
         scrub: 1,
       },
     });
@@ -58,7 +67,9 @@ export default function UserHome() {
       <div css={container}>
         <HomeCarModel />
         <HomeIconMenu />
-        <HomeMainMenu />
+        <div className="homeMenu">
+          <HomeMainMenu />
+        </div>
         <div className="carSale">
           <HomeCarForSales />
         </div>

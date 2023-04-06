@@ -25,7 +25,7 @@ const tableStyle = css`
   }
   td {
     width: 1.2vw;
-    font-size: 17px;
+    font-size: 15px;
   }
   width: 30vw;
   border-spacing: 0 15px;
@@ -86,8 +86,7 @@ export default function InsuranceModal({ id }: Props) {
         variant="contained"
         sx={{ backgroundColor: "#d23131" }}
         onClick={handleClickOpen}
-        size="small"
-      >
+        size="small">
         보기
       </Button>
       <Dialog
@@ -97,7 +96,7 @@ export default function InsuranceModal({ id }: Props) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
         sx={{ minWidth: "10vw" }}
-      >
+        maxWidth={false}>
         <DialogTitle>사진</DialogTitle>
         <DialogContent>
           <table css={tableStyle}>

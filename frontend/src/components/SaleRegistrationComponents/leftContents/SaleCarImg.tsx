@@ -49,7 +49,7 @@ function SaleCarImg({ imgs }: { imgs: Array<string> }) {
           {imgs?.map((IMG: string) => {
             return (
               <div>
-                <img src={car} alt="qwe" />
+                <img src={IMG} alt="qwe" />
               </div>
             );
           })}
@@ -57,10 +57,10 @@ function SaleCarImg({ imgs }: { imgs: Array<string> }) {
       ) : (
         <Carousel>
           <div>
-            <img src={car} alt="qwe" />
+            <img src="" alt="qwe" />
           </div>
           <div>
-            <img src={car} alt="qwe" />
+            <img src="" alt="qwe" />
           </div>
         </Carousel>
       )}

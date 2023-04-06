@@ -32,6 +32,12 @@ const globalStyles = css`
   .swal-modal {
     width: 25%;
   }
+
+  .swal-button--cancel {
+    padding: 6px 24px;
+    border-color: #e8e8e8;
+    border-radius: 0;
+  }
 `;
 
 const queryClient = new QueryClient();

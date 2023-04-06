@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import carBackground from "../assets/carBackground2.jpg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -84,6 +84,7 @@ const container = css`
 `;
 
 export default function Nav2(msg: any) {
+  const { carId: CARID, id: ID } = useParams();
   const navigate = useNavigate();
   // Nav 타이틀, 로그인 확인 여부
   const [title, setTitle] = useState<string>("Home");
@@ -93,8 +94,9 @@ export default function Nav2(msg: any) {
   const dispatch = useDispatch();
   // 유저아이디랑 토큰 가져오기
   const isHome = location.pathname == "/";
+  const isMap = location.pathname == "/user/map";
   const section2 = css`
-    width: ${isHome ? "100%" : "80%"};
+    width: ${isHome || isMap ? "100%" : "80%"};
     height: 45vh;
     background-size: cover;
     background-repeat: no-repeat;
@@ -103,7 +105,7 @@ export default function Nav2(msg: any) {
     align-items: center;
     justify-content: space-between;
     background-color: rgba(0, 0, 0, 0.8);
-    background-image: ${!isHome ? `url(${carBackground})` : ""};
+    background-image: ${!isHome && !isMap ? `url(${carBackground})` : ""};
     position: relative;
   `;
 
@@ -188,9 +190,18 @@ export default function Nav2(msg: any) {
       setTitle(`MyPostsHistory`);
     } else if (location.pathname === `/user/mypage/userpasswordmodify`) {
       setTitle("ResetPassword");
+    } else if (location.pathname === "/user/community") {
+      setTitle("Community");
+    } else if (location.pathname === `/user/car/list`) {
+      setTitle("CarList");
+    } else if (location.pathname === `/user/car/${CARID}/${ID}`) {
+      setTitle("DetailCarInfo");
+    } else if (location.pathname === `/user/car/sale/${ID}`) {
+      setTitle("CarSaleRegister");
+    } else if (location.pathname === `/user/car`) {
+      setTitle("MyCarRegister");
     }
   }, [location.pathname, setTitle, title]);
-
   // 로그아웃
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -240,7 +251,7 @@ export default function Nav2(msg: any) {
             <img
               src={Logo}
               alt="logo"
-              width="200px"
+              width="32%"
               height="auto"
               className="logoImg"
             />

@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import Loading from "../../Loading";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import car from "../../../assets/car.png";
 
 const leftContent = css`
   width: 30vw;
@@ -54,7 +53,7 @@ function DetailThumnailContent({ img }: { img: any[] }) {
             return (
               <div key={`${img}/${index}`} style={{ height: "50%" }}>
                 <img
-                  src={car}
+                  src={img}
                   alt="qwe"
                   style={{ height: "100%", width: "100%" }}
                 />

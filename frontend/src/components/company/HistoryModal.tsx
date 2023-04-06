@@ -20,9 +20,9 @@ const tableStyle = css`
   }
   td {
     width: 1.2vw;
-    font-size: 17px;
+    font-size: 15px;
   }
-  width: 30vw;
+  width: 40vw;
   border-spacing: 0 15px;
 `;
 
@@ -92,8 +92,7 @@ export default function HistoryModal({ id }: Props) {
         sx={{ backgroundColor: "#d23131" }}
         onClick={handleClickOpen}
         size="small"
-        color="error"
-      >
+        color="error">
         보기
       </Button>
       <Dialog
@@ -103,7 +102,7 @@ export default function HistoryModal({ id }: Props) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
         sx={{ minWidth: "30vw", minHeight: "20vh" }}
-      >
+        maxWidth={false}>
         <DialogTitle>DEATIL</DialogTitle>
         <DialogContent>
           <table css={tableStyle}>

@@ -10,13 +10,15 @@ interface Props {
 
 function MarkerDetailInfo({ markerNum, markerArr }: Props) {
   const queryClient = useQueryClient();
-  const hipenPhoneNum = usePhoneNum(markerArr[markerNum]?.PHONE_NO);
+  const hipenPhoneNum = usePhoneNum(
+    markerArr[markerNum]?.PHONE_NO ? markerArr[markerNum]?.PHONE_NO : ""
+  );
 
   const addressQuery: QueryState<any, Error> | undefined =
     queryClient.getQueryState(["get-jibun-address", markerNum]);
 
-  const jibun = addressQuery?.data.data.message.jibunAddress;
-  const longName = addressQuery?.data.data.message.longName;
+  const jibun = addressQuery?.data?.data?.message?.jibunAddress;
+  const longName = addressQuery?.data?.data?.message?.longName;
 
   let star: string = "";
   let blankStar: string = "";

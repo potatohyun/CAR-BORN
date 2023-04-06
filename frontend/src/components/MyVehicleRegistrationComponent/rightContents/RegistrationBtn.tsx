@@ -53,9 +53,7 @@ function RegistrationBtn({
     return fetch(API, {
       method: "POST",
       body: data,
-      mode: "no-cors",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${JSON.parse(ObjString).value}`,
       },
     });

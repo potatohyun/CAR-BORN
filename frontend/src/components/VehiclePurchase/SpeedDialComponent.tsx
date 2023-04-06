@@ -11,6 +11,8 @@ import SpeedDialTable from "./SpeedDialTable";
 import { useState } from "react";
 import { useAPI } from "./../../hooks/useAPI";
 import { useQuery } from "react-query";
+import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
 
 const dialog = css`
   box-shadow: 0 14px 28px rgba(255, 0, 0, 0.25),
@@ -39,10 +41,13 @@ const closeBtn = css`
   }
 `;
 
+const SIZE: number = 5;
+
 function SpeedDialComponent() {
+  const navigate = useNavigate();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [page, setPage] = useState<number>(1);
-  const API = `https://carborn.site/api/user/car/list/${page}/15`;
+  const API = `https://carborn.site/api/user/car/list/${page}/${SIZE}`;
   const ObjString: any = localStorage.getItem("login-token");
 
   const getCarListFnc = useAPI("get", API, {
@@ -62,7 +67,19 @@ function SpeedDialComponent() {
   });
 
   const showModalFnc = () => {
-    dialogRef.current?.showModal();
+    if (data?.length) {
+      dialogRef.current?.showModal();
+    } else {
+      swal({
+        text: "차량을 먼저 등록해주세요!",
+        buttons: ["나가기", "등록하기"],
+        dangerMode: true,
+      }).then((willDelete: any) => {
+        if (willDelete) {
+          navigate("/user/car");
+        }
+      });
+    }
   };
 
   dialogRef.current?.addEventListener("close", () => {
@@ -81,7 +98,13 @@ function SpeedDialComponent() {
           onClick={showModalFnc}
         ></SpeedDial>
         <dialog ref={dialogRef} css={dialog}>
-          <SpeedDialTable data={data} />
+          <SpeedDialTable
+            data={data}
+            page={page}
+            setPage={setPage}
+            length={data ? data?.length : 1}
+            SIZE={SIZE}
+          />
           <form method="dialog">
             <button value="close" css={closeBtn}>
               Close

@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 import { useQuery } from "react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CarModel from "./CarModel";
 import CarNumber from "./CarNumber";
 import CarCost from "./CarCost";
@@ -56,7 +56,9 @@ const DetailInfomationComponent = ({
 
   const { data } = useQuery(["get-car-detail", page], () => getCarDetail, {
     staleTime: 0,
-    cacheTime: 1000 * 300,
+    cacheTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
     retry: false,
     select: (data) => {
       return data.data.message;

@@ -76,60 +76,71 @@ export default function ReserveTable() {
   const handleChangePage = (e: any, newPage: any) => {
     setPage(() => newPage);
   };
+
+  const options: any = {
+    rowStyle: { height: 50 },
+  };
+
   return (
     <div css={container}>
-      <TableContainer sx={{ backgroundColor: "rgba(246, 246, 246, 0.85)" }}>
-        <Table sx={{ minWidth: "60vw", minHeight: "60vh" }}>
+      <TableContainer
+        component="div"
+        sx={{
+          backgroundColor: "rgba(246, 246, 246, 0.85)",
+          width: "70vw",
+        }}
+      >
+        <Table sx={{ minWidth: "70vw", minHeight: "60vh" }}>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontSize: "18px", fontWeight: "bold" }}>
+              <TableCell sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                 완료 여부
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 유저 아이디
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 요청 시간
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 희망 시간
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 차 종
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 차 번호
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 차대 번호
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 전화 번호
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ fontSize: "18px", fontWeight: "bold" }}
+                sx={{ fontSize: "0.9rem", fontWeight: "bold" }}
               >
                 자세히 보기
               </TableCell>
@@ -157,27 +168,30 @@ export default function ReserveTable() {
                     bookStatus
                       ? {
                           backgroundColor: "rgba(166, 166, 166, 0.85)",
+                          fontSize: "0.2rem",
+                          height: "10px",
                         }
                       : null
                   }
                 >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    align="center"
-                    sx={{ fontSize: "18px", fontWeight: "bold" }}
-                  >
+                  <TableCell component="th" scope="row" align="center">
                     {bookStatus ? (
-                      <CheckOutlinedIcon color="error" fontSize="large" />
+                      <CheckOutlinedIcon color="error" fontSize="small" />
                     ) : null}
                   </TableCell>
-                  <TableCell>{accountId}</TableCell>
-                  <TableCell>{regDt}</TableCell>
-                  <TableCell>{bookDt}</TableCell>
-                  <TableCell>{carModelNm}</TableCell>
-                  <TableCell>{carRegNm}</TableCell>
-                  <TableCell>{carVin}</TableCell>
-                  <TableCell>01020100209</TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>
+                    {accountId}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>{regDt}</TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>{bookDt}</TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>
+                    {carModelNm}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>{carRegNm}</TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>{carVin}</TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>
+                    01020100209
+                  </TableCell>
                   <TableCell align="center">
                     <DetailModal id={id} status={bookStatus} />
                   </TableCell>

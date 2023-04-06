@@ -9,7 +9,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const leftContent = css`
   width: 30vw;
-  height: 50%;
+  height: 30%;
   margin-right: 6vw;
 
   .slider {
@@ -20,14 +20,16 @@ const leftContent = css`
 
   .carousel-slider {
     .slider-wrapper {
-      height: 80vh;
-      width: 30vw;
+      height: auto;
+      width: auto;
     }
   }
   .carousel {
     .thumbs-wrapper {
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: center;
     }
   }
   .no-img {
@@ -57,7 +59,7 @@ function Thumnail({
                 <img
                   src={file}
                   alt="qwe"
-                  style={{ height: "100%", width: "100%" }}
+                  style={{ height: "60%", width: "60%" }}
                 />
               </div>
             );

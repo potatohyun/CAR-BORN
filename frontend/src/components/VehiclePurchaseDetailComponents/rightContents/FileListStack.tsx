@@ -23,8 +23,6 @@ import InspectTable from "./InspectTable";
 // 페이지네이션 버튼
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-
-import car from "../../../assets/car.png";
 import { useQueryClient } from "react-query";
 
 const repairTableRowName: string[] = [
@@ -118,10 +116,14 @@ function Row(props: {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box component="div" sx={{ margin: 2 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                세부내용
+              <Typography
+                variant="h6"
+                gutterBottom
+                component="div"
+                css={{ fontWeight: "600" }}
+              >
+                세부정보
               </Typography>
-
               <Table size="small" aria-label="purchases">
                 <TableHead
                   sx={{
@@ -164,22 +166,55 @@ function Row(props: {
                   )}
                 </TableBody>
               </Table>
+              <div css={{ margin: "3% 0" }}>
+                <span css={{ fontSize: "1rem", fontWeight: "600" }}>
+                  내용 :{" "}
+                  <span css={{ fontSize: "0.8em", fontWeight: "500" }}>
+                    {data?.item.content}
+                  </span>{" "}
+                </span>
+              </div>
               {value !== 3 ? (
                 <>
                   <div>
-                    <span style={imgFontStyle}>검수전</span>
-                    <img src={car} alt="car.img" style={{ width: "100%" }} />
+                    <span style={imgFontStyle}>
+                      {value === 1 ? "정비전" : "검수전"}
+                    </span>
+                    <img
+                      src={data?.item.beforeImgNm}
+                      alt="전"
+                      style={{ width: "100%" }}
+                    />
                   </div>
                   <div>
-                    <span style={imgFontStyle}>검수후</span>
-                    <img src={car} alt="car.img" style={{ width: "100%" }} />
+                    <span style={imgFontStyle}>
+                      {value === 1 ? "정비후" : "검수후"}
+                    </span>
+                    <img
+                      src={data?.item.afterImgNm}
+                      alt="후"
+                      style={{ width: "100%" }}
+                    />
                   </div>
                   <div>
                     <span style={imgFontStyle}>영수증</span>
-                    <img src={car} alt="car.img" style={{ width: "100%" }} />
+                    <img
+                      src={data?.item.receiptImgNm}
+                      alt="영수증"
+                      style={{ width: "100%" }}
+                    />
                   </div>
                 </>
-              ) : null}
+              ) : (
+                <div>
+                  <span style={imgFontStyle}>처리결과사진</span>
+                  <img
+                    src={data?.item.insuranceImgNm}
+                    alt="처리결과"
+                    style={{ width: "100%" }}
+                  />
+                </div>
+              )}
             </Box>
           </Collapse>
         </TableCell>
@@ -210,10 +245,18 @@ export default function FileListStack<T>({
     DATA = data?.map((item: any) => {
       return value === 1
         ? // 정비
-          createData(item?.repairCompanyAccountId, item?.repairDt, item)
+          createData(
+            item?.repairBookRepairShopAccountName,
+            item?.repairDt,
+            item
+          )
         : value === 2
         ? // 검수
-          createData(item?.inspectCompanyAccountId, item?.inspectDt, item)
+          createData(
+            item?.inspectBookInspectorAccountName,
+            item?.inspectDt,
+            item
+          )
         : // 보험
           createData(item?.insuranceCompanyAccountId, item?.insuranceDt, item);
     });

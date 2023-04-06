@@ -32,13 +32,13 @@ const container = css`
     height: 2px;
   }
   hr:nth-of-type(1) {
-    width: 5vw;
-    margin-bottom: 2px;
+    width: 6vw;
+    margin-bottom: 0.5px;
     margin-top: 0px;
   }
 
   hr:nth-of-type(2) {
-    width: 2.5vw;
+    width: 2vw;
   }
 `;
 
@@ -50,11 +50,11 @@ const header = css`
   /* margin-top: 70px; */
   color: white;
   p:nth-of-type(1) {
-    margin: 7vh 0 0 0;
+    margin: 7vh 0 5px 0;
   }
   p:nth-of-type(2) {
     margin: 0 0 0 0;
-    font-size: 30px;
+    font-size: 1.4rem;
     font-weight: bold;
   }
 
@@ -86,12 +86,11 @@ const imgBox = css`
       justify-content: center;
       align-items: center;
       font-weight: bolder;
-      border: 1px solid #a8a8a8;
       cursor: pointer;
     }
 
     .leftBtn {
-      transform: translateX(0);
+      left: 0;
       transition: all 0.3s;
     }
     .rightBtn {
@@ -105,24 +104,29 @@ const imgBox = css`
   .Btn {
     color: red;
     border: 1px solid #a8a8a8;
-    background-color: #f6f6f6;
     height: 50px;
     width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 1.5rem;
     top: 45%;
     position: absolute;
     z-index: 2;
     opacity: 0;
     transition: all 0.3s;
-  }
-  .leftBtn {
-    transform: translateX(0px);
+    border-radius: 5px;
+    background-color: #f6f6f6;
+    &:hover {
+      background-color: #c5c5c5;
+    }
   }
   .rightBtn {
     right: 30px;
+  }
+
+  .leftBtn {
+    left: 30px;
   }
 
   .img {
@@ -147,14 +151,14 @@ const imgBox = css`
       flex: 1.2;
       background-color: #202223;
       color: white;
-      font-size: 20px;
+      font-size: 1rem;
       hr {
         background-color: #d23131;
         border: none;
-        height: 1px;
+        height: 2px;
       }
       hr:nth-last-of-type(2) {
-        margin-top: 15px;
+        margin-top: 10px;
       }
     }
     .car {
@@ -164,7 +168,7 @@ const imgBox = css`
       align-items: center;
       background-color: #202223;
       color: white;
-      font-size: 25px;
+      font-size: 1.1rem;
       transform: translateY(-10px);
     }
   }
@@ -259,9 +263,17 @@ export default function HomeCarForSales() {
                     height: "2px",
                   }}
                 />
-                <hr css={{ height: "2px" }} />
+                <hr
+                  css={{
+                    height: "2px",
+                    border: "2px solid #d23131",
+                    color: "#d23131ed",
+                  }}
+                />
               </div>
-              <div className="car">{data.PRICE}</div>
+              <div className="car">
+                {parseInt(data.PRICE).toLocaleString("ko-KR")} ￦
+              </div>
             </div>
           ))}
         </div>

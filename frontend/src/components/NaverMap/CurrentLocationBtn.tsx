@@ -11,8 +11,8 @@ function CurrentLocationBtn({
     <div
       ref={mapRef}
       style={{
-        width: "74vw",
-        height: "100vh",
+        width: "73vw",
+        height: "84.3vh",
       }}
     >
       <button

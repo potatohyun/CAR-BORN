@@ -37,8 +37,8 @@ export type SignUpButtonProps = {
     React.SetStateAction<null | boolean | undefined>
   >;
   iddupliCheck: boolean | null | undefined;
-  setIsValid:any
-  isValid:any
+  setIsValid: any;
+  isValid: any;
 };
 
 const StyleUserCompanyBtn = styled.div`
@@ -58,9 +58,15 @@ const StyleUserCompanyBtn = styled.div`
     font-weight: 500;
     border-radius: 5px;
     cursor: pointer;
+<<<<<<< HEAD
     background-color: #6d1b1b;
     box-shadow: 4px 4px 2px rgba(181, 181, 181, 0.832);
     
+=======
+    background-color: #d2313170;
+    /* box-shadow: 4px 4px 2px rgba(181, 181, 181, 0.832); */
+
+>>>>>>> feature/FE/user-community
     &:hover {
       opacity: 0.8;
     }
@@ -91,7 +97,7 @@ const SignUpButton = ({
   setIddupliCheck,
   iddupliCheck,
   setIsValid,
-  isValid
+  isValid,
 }: SignUpButtonProps) => {
   // 상수화
   const USER = 0;
@@ -102,7 +108,9 @@ const SignUpButton = ({
 
   // 액션
   const dispatch = useDispatch();
-  const accountType = useSelector((state:any) => state.setAccountTypeReducer.accountType)
+  const accountType = useSelector(
+    (state: any) => state.setAccountTypeReducer.accountType
+  );
 
   const resetFormData = () => {
     dispatch(useridCheckReset());
@@ -118,7 +126,7 @@ const SignUpButton = ({
     dispatch(setUserAccountType(USER));
     setSelectedButton(USER);
     setIsUser(true);
-    setIsValid(false)
+    setIsValid(false);
   };
 
   const handleCompanySignUp = (
@@ -130,7 +138,7 @@ const SignUpButton = ({
     dispatch(setUserAccountType(REPAIR));
     setSelectedButton(REPAIR);
     setIsUser(false);
-    setIsValid(false)
+    setIsValid(false);
   };
 
   useEffect(() => {
@@ -142,7 +150,7 @@ const SignUpButton = ({
         idcheck: null,
         password: "",
         passwordcheck: false,
-        phonenumber:"",
+        phonenumber: "",
         identifynumber: "",
         address: "",
         isVarify: false,
@@ -157,7 +165,7 @@ const SignUpButton = ({
         password: "",
         passwordcheck: false,
         identifynumber: "",
-        phonenumber:"",
+        phonenumber: "",
         address: "",
         isVarify: false,
       });
@@ -172,8 +180,18 @@ const SignUpButton = ({
 
   return (
     <StyleUserCompanyBtn>
-      <button className={isUserActive ? 'active' : ''} onClick={(e) => handleUserSignUp(e)}>일반회원</button>
-      <button className={!isUserActive ? 'active' : ''} onClick={(e) => handleCompanySignUp(e)}>기업회원</button>
+      <button
+        className={isUserActive ? "active" : ""}
+        onClick={(e) => handleUserSignUp(e)}
+      >
+        일반회원
+      </button>
+      <button
+        className={!isUserActive ? "active" : ""}
+        onClick={(e) => handleCompanySignUp(e)}
+      >
+        기업회원
+      </button>
     </StyleUserCompanyBtn>
   );
 };

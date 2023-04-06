@@ -2,11 +2,7 @@ import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import LoginID from "../../components/auth/login/LoginID";
 import LoginPassword from "../../components/auth/login/LoginPassword";
-import React, {
-  useState,
-  useEffect,
-  ButtonHTMLAttributes,
-} from "react";
+import React, { useState, useEffect, ButtonHTMLAttributes } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../modules/takeLoginLogoutModule";
 import {
@@ -21,25 +17,6 @@ import { loginFailureReset } from "./../../modules/takeLoginLogoutModule";
 export const StyleLoginContainer = styled.div`
   width: 100vw;
   background-color: white;
-  /* background: linear-gradient(
-    to bottom,
-    #000000,
-    #1e0000e8
-  );
-  background-size: 100% 200%;
-  animation: gradient 10s ease infinite;
-
-  @keyframes gradient {
-    0% {
-      background-position: 0% 0%;
-    }
-    50% {
-      background-position: 0% 100%;
-    }
-    100% {
-      background-position: 0% 0%;
-    }
-  } */
 `;
 
 export const StyleLoginCenterDiv = styled.div`
@@ -95,7 +72,7 @@ export const StyleLoginBtn = styled.button<StyleLoginSignUpBtnProps>`
   border-radius: 5px;
   font-weight: 900;
   font-size: 1rem;
-  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3); */
 
   &:active {
     box-shadow: none;
@@ -135,7 +112,7 @@ export interface LoginInputProps {
 }
 
 const LoginPages = () => {
-  const ObjString = localStorage.getItem('login-token');
+  const ObjString = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const Token = Obj ? Obj.value : null;
 
@@ -219,9 +196,7 @@ const LoginPages = () => {
     <StyleLoginContainer>
       <Nav2 />
       <StyleLoginCenterDiv>
-        <StyleLoginBoxDiv
-          border={captchaValue ? "#d23131" : "grey"}
-        >
+        <StyleLoginBoxDiv border={captchaValue ? "#d23131" : "grey"}>
           <StyleLoginForm onSubmit={(e) => handleLogin(e)}>
             <LoginID setLoginInput={setLoginInput} loginInput={loginInput} />
             <LoginPassword

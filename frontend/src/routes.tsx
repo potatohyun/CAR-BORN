@@ -35,6 +35,7 @@ import UserPasswordModify from "./components/MyPage/PasswordModify";
 import MyInspectorBookDetail from "./components/MyPage/DetailComponent/MyInspectorBookDetail";
 import MyRepairBookDetail from "./components/MyPage/DetailComponent/MyRepairBookDetail";
 import Community from "./routes/userUseFnc/Community";
+import ArticleDetail from "./routes/userUseFnc/ArticleDetail";
 
 export const JustRoutes = [
   { path: "/", element: <UserHome /> },
@@ -111,4 +112,5 @@ export const PrivateRoutes = [
   { path: "/user/car/sale/:id", element: <SaleRegistration /> },
   { path: "/user/map", element: <NaverMap /> },
   { path: "/user/community", element: <Community /> },
+  { path: "/user/community/:id", element: <ArticleDetail /> },
 ];

@@ -26,9 +26,14 @@ const container = css`
     height: 30px;
 
     div {
-      margin: 5px 20px 0 20px;
+      margin: 5px 30px 0 20px;
       font-weight: 500;
-      font-size: 20px;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    div:nth-of-type(2):hover {
+      font-size: 1.1rem;
+      transition: all 0.2s;
     }
   }
 
@@ -49,7 +54,7 @@ const container = css`
     }
     .logo2 {
       color: white;
-      font-size: 35px;
+      font-size: 1.2rem;
       font-weight: bold;
       display: flex;
       justify-content: center;
@@ -135,7 +140,7 @@ export default function NavGarage() {
           <img
             src={logo}
             alt="logo"
-            width="180px"
+            width="150px"
             height="auto"
             css={{ margin: "20px 0 0 80px" }}
           />

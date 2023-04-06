@@ -14,7 +14,7 @@ function MarkerDetailReview({ data }: { data: any }) {
       <p style={{ margin: "0", color: "#FF9600" }}>
         ★★★★★
         <span style={{ color: "#BBBBBB", fontSize: "0.7rem" }}>
-          {data.regDt === data.uptDt ? REG_DT : UPT_DT}
+          {data?.regDt === data?.uptDt ? REG_DT : UPT_DT}
         </span>
       </p>
       <span>{data?.content}</span>

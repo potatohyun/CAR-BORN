@@ -103,7 +103,7 @@ export default function RegisterForm() {
 
   const option = {
     headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       Authorization: `Bearer ${JSON.parse(ObjString).value}`,
     },
   };
@@ -126,7 +126,10 @@ export default function RegisterForm() {
       set연비(e.target.value);
     } else {
       set연비("");
-      alert("숫자만 입력하세요");
+      Toast.fire({
+        icon: "error",
+        title: "숫자만 입력하세요.",
+      });
     }
   };
 
@@ -256,8 +259,7 @@ export default function RegisterForm() {
             variant="outlined"
             sx={{ maxWidth: "50%" }}
             onClick={() => navigate(-1)}
-            color="error"
-          >
+            color="error">
             취소
           </Button>
           <Button
@@ -265,8 +267,7 @@ export default function RegisterForm() {
             variant="contained"
             sx={{ maxWidth: "50%" }}
             onClick={submit}
-            color="error"
-          >
+            color="error">
             제출
           </Button>
         </div>

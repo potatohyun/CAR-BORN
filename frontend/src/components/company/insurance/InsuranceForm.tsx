@@ -80,7 +80,7 @@ export default function InsuranceForm() {
   const [selectTime, setSelectTime] = useState<any>("");
   const [reciptImage, setReciptImage] = useState<string>("");
   const [reciptImageFile, setReciptImageFile] = useState<string>("");
-  const [연비, set연비] = useState<string>("");
+  // const [연비, set연비] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
@@ -91,7 +91,7 @@ export default function InsuranceForm() {
   const ObjString: any = localStorage.getItem("login-token");
   const option = {
     headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       Authorization: `Bearer ${JSON.parse(ObjString).value}`,
     },
   };
@@ -116,10 +116,10 @@ export default function InsuranceForm() {
     const formData = new FormData();
 
     formData.append("receiptImg", reciptImageFile);
-    formData.append("mileage", 연비);
+    // formData.append("mileage", 연비);
     formData.append("inspectDt", selectTime);
     formData.append("category", category);
-    if (reciptImageFile && content && 연비 && selectTime) {
+    if (reciptImageFile && content && selectTime) {
       mutate(formData);
       Toast.fire({
         icon: "success",
@@ -205,8 +205,7 @@ export default function InsuranceForm() {
             variant="outlined"
             sx={{ maxWidth: "50%" }}
             onClick={() => navigate(-1)}
-            color="error"
-          >
+            color="error">
             취소
           </Button>
           <Button
@@ -214,8 +213,7 @@ export default function InsuranceForm() {
             variant="contained"
             sx={{ maxWidth: "50%" }}
             onClick={submit}
-            color="error"
-          >
+            color="error">
             제출
           </Button>
         </div>
