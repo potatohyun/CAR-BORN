@@ -6,8 +6,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import site.carborn.config.auth.dto.TokenDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import site.carborn.handler.TokenException;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -88,17 +85,15 @@ public class TokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.error("잘못된 JWT 서명입니다");
-            throw new TokenException("잘못된 JWT 서명입니다");
         } catch (ExpiredJwtException e) {
             log.error("만료된 JWT 토큰입니다");
-            throw new TokenException("만료된 JWT 토큰입니다");
         } catch (UnsupportedJwtException e) {
             log.error("지원되지 않는 JWT 토큰입니다");
-            throw new TokenException("지원되지 않는 JWT 토큰입니다");
         } catch (IllegalArgumentException e) {
             log.error("JWT 토큰이 잘못되었습니다");
-            throw new TokenException("JWT 토큰이 잘못되었습니다");
         }
+
+        return false;
     }
 
     private Claims parseClaims(String accessToken) {

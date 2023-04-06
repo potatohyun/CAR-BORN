@@ -17,6 +17,9 @@ public class UserSelfRepairService {
     private SelfRepairRepository selfRepairRepository;
 
     public Page<SelfRepair> selfRepairsList(int page, int size) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        AccountUtils.checkJWTAccount(accountId);
+
         Page<SelfRepair> selfRepairsList = selfRepairRepository.findAllByStatus(
                 BoardUtils.BOARD_DELETE_STATUS_FALSE
                 ,BoardUtils.pageRequestInit(
@@ -33,6 +36,9 @@ public class UserSelfRepairService {
     }
 
     public SelfRepair selfRepairDetail(int selfRepairId) {
+        String accountId = SecurityUtil.getCurrentUserId();
+        AccountUtils.checkJWTAccount(accountId);
+
         SelfRepair SelfRepair = selfRepairRepository.findByIdAndStatus(selfRepairId,BoardUtils.BOARD_DELETE_STATUS_FALSE);
 
         if (SelfRepair == null){

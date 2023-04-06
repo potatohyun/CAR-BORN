@@ -13,6 +13,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Search as SearchIcon } from "@mui/icons-material";
@@ -56,7 +58,7 @@ export default function Articles() {
     setSearchTerm(value);
   };
 
-  const URL = `https://carborn.site/api/user/community/list/${page + 1}/10/1`;
+  const URL = `https://carborn.site/api/user/community/list/${page + 1}/10/0`;
   const ObjString: any = localStorage.getItem("login-token");
 
   const option = {
@@ -72,21 +74,11 @@ export default function Articles() {
     select: (res) => res.data?.message?.content,
     onSuccess: (res) => setTotalPage(res.data?.message?.totalPages),
   });
-  console.log(data);
-  // useEffect(() => {
-  //   const filtered = posts.filter((post: any) =>
-  //     post.title.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  //   setFilteredPosts(filtered);
-  // }, [searchTerm]);
 
   return (
     <ThemeProvider theme={theme}>
       <Container sx={{ marginTop: "50px", width: "70vw" }}>
         <Box component="div" sx={{ mb: "40px" }}>
-          {/* <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Community Board
-          </Typography> */}
           <Box
             component="div"
             sx={{ display: "flex", justifyContent: "center" }}
@@ -185,6 +177,9 @@ export default function Articles() {
             )}
           </TableBody>
         </Table>
+        <Stack spacing={2} alignItems="center" sx={{ mt: "15px" }}>
+          <Pagination count={totalPage} size="large" />
+        </Stack>
         <Box
           component="div"
           sx={{ mb: "20px", textAlign: "center", width: "300px" }}

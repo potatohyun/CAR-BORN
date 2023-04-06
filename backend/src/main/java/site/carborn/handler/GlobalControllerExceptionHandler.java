@@ -81,14 +81,6 @@ public class GlobalControllerExceptionHandler {
         return ErrorResponse.toResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(MultipartException.class)
-    public ResponseEntity<ErrorResponse> tokenException(TokenException e) {
-        e.printStackTrace();
-        log.error(e.getMessage());
-        return ErrorResponse.toResponseEntity(HttpStatus.UNAUTHORIZED, e);
-    }
-
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> runtimeException(RuntimeException e) {

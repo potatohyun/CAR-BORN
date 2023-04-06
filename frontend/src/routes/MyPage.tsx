@@ -53,8 +53,8 @@ export const StyleMyPageDiv = styled.div`
 
 const StyleMypageCards = styled.div`
   &:hover {
-    transform: scale(1.2);
-    transition: all 1s;
+    transform: scale(1.05);
+    transition: all 0.2s;
     background-color: #d23131b7;
     z-index: 2;
     p {
@@ -64,7 +64,7 @@ const StyleMypageCards = styled.div`
 
   &:not(:hover) {
     transform: scale(1);
-    transition: all 1s;
+    transition: all 0.2s;
     background-color: #f2f2f2;
     p {
       color: #000000c3;
