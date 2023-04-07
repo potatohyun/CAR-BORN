@@ -100,7 +100,12 @@ export default function Comment() {
 
   return (
     <Box component="div" sx={{ mb: "20px" }}>
-      <Typography variant="h6" component="h2" gutterBottom>
+      <Typography
+        variant="h6"
+        component="h2"
+        gutterBottom
+        sx={{ fontFamily: "Pretendard" }}
+      >
         Comment
       </Typography>
       <Divider
@@ -114,7 +119,7 @@ export default function Comment() {
       />
 
       {!commentData?.length ? (
-        <p>댓글이 없습니다.</p>
+        <p css={{ fontFamily: "Pretendard" }}>댓글이 없습니다.</p>
       ) : (
         <Box component="ul" sx={{ listStyle: "none", p: 0 }}>
           {commentData?.map(({ accountName, id, content }: MapType) => (
@@ -130,12 +135,16 @@ export default function Comment() {
                 variant="subtitle2"
                 component="p"
                 gutterBottom
-                sx={{ fontWeight: "bolder" }}
+                sx={{ fontWeight: "bolder", fontFamily: "Pretendard" }}
               >
                 {accountName}
               </Typography>
 
-              <Typography variant="subtitle1" component="p">
+              <Typography
+                variant="subtitle1"
+                component="p"
+                sx={{ fontFamily: "Pretendard" }}
+              >
                 {content}
               </Typography>
               <Divider sx={{ mb: "5px" }} />
@@ -153,7 +162,13 @@ export default function Comment() {
           variant="standard"
           value={comment}
           placeholder="댓글을 입력해 주세요"
-          sx={{ width: "60%", mt: "10px", p: "10px", padding: "0" }}
+          sx={{
+            width: "60%",
+            mt: "10px",
+            p: "10px",
+            padding: "0",
+            fontFamily: "Pretendard",
+          }}
           onChange={handleComment}
         />
         <Button

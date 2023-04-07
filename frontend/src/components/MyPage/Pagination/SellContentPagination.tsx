@@ -230,7 +230,7 @@ const SellContentPagination = ({
           let modifiedBookStatusNum = 0;
           switch (content.saleStatus) {
             case 0:
-              modifiedBookStatus = "예약 중";
+              modifiedBookStatus = "판매 중";
               modifiedBookStatusNum = 0;
               break;
             case 1:
@@ -328,7 +328,9 @@ const SellContentPagination = ({
         <Pagination
           count={totalPages}
           page={currentPage}
-          onChange={(event, value) => handleRequestSellData(value, itemsPerPage)}
+          onChange={(event, value) =>
+            handleRequestSellData(value, itemsPerPage)
+          }
           color="primary"
           size="large"
           disabled={totalPages === 0}

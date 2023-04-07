@@ -6,7 +6,7 @@ import { titleStyle } from "./CarModel";
 
 const inputBoxStyle = css`
   width: 98.8%;
-  height: auto;
+  height: 30vh;
   margin-top: 1vh;
   margin-bottom: 1vh;
   border: 1px solid #bebebe;

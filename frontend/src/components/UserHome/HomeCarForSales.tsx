@@ -14,6 +14,7 @@ interface Maptype {
   MAKER: string;
   PRICE: string;
   ID: string;
+  CAR_ID: string;
 }
 
 const container = css`
@@ -210,8 +211,8 @@ export default function HomeCarForSales() {
   };
   const carsRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = (id: string): any => {
-    navigate(`/user/car/sale/${id}`);
+  const handleClick = (id: string, carId: string): any => {
+    navigate(`/user/car/${carId}/${id}`);
   };
 
   useEffect(() => {
@@ -245,7 +246,11 @@ export default function HomeCarForSales() {
         </div>
         <div css={cars} ref={carsRef}>
           {data?.map((data: Maptype, idx: number): any => (
-            <div className="img" key={idx} onClick={() => handleClick(data.ID)}>
+            <div
+              className="img"
+              key={idx}
+              onClick={() => handleClick(data.ID, data.CAR_ID)}
+            >
               <div className="imgUrl">
                 <img
                   src={`https://carborn.site/images/${data.IMG_NM}`}

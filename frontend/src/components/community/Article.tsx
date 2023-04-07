@@ -53,7 +53,12 @@ export default function ArticleDetail() {
     <ThemeProvider theme={theme}>
       <Container sx={{ marginTop: "100px", width: "65vw" }}>
         <Box component="div" sx={{ mb: "10px" }}>
-          <Typography variant="h4" component="h2" gutterBottom>
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            sx={{ fontFamily: "Pretendard" }}
+          >
             {data?.title}
           </Typography>
           <Divider
@@ -65,10 +70,19 @@ export default function ArticleDetail() {
               height: "1.5px",
             }}
           />
-          <Typography variant="subtitle2" component="p" gutterBottom>
+          <Typography
+            variant="subtitle2"
+            component="p"
+            gutterBottom
+            sx={{ fontFamily: "Pretendard" }}
+          >
             작성자 | {data?.accountName}
           </Typography>
-          <Typography variant="subtitle2" component="p">
+          <Typography
+            variant="subtitle2"
+            component="p"
+            sx={{ fontFamily: "Pretendard" }}
+          >
             작성일 | {dayjs(data?.regDt).format("YYYY년 MM월 DD일")}
           </Typography>
         </Box>
@@ -78,7 +92,8 @@ export default function ArticleDetail() {
           sx={{
             mb: "10px",
             minHeight: "20vh",
-          }}>
+          }}
+        >
           <Typography variant="body1" component="div">
             {data ? (
               <div dangerouslySetInnerHTML={{ __html: data?.content }}></div>
