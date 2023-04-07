@@ -148,7 +148,6 @@ export default function Nav2(msg: any) {
     const carId = localStorage.getItem("carId");
     const resultId = localStorage.getItem("resultId");
     const bookId = localStorage.getItem("bookId");
-    console.log(carId)
     if (location.pathname === "/") {
       setTitle("Car-Born Home");
     } else if (location.pathname === "/login") {

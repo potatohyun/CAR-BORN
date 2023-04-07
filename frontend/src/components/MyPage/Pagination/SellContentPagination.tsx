@@ -79,7 +79,7 @@ export const StyleTableCellDivSellContentPagination = styled.div`
   &:hover {
     color: black;
     border: 3px solid #d23131;
-    
+
     .detail {
       background-color: #d23131;
       color: white;
@@ -200,7 +200,7 @@ const SellContentPagination = ({
   itemsPerPage,
 }: SellContentPaginationProps) => {
   // 토큰 넣기
-  const ObjString:any = localStorage.getItem("login-token");
+  const ObjString: any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
 
@@ -324,14 +324,16 @@ const SellContentPagination = ({
           ))}
         </StyleTableHeadSellContentPagination>
       </StyledTableSellContentContainer>
-      <Pagination
-        count={totalPages}
-        page={currentPage}
-        onChange={(event, value) => handleRequestSellData(value, itemsPerPage)}
-        color="primary"
-        size="large"
-        disabled={totalPages === 0}
-      />
+      <Stack spacing={2}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={(event, value) => handleRequestSellData(value, itemsPerPage)}
+          color="primary"
+          size="large"
+          disabled={totalPages === 0}
+        />
+      </Stack>
       <SellDeleteWarningModal
         message="구매예약을 취소하시겠습니까?"
         onClose={handleCloseModal}

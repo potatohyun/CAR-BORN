@@ -1,27 +1,23 @@
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 //MUI 다이얼로그
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
 ///////////////////////////////////////////
 
 import styled from "@emotion/styled";
-import {
-  Table,
-  TableCell,
-  TableRow,
-} from "@mui/material";
+import { Table, TableCell, TableRow } from "@mui/material";
 
 // CarStatus 이미지 import 해오기
 import { useLocation, useParams } from "react-router-dom";
@@ -30,7 +26,7 @@ import axios from "axios";
 import { CARBORN_SITE } from "../../../lib/api";
 import Nav2 from "../../Nav2";
 import { ContentType, applicationjson } from "./../../../lib/api";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 const StyleMyRepairDetailDiv = styled.div`
   width: 100vw;
@@ -223,11 +219,11 @@ const StyleBookDeleteDiv = styled.div`
     opacity: 1;
     transition: all 0.5s;
   }
-`
+`;
 
 export const StyleRepairBookModifyContainer = styled.div`
   height: 20vh;
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -242,7 +238,7 @@ export const StyleRepairBookModifyContainer = styled.div`
     border: 1px solid #d231317e;
     border-radius: 5px;
   }
-`
+`;
 
 export interface bookDetailType {
   id: number;
@@ -257,7 +253,7 @@ export interface bookDetailType {
 
 const MyRepairBookDetail = () => {
   // 토큰 넣기
-  const ObjString:any = localStorage.getItem("login-token");
+  const ObjString: any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
 
@@ -278,8 +274,8 @@ const MyRepairBookDetail = () => {
             [ContentType]: applicationjson,
           },
         });
-        
-        let modifiedContent = response.data.message
+
+        let modifiedContent = response.data.message;
 
         switch (modifiedContent.bookStatus) {
           case 0:
@@ -297,9 +293,8 @@ const MyRepairBookDetail = () => {
           default:
             break;
         }
-  
-        setData(modifiedContent);
 
+        setData(modifiedContent);
       } catch (error) {
         console.log(error);
       }
@@ -312,12 +307,12 @@ const MyRepairBookDetail = () => {
     window.history.back();
   };
 
-  // 예약 변경 모달 
+  // 예약 변경 모달
   const [isRepairBookModify, setIsRepairBookModify] = useState<boolean>(false);
   const handleRepairBookModify = () => {
     setIsRepairBookModify(!isRepairBookModify);
   };
-  
+
   // 예약 취소 모달
   const [isRepairBookDelete, setIsRepairBookDelete] = useState<boolean>(false);
   const handleRepairBookDelete = () => {
@@ -377,15 +372,13 @@ const MyRepairBookDetail = () => {
                           {location.state?.carModelYear}
                         </TableCell>
                         <TableCell align="center">
-                          {data &&
-                            data?.bookDt &&
-                            data?.bookDt.slice(0, 10)}
+                          {data && data?.bookDt && data?.bookDt.slice(0, 10)}
                         </TableCell>
-                        <TableCell
-                          align="center"
-                        >
-                        {/* 한글로 바꿔주기 */}
-                          {data?.bookStatusString === undefined ? null : data?.bookStatusString}
+                        <TableCell align="center">
+                          {/* 한글로 바꿔주기 */}
+                          {data?.bookStatusString === undefined
+                            ? null
+                            : data?.bookStatusString}
                         </TableCell>
                       </TableRow>
                     </tbody>
@@ -397,13 +390,13 @@ const MyRepairBookDetail = () => {
               <button onClick={handleRepairBookModify}>예약 변경하기</button>
               <button onClick={handleRepairBookDelete}>예약 취소하기</button>
             </StyleTableRepairModifyButtonDiv>
-            <BookModifyDialogSlide 
-              open={isRepairBookModify} 
+            <BookModifyDialogSlide
+              open={isRepairBookModify}
               onClose={handleRepairBookModify}
               data={data}
             />
-            <BookDeleteDialogSlide 
-              open={isRepairBookDelete} 
+            <BookDeleteDialogSlide
+              open={isRepairBookDelete}
               onClose={handleRepairBookDelete}
               data={data}
             />
@@ -421,7 +414,7 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -437,9 +430,11 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
 
   // string 값으로 날짜값 변환
   const [selectedDate, setSelectedDate] = useState(null);
-  const formattedDate = selectedDate ? dayjs(selectedDate).format('YYYY-MM-DD') : '';
+  const formattedDate = selectedDate
+    ? dayjs(selectedDate).format("YYYY-MM-DD")
+    : "";
 
-  const handleDateChange = (date:any) => {
+  const handleDateChange = (date: any) => {
     setSelectedDate(date);
   };
 
@@ -453,7 +448,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
   };
 
   // 예약 변경 신청
-  const handleModifySubmit = async (bookid:number) => {
+  const handleModifySubmit = async (bookid: number) => {
     // 토큰 가져오기
     const ObjString: string | null = localStorage.getItem("login-token");
     const Obj = ObjString ? JSON.parse(ObjString) : null;
@@ -463,15 +458,15 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
       await axios.put(
         `${CARBORN_SITE}/api/user/repair/book`,
         {
-          id:bookid,
+          id: bookid,
           car: {
-            id:data.carId
+            id: data.carId,
           },
           repairShop: {
-            id:data.repairShopId
+            id: data.repairShopId,
           },
           account: {
-            id: Obj.userId
+            id: Obj.userId,
           },
           content: reservationChangeContent,
           bookDt: formattedDate,
@@ -486,6 +481,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
 
       swal("정비 예약 변경", "예약 변경이 완료되었습니다.", "success");
       onClose();
+      window.history.back();
     } catch (error) {
       console.error(error);
     }
@@ -500,19 +496,22 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
         onClose={onClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>
-          예약 변경하기
-        </DialogTitle>
+        <DialogTitle>예약 변경하기</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            선택한 날짜 : {formattedDate?.slice(0,4)}년 {formattedDate?.slice(5,7)}월 {formattedDate?.slice(8,10)}일
+            선택한 날짜 : {formattedDate?.slice(0, 4)}년{" "}
+            {formattedDate?.slice(5, 7)}월 {formattedDate?.slice(8, 10)}일
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DatePicker']}>
-                <DatePicker label="Basic date picker" value={selectedDate} onChange={handleDateChange}/>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker
+                  label="Basic date picker"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                />
               </DemoContainer>
             </LocalizationProvider>
             <textarea
-              style={{ width: '15vw'}}
+              style={{ width: "15vw" }}
               cols={35}
               rows={5}
               value={reservationChangeContent}
@@ -534,7 +533,7 @@ const Transition2 = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -547,7 +546,7 @@ interface AlertDialogSlideProps {
 
 export function BookDeleteDialogSlide(props: AlertDialogSlideProps) {
   // 토큰 넣기
-  const ObjString:any = localStorage.getItem("login-token");
+  const ObjString: any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
 
@@ -558,16 +557,15 @@ export function BookDeleteDialogSlide(props: AlertDialogSlideProps) {
       const ObjString: string | null = localStorage.getItem("login-token");
       const Obj = ObjString ? JSON.parse(ObjString) : null;
 
-      await axios.delete(
-        `${CARBORN_SITE}/api/user/repair/book/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${Obj.value}`,
-            [ContentType]: applicationjson,
-          },
-        }
-      );
+      await axios.delete(`${CARBORN_SITE}/api/user/repair/book/${id}`, {
+        headers: {
+          Authorization: `Bearer ${Obj.value}`,
+          [ContentType]: applicationjson,
+        },
+      });
       swal("정비 예약 취소", "예약 취소가 완료되었습니다.", "success");
+      onClose();
+      window.history.back();
     } catch (error) {
       console.error(error);
     }
@@ -582,9 +580,7 @@ export function BookDeleteDialogSlide(props: AlertDialogSlideProps) {
         onClose={onClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>
-          예약 취소하기
-        </DialogTitle>
+        <DialogTitle>예약 취소하기</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             <StyleBookDeleteDiv>

@@ -19,7 +19,7 @@ const tableStyle = css`
     border-spacing: 10px;
   }
   td {
-    width: 1.2vw;
+    width: auto;
     font-size: 15px;
   }
   width: 40vw;
@@ -92,7 +92,8 @@ export default function HistoryModal({ id }: Props) {
         sx={{ backgroundColor: "#d23131" }}
         onClick={handleClickOpen}
         size="small"
-        color="error">
+        color="error"
+      >
         보기
       </Button>
       <Dialog
@@ -102,7 +103,8 @@ export default function HistoryModal({ id }: Props) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
         sx={{ minWidth: "30vw", minHeight: "20vh" }}
-        maxWidth={false}>
+        maxWidth={false}
+      >
         <DialogTitle>DEATIL</DialogTitle>
         <DialogContent>
           <table css={tableStyle}>
@@ -111,13 +113,23 @@ export default function HistoryModal({ id }: Props) {
               <tr>
                 <td>처리 전</td>
                 <td>
-                  <img src={data?.beoforeImgNm} alt="before" />
+                  <img
+                    src={`https://carborn.site/images/${data?.beforeImgNm}`}
+                    alt="before"
+                    width="200px"
+                    height="auto"
+                  />
                 </td>
               </tr>
               <tr>
                 <td>처리 후</td>
                 <td>
-                  <img src={data?.afterImgNm} alt="after" />
+                  <img
+                    src={`https://carborn.site/images/${data?.afterImgNm}`}
+                    alt="after"
+                    width="200px"
+                    height="auto"
+                  />
                 </td>
               </tr>
               <tr>

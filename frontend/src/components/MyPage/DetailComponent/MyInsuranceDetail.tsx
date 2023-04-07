@@ -188,6 +188,7 @@ const StyleTableDivInsuranceDetail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y:scroll;
 `;
 
 // 제조사, 차량모델
@@ -416,9 +417,6 @@ const MyInsuranceDetail = () => {
                   }}
                 >
                   <img src={image} alt={`${index}`} />
-                  <p className="legend">
-                    {index + 1}. {image}
-                  </p>
                 </div>
               ))}
             </StyledCarousel>
@@ -437,19 +435,7 @@ const MyInsuranceDetail = () => {
           </StyleMyInsuranceLeftDetailDiv>
           <StyleMyInsuranceRightDetailDiv>
             <StyleTableDivInsuranceDetail>
-              {insuranceResult &&
-                insuranceResult.content &&
-                insuranceResult.content.trim() && (
-                  <StyleInsuranceResultContent>
-                    {/* {inspectorResult.content
-                      .split("-")
-                      .slice(1)
-                      .map((content: any, index: any) => (
-                        <li key={index}>{content}</li>
-                      ))} */}
-                    <span>{insuranceResult.content}</span>
-                  </StyleInsuranceResultContent>
-                )}
+              {insuranceResult?.content}
             </StyleTableDivInsuranceDetail>
           </StyleMyInsuranceRightDetailDiv>
         </StyleMainInsuranceDetailContainerDiv>

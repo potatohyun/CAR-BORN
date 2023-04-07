@@ -462,7 +462,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
 
     try {
       await axios.put(
-        `${CARBORN_SITE}/api/user/inspect/book/${bookid}`,
+        `${CARBORN_SITE}/api/user/inspect/book`,
         {
           id:bookid,
           account: {
@@ -484,6 +484,7 @@ export function BookModifyDialogSlide(props: AlertDialogSlideProps) {
       );
         swal("검수 예약 변경", "예약 변경이 완료되었습니다.", "success");
         onClose();
+        window.history.back();
     } catch (error) {
       console.error(error);
     }
@@ -565,7 +566,7 @@ export function BookDeleteDialogSlide(props: AlertDialogSlideProps) {
       
       swal("검수 예약 취소", "예약 취소가 완료되었습니다.", "success");
       onClose();
-      console.log(`예약이 삭제되었습니다.`);
+      window.history.back();
     } catch (error) {
       console.error(error);
     }

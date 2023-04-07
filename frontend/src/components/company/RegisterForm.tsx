@@ -98,7 +98,7 @@ export default function RegisterForm() {
   if (account == 1) {
     URL = "https://carborn.site/api/repair-shop/book";
   } else {
-    URL = "https://carborn.site/api/inspect/book";
+    URL = "https://carborn.site/api/inspector/book";
   }
 
   const option = {
@@ -145,13 +145,14 @@ export default function RegisterForm() {
     formData.append("beforeImg", beforeImageFile);
     formData.append("afterImg", afterImageFile);
     formData.append("receiptImg", reciptImageFile);
-    formData.append("repairBook.id", id);
     formData.append("content", content);
     formData.append("mileage", 연비);
     if (isGarage) {
+      formData.append("repairBook.id", id);
       formData.append("repairDt", selectTime);
       formData.append("repairBook.bookStatus", 1);
     } else {
+      formData.append("inspectBook.id", id);
       formData.append("inspectDt", selectTime);
       formData.append("inspectBook.bookStatus", 1);
     }
@@ -264,7 +265,8 @@ export default function RegisterForm() {
             variant="outlined"
             sx={{ maxWidth: "50%" }}
             onClick={() => navigate(-1)}
-            color="error">
+            color="error"
+          >
             취소
           </Button>
           <Button
@@ -272,7 +274,8 @@ export default function RegisterForm() {
             variant="contained"
             sx={{ maxWidth: "50%" }}
             onClick={submit}
-            color="error">
+            color="error"
+          >
             제출
           </Button>
         </div>

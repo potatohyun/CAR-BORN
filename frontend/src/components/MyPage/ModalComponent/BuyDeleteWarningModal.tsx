@@ -31,6 +31,7 @@ const StyledModalContent = styled.div`
   padding: 24px;
   text-align: center;
   border-radius: 10px;
+  border:2px solid #00000030;
 
   h2 {
     font-size: 1.5rem;
@@ -83,8 +84,8 @@ export const BuyDeleteWarningModal = ({
         },
       });
 
-      onClose();
       swal("구매 예약", "예약 취소가 완료되었습니다.", "success");
+      onClose();
     } catch (error) {
       console.error(error);
     }

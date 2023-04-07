@@ -166,7 +166,7 @@ const MyCommunityContentPagination = ({
   const handleRequestMyCommunityData = async (page: number, count: number) => {
     try {
       const response = await axios.get(
-        `${CARBORN_SITE}/api/user/community/list/${page}/${count}/0`,
+        `${CARBORN_SITE}/api/user/community/my-list/${page}/${count}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -175,7 +175,7 @@ const MyCommunityContentPagination = ({
         }
       );
 
-      console.log(response.data.message.content);
+      console.log(response.data);
       setTotalPageCnt(response.data.message.totalPages);
       setMyCommunityData(response.data.message.content);
       setCurrentPage(page);
@@ -201,7 +201,7 @@ const MyCommunityContentPagination = ({
       // navigate(`/user/mypage/repair/${resultId}/completedetail`, {
       //   state: myCommunityData[index],
       // });
-      navigate('/user/mypage')
+      navigate(`/user/community/${resultId}`)
     }
   };
 

@@ -202,6 +202,7 @@ const StyleTableDivRepairDetail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
 `;
 
 // 제조사, 차량모델
@@ -398,12 +399,12 @@ const MyRepairDetail = () => {
           },
         });
 
-        let images:any[] = []
-        images.push(CARBORN_IMG+response?.data.message.afterImgNm)
-        images.push(CARBORN_IMG+response?.data.message.beforeImgNm)
-        images.push(CARBORN_IMG+response?.data.message.receiptImgNm)
+        let images: any[] = [];
+        images.push(CARBORN_IMG + response?.data.message.afterImgNm);
+        images.push(CARBORN_IMG + response?.data.message.beforeImgNm);
+        images.push(CARBORN_IMG + response?.data.message.receiptImgNm);
 
-        setImages(images)
+        setImages(images);
         // 이미지 받아오기 용
         setRepairResult(response.data.message);
       } catch (error) {
@@ -444,10 +445,6 @@ const MyRepairDetail = () => {
     }
   }, [repairResult.id, setIsReviewExist, setRepairResult]);
 
-  useEffect(() => {
-    console.log(images)
-  }, [images])
-
   // 리뷰달기 버튼 활성화 및 textarea 값 보여주기
   const [reviewInput, setReviewInput] = useState<string>("");
   const [isReview, setIsReview] = useState<Boolean>(false);
@@ -484,6 +481,8 @@ const MyRepairDetail = () => {
   const goBack = () => {
     window.history.back();
   };
+
+  console.log(repairResult.content)
 
   return (
     <StyleMyRepairDetailDiv>
@@ -536,9 +535,7 @@ const MyRepairDetail = () => {
                   </TableCell>
                   <TableCell align="center">
                     <a href={repairResult?.metadataUri}>
-                      <StyleKlaytnBtn>
-                        원본 확인
-                      </StyleKlaytnBtn>
+                      <StyleKlaytnBtn>원본 확인</StyleKlaytnBtn>
                     </a>
                   </TableCell>
                 </TableRow>
@@ -560,9 +557,6 @@ const MyRepairDetail = () => {
                   }}
                 >
                   <img src={image} alt={`${index}`} />
-                  <p className="legend">
-                    {index + 1}. {image}
-                  </p>
                 </div>
               ))}
             </StyledCarousel>
@@ -581,18 +575,7 @@ const MyRepairDetail = () => {
           </StyleMyRepairLeftDetailDiv>
           <StyleMyRepairRightDetailDiv>
             <StyleTableDivRepairDetail>
-              {repairResult &&
-                repairResult?.content &&
-                repairResult?.content.trim() && (
-                  <StyleRepairResultContent>
-                    {repairResult?.content
-                      .split("-")
-                      .slice(1)
-                      .map((content: any, index: any) => (
-                        <li key={index}>{content}</li>
-                      ))}
-                  </StyleRepairResultContent>
-                )}
+              {repairResult?.content}
             </StyleTableDivRepairDetail>
             {/* 리뷰 작성 및 조회 */}
             <StyleMyRepairReviewDiv>

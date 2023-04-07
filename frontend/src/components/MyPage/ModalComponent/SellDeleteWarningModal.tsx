@@ -31,6 +31,7 @@ const StyledModalContent = styled.div`
   padding: 24px;
   text-align: center;
   border-radius: 10px;
+  border:2px solid #00000030;
 
   h2 {
     font-size: 1.5rem;
@@ -65,10 +66,10 @@ export const SellDeleteWarningModal = ({
   message,
   onClose,
   bookid,
-  isOpen
+  isOpen,
 }: SellDeleteWarningModalType) => {
   // 토큰 넣기
-  const ObjString:any = localStorage.getItem("login-token");
+  const ObjString: any = localStorage.getItem("login-token");
   const Obj = ObjString ? JSON.parse(ObjString) : null;
   const accessToken = Obj ? Obj.value : null;
 
@@ -84,8 +85,8 @@ export const SellDeleteWarningModal = ({
         },
       });
 
-      onClose();
       swal("판매 예약", "예약 취소가 완료되었습니다.", "success");
+      onClose();
     } catch (error) {
       console.error(error);
     }

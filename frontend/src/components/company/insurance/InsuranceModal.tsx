@@ -84,7 +84,8 @@ export default function InsuranceModal({ id }: Props) {
         variant="contained"
         sx={{ backgroundColor: "#d23131" }}
         onClick={handleClickOpen}
-        size="small">
+        size="small"
+      >
         보기
       </Button>
       <Dialog
@@ -94,10 +95,11 @@ export default function InsuranceModal({ id }: Props) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
         sx={{ minWidth: "8vw" }}
-        maxWidth={false}>
+        maxWidth={false}
+      >
         <DialogTitle>
           <img
-            src={data?.insuranceImgNm}
+            src={`https://carborn.site/images/${data?.insuranceImgNm}`}
             height="200px"
             width="auto"
             alt="img"

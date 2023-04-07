@@ -197,6 +197,7 @@ const StyleTableDivInspectorDetail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y:scroll;
 `;
 
 // 제조사, 차량모델
@@ -539,9 +540,6 @@ const MyInspectorDetail = () => {
                   }}
                 >
                   <img src={image} alt={`${index}`} />
-                  <p className="legend">
-                    {index + 1}. {image}
-                  </p>
                 </div>
               ))}
             </StyledCarousel>
@@ -560,19 +558,7 @@ const MyInspectorDetail = () => {
           </StyleMyInspectorLeftDetailDiv>
           <StyleMyInspectorRightDetailDiv>
             <StyleTableDivInspectorDetail>
-              {inspectorResult &&
-                inspectorResult?.content &&
-                inspectorResult?.content.trim() && (
-                  <StyleInspectorResultContent>
-                    {/* {inspectorResult.content
-                      .split("-")
-                      .slice(1)
-                      .map((content: any, index: any) => (
-                        <li key={index}>{content}</li>
-                      ))} */}
-                    <span>{inspectorResult?.content}</span>
-                  </StyleInspectorResultContent>
-                )}
+              {inspectorResult?.content}
             </StyleTableDivInspectorDetail>
             {/* 리뷰 작성 및 조회 */}
             <StyleMyInspectorReviewDiv>
