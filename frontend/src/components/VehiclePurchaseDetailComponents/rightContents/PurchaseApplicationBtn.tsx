@@ -444,7 +444,7 @@ function PurchaseApplicationBtn({
           </>
         ) : DetailData?.detail?.saleStatus === 1 ? (
           <Button sx={{ backgroundColor: "#d23131" }} className="complete">
-            확정완료
+            구매신청
           </Button>
         ) : (
           <Button className="complete">취소완료</Button>

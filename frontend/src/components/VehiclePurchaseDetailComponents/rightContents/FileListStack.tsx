@@ -108,7 +108,6 @@ function Row(props: {
       setOpen(false);
     }
   }, [modalOpen]);
-
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>

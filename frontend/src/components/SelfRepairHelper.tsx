@@ -14,6 +14,7 @@ import Nav2 from "./Nav2";
 import styled from "@emotion/styled";
 import axios from "axios";
 import { applicationjson, CARBORN_SITE, ContentType } from "../lib/api";
+import { fontFamily } from "@mui/system";
 
 function createData(
   name: string,
@@ -109,7 +110,7 @@ export default function CollapsibleTable() {
           <Table aria-label="collapsible table">
             <TableHead sx={{ height:"7rem" }}>
               <TableRow>
-                <TableCell colSpan={2} sx={{ width: "40vw", textAlign: "center", fontSize: "2.2rem", fontWeight: "900"}}>
+                <TableCell colSpan={2} sx={{ width: "40vw", textAlign: "center", fontSize: "2.2rem", fontWeight: "900", fontFamily: "Pretendard"}}>
                   차량점검리스트
                 </TableCell>
               </TableRow>
@@ -140,7 +141,7 @@ export const SelfRepairRow = ({ row }: any) => {
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell sx={{ backgroundColor:"#bb2a2aea", color:"white", width: "38vw", textAlign: "center", fontSize: "1.2rem", fontWeight: "700", borderRadius:"5px"}} component="th" scope="row">
+          <TableCell sx={{ backgroundColor:"#bb2a2aea", color:"white", width: "38vw", textAlign: "center", fontSize: "1.2rem", fontWeight: "700", borderRadius:"5px", fontFamily: "Pretendard"}} component="th" scope="row">
             {row.title}
           </TableCell>
         </TableRow>

@@ -181,20 +181,20 @@ function CarList() {
   };
 
   // 에러가 발생했을 시
-  if (isError) {
-    return (
-      <div css={rightContent}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <ErrorComponent error={error} queryKey={"infinity-scroll"} />
-        </div>
-      </div>
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <div css={rightContent}>
+  //       <div
+  //         style={{
+  //           display: "flex",
+  //           justifyContent: "center",
+  //         }}
+  //       >
+  //         <ErrorComponent error={error} queryKey={"infinity-scroll"} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // 로딩중일 때
   if (isLoading) {

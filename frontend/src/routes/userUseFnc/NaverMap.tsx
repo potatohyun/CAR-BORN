@@ -198,7 +198,11 @@ function NaverMap() {
         content: [
           '<div style="width:19vw; padding:10px; height: auto; margin-left:2.5vw; position:relative; margin-top:1vh; ">',
           '<div style="position:absolute; right:40px; top: 10px; cursor:pointer;">✖</div>',
-          `<p style="font-size: 1.5rem; margin-bottom: 0; margin-top: 0; font-weight: bolder;">${key?.NAME}</p>`,
+          `<p style="font-size: ${
+            key?.NAME.length >= 12 ? "1.1rem" : "1.3rem"
+          }; margin-bottom: 0; margin-top: 0; font-weight: bolder;">${
+            key?.NAME
+          }</p>`,
           '<p style="margin-top: 0; color: #E00000; font-weight: bolder;">',
           `<span style="font-size: 1.2rem">★</span><span style="color: #242424">${
             key?.avg_point === 0 ? key?.avg_point : key?.avg_point.toFixed(1)
@@ -307,6 +311,7 @@ function NaverMap() {
           infoWindow.open(map, marker);
           setReserve(false);
           setMarkerNum(seq);
+          console.log(seq, "seq");
         }
       };
     }
@@ -334,7 +339,7 @@ function NaverMap() {
   };
 
   const goToHome = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   return (

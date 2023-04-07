@@ -60,7 +60,7 @@ function MarkerDetailInfo({ markerNum, markerArr }: Props) {
       >
         {markerArr[markerNum]?.avg_point === 0
           ? markerArr[markerNum]?.avg_point
-          : (markerArr[markerNum]?.avg_point).toFixed(1)}
+          : markerArr[markerNum]?.avg_point?.toFixed(1)}
         <span style={{ fontSize: "1.2rem", marginLeft: "1%" }}>
           {star}
           <span style={{ color: "#BBBBBB" }}>{blankStar}</span>

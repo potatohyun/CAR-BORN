@@ -17,6 +17,9 @@ const globalStyles = css`
     padding: 0 0 0 0;
     user-select: none;
   }
+  * {
+    font-family: Pretendard;
+  }
   .swal-button--confirm {
     padding: 7px 19px;
     border-radius: 2px;
