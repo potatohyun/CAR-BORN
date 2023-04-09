@@ -68,10 +68,10 @@ public class JoinService {
             throw new RuntimeException("중복된 휴대전화 번호가 존재합니다");
         }
 
-//        SmsAuth smsAuth = smsAuthRepository.checkSmsAuth(phoneNo);
-//        if (smsAuth == null || smsAuth.isStatus() == false) {
-//            throw new RuntimeException("SMS 인증을 완료하지 않았습니다");
-//        }
+        SmsAuth smsAuth = smsAuthRepository.checkSmsAuth(phoneNo);
+        if (smsAuth == null || smsAuth.isStatus() == false) {
+            throw new RuntimeException("SMS 인증을 완료하지 않았습니다");
+        }
 
         switch(account.getAuth()) {
             case AuthUtils.AUTH_USER:
