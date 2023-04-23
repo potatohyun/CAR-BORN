@@ -6,6 +6,6 @@
 
 | 글 작성 | 댓글 작성 |
 |:----:|:----:|
-|![image](/screenshot/image/community/커뮤니티 글 등록.gif)|![image](/screenshot/image/community/커뮤니티 댓글 달기.gif)|
+|![image](/screenshot/image/community/커뮤니티_글_등록.gif)|![image](/screenshot/image/community/커뮤니티_댓글_달기.gif)|
 
 <br/>

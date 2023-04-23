@@ -6,6 +6,6 @@
 
 | 셀프 정비 |
 |:----:|
-|![image](/screenshot/image/self_repair/셀프 정비.gif)|
+|![image](/screenshot/image/self_repair/셀프_정비.gif)|
 
 <br/>

@@ -6,6 +6,6 @@
 
 | 보험 이력 등록 |
 |:----:|
-|![image](/screenshot/image/insurance_company/보험회사 이력 등록 및 확인.gif)|
+|![image](/screenshot/image/insurance_company/보험회사_이력_등록_및_확인.gif)|
 
 <br/>

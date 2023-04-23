@@ -6,6 +6,6 @@
 
 | 홈 |
 |:----:|
-|![image](/screenshot/image/home/유저 홈화면.gif)|
+|![image](/screenshot/image/home/유저_홈화면.gif)|
 
 <br/>
